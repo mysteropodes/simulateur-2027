@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, soir
+
+- **Inégalités et croissance de long terme** (nouveau réglage) : chaque point de Gini en plus réduit la croissance de 0,06 point par an en lecture centrale, avec trois ans de décalage (0,12 keynésienne, 0 libérale), d'après l'OCDE (Cingano, 2014) et le FMI (Ostry et autres, 2014), avec les réserves de Barro (2000), Forbes (2000) et de l'OFCE (Allègre, 2015).
+
 ## 29 octobre 2026, fin d'après-midi : vérification de tous les paramètres
 
 - **Facteurs d'application** : la crédibilité du chiffrage ne réduit plus que les montants budgétaires ; les réformes non budgétaires (âge de départ, 32 heures, marché du travail, ZAN) s'appliquent si le candidat est élu ; les mesures touchant aux droits sont pondérées par la solidité juridique.
