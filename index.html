@@ -318,7 +318,7 @@ a{color:var(--accent)}
       <thead><tr><th>Programme</th><th class="sep">Dette 2036<br>médiane et 10-90 %</th><th>Chômage pic<br>2027-2036</th><th>Pauvreté<br>2032</th><th class="sep">Crise de financement<br>d'ici 2046</th><th>Filet BCE<br>d'ici 2046</th></tr></thead>
       <tbody></tbody>
     </table></div>
-    <p class="help">200 tirages au hasard des hypothèses incertaines, identiques pour tous les candidats : croissance (±0,4 pt), taux réel (±0,5 pt), inflation, effet récessif des économies (±0,3 autour de votre réglage), réaction des marchés à la dette (de la moitié à une fois et demie), seuil de crise (±1 pt), recettes perdues sur les plus riches (±20 points), seniors restant en emploi (±15 points), vitesse du réchauffement et de l'IA, crédibilité du chiffrage (±0,15), conflit avec l'UE, et un choc dans 40 % des cas si vous n'en avez pas choisi. Le chiffre principal est la médiane, l'intervalle contient 80 % des tirages. Le reste des réglages (mode d'application, choc choisi) est repris tel quel.</p>
+    <p class="help">200 tirages au hasard des hypothèses incertaines, identiques pour tous les candidats : croissance (±0,4 pt), taux réel (±0,5 pt), inflation, effets des mesures sur l'activité (multiplicateurs de ±25 %, séquelles durables de ±5 points, tirés ensemble autour de votre réglage), réaction des marchés à la dette (de la moitié à une fois et demie), seuil de crise (±1 pt), recettes perdues sur les plus riches (±20 points), seniors restant en emploi (±15 points), vitesse du réchauffement et de l'IA, crédibilité du chiffrage (±0,15), conflit avec l'UE, et un choc dans 40 % des cas si vous n'en avez pas choisi. Le chiffre principal est la médiane, l'intervalle contient 80 % des tirages. Le reste des réglages (mode d'application, choc choisi) est repris tel quel.</p>
   </section>
 
   <section class="panel" aria-labelledby="h-table">
@@ -514,7 +514,7 @@ a{color:var(--accent)}
       <li>Chômage : loi d'Okun (0,5 point par point d'écart de production), retour progressif vers un chômage structurel de 7,6 %, auquel s'ajoutent les pertes d'emplois liées à l'IA.</li>
       <li>Inégalités (Gini, à partir de 0,302 en 2024, Insee) et pauvreté (15,4 %) : calculées à partir des revenus par décile, qui intègrent l'effet direct des mesures, le chômage (qui touche davantage les déciles modestes) et un éventuel ajustement imposé ; détail plus bas.</li>
       <li>Santé : l'espérance de vie baisse de 0,6 mois par point de chômage et de 0,8 mois par point de pauvreté supplémentaires (le chômage et la pauvreté sont associés à une mortalité plus élevée), et gagne jusqu'à 6 mois par point de PIB de dépenses de santé en plus, à terme. Une épidémie retire environ un mois par 20 000 décès en excès. Coefficients indicatifs.</li>
-      <li>Tension sociale : indice qui monte avec le chômage, la pauvreté, l'inflation, les chocs, les réformes impopulaires appliquées et, depuis cette version, les mesures touchant aux droits. Ces dernières sont tirées de la grille qualitative : 6 points par critère jugé « restreint » (égalité de traitement, libertés, contre-pouvoirs), 3 pour « mixte », 1 pour « renforce » (contre-mobilisation, par exemple des syndicats de police), avec un pic l'année de l'élection. Cela donne 18 points pour Le Pen, 12 pour Retailleau, 6 pour Philippe, 5 pour Mélenchon et 2 pour Glucksmann. Repère : entre 250 000 (police) et 640 000 (organisateurs) personnes ont manifesté contre l'extrême droite le 15 juin 2024, après la dissolution. Les soutiens du RN et de LR répondent que l'immigration non maîtrisée est elle-même une source de tension et que leurs mesures la réduiraient ; aucune étude ne permet de chiffrer cet effet. Au-dessus de 65, un gouvernement recule partiellement chaque année (comme sur la taxe carbone en 2018 ou les retraites en 2025) : jusqu'à 40 % de l'effort budgétaire abandonné. Ce recul ne s'applique pas au mode « tel qu'annoncé ».</li>
+      <li>Tension sociale : indice qui monte avec le chômage, la pauvreté, l'inflation, les chocs, les réformes impopulaires appliquées et, depuis cette version, les mesures touchant aux droits. Ces dernières sont tirées de la grille qualitative : 6 points par critère jugé « restreint » (égalité de traitement, libertés, contre-pouvoirs), 3 pour « mixte », 1 pour « renforce » (contre-mobilisation, par exemple des syndicats de police), avec un pic l'année de l'élection. Cela donne 18 points pour Le Pen et Retailleau, 6 pour Philippe, 5 pour Mélenchon et 2 pour Glucksmann. En mode « chiffrage crédible », ces points sont multipliés par la solidité juridique du programme (une mesure censurée ne s'applique pas), et non par la crédibilité du chiffrage budgétaire, qui n'a rien à voir avec les droits. Repère : entre 250 000 (police) et 640 000 (organisateurs) personnes ont manifesté contre l'extrême droite le 15 juin 2024, après la dissolution. Les soutiens du RN et de LR répondent que l'immigration non maîtrisée est elle-même une source de tension et que leurs mesures la réduiraient ; aucune étude ne permet de chiffrer cet effet. Au-dessus de 65, un gouvernement recule partiellement chaque année (comme sur la taxe carbone en 2018 ou les retraites en 2025) : jusqu'à 40 % de l'effort budgétaire abandonné. Ce recul ne s'applique pas au mode « tel qu'annoncé ».</li>
     </ul>
     <h3>Limites</h3>
     <ul>
@@ -642,7 +642,8 @@ function fiscalComp(p,b){return fiscalCompDetail(p,b).c;}
 const NEAR={2026:{g:-0.55,pi:-0.5},2027:{g:-0.25,pi:-0.2}};
 function simulate(p,mode,b){
   const f=feas(p);
-  const real= mode==="annonce"?1 : mode==="credible"?p.c : p.c*f;
+  const real= mode==="annonce"?1 : mode==="credible"?p.c : p.c*f; // part des montants budgétaires qui se réalise (crédibilité du chiffrage)
+  const pol= mode==="pondere"?f:1; // réformes non budgétaires (âge de départ, temps de travail, marché du travail, ZAN) : appliquées si élu, pondérées par la faisabilité en mode « pondéré »
   const bceProb= mode==="annonce"?1 : p.bceOk*(mode==="pondere"?f:1);
   const bceOn= mode==="annonce"?1 : (b.bceDraw!=null&&b.bceDraw<bceProb?1:0); // la BCE accepte ou refuse, pas de moyenne
   const euW= mode==="pondere"?f:1;
@@ -665,7 +666,7 @@ function simulate(p,mode,b){
     const phase=t<2027?0:Math.min((t-2026)/5,1);
     // seniors : report ou avancée de l'âge de départ
     const sh0=p.ageShift||0, agePh=sh0>0?ramp(t,2026,2027+4*sh0):ramp(t,2026,2027+1.5*Math.abs(sh0));
-    const sh=sh0*real*retreat*agePh, keep=sh>0?b.seniorKeep:0.85;
+    const sh=sh0*pol*retreat*agePh, keep=sh>0?b.seniorKeep:0.85;
     uSenLast=sh>0?sh*0.3*(1-keep):sh*0.05; ageRealLast=sh;
     const empEff=sh*10*0.35*keep, uSen=sh>0?sh*0.3*(1-keep):sh*0.05, benefitCost=sh>0?sh*(1-keep)*0.12:0;
     if(sh0!==0&&agePh>=1&&ramp(t-1,2026,sh0>0?2027+4*sh0:2027+1.5*Math.abs(sh0))<1) E(t,"age","Changement d'âge de départ achevé : effet complet sur l'emploi des seniors et sur les retraites.");
@@ -687,15 +688,15 @@ function simulate(p,mode,b){
     const hump=t<=2034?ramp(t,2026,2032):Math.pow(0.85,t-2034);
     const aiDisp=I.disp*hump*(1-cushion);
     // croissance
-    const lr=t>=2032?p.longRun*real*ramp(t,2031,2039):0;
+    const lr=t>=2032?p.longRun*pol*ramp(t,2031,2039):0;
     const scar=(crisis!==null&&t-crisis>=1&&t-crisis<=5)?0.3:0; // séquelles durables d'une crise
-    const rttPh=p.rtt?real*retreat*ramp(t,2026,2031):0, rttSupply=p.rtt&&t>=2027&&t<=2031?-0.12*(1-b.rtt)*real*retreat:0;
+    const rttPh=p.rtt?pol*retreat*ramp(t,2026,2031):0, rttSupply=p.rtt&&t>=2027&&t<=2031?-0.12*(1-b.rtt)*pol*retreat:0;
     // rendement des services publics (éducation, santé : effet après 5 ans) et de l'investissement public (après 3 ans)
     spHist.push((p.spServ||0)*real*retreat*phase); invHist.push((Math.max(0,p.climInv)-0.2)*real*retreat*phase);
     const KSp=KS, KIp=KI; KS=KS*0.95+(spHist.length>5?spHist[spHist.length-6]:0); KI=KI*0.97+(invHist.length>3?invHist[invHist.length-4]:0);
     const pubRet=b.spRet*(KS-KSp)+b.invRet*(KI-KIp);
-    const supply=(t>=2027?p.supply*real:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet; empPrev=empEff;
-    if(t===2032&&Math.abs(p.longRun*real)>=0.03) E(t,"lr",(p.longRun>0?"Les réformes commencent à relever":"Les réformes commencent à freiner")+" la croissance de long terme ("+(p.longRun>0?"+":"")+(p.longRun*real).toFixed(2)+" pt par an à terme).");
+    const supply=(t>=2027?p.supply*pol:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet; empPrev=empEff;
+    if(t===2032&&Math.abs(p.longRun*pol)>=0.03) E(t,"lr",(p.longRun>0?"Les réformes commencent à relever":"Les réformes commencent à freiner")+" la croissance de long terme ("+(p.longRun>0?"+":"")+(p.longRun*pol).toFixed(2)+" pt par an à terme).");
     const gapPrev=gap, structPrev=struct;
     const dec0=p.paDec||[0,0,0,0,0,0,0,0,0,0];
     // effet des mesures du programme sur l'activité : multiplicateur propre à chaque type de mesure, selon le temps écoulé
@@ -732,7 +733,7 @@ function simulate(p,mode,b){
     const interest=d*i/100;
     const dOld=d; d=Math.max(0,d*(1+i/100)/(1+ng)+pd); o.snow.push(d-dOld-pd); o.prim.push(pd);
     lastDef=pd+interest; burden=interest/b.rev*100;
-    u=u+0.25*(b.uStar+(t>=2027?p.uStruct*real:0)+aiDisp+uSen-1.1*b.rtt*rttPh-u)-b.okun*(gap-gapPrev);
+    u=u+0.25*(b.uStar+(t>=2027?p.uStruct*pol:0)+aiDisp+uSen-1.1*b.rtt*rttPh-u)-b.okun*(gap-gapPrev);
     // CO2 : tendance actuelle (−1,5 %/an) remplacée par le rythme du programme, l'activité module à la marge
     const rate=b.co2Base+(p.co2Rate-b.co2Base)*real*retreat*ramp(t,2026,2030);
     co2=co2*(1-rate/100)*(1+0.5*(gap-gapPrev)/100);
@@ -753,12 +754,13 @@ function simulate(p,mode,b){
     const gini=b.gini0+(giniDec(inc)-G_DEC0)+I.gini*aiRamp*(1-0.5*cushion);
     const rel=0.4*chg[0]+0.6*chg[1]-chg[4]; // gain des ménages autour du seuil de pauvreté, relatif au revenu médian
     const pov=Math.max(5,b.pov0-b.povElast*rel); // le chômage agit déjà via les revenus des déciles
-    const hs=p.healthSpend*real*phase;
+    const hs=p.healthSpend*real*retreat*phase;
     const heat=b.heatBase*Math.pow(1+C.heat,t-START)*(1-0.4*adapt)+(b.shock==="climat"?z.deaths*(1-0.4*adapt):0);
     const epid=b.shock==="pandemie"?z.deaths*(1-0.5*hs):0;
     const health=-0.6*(u-b.u0)-0.8*(pov-b.pov0)+6*hs*ramp(t,2027,2036)-epid/20000; // mois d'espérance de vie
     const unpop=Math.max(0.15,Math.min(1,Math.abs(p.A)/3));
-    const rightsT=t>=2027?b.tensionRights*(p.rightsPts||0)*real*(t===2027?1.5:retreat):0; // mobilisations contre les mesures touchant aux droits (grille qualitative)
+    const rightsReal=mode==="annonce"?1:mode==="pondere"?f:(p.legal==null?1:p.legal); // part des mesures sur les droits qui passe : solidité juridique (pas la crédibilité du chiffrage budgétaire)
+    const rightsT=t>=2027?b.tensionRights*(p.rightsPts||0)*rightsReal*(t===2027?1.5:retreat):0; // mobilisations contre les mesures touchant aux droits (grille qualitative)
     if(t===2027&&rightsT>=8) E(t,"rights","Fortes mobilisations contre les mesures touchant à l'égalité de traitement, aux libertés ou aux contre-pouvoirs.");
     tension=Math.max(0,Math.min(100,40+rightsT+4*(u-b.u0)+5*(pov-b.pov0)+25*(1-p.adh)*real*retreat*phase*unpop+3*Math.max(0,pi-3)+z.tension+(crisis===null?0:crisis===t?20:Math.max(0,12-2*(t-crisis)))));
     emp55=Math.min(75,b.emp55_0+(t<=2032?0.6*(t-START):0.6*7+0.2*(t-2032))+empEff);
@@ -774,7 +776,7 @@ function simulate(p,mode,b){
     // croissance, inflation, chômage des jeunes (2,6 fois le taux global), prélèvements et dépense publique, facture énergétique, artificialisation
     const taxEff=((p.taxMd||0)-((p.topRev||0)-(p.topCut||0))*leakM)/b.gdpMd*100*real*retreat*phase;
     const po=b.po0+taxEff+0.3*forcedCum; const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
-    const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*real*retreat*phase:zBase;
+    const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*pol*retreat*phase:zBase;
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
     o.growth.push(realg);o.infl.push(pi);o.youth.push(b.youth0*u/b.u0);o.po.push(po);o.dep.push(dep);o.energy.push(b.energy0*co2/b.co2_0*(1+Math.max(0,z.infl)/10));o.artif.push(artif);o.sp.push(sp);o.ratioEl.push((inc[9]+ik[9])/(inc[0]+ik[0]));o.ratioMon.push(inc[9]/inc[0]);
     o.spread.push(premMkt);o.rating.push((rating>=0.2?1:0)+(rating>=0.6?1:0)+(rating>=1.4?1:0)+(crisis!==null?2:0)+(tpi!==null?1:0));o.defense.push(defSp);
@@ -914,7 +916,7 @@ for(const c of CANDS0){ Object.assign(c,EXT[c.id]); c.rightsPts=c.grid?["egal","
 
 let BASE=structuredClone(BASE0), CANDS=structuredClone(CANDS0), mode="credible", metric="debt";
 let encodeStateDefault=""; // état par défaut encodé, pour le lien de partage
-const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme, mais seule la part jugée crédible du chiffrage se réalise.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario."};
+const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme : ses réformes (âge de départ, temps de travail, marché du travail) s'appliquent, mais seule la part jugée crédible des montants budgétaires se réalise. Les mesures touchant aux droits sont pondérées par la solidité juridique du programme.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario."};
 const SHOCKHELP={none:"Pas de choc ponctuel.",recession:"Croissance −3 points, rebond partiel ensuite (type 2009).",financial:"Croissance −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012).",inflation:"Inflation +3 puis +1,5 point, croissance −1 point (type 2022-2023).",climat:"Canicule ou inondations majeures : croissance −1,5 point, déficit +1 point, environ 10 000 décès (type 2003).",pandemie:"Croissance −7 points puis rebond, déficit +5 puis +2 points, environ 75 000 décès sur deux ans (type 2020)."};
 const CLIMHELP={moderee:"Dommages limités : −0,03 point de croissance par an, décès liés à la chaleur +2 % par an.",forte:"Dommages notables : −0,07 point par an, décès liés à la chaleur +4 % par an.",tresforte:"Dommages lourds : −0,12 point par an, décès liés à la chaleur +6 % par an."};
 const AIHELP={lente:"Gains de productivité +0,1 point par an, pertes d'emplois au pic +0,5 point de chômage.",moyenne:"Gains +0,3 point par an, pertes d'emplois au pic +1,2 point de chômage.",rapide:"Gains +0,6 point par an, pertes d'emplois au pic +2,5 points de chômage."};
