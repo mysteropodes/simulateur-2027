@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, soir (4)
+
+- **Lecture « fondée sur l'historique »** : valeurs centrales, sauf les recettes perdues sur les impôts visant les plus riches (54 %, CAE Focus n° 118, juillet 2025) et la part des seniors restant en emploi quand l'âge de départ recule (65 %, Insee sur la réforme de 2010). Les hypothèses où l'histoire ne tranche pas restent centrales.
+
 ## 29 octobre 2026, soir (3)
 
 - **Natalité** : fécondité de référence du COR (1,45 dès 2028 ; Insee : 1,56 et 645 000 naissances en 2025), réglable ; effet de la politique familiale de chaque programme (0,01 enfant par femme par Md€ net, moitié de l'ordre de grandeur de l'iFRAP ; DG Trésor et Haut-commissariat au plan : effet limité). Retailleau, seul à chiffrer une hausse nette (≈ 10 Md€) : 1,50 enfant par femme en 2032. Effet sur les retraites selon le COR à partir de 2045. Nouveaux indicateurs : fécondité et naissances.
