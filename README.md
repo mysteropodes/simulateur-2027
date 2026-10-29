@@ -9,7 +9,7 @@ Candidats comparés : Jean-Luc Mélenchon (LFI), Marine Le Pen (RN), Édouard Ph
 
 ## Ce que fait la page
 
-- **Trajectoires 2025-2036** : dette, déficit, charge d'intérêts, croissance, chômage, pauvreté, Gini, pouvoir d'achat, émissions, logement, etc.
+- **Trajectoires jusqu'en 2046** : dette, déficit, charge d'intérêts, croissance, chômage, pauvreté, Gini, pouvoir d'achat, émissions, logement, etc.
 - **Trois modes d'application** pour chaque programme :
   - « Tel qu'annoncé » : les mesures sont prises telles que chiffrées par le candidat ;
   - « Si élu, chiffrage crédible » (par défaut) : le modèle tient compte des fuites fiscales, de la réaction des marchés et des délais de mise en œuvre ;
