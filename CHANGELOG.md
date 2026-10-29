@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, après-midi
+
+- **Retailleau, grille des droits** : « libertés » passe de « neutre » à « restreint » (proposition d'interdire La France insoumise, BFMTV-RMC début octobre 2026 ; encadrement des manifestations par drones). Sa note de mobilisation contre les atteintes aux droits (18) rejoint celle de Le Pen.
+
 ## 29 octobre 2026
 
 - **Multiplicateurs par type de mesure.** Le multiplicateur unique (0,7) est remplacé par des multiplicateurs propres à chaque type de mesure et au temps écoulé (1-2 ans, 5 ans, 10 ans), d'après la synthèse publiée par [Déchiffrer 2027](https://dechiffrer2027.fr/en/methode) (Mésange, OFCE, HCFP, FMI, Commission européenne). Chaque programme est découpé par type de mesure ; la répartition s'affiche dans chaque fiche candidat.
