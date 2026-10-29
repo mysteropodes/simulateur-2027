@@ -30,25 +30,31 @@ const IK=[13400,12000,11300,10900,10600,10400,10300,10200,9400,7900]; // transfe
 // « ext » (versements hors de France, ex. contribution à l'UE) : hypothèse propre au simulateur, 0,1.
 const MULT={inv:[1.3,0.9,0.9],log:[1.3,0.9,0.8],fonct:[0.9,0.9,0.6],trMod:[0.8,0.8,0.6],trAutres:[0.6,0.6,0.6],taxMod:[0.8,0.8,0.9],taxLarge:[0.5,0.9,0.9],taxAis:[0.3,0.3,0.3],entr:[0.3,0.8,1.0],ext:[0.1,0.1,0.1]};
 const MULTLABEL={inv:"Investissement public",log:"Aides à l'investissement logement",fonct:"Dépenses de fonctionnement (salaires publics, achats, services) et économies non détaillées",trMod:"Transferts aux ménages modestes",trAutres:"Autres transferts (retraites, santé, famille)",taxMod:"Baisses d'impôts ciblées sur les modestes",taxLarge:"Impôts larges sur les ménages (TVA, CSG, IR)",taxAis:"Impôts sur les ménages aisés (capital, patrimoine, héritages)",entr:"Prélèvements sur les entreprises",ext:"Versements hors de France (contribution à l'UE)"};
-const KEYCAT={minima:"trMod",chomage:"trMod",jeunes:"trMod",fonction:"fonct",retraites:"trAutres",tete:"trAutres",capital:"taxAis",ir:"taxLarge",conso:"taxLarge",heuressup:"taxLarge",entreprises:"entr",bassal:"taxMod"};
+const KEYCAT={minima:"trMod",chomage:"trMod",jeunes:"trMod",fonction:"fonct",retraites:"trAutres",tete:"trAutres",capital:"taxAis",conso:"taxLarge",heuressup:"taxLarge",entreprises:"entr",bassal:"taxMod"};
 const TAXCAT={taxAis:1,taxLarge:1,taxMod:1,entr:1};
+const IR_TOP=0.57; // impôt sur le revenu : part payée par les 10 % les plus aisés (clé d'incidence « ir »), classée en impôts sur les aisés
 function multAt(c,h){const m=MULT[c];return h<=2?m[0]:h<=5?m[0]+(m[1]-m[0])*(h-2)/3:h<=10?m[1]+(m[2]-m[1])*(h-5)/5:m[2];}
 // Répartition de l'effort du programme par type de mesure, en points de PIB à application complète (+ = soutien à l'activité).
-// Mesures ménages de la microsimulation, investissement climat et logement, services publics, reste des impôts annoncés ;
-// le solde jusqu'à l'effort annoncé A est classé en dépenses de fonctionnement.
-function fiscalComp(p,gdpMd){
-  const c={}; for(const k in MULT) c[k]=0; const pt=md=>md/gdpMd*100; let taxList=0;
-  for(const [label,md,key] of (p.paMeasures||[])){
-    if(key==="bassal"&&/Smic/.test(label)) continue; // hausse du Smic : payée par les employeurs, pas par l'État
-    const cat=KEYCAT[key]; if(!cat) continue; c[cat]+=pt(md); if(TAXCAT[cat]) taxList+=-md;
+// Mêmes règles pour tous : mesures ménages de la microsimulation (catégorie selon la clé d'incidence, ou précisée sur la mesure),
+// postes du plan sans effet direct sur le revenu des ménages (compItems), investissement climat et logement, services publics,
+// défense quand elle est comprise dans l'effort annoncé, reste des impôts annoncés ; le solde jusqu'à l'effort A est « non détaillé »
+// et classé en dépenses de fonctionnement.
+function fiscalCompDetail(p,b){
+  const c={}; for(const k in MULT) c[k]=0; const pt=md=>md/b.gdpMd*100; let taxList=0;
+  const add=(cat,md)=>{c[cat]+=pt(md); if(TAXCAT[cat]) taxList+=-md;};
+  for(const [,md,key,,,cat] of (p.paMeasures||[])){
+    if(cat==="none") continue; // hausse du Smic : payée par les employeurs, pas par l'État
+    if(cat) add(cat,md); else if(key==="ir"){add("taxAis",md*IR_TOP);add("taxLarge",md*(1-IR_TOP));} else if(KEYCAT[key]) add(KEYCAT[key],md);
   }
-  c.inv+=(p.climInv||0)-0.2; c.log+=p.housingInv||0; c.fonct+=p.spServ||0; c.ext+=pt(p.extMd||0);
-  for(const [k,md] of Object.entries(p.compFix||{})) c[k]+=pt(md); // compléments tirés du plan du candidat (part sociale des économies…)
+  for(const [cat,md] of (p.compItems||[])) add(cat,md);
+  c.inv+=(p.climInv||0)-0.2; c.log+=p.housingInv||0; c.fonct+=p.spServ||0;
+  const def=p.defInA?(b.lpm+(p.defense||0)):0; c.fonct+=def; // défense comprise dans l'effort annoncé
   const rest=(p.taxMd||0)-taxList, sh=p.taxRestEntr==null?0.5:p.taxRestEntr; // impôts annoncés non détaillés : moitié entreprises, moitié ménages par défaut
   c.entr+=-pt(rest)*sh; c.taxLarge+=-pt(rest)*(1-sh);
-  let sum=0; for(const k in c) sum+=c[k]; c.fonct+=-(p.A||0)-sum;
-  return c;
+  let sum=0; for(const k in c) sum+=c[k]; const resid=-(p.A||0)-sum; c.fonct+=resid;
+  return {c,resid,def};
 }
+function fiscalComp(p,b){return fiscalCompDetail(p,b).c;}
 const NEAR={2026:{g:-0.55,pi:-0.5},2027:{g:-0.25,pi:-0.2}};
 function simulate(p,mode,b){
   const f=feas(p);
@@ -62,7 +68,7 @@ function simulate(p,mode,b){
   let d=b.d0, ieff=b.ieff0, sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
   const consolid=(p.A-((p.topRev||0)-(p.topCut||0))*(mode==="annonce"?0:b.leak)/b.gdpMd*100)*real; // effort crédible : condition du filet BCE
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false; const spHist=[], invHist=[];
-  const comp=fiscalComp(p,b.gdpMd); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
+  const comp=fiscalComp(p,b); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0;
   const o={nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
@@ -101,7 +107,7 @@ function simulate(p,mode,b){
     const scar=(crisis!==null&&t-crisis>=1&&t-crisis<=5)?0.3:0; // séquelles durables d'une crise
     const rttPh=p.rtt?real*retreat*ramp(t,2026,2031):0, rttSupply=p.rtt&&t>=2027&&t<=2031?-0.12*(1-b.rtt)*real*retreat:0;
     // rendement des services publics (éducation, santé : effet après 5 ans) et de l'investissement public (après 3 ans)
-    spHist.push((p.spServ||0)*real*retreat*phase); invHist.push((Math.max(0,p.climInv)-0.2+(p.housingInv||0))*real*retreat*phase);
+    spHist.push((p.spServ||0)*real*retreat*phase); invHist.push((Math.max(0,p.climInv)-0.2)*real*retreat*phase);
     const KSp=KS, KIp=KI; KS=KS*0.95+(spHist.length>5?spHist[spHist.length-6]:0); KI=KI*0.97+(invHist.length>3?invHist[invHist.length-4]:0);
     const pubRet=b.spRet*(KS-KSp)+b.invRet*(KI-KIp);
     const supply=(t>=2027?p.supply*real:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet; empPrev=empEff;
@@ -110,14 +116,15 @@ function simulate(p,mode,b){
     const dec0=p.paDec||[0,0,0,0,0,0,0,0,0,0];
     // effet des mesures du programme sur l'activité : multiplicateur propre à chaque type de mesure, selon le temps écoulé
     const progBal=(p.A-topLeak)*real*retreat*phase, dx={}; let dxAny=false;
-    for(const k in comp){const x=comp[k]*real*retreat*phase; dx[k]=x-xPrev[k]; xPrev[k]=x; if(Math.abs(dx[k])>1e-9) dxAny=true;}
+    const defOut=p.defInA?0:defSp-b.def0; // défense hors effort annoncé (loi de programmation pour tous) : traitée comme une dépense de fonctionnement
+    for(const k in comp){const x=comp[k]*real*retreat*phase+(k==="fonct"?defOut:0); dx[k]=x-xPrev[k]; xPrev[k]=x; if(Math.abs(dx[k])>1e-9) dxAny=true;}
     if(dxAny) imp.push({t,dx});
     let cyc=0; struct=0;
     for(const q of imp){const h=t-q.t+1, w=ramp(h,3,10); for(const k in q.dx){const e=q.dx[k]*multAt(k,h)*b.multScale; cyc+=e*(1-w); struct+=e*w;}} // la part durable devient un effet sur le niveau du PIB potentiel
     // autres variations du solde (ajustement imposé, règle de réaction, défense hors programme…) : multiplicateur moyen, plus fort en crise
-    const sOther=s+progBal;
-    gapO=0.5*gapO-(crisis!==null&&t-crisis<=5?Math.max(b.mult,1.5):b.mult)*(sOtherPrev-sOther)+z.real+(crisis===t-1?-2:0); sOtherPrev=sOther; // choc de la crise l'année suivant son déclenchement
-    const hystLoss=b.hyst*Math.max(0,-gapPrev); // séquelles durables : une partie de l'activité perdue ne revient pas
+    const sOther=s+progBal-defOut;
+    const gapOPrev=gapO; gapO=0.5*gapO-(crisis!==null&&t-crisis<=5?Math.max(b.mult,1.5):b.mult)*(sOtherPrev-sOther)+z.real+(crisis===t-1?-2:0); sOtherPrev=sOther; // choc de la crise l'année suivant son déclenchement
+    const hystLoss=(crisis!==null&&t-crisis>=1&&t-crisis<=5)?0:b.hyst*Math.max(0,-gapOPrev); // séquelles durables des récessions et ajustements hors programme (les effets durables des mesures sont déjà dans les multiplicateurs ; en crise, ils sont comptés à part)
     gap=gapO+cyc;
     const near=t===2026?NEAR[2026]:t===2027?NEAR[2027]:{g:0,pi:0}; // conjoncture : prévisions officielles 2026-2027 (HCFP, consensus)
     const realg=b.realg+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
@@ -192,4 +199,4 @@ function simulate(p,mode,b){
   }
   o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.f=f;o.crisis=crisis;o.tpi=tpi;return o;
 }
-if(typeof module!=="undefined") module.exports={BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,multAt};
+if(typeof module!=="undefined") module.exports={BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,fiscalCompDetail,multAt};
