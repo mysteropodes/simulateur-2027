@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:1.7,mktReal:1.7,ieff0:1.9,mult:0.7,prem:0.15,okun:0.5,u0:8.3,uStar:7.6,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.5,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -71,7 +71,7 @@ function simulate(p,mode,b){
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false; const spHist=[], invHist=[];
   const comp=fiscalComp(p,b); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0;
-  const o={mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const o={icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
     const z=shockAt(b.shock,b.shockYear,t);
@@ -162,7 +162,10 @@ function simulate(p,mode,b){
     // pollution de l'air (PM2.5) : suit les émissions de combustion, plus un progrès technique de 1 %/an
     const pm=b.pm0*Math.pow(co2/b.co2_0,0.8)*Math.pow(0.99,t-START);
     // retraites : trajectoire COR (−0,2 % du PIB jusqu'en 2030, −0,9 % en 2045) + effet du programme (déjà compris dans le déficit)
-    const pens=(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*real*retreat*phase-0.15*Math.max(0,u-b.u0)+14*migW/b.emp0*Math.max(0,1-(t-2027)/30); // cotisations des actifs en plus ou en moins, effet qui s'estompe quand ils partent à la retraite (COR)
+    // natalité : fécondité de référence du COR (1,45 enfant par femme dès 2028, Insee 1,56 en 2025), plus l'effet de la politique familiale du programme (avec un an de décalage) ; les naissances n'entrent sur le marché du travail qu'après 2046, l'effet sur les retraites suit le COR (±1 pt de PIB en 2070 pour ±0,25 enfant), à partir de 2045
+    const icf=b.icf0+(b.icfRef-b.icf0)*ramp(t,2025,2028)+b.famElast*(p.famMd||0)*real*retreat*ramp(t,2027,2032);
+    const births=b.births0*icf/b.icf0; o.icf.push(icf); o.births.push(births);
+    const pens=(icf-1.45)/0.25*ramp(t,2045,2070)+(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*real*retreat*phase-0.15*Math.max(0,u-b.u0)+14*migW/b.emp0*Math.max(0,1-(t-2027)/30); // cotisations des actifs en plus ou en moins, effet qui s'estompe quand ils partent à la retraite (COR)
     const retliv=b.retLiv0-0.21*(t-2023)+p.retLiv*real*retreat*phase-1.5*forcedCum;
     // pouvoir d'achat : croissance commune + mesures du programme + chômage + ajustement imposé + chocs d'inflation
     gdp*=1+realg/100; inflCum+=Math.max(0,z.infl);

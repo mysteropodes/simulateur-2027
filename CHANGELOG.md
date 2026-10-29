@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, soir (3)
+
+- **Natalité** : fécondité de référence du COR (1,45 dès 2028 ; Insee : 1,56 et 645 000 naissances en 2025), réglable ; effet de la politique familiale de chaque programme (0,01 enfant par femme par Md€ net, moitié de l'ordre de grandeur de l'iFRAP ; DG Trésor et Haut-commissariat au plan : effet limité). Retailleau, seul à chiffrer une hausse nette (≈ 10 Md€) : 1,50 enfant par femme en 2032. Effet sur les retraites selon le COR à partir de 2045. Nouveaux indicateurs : fécondité et naissances.
+
 ## 29 octobre 2026, soir (2)
 
 - **Démographie et immigration** : solde migratoire par programme, en écart à la tendance du COR (+150 000 par an). Valeurs par défaut, hypothèses du simulateur faute de chiffrage par les candidats : Le Pen −100 000, Retailleau −70 000, Philippe −10 000, Glucksmann 0, Mélenchon +20 000 ; pondérées par la solidité juridique en mode « chiffrage crédible ». Effets sur le nombre d'actifs, le PIB total et les cotisations de retraite ; contribution budgétaire nette nulle par défaut (OCDE, 2021), réglable. Nouvel indicateur : actifs liés au solde migratoire.
