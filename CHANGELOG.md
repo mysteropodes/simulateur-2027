@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, fin d'après-midi
+
+- **Pauvreté et dépenses publiques** : chaque point de taux de pauvreté au-dessus ou au-dessous de 2025 change les dépenses de santé, d'éducation et de justice (1,35 Md€ par point en lecture centrale, 2,7 keynésienne, 0 libérale ; Collectif Alerte et Oliver Wyman, 2024 : 39 Md€ de surcoûts pour 9,8 millions de personnes). Effet installé sur cinq ans, varié dans les fourchettes. Effet faible : 0,03 à 0,08 point de déficit en 2032 ; aucune date de crise ne change.
+
 ## 29 octobre 2026, après-midi : suite de l'audit
 
 - **Long terme** (à partir de 2030, pour tous) : santé et dépendance +0,8 pt de PIB en 2046 (Commission européenne, Ageing Report 2024) ; dégradation des retraites du COR comptée dans le déficit ; moitié de l'engagement OTAN (3,5 % du PIB en 2035) au-delà de la loi de programmation, sauf pour le programme qui rejette l'objectif (Mélenchon), les renforts propres aux programmes en tenant lieu. Tous réglables.
