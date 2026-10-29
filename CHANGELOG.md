@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, après-midi : suite de l'audit
+
+- **Long terme** (à partir de 2030, pour tous) : santé et dépendance +0,8 pt de PIB en 2046 (Commission européenne, Ageing Report 2024) ; dégradation des retraites du COR comptée dans le déficit ; moitié de l'engagement OTAN (3,5 % du PIB en 2035) au-delà de la loi de programmation, sauf pour le programme qui rejette l'objectif (Mélenchon), les renforts propres aux programmes en tenant lieu. Tous réglables.
+- **Courbe de Phillips** : 0,15 point d'inflation par point de chômage sous 7,4 %, à partir de 2029.
+- **Conjoncture 2026** : chômage 8,3 % (Banque de France), taux plus bas en début d'année (charge d'intérêts 80 Md€).
+- **Fourchettes** : la résorption de la prime politique actuelle varie (0,6 à 0,95 par an).
+- Effet : dette 2046 du statu quo 189 → 206 % ; dates de crise en lecture centrale décalées d'un an au plus ; dette 2032 inchangée à 1 point près.
+
 ## 29 octobre 2026, nuit (3) : audit de réalisme
 
 Audit indépendant : statu quo comparé aux projections officielles (Banque de France, comité d'experts de juillet 2026, Cour des comptes, COR, FMI), règles testées sur des cas extrêmes. Le statu quo est réaliste jusqu'en 2030 (dette 131 % contre 130 %). Corrections, mêmes règles pour tous :

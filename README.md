@@ -34,7 +34,7 @@ Tous les paramètres sont réglables. Trois lectures économiques sont proposée
 - **Après 2032**, les projections sont grisées : l'incertitude devient trop forte pour les lire au premier degré.
 - **Les effets sociétaux sont traduits en paramètres**, donc simplifiés à l'extrême : tension sociale, droits, changements de modèle économique.
 - Le test sur 2015-2025 (`tests/backtest.js`) porte sur les mécanismes de chômage, d'intérêts et de dette, avec la croissance et le déficit observés ; il ne teste pas les effets des programmes sur la croissance. Il a aussi servi à régler ces mécanismes : ce n'est pas une validation indépendante.
-- **Long terme trop optimiste pour tous** : la hausse des dépenses de santé et de dépendance, la cible OTAN de 3,5 % du PIB et la dégradation des retraites n'entrent pas dans le déficit.
+- **Long terme** : le déficit comprend la hausse des dépenses de santé et de dépendance, la dégradation des retraites (COR) et une partie de l'engagement OTAN ; restent absents le commerce extérieur et la réaction des taux de la BCE.
 - **La crédibilité d'un chiffrage** réduit les recettes et les économies annoncées, pas les dépenses : un programme moins crédible a toujours un déficit plus élevé.
 
 ## Contester un chiffrage
