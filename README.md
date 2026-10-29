@@ -33,7 +33,7 @@ Tous les paramètres sont réglables. Trois lectures économiques sont proposée
 - **La crise de la dette est une règle du modèle.** Au-delà de certains seuils, la prime de risque s'emballe, la BCE intervient ou non, puis un ajustement forcé et des prêts d'urgence s'appliquent pendant 5 ans. Le fait qu'une crise apparaisse dans presque tous les scénarios découle en partie de cette règle et du point de départ (dette à 115,6 % du PIB). Ce n'est pas une certitude.
 - **Après 2032**, les projections sont grisées : l'incertitude devient trop forte pour les lire au premier degré.
 - **Les effets sociétaux sont traduits en paramètres**, donc simplifiés à l'extrême : tension sociale, droits, changements de modèle économique.
-- Le test sur 2015-2025 (`tests/backtest.js`) porte sur les mécanismes de chômage, d'intérêts et de dette, avec la croissance et le déficit observés ; il ne teste pas les effets des programmes sur la croissance. Il a aussi servi à régler ces mécanismes : ce n'est pas une validation indépendante.
+- Le test sur 2015-2025 (`tests/backtest.js`) porte sur les mécanismes de chômage, d'intérêts et de dette, avec la croissance et le déficit observés ; les effets des mesures sur la croissance sont testés à part sur 2010-2016 (`tests/backtest-growth.js`) : la lecture libérale y ajuste le mieux. Il a aussi servi à régler ces mécanismes : ce n'est pas une validation indépendante.
 - **Long terme** : le déficit comprend la hausse des dépenses de santé et de dépendance, la dégradation des retraites (COR) et une partie de l'engagement OTAN ; restent absents le commerce extérieur et la réaction des taux de la BCE.
 - **La crédibilité d'un chiffrage** réduit les recettes et les économies annoncées, pas les dépenses : un programme moins crédible a toujours un déficit plus élevé.
 
@@ -57,6 +57,7 @@ openfisca/          script reproductible des cas types (OpenFisca France) et ré
 CHANGELOG.md        journal des modifications
 tests/smoke.js      test de fumée dans un navigateur sans interface
 tests/backtest.js   test historique 2015-2025 (données dans tests/backtest-data.js)
+tests/backtest-growth.js  test des effets des mesures sur la croissance (consolidation 2010-2016)
 ```
 
 ## Modifier et reconstruire

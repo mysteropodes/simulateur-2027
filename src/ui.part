@@ -152,6 +152,7 @@ function render(skipMC){
       <td class="sep ${c(r.def[yi(2031)],sq.def[yi(2031)])}">${fmt(r.def[yi(2031)])} %</td>
       <td class="${c(r.debt[yi(2036)],sq.debt[yi(2036)],true,0.5)}">${fmt(r.debt[yi(2036)])} %</td>
       <td class="${c(r.debt[yi(2046)],sq.debt[yi(2046)],true,0.5)}">${fmt(r.debt[yi(2046)])} %</td>
+      <td class="${c(Math.max(...r.debt),Math.max(...sq.debt),true,0.5)}">${fmt(Math.max(...r.debt),0)} % <small>(${START+r.debt.indexOf(Math.max(...r.debt))})</small></td>
       <td class="${c(r.burden[yi(2036)],sq.burden[yi(2036)],true,0.2)}">${fmt(r.burden[yi(2036)])} %</td>
       <td class="${c(r.pens[yi(2032)],sq.pens[yi(2032)],false,0.05)}">${signed(r.pens[yi(2032)],2)} %</td>
       <td class="sep">${r.crisis!==null?`<span class="chip bad">crise ${r.crisis}</span>`:r.tpi!==null?`<span class="chip mid">filet BCE ${r.tpi}</span>`:`<span class="chip ok">accès normal</span>`}</td>`;});
@@ -191,7 +192,7 @@ function syncSeg(attr,val){document.querySelectorAll(`[data-${attr}]`).forEach(b
 function bindGlobals(){
   for(const [k,f] of GL){const el=document.getElementById(k),o=document.getElementById("o-"+k);
     el.value=BASE[k];o.textContent=f(+el.value);el.oninput=()=>{BASE[k]=+el.value;o.textContent=f(+el.value);render()};}
-  syncSeg("shock",BASE.shock);syncSeg("clim",BASE.clim);syncSeg("ai",BASE.ai);syncSeg("energy",BASE.energy);
+  syncSeg("shock",BASE.shock);syncSeg("clim",BASE.clim);syncSeg("ai",BASE.ai);syncSeg("energy",BASE.energy);syncSeg("exit",BASE.exit);
 }
 const PS=[["A","Effort annoncé (pt de PIB)",-1,6,0.1,v=>fmt(v)],["migDelta","Solde migratoire, écart à la tendance (milliers/an)",-200,100,10,v=>(v>0?"+":"")+fmt(v,0)],["famMd","Politique familiale, dépense nette en plus (Md€/an)",-10,30,1,v=>(v>0?"+":"")+fmt(v,0)],["c","Crédibilité du chiffrage",0,1,0.05,v=>fmt(v,2)],["parl","Chances d'une majorité",0,1,0.05,v=>fmt(v,2)],["adh","Soutien de l'opinion",0,1,0.05,v=>fmt(v,2)],["legal","Solidité juridique",0,1,0.05,v=>fmt(v,2)],["eu","Prime de confrontation UE (pt)",0,2,0.1,v=>fmt(v)],["longRun","Croissance de long terme (pt/an)",-0.3,0.4,0.01,v=>fmt(v,2)],["climInv","Investissement climat (pt PIB/an)",0,2,0.05,v=>fmt(v,2)],["healthSpend","Dépenses de santé en plus (pt PIB)",-0.6,0.6,0.05,v=>fmt(v,2)],["aiCushion","Amortisseur IA (0-1)",0,1,0.05,v=>fmt(v,2)],["aiAdopt","Rythme d'adoption de l'IA",0.6,1.4,0.05,v=>fmt(v,2)],["co2Rate","Baisse des émissions (%/an)",0,8,0.1,v=>fmt(v)],["pensBal","Effet sur le solde des retraites (pt PIB)",-1.5,1.5,0.05,v=>fmt(v,2)],["retLiv","Effet sur le niveau de vie des retraités (pts)",-5,5,0.5,v=>fmt(v)],["ageShift","Changement de l'âge de départ (années)",-4,2,0.5,v=>(v>0?"+":"")+fmt(v)],["housing","Logements en plus par an (milliers)",-50,150,5,v=>(v>0?"+":"")+fmt(v,0)],["spServ","Services publics (pt de PIB)",-1.5,2,0.1,v=>(v>0?"+":"")+fmt(v)],["taxMd","Hausse nette des impôts (Md€ par an ; change la part impôts / dépenses, pas le déficit)",-60,150,1,v=>(v>0?"+":"")+fmt(v,0)],["defense","Défense au-delà de la loi de programmation (pt PIB)",-1,2,0.1,v=>(v>0?"+":"")+fmt(v)],["rightsPts","Tension liée aux droits et libertés (points)",0,25,1,v=>fmt(v,0)]];
 function compTable(p){ // répartition du programme par type de mesure (pt de PIB, application complète, réglages par défaut)
@@ -235,7 +236,7 @@ const PRESETHELP={historique:"Lecture fondée sur l'historique : pour chaque hyp
 let preset="central";
 document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{preset=b.dataset.preset;Object.assign(BASE,PRESETS[preset]);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];bindGlobals();render()});
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;syncSeg("mode",mode);render()});
-for(const k of ["shock","clim","ai","energy"]) document.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{BASE[k]=b.dataset[k];syncSeg(k,BASE[k]);render()});
+for(const k of ["shock","clim","ai","energy","exit"]) document.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{BASE[k]=b.dataset[k];syncSeg(k,BASE[k]);render()});
 document.getElementById("reset").onclick=()=>{try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}BASE=structuredClone(BASE0);CANDS=structuredClone(CANDS0);bandCand="none";preset="central";syncSeg("preset","central");mode="credible";syncSeg("mode",mode);document.getElementById("presethelp").textContent=PRESETHELP.central;bindGlobals();buildCands();buildBandSel();render()};
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
@@ -476,7 +477,7 @@ try{if(localStorage.getItem("simTab")==="info") setTimeout(()=>showTab("info"),0
 
 
 // partage : tous les écarts aux réglages par défaut sont gardés dans l'adresse (#s=…)
-const SHARE_BASE_KEYS=()=>[...GL.map(([k])=>k),"shock","clim","ai","energy"];
+const SHARE_BASE_KEYS=()=>[...GL.map(([k])=>k),"shock","clim","ai","energy","exit"];
 function encodeState(){
   const st={v:1,m:mode,p:preset,k:metric,b:{},c:{}};
   for(const k of SHARE_BASE_KEYS()) if(BASE[k]!==BASE0[k]) st.b[k]=BASE[k];

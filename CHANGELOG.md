@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, soir (5) : affinages
+
+- **Test du bloc croissance** (`tests/backtest-growth.js`, sans réglage) : consolidation de 2010-2016 rejouée avec les multiplicateurs du modèle, la crise de la zone euro et le CICE. Erreur moyenne 0,53 point en lecture centrale, contre 0,42 sans effet des mesures et 0,42 en lecture libérale : les effets durables des hausses d'impôts semblent trop forts dans la lecture centrale. Valeurs centrales gardées (un seul épisode, nombreux facteurs), résultat publié.
+- **Dette au pic (année)** : nouvelle colonne du tableau des finances publiques.
+- **Sortie de crise « refus du programme européen »**, réglage commun : contrôle des capitaux, financement national à taux plafonné, sortie de fait de l'euro ; récession −5 points, inflation +6/+3/+1, économies imposées de 0,75 pt/an.
+
 ## 29 octobre 2026, fin d'après-midi
 
 - **Pauvreté et dépenses publiques** : chaque point de taux de pauvreté au-dessus ou au-dessous de 2025 change les dépenses de santé, d'éducation et de justice (1,35 Md€ par point en lecture centrale, 2,7 keynésienne, 0 libérale ; Collectif Alerte et Oliver Wyman, 2024 : 39 Md€ de surcoûts pour 9,8 millions de personnes). Effet installé sur cinq ans, varié dans les fourchettes. Effet faible : 0,03 à 0,08 point de déficit en 2032 ; aucune date de crise ne change.
