@@ -1,4 +1,5 @@
-// Données observées (Insee ; bases mélangées, à ±0,2 pt près)
+// Données observées : Insee (comptes publics, PIB, chômage, prix), OCDE (OAT 10 ans) ; bases mélangées, à ±0,2 pt près.
+// Charges d'intérêts 2016 et 2018 déduites des évolutions publiées ; PIB en valeur arrondi ; inflation 2025 provisoire.
 module.exports={
  years:[2014,2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025],
  def:  [3.9,3.6,3.6,3.0,2.3,3.1,9.0,6.5,4.7,5.4,5.8,5.1],
@@ -8,4 +9,5 @@ module.exports={
  g:    [1.0,1.1,1.1,2.3,1.8,1.5,-7.4,6.9,2.7,1.6,1.5,0.8],
  cpi:  [0.5,0.0,0.2,1.0,1.8,1.1,0.5,1.6,5.2,4.9,2.4,1.0],
  u:    [10.3,10.4,10.1,9.4,9.1,8.5,8.1,7.9,7.3,7.4,7.4,7.7],
+ oat:  [1.67,0.84,0.47,0.81,0.78,0.13,-0.14,0.01,1.70,2.99,2.98,3.37], // OAT 10 ans, moyenne annuelle (OCDE via FRED, Insee)
 };

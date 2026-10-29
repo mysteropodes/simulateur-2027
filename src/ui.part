@@ -78,10 +78,10 @@ for(const c of CANDS0){ Object.assign(c,EXT[c.id]); c.rightsPts=c.grid?["egal","
 let BASE=structuredClone(BASE0), CANDS=structuredClone(CANDS0), mode="credible", metric="debt";
 let encodeStateDefault=""; // état par défaut encodé, pour le lien de partage
 const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme : ses réformes (âge de départ, temps de travail, marché du travail) s'appliquent, mais seule la part jugée crédible des montants budgétaires se réalise. Les mesures touchant aux droits sont pondérées par la solidité juridique du programme.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario."};
-const SHOCKHELP={none:"Pas de choc ponctuel.",recession:"Croissance −3 points, rebond partiel ensuite (type 2009).",financial:"Croissance −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012).",inflation:"Inflation +3 puis +1,5 point, croissance −1 point (type 2022-2023).",climat:"Canicule ou inondations majeures : croissance −1,5 point, déficit +1 point, environ 10 000 décès (type 2003).",pandemie:"Croissance −7 points puis rebond, déficit +5 puis +2 points, environ 75 000 décès sur deux ans (type 2020)."};
+const SHOCKHELP={none:"Pas de choc ponctuel.",petrole:"Prix du pétrole +45 $ pendant un an, +25 $ l'année suivante (type 2022) : facture énergétique, inflation, aides publiques ; l'effet dépend de la dépendance aux énergies fossiles.",commerce:"Guerre commerciale : −0,4 point de PIB cumulé sur trois ans (Banque de France, droits de douane américains de 2025).",taiwan:"Blocus de Taïwan : −3 points de croissance, inflation +1,5 point, tensions sur les taux (ordre de grandeur très incertain).",recession:"Croissance −3 points, rebond partiel ensuite (type 2009).",financial:"Croissance −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012).",inflation:"Inflation +3 puis +1,5 point, croissance −1 point (type 2022-2023).",climat:"Canicule ou inondations majeures : croissance −1,5 point, déficit +1 point, environ 10 000 décès (type 2003).",pandemie:"Croissance −7 points puis rebond, déficit +5 puis +2 points, environ 75 000 décès sur deux ans (type 2020)."};
 const CLIMHELP={moderee:"Dommages limités : −0,03 point de croissance par an, décès liés à la chaleur +2 % par an.",forte:"Dommages notables : −0,07 point par an, décès liés à la chaleur +4 % par an.",tresforte:"Dommages lourds : −0,12 point par an, décès liés à la chaleur +6 % par an."};
 const AIHELP={lente:"Gains de productivité +0,1 point par an, pertes d'emplois au pic +0,5 point de chômage.",moyenne:"Gains +0,3 point par an, pertes d'emplois au pic +1,2 point de chômage.",rapide:"Gains +0,6 point par an, pertes d'emplois au pic +2,5 points de chômage."};
-const METRICS={debt:["Dette","% du PIB",1,"%"],mig:["Actifs liés au solde migratoire","milliers, écart à la tendance",0," k"],icf:["Fécondité","enfants par femme",2,""],births:["Naissances","milliers par an",0," k"],def:["Déficit","% du PIB",1,"%"],unemp:["Chômage","% des actifs",1,"%"],pov:["Pauvreté","% de la population",1,"%"],gini:["Inégalités","indice de Gini",3,""],health:["Santé","mois d'espérance de vie",1," mois"],heat:["Décès en excès","décès par an",0,""],tension:["Tension sociale","indice 0-100",0,""],burden:["Charge d'intérêts","% des recettes publiques",1,"%"],co2:["Gaz à effet de serre","MtCO₂e par an",0,""],pm:["Décès dus à la pollution de l'air","décès par an",0,""],pens:["Solde des retraites","% du PIB",2,"%"],retliv:["Niveau de vie des retraités","% de celui de l'ensemble",1,"%"],nw:["Patrimoine net des administrations publiques","% du PIB",1,"%"],spread:["Écart de taux avec l'Allemagne","points de pourcentage, 10 ans",2,""],defense:["Dépense de défense","% du PIB (définition OTAN)",2,"%"],growth:["Croissance du PIB","% par an, en volume",1,"%"],infl:["Inflation","% par an",1,"%"],youth:["Chômage des 15-24 ans","% des actifs de 15-24 ans",1,"%"],po:["Prélèvements obligatoires","% du PIB",1,"%"],dep:["Dépense publique","% du PIB",1,"%"],energy:["Facture énergétique","Md€ par an",0,""],artif:["Terres artificialisées","hectares par an",0,""],cons:["Logements mis en chantier","milliers par an",0,""],sp:["Services publics","% du PIB",1,"%"],ratioEl:["Écart riches-modestes, services publics compris","revenu des 10 % les plus aisés / 10 % les plus modestes",2,""],emp55:["Emploi des 55-64 ans","taux d'emploi, %",1,"%"],w10:["Patrimoine des 10 % les plus riches","% du patrimoine brut total",1,"%"]};
+const METRICS={debt:["Dette","% du PIB",1,"%"],brent:["Prix du pétrole","$ du baril (constants)",0," $"],mig:["Actifs liés au solde migratoire","milliers, écart à la tendance",0," k"],icf:["Fécondité","enfants par femme",2,""],births:["Naissances","milliers par an",0," k"],def:["Déficit","% du PIB",1,"%"],unemp:["Chômage","% des actifs",1,"%"],pov:["Pauvreté","% de la population",1,"%"],gini:["Inégalités","indice de Gini",3,""],health:["Santé","mois d'espérance de vie",1," mois"],heat:["Décès en excès","décès par an",0,""],tension:["Tension sociale","indice 0-100",0,""],burden:["Charge d'intérêts","% des recettes publiques",1,"%"],co2:["Gaz à effet de serre","MtCO₂e par an",0,""],pm:["Décès dus à la pollution de l'air","décès par an",0,""],pens:["Solde des retraites","% du PIB",2,"%"],retliv:["Niveau de vie des retraités","% de celui de l'ensemble",1,"%"],nw:["Patrimoine net des administrations publiques","% du PIB",1,"%"],spread:["Écart de taux avec l'Allemagne","points de pourcentage, 10 ans",2,""],defense:["Dépense de défense","% du PIB (définition OTAN)",2,"%"],growth:["Croissance du PIB","% par an, en volume",1,"%"],infl:["Inflation","% par an",1,"%"],youth:["Chômage des 15-24 ans","% des actifs de 15-24 ans",1,"%"],po:["Prélèvements obligatoires","% du PIB",1,"%"],dep:["Dépense publique","% du PIB",1,"%"],energy:["Facture énergétique","Md€ par an",0,""],artif:["Terres artificialisées","hectares par an",0,""],cons:["Logements mis en chantier","milliers par an",0,""],sp:["Services publics","% du PIB",1,"%"],ratioEl:["Écart riches-modestes, services publics compris","revenu des 10 % les plus aisés / 10 % les plus modestes",2,""],emp55:["Emploi des 55-64 ans","taux d'emploi, %",1,"%"],w10:["Patrimoine des 10 % les plus riches","% du patrimoine brut total",1,"%"]};
 
 const YEARS=Array.from({length:END-START+1},(_,k)=>String(START+k));
 const yi=y=>y-START;
@@ -93,8 +93,11 @@ const GOV={def:{2026:5.4,2027:5.0,2028:4.0,2029:2.9},debt:{2026:119.2,2027:121.7
 function fillOfficial(res){
   const tb=document.querySelector("#tblofficial tbody"); if(!tb) return; const r=res[0].r;
   const gdp27=BASE.gdpMd*(1+r.growth[yi(2026)]/100)*(1+r.infl[yi(2026)]/100)*(1+r.growth[yi(2027)]/100)*(1+r.infl[yi(2027)]/100);
-  const rows=[["Croissance 2026","0,5 % (gouvernement, jugé plausible par le HCFP)",fmt(r.growth[yi(2026)])+" %"],
-    ["Croissance 2027","0,8 % (consensus des prévisionnistes) ; 1,0 % (gouvernement)",fmt(r.growth[yi(2027)])+" %"],
+  const rows=[["Croissance 2026","0,4 % (Banque de France, septembre 2026, choc d'Ormuz compris) ; 0,5 % (gouvernement)",fmt(r.growth[yi(2026)])+" %"],
+    ["Croissance 2027","0,9 % (Banque de France) ; 0,8 % (consensus) ; 1,0 % (gouvernement)",fmt(r.growth[yi(2027)])+" %"],
+    ["Inflation 2026 et 2027","2,3 % puis 1,9 % (IPCH, Banque de France)",fmt(r.infl[yi(2026)])+" % puis "+fmt(r.infl[yi(2027)])+" %"],
+    ["Chômage 2026 et 2027","8,3 % (Banque de France)",fmt(r.unemp[yi(2026)])+" % puis "+fmt(r.unemp[yi(2027)])+" %"],
+    ["Prix du pétrole 2026 et 2027","96 $ puis 84 $ (EIA, octobre 2026)",fmt(r.brent[yi(2026)],0)+" $ puis "+fmt(r.brent[yi(2027)],0)+" $"],
     ["Déficit 2026","5,4 % (gouvernement)",fmt(r.def[yi(2026)])+" %"],
     ["Déficit 2027 sans nouvelles économies","environ 6,5 % (Premier ministre)",fmt(r.def[yi(2027)])+" %"],
     ["Charge d'intérêts 2027","91 Md€ (PLF 2027)",fmt(r.burden[yi(2027)]*BASE.rev/100*gdp27/100,0)+" Md€"],
@@ -114,7 +117,7 @@ function render(skipMC){
   LASTRES=res;
   const [mlabel,unit,dec,suf]=METRICS[metric];
   const ink=css("--muted"), line=css("--line");
-  const ds=res.map(({p,r})=>{const evY=new Set(r.ev.filter(e=>EVMET[e.k]&&EVMET[e.k].includes(metric)).map(e=>e.t));return {label:p.name,data:r[metric].map(v=>v==null?null:+v.toFixed(dec+1)),borderColor:css(p.color),backgroundColor:css(p.color),borderWidth:p.id==="statu"?2:2.5,borderDash:p.id==="statu"?[6,4]:[],pointRadius:YEARS.map(y=>evY.has(+y)?4.5:0),pointBorderColor:css("--surface"),pointBorderWidth:1.5,pointHoverRadius:4,tension:.25,spanGaps:true};});
+  const ds=res.map(({p,r})=>{const evY=new Set(r.ev.filter(e=>EVMET[e.k]&&(EVMET[e.k]||[]).includes(metric)).map(e=>e.t));return {label:p.name,data:r[metric].map(v=>v==null?null:+v.toFixed(dec+1)),borderColor:css(p.color),backgroundColor:css(p.color),borderWidth:p.id==="statu"?2:2.5,borderDash:p.id==="statu"?[6,4]:[],pointRadius:YEARS.map(y=>evY.has(+y)?4.5:0),pointBorderColor:css("--surface"),pointBorderWidth:1.5,pointHoverRadius:4,tension:.25,spanGaps:true};});
   addBand(ds);
   if(GOV[metric]){const g=GOV[metric];ds.push({label:"Trajectoire du gouvernement",isGov:true,data:YEARS.map(y=>g[+y]??null),borderColor:css("--ink"),backgroundColor:css("--ink"),borderWidth:1.5,borderDash:[2,3],pointRadius:3,pointStyle:"rectRot",spanGaps:true,tension:0});}
   if(!chart){
@@ -179,15 +182,16 @@ function render(skipMC){
   document.getElementById("modehelp").textContent=MODEHELP[mode];
   document.getElementById("shockhelp").textContent=SHOCKHELP[BASE.shock];
   document.getElementById("climhelp").textContent=CLIMHELP[BASE.clim];
+  document.getElementById("energyhelp").textContent=ENERGYTXT[BASE.energy];
   document.getElementById("aihelp").textContent=AIHELP[BASE.ai];
   document.getElementById("shockYear").disabled=BASE.shock==="none";
 }
-const GL=[["realg",v=>fmt(v)+" %"],["infl",v=>fmt(v)+" %"],["mktReal",v=>fmt(v)+" %"],["mult",v=>fmt(v)],["prem",v=>"+"+fmt(v,2)+" pt"],["redistEff",v=>fmt(v,2)],["multScale",v=>"× "+fmt(v,2)],["hyst",v=>fmt(v*100,0)+" %"],["ineqGrowth",v=>"−"+fmt(v,2)+" pt"],["migFisc",v=>(v>0?"+":"")+fmt(v,2)+" pt"],["migWork",v=>fmt(v*100,0)+" %"],["icfRef",v=>fmt(v,2)],["famElast",v=>fmt(v,3)],["climNeed",v=>fmt(v)+" pt"],["kDebt",v=>"+"+fmt(v,2)+" pt"],["crisisPrem",v=>fmt(v)+" pts"],["premPol",v=>"+"+fmt(v)+" pt"],["premPolDecay",v=>"−"+fmt((1-v)*100,0)+" %/an"],["leak",v=>fmt(v*100,0)+" %"],["seniorKeep",v=>fmt(v*100,0)+" %"],["tensionRights",v=>fmt(v,1)],["forcedMax",v=>fmt(v,0)+" pts"],["spRet",v=>fmt(v,2)],["invRet",v=>fmt(v,2)],["fiscalReact",v=>fmt(v,2)],["aiCost",v=>fmt(v,1)+" pt"],["rtt",v=>fmt(v*100,0)+" %"],["shockYear",v=>String(v)]];
+const GL=[["realg",v=>fmt(v)+" %"],["infl",v=>fmt(v)+" %"],["mktReal",v=>fmt(v)+" %"],["mult",v=>fmt(v)],["prem",v=>"+"+fmt(v,2)+" pt"],["redistEff",v=>fmt(v,2)],["multScale",v=>"× "+fmt(v,2)],["hyst",v=>fmt(v*100,0)+" %"],["ineqGrowth",v=>"−"+fmt(v,2)+" pt"],["migFisc",v=>(v>0?"+":"")+fmt(v,2)+" pt"],["migWork",v=>fmt(v*100,0)+" %"],["oilGdp",v=>"−"+fmt(v*10,1)+" %"],["oilPi",v=>"+"+fmt(v*10,1)+" pt"],["bouclier",v=>fmt(v*100,0)+" %"],["oilCoupling",v=>fmt(v,2)],["icfRef",v=>fmt(v,2)],["famElast",v=>fmt(v,3)],["climNeed",v=>fmt(v)+" pt"],["kDebt",v=>"+"+fmt(v,2)+" pt"],["crisisPrem",v=>fmt(v)+" pts"],["premPol",v=>"+"+fmt(v)+" pt"],["premPolDecay",v=>"−"+fmt((1-v)*100,0)+" %/an"],["leak",v=>fmt(v*100,0)+" %"],["seniorKeep",v=>fmt(v*100,0)+" %"],["tensionRights",v=>fmt(v,1)],["forcedMax",v=>fmt(v,0)+" pts"],["spRet",v=>fmt(v,2)],["invRet",v=>fmt(v,2)],["fiscalReact",v=>fmt(v,2)],["aiCost",v=>fmt(v,1)+" pt"],["rtt",v=>fmt(v*100,0)+" %"],["shockYear",v=>String(v)]];
 function syncSeg(attr,val){document.querySelectorAll(`[data-${attr}]`).forEach(b=>b.setAttribute("aria-pressed",b.dataset[attr]===val));}
 function bindGlobals(){
   for(const [k,f] of GL){const el=document.getElementById(k),o=document.getElementById("o-"+k);
     el.value=BASE[k];o.textContent=f(+el.value);el.oninput=()=>{BASE[k]=+el.value;o.textContent=f(+el.value);render()};}
-  syncSeg("shock",BASE.shock);syncSeg("clim",BASE.clim);syncSeg("ai",BASE.ai);
+  syncSeg("shock",BASE.shock);syncSeg("clim",BASE.clim);syncSeg("ai",BASE.ai);syncSeg("energy",BASE.energy);
 }
 const PS=[["A","Effort annoncé (pt de PIB)",-1,6,0.1,v=>fmt(v)],["migDelta","Solde migratoire, écart à la tendance (milliers/an)",-200,100,10,v=>(v>0?"+":"")+fmt(v,0)],["famMd","Politique familiale, dépense nette en plus (Md€/an)",-10,30,1,v=>(v>0?"+":"")+fmt(v,0)],["c","Crédibilité du chiffrage",0,1,0.05,v=>fmt(v,2)],["parl","Chances d'une majorité",0,1,0.05,v=>fmt(v,2)],["adh","Soutien de l'opinion",0,1,0.05,v=>fmt(v,2)],["legal","Solidité juridique",0,1,0.05,v=>fmt(v,2)],["eu","Prime de confrontation UE (pt)",0,2,0.1,v=>fmt(v)],["longRun","Croissance de long terme (pt/an)",-0.3,0.4,0.01,v=>fmt(v,2)],["climInv","Investissement climat (pt PIB/an)",0,2,0.05,v=>fmt(v,2)],["healthSpend","Dépenses de santé en plus (pt PIB)",-0.6,0.6,0.05,v=>fmt(v,2)],["aiCushion","Amortisseur IA (0-1)",0,1,0.05,v=>fmt(v,2)],["aiAdopt","Rythme d'adoption de l'IA",0.6,1.4,0.05,v=>fmt(v,2)],["co2Rate","Baisse des émissions (%/an)",0,8,0.1,v=>fmt(v)],["pensBal","Effet sur le solde des retraites (pt PIB)",-1.5,1.5,0.05,v=>fmt(v,2)],["retLiv","Effet sur le niveau de vie des retraités (pts)",-5,5,0.5,v=>fmt(v)],["ageShift","Changement de l'âge de départ (années)",-4,2,0.5,v=>(v>0?"+":"")+fmt(v)],["housing","Logements en plus par an (milliers)",-50,150,5,v=>(v>0?"+":"")+fmt(v,0)],["spServ","Services publics (pt de PIB)",-1.5,2,0.1,v=>(v>0?"+":"")+fmt(v)],["taxMd","Hausse nette des impôts (Md€ par an ; change la part impôts / dépenses, pas le déficit)",-60,150,1,v=>(v>0?"+":"")+fmt(v,0)],["defense","Défense au-delà de la loi de programmation (pt PIB)",-1,2,0.1,v=>(v>0?"+":"")+fmt(v)],["rightsPts","Tension liée aux droits et libertés (points)",0,25,1,v=>fmt(v,0)]];
 function compTable(p){ // répartition du programme par type de mesure (pt de PIB, application complète, réglages par défaut)
@@ -231,7 +235,7 @@ const PRESETHELP={historique:"Lecture fondée sur l'historique : pour chaque hyp
 let preset="central";
 document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{preset=b.dataset.preset;Object.assign(BASE,PRESETS[preset]);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];bindGlobals();render()});
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;syncSeg("mode",mode);render()});
-for(const k of ["shock","clim","ai"]) document.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{BASE[k]=b.dataset[k];syncSeg(k,BASE[k]);render()});
+for(const k of ["shock","clim","ai","energy"]) document.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{BASE[k]=b.dataset[k];syncSeg(k,BASE[k]);render()});
 document.getElementById("reset").onclick=()=>{try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}BASE=structuredClone(BASE0);CANDS=structuredClone(CANDS0);bandCand="none";preset="central";syncSeg("preset","central");mode="credible";syncSeg("mode",mode);document.getElementById("presethelp").textContent=PRESETHELP.central;bindGlobals();buildCands();buildBandSel();render()};
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
@@ -258,14 +262,14 @@ function buildGrid(){
 let LASTRES=null, MC=null, mcTimer=null, bandCand="none";
 const ALLM=Object.keys(METRICS);
 const EVMET={rights:["tension"],react:["debt","def","burden","unemp","growth","dep","po","spread","nw","tension"],start:ALLM,shock:ALLM,crisis:ALLM,bce:["debt","def","burden"],tpi:["debt","def","burden"],rating:["debt","def","burden"],
-  retreat:["debt","def","burden","tension","pov","gini","unemp","pens","retliv","co2","pm","emp55","w10"],lr:["debt","def","burden","unemp"],age:["emp55","pens","unemp","retliv","debt","def"]};
-const MINCHG={nw:1.5,spread:0.3,defense:0.1,rating:1,growth:0.6,infl:0.6,youth:0.8,po:0.3,dep:0.5,energy:2,artif:500,cons:8,sp:0.2,ratioEl:0.05,debt:1.5,def:0.5,unemp:0.3,pov:0.3,gini:0.003,health:0.5,heat:400,tension:4,burden:0.5,co2:4,pm:400,pens:0.1,retliv:0.4,emp55:0.4,w10:0.1};
+  retreat:["debt","def","burden","tension","pov","gini","unemp","pens","retliv","co2","pm","emp55","w10"],lr:["debt","def","burden","unemp"],age:["emp55","pens","unemp","retliv","debt","def"],oil:ALLM};
+const MINCHG={brent:10,mig:30,icf:0.03,births:15,nw:1.5,spread:0.3,defense:0.1,rating:1,growth:0.6,infl:0.6,youth:0.8,po:0.3,dep:0.5,energy:2,artif:500,cons:8,sp:0.2,ratioEl:0.05,debt:1.5,def:0.5,unemp:0.3,pov:0.3,gini:0.003,health:0.5,heat:400,tension:4,burden:0.5,co2:4,pm:400,pens:0.1,retliv:0.4,emp55:0.4,w10:0.1};
 function hexA(h,a){const n=parseInt(h.replace("#",""),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
 function tipFooter(items){
   if(!LASTRES||!items.length) return "";
   const t=+items[0].label, out=[];
   for(const it of items){const x=LASTRES[it.datasetIndex]; if(!x) continue;
-    for(const e of x.r.ev) if(e.t===t&&EVMET[e.k].includes(metric)) out.push(`${x.p.name} : ${e.txt}`);}
+    for(const e of x.r.ev) if(e.t===t&&(EVMET[e.k]||[]).includes(metric)) out.push(`${x.p.name} : ${e.txt}`);}
   return out.length?wrapLines(out,60):"";
 }
 function wrapLines(arr,n){const res=[];for(const s of arr){let line="";for(const w of s.split(" ")){if((line+" "+w).length>n){res.push(line);line=w;}else line=line?line+" "+w:w;}res.push(line);}return res;}
@@ -296,7 +300,7 @@ function explain(res){
       if(Math.abs(d[k])<thr||k-last<=1){ if(Math.abs(d[k])>=thr) last=k; continue;}
       last=k;
       const dl=a[k]-a[k-1], dPrev=a[k-1]-a[k-2];
-      const evs=r.ev.filter(e=>(e.t===t||e.t===t-1)&&EVMET[e.k].includes(metric)).map(e=>e.t===t?e.txt:`Effet de l'événement de ${e.t} : ${e.txt[0].toLowerCase()+e.txt.slice(1)}`);
+      const evs=r.ev.filter(e=>(e.t===t||e.t===t-1)&&(EVMET[e.k]||[]).includes(metric)).map(e=>e.t===t?e.txt:`Effet de l'événement de ${e.t} : ${e.txt[0].toLowerCase()+e.txt.slice(1)}`);
       const causes=evs.length?evs:commonCause(t,dl,metric).map(s=>s[0].toUpperCase()+s.slice(1)+".");
       let deco="";
       if(metric==="debt") deco=` Décomposition : intérêts moins croissance ${sg(r.snow[k],1)} pt, déficit hors intérêts ${sg(r.prim[k],1)} pt.`;
@@ -320,8 +324,8 @@ function runMC(){
     b.realg=Math.max(-0.5,BASE.realg+0.4*gauss()); b.mktReal=Math.max(0,BASE.mktReal+0.5*gauss()); b.infl=Math.max(0,BASE.infl+0.4*gauss());
     const rm=R()-0.5; b.mult=Math.max(0.2,BASE.mult+rm*0.6); b.multScale=Math.max(0.4,BASE.multScale+rm*0.5); b.hyst=Math.max(0,BASE.hyst+rm*0.1); b.ineqGrowth=Math.max(0,BASE.ineqGrowth+rm*0.1); // un seul tirage : les effets sur l'activité varient ensemble b.kDebt=Math.max(0,BASE.kDebt*(0.5+R())); b.crisisPrem=Math.max(1.5,BASE.crisisPrem-1+2*R());
     b.leak=Math.min(0.9,Math.max(0,BASE.leak+(R()-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,BASE.seniorKeep+(R()-0.5)*0.3));
-    b.clim=pick(R,["moderee","forte","tresforte"],[0.3,0.5,0.2]); b.ai=pick(R,["lente","moyenne","rapide"],[0.3,0.45,0.25]);
-    if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat"],[0.35,0.25,0.2,0.2]);b.shockYear=2028+Math.floor(R()*13);}
+    b.clim=pick(R,["moderee","forte","tresforte"],[0.3,0.5,0.2]); b.ai=pick(R,["lente","moyenne","rapide"],[0.3,0.45,0.25]); if(BASE.energy==="tendance") b.energy=pick(R,["tendance","tensions","contrainte"],[0.6,0.3,0.1]);
+    if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat","petrole","commerce"],[0.25,0.2,0.15,0.15,0.15,0.1]);b.shockYear=2028+Math.floor(R()*13);}
     b.bceDraw=R();
     draws.push({b,cj:(R()-0.5)*0.3,ej:0.5+R()});
   }
@@ -435,7 +439,7 @@ const HOUSTXT={statu:"Tendance : 265 000 en 2025, reprise lente",melenchon:"400 
 function crisisTable(){
   const tb=document.querySelector("#tblcrisis tbody"); if(!tb) return;
   const R=rng(2046), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R());
-  const raw=[]; for(let n=0;n<NMC;n++) raw.push({g1:gauss(),g2:gauss(),g3:gauss(),u:[R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R()]});
+  const raw=[]; for(let n=0;n<NMC;n++) raw.push({g1:gauss(),g2:gauss(),g3:gauss(),u:[R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R()]});
   const out={};
   for(const pk of ["keynes","central","liberal"]){
     const B0=Object.assign({},BASE,PRESETS[pk]);
@@ -445,8 +449,8 @@ function crisisTable(){
         b.realg=Math.max(-0.5,B0.realg+0.4*d.g1); b.mktReal=Math.max(0,B0.mktReal+0.5*d.g2); b.infl=Math.max(0,B0.infl+0.4*d.g3);
         b.mult=Math.max(0.2,B0.mult+(u[0]-0.5)*0.6); b.multScale=Math.max(0.4,B0.multScale+(u[0]-0.5)*0.5); b.hyst=Math.max(0,B0.hyst+(u[0]-0.5)*0.1); b.ineqGrowth=Math.max(0,B0.ineqGrowth+(u[0]-0.5)*0.1); b.kDebt=Math.max(0,B0.kDebt*(0.5+u[1])); b.crisisPrem=Math.max(1.5,B0.crisisPrem-1+2*u[2]);
         b.leak=Math.min(0.9,Math.max(0,B0.leak+(u[3]-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,B0.seniorKeep+(u[4]-0.5)*0.3));
-        b.bceDraw=u[11]; b.clim=u[5]<0.3?"moderee":u[5]<0.8?"forte":"tresforte"; b.ai=u[6]<0.3?"lente":u[6]<0.75?"moyenne":"rapide";
-        if(BASE.shock==="none"&&u[7]<0.4){b.shock=u[8]<0.35?"recession":u[8]<0.6?"financial":u[8]<0.8?"inflation":"climat";b.shockYear=2028+Math.floor(u[9]*13);}
+        b.bceDraw=u[11]; b.clim=u[5]<0.3?"moderee":u[5]<0.8?"forte":"tresforte"; b.ai=u[6]<0.3?"lente":u[6]<0.75?"moyenne":"rapide"; if(BASE.energy==="tendance") b.energy=u[13]<0.6?"tendance":u[13]<0.9?"tensions":"contrainte";
+        if(BASE.shock==="none"&&u[7]<0.4){b.shock=u[8]<0.25?"recession":u[8]<0.45?"financial":u[8]<0.6?"inflation":u[8]<0.75?"climat":u[8]<0.9?"petrole":"commerce";b.shockYear=2028+Math.floor(u[9]*13);}
         const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{eu:p.eu*(0.5+u[12]),c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:(u[10]-0.5)*0.3))),pa:ms.pa,paDec:ms.deciles});
         const r=simulate(pp,mode,b); if(r.crisis!==null) cr++; else if(r.tpi!==null) tp++;}
       (out[p.id]=out[p.id]||{})[pk]={r0,cr:cr/NMC,tp:tp/NMC};
@@ -471,7 +475,7 @@ try{if(localStorage.getItem("simTab")==="info") setTimeout(()=>showTab("info"),0
 
 
 // partage : tous les écarts aux réglages par défaut sont gardés dans l'adresse (#s=…)
-const SHARE_BASE_KEYS=()=>[...GL.map(([k])=>k),"shock","clim","ai"];
+const SHARE_BASE_KEYS=()=>[...GL.map(([k])=>k),"shock","clim","ai","energy"];
 function encodeState(){
   const st={v:1,m:mode,p:preset,k:metric,b:{},c:{}};
   for(const k of SHARE_BASE_KEYS()) if(BASE[k]!==BASE0[k]) st.b[k]=BASE[k];

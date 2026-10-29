@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:1.7,mktReal:1.7,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.5,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -15,10 +15,13 @@ function shockAt(type,Y,t){
   if(type==="financial"){ if(k===0){z.real=-2;z.spread=2;z.tension=10;} if(k===1){z.real=-0.5;z.spread=1.5;z.tension=5;} if(k===2) z.spread=1; if(k>=0&&k<=2) z.euMult=2; }
   if(type==="inflation"){ if(k===0){z.infl=3;z.real=-1;z.spread=0.5;z.tension=10;} if(k===1){z.infl=1.5;z.tension=5;} }
   if(type==="climat"){ if(k===0){z.real=-1.5;z.pd=1.0;z.infl=1.0;z.deaths=10000;z.tension=6;} if(k===1) z.pd=0.5; }
+  if(type==="petrole"){ if(k===0) z.tension=6; if(k===1) z.tension=3; } // prix et facture : module énergie
+  if(type==="commerce"){ if(k===0){z.real=-0.2;z.infl=0.1;z.tension=3;} if(k===1) z.real=-0.15; if(k===2) z.real=-0.05; } // guerre commerciale : −0,4 pt de PIB cumulé (Banque de France, droits de douane américains 2025)
+  if(type==="taiwan"){ if(k===0){z.real=-3;z.infl=1.5;z.spread=0.5;z.tension=8;} if(k===1){z.real=1;z.infl=0.5;} if(k===2) z.real=0.5; } // blocus de Taïwan : semi-conducteurs, commerce mondial (−5 % de PIB mondial selon Chatham House ; très incertain)
   if(type==="pandemie"){ if(k===0){z.real=-7;z.pd=5;z.deaths=60000;z.tension=12;} if(k===1){z.real=5;z.pd=2;z.deaths=15000;z.tension=6;} if(k===2) z.real=1.5; }
   return z;
 }
-const SHOCKTXT={recession:"Récession mondiale : −3 points de croissance cette année-là.",financial:"Crise financière : récession et hausse des taux pour tous, plus forte pour les pays en conflit avec l'UE.",inflation:"Choc d'inflation : +3 points, les taux montent.",climat:"Catastrophe climatique : pertes économiques, décès, dépenses de reconstruction.",pandemie:"Épidémie : −7 points de croissance, dépenses publiques massives, décès."};
+const SHOCKTXT={recession:"Récession mondiale : −3 points de croissance cette année-là.",financial:"Crise financière : récession et hausse des taux pour tous, plus forte pour les pays en conflit avec l'UE.",inflation:"Choc d'inflation : +3 points, les taux montent.",climat:"Catastrophe climatique : pertes économiques, décès, dépenses de reconstruction.",pandemie:"Épidémie : −7 points de croissance, dépenses publiques massives, décès.",petrole:"Flambée du pétrole : +45 $ le baril pendant un an, +25 $ l'année suivante.",commerce:"Guerre commerciale : droits de douane, −0,4 point de PIB sur trois ans.",taiwan:"Blocus de Taïwan : pénurie de semi-conducteurs et choc sur le commerce mondial."};
 const LEV=[9960,15890,19400,22430,25310,28290,31670,36040,43010,76970]; // niveau de vie moyen par décile, Insee 2024
 const SU_D=[2,1.5,1.2,1,0.8,0.7,0.6,0.5,0.4,0.2], SF_D=[2.2,2,1.8,1.4,1.2,1.1,1,0.9,0.7,0.6]; // sensibilité au chômage et à l'ajustement imposé
 function giniDec(x){let s=0,mu=0;for(const a of x){mu+=a;for(const b of x)s+=Math.abs(a-b);}mu/=x.length;return s/(2*x.length*x.length*mu);}
@@ -55,7 +58,17 @@ function fiscalCompDetail(p,b){
   return {c,resid,def};
 }
 function fiscalComp(p,b){return fiscalCompDetail(p,b).c;}
-const NEAR={2026:{g:-0.55,pi:-0.5},2027:{g:-0.25,pi:-0.2}};
+const NEAR={2026:{g:-0.7,pi:0.6},2027:{g:-0.18,pi:0.2},2028:{g:0,pi:-0.1}}; // Banque de France, projections de septembre 2026 (PIB 0,4 % ; 0,9 % ; 1,2 % — IPCH 2,3 % ; 1,9 % ; 1,6 %), choc d'Ormuz compris
+// Énergie : prix du Brent ($ constants) selon le scénario. « tendance » : EIA (octobre 2026) puis retour vers 75 $ (AIE : surplus de l'offre) ;
+// « tensions » : perturbations au Moyen-Orient durables ; « contrainte » : baisse de l'offre de pétrole disponible pour l'Europe (The Shift Project, 2021).
+const ENERGY={
+  tendance:{p:{2025:69,2026:96,2027:84,2028:78,2029:75,2046:75},supply:null},
+  tensions:{p:{2025:69,2026:96,2027:100,2028:105,2032:105,2036:95,2046:95},supply:null},
+  contrainte:{p:{2025:69,2026:96,2027:90,2030:105,2035:130,2040:160,2046:190},supply:{2025:1,2030:0.95,2040:0.73,2046:0.62}}
+};
+const ENERGYTXT={tendance:"Pétrole : retour progressif vers 75 $ le baril après le choc d'Ormuz de 2026 (EIA, AIE).",tensions:"Pétrole : tensions durables au Moyen-Orient, Brent autour de 100 à 105 $ jusqu'au milieu des années 2030.",contrainte:"Pétrole : l'offre disponible pour l'Europe baisse (The Shift Project) ; le prix monte et, au-delà de ce que la baisse de consommation absorbe, l'économie est rationnée."};
+function interpYear(tab,t){const ks=Object.keys(tab).map(Number).sort((a,b)=>a-b); if(t<=ks[0]) return tab[ks[0]]; for(let i=1;i<ks.length;i++) if(t<=ks[i]) return tab[ks[i-1]]+(tab[ks[i]]-tab[ks[i-1]])*(t-ks[i-1])/(ks[i]-ks[i-1]); return tab[ks[ks.length-1]];}
+
 function simulate(p,mode,b){
   const f=feas(p);
   const real= mode==="annonce"?1 : mode==="credible"?p.c : p.c*f; // part des montants budgétaires qui se réalise (crédibilité du chiffrage)
@@ -70,8 +83,8 @@ function simulate(p,mode,b){
   const consolid=(p.A-((p.topRev||0)-(p.topCut||0))*(mode==="annonce"?0:b.leak)/b.gdpMd*100)*real; // effort crédible : condition du filet BCE
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false; const spHist=[], invHist=[];
   const comp=fiscalComp(p,b); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
-  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0;
-  const o={icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1; const billHist=[];
+  const o={brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
     const z=shockAt(b.shock,b.shockYear,t);
@@ -133,10 +146,21 @@ function simulate(p,mode,b){
     const gapOPrev=gapO; gapO=0.5*gapO-(crisis!==null&&t-crisis<=5?Math.max(b.mult,1.5):b.mult)*(sOtherPrev-sOther)+z.real+(crisis===t-1?-2:0); sOtherPrev=sOther; // choc de la crise l'année suivant son déclenchement
     const hystLoss=(crisis!==null&&t-crisis>=1&&t-crisis<=5)?0:b.hyst*Math.max(0,-gapOPrev); // séquelles durables des récessions et ajustements hors programme (les effets durables des mesures sont déjà dans les multiplicateurs ; en crise, ils sont comptés à part)
     gap=gapO+cyc;
-    const near=t===2026?NEAR[2026]:t===2027?NEAR[2027]:{g:0,pi:0}; // conjoncture : prévisions officielles 2026-2027 (HCFP, consensus)
-    const realg=b.realg+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
-    const pi=b.infl+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
-    const pd=s-b.stab*gap+z.pd-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
+    // énergie et pétrole : écart au scénario « tendance » (déjà compris dans la conjoncture 2026-2028) ; l'exposition suit la consommation d'énergies fossiles du programme
+    const EN=ENERGY[b.energy]||ENERGY.tendance, pT=interpYear(ENERGY.tendance.p,t), pS=interpYear(EN.p,t)+(b.shock==="petrole"&&(t===b.shockYear||t===b.shockYear+1)?(t===b.shockYear?45:25):0);
+    const fdep=depPrev, pDev=pS-pT; // exposition : consommation fossile de l'année précédente (indice 2025 = 1)
+    let ration=0; if(EN.supply){const sup=interpYear(EN.supply,t); ration=Math.max(0,fdep-sup);} // pétrole demandé au-delà de l'offre disponible
+    const oilLev=-b.oilGdp*pDev*fdep-b.oilCoupling*ration*100*0.39; // niveau du PIB, en % (le pétrole pèse 39 % de l'énergie finale)
+    const oilGrowth=oilLev-oilLevPrev; oilLevPrev=oilLev;
+    const oilInfl=b.oilPi*(pDev-pDevPrev)*fdep; pDevPrev=pDev;
+    const billBase=b.energy0*fdep, bill=billBase*(0.75*pS/69+0.25*Math.max(0.6,pS/69)), billT=billBase*(0.75*pT/69+0.25*Math.max(0.6,pT/69));
+    const billRef=billHist.length?billHist.slice(-3).reduce((a,v)=>a+v,0)/Math.min(3,billHist.length):bill; billHist.push(bill);
+    const shield=b.bouclier*Math.max(0,bill-Math.max(billRef,billT))/b.gdpMd*100; // aides publiques temporaires face à une hausse brutale (bouclier tarifaire) : elles s'éteignent quand les prix se stabilisent
+    if(t===b.shockYear&&b.shock==="petrole") E(t,"oil","Flambée du pétrole : +45 $ le baril, puis +25 $ l'année suivante (type 2022). Facture énergétique, inflation, aides publiques.");
+    const near=NEAR[t]||{g:0,pi:0}; // conjoncture : Banque de France, septembre 2026
+    const realg=b.realg+oilGrowth+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
+    const pi=b.infl+oilInfl+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
+    const pd=s-b.stab*gap+z.pd+shield-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const rating=burden>14?1.4:burden>11?0.6:burden>8?0.2:0;   // dégradations de note par paliers
     const polPrem=b.premPol*(t<=2027?1:Math.pow(b.premPolDecay,t-2027)); // prime d'instabilité politique actuelle, qui se résorbe après l'élection
     let prem=b.prem*Math.max(0,lastDef-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(t>=2027?p.eu*euW*z.euMult:0)+z.spread;
@@ -204,11 +228,11 @@ function simulate(p,mode,b){
     const po=b.po0+taxEff+0.3*forcedCum; const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
     const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*pol*retreat*phase:zBase;
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
-    o.growth.push(realg);o.infl.push(pi);o.youth.push(b.youth0*u/b.u0);o.po.push(po);o.dep.push(dep);o.energy.push(b.energy0*co2/b.co2_0*(1+Math.max(0,z.infl)/10));o.artif.push(artif);o.sp.push(sp);o.ratioEl.push((inc[9]+ik[9])/(inc[0]+ik[0]));o.ratioMon.push(inc[9]/inc[0]);
+    o.growth.push(realg);o.infl.push(pi);o.youth.push(b.youth0*u/b.u0);o.po.push(po);o.dep.push(dep);o.energy.push(bill);o.brent.push(pS);depPrev=co2/b.co2_0;o.artif.push(artif);o.sp.push(sp);o.ratioEl.push((inc[9]+ik[9])/(inc[0]+ik[0]));o.ratioMon.push(inc[9]/inc[0]);
     o.spread.push(premMkt);o.rating.push((rating>=0.2?1:0)+(rating>=0.6?1:0)+(rating>=1.4?1:0)+(crisis!==null?2:0)+(tpi!==null?1:0));o.defense.push(defSp);
     o.mig.push(migW);o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
     sPrev=s;
   }
   o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.f=f;o.crisis=crisis;o.tpi=tpi;return o;
 }
-if(typeof module!=="undefined") module.exports={BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,fiscalCompDetail,multAt};
+if(typeof module!=="undefined") module.exports={ENERGY,ENERGYTXT,BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,fiscalCompDetail,multAt};

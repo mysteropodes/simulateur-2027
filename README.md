@@ -33,7 +33,7 @@ Tous les paramètres sont réglables. Trois lectures économiques sont proposée
 - **La crise de la dette est une règle du modèle.** Au-delà de certains seuils, la prime de risque s'emballe, la BCE intervient ou non, puis un ajustement forcé et des prêts d'urgence s'appliquent pendant 5 ans. Le fait qu'une crise apparaisse dans presque tous les scénarios découle en partie de cette règle et du point de départ (dette à 115,6 % du PIB). Ce n'est pas une certitude.
 - **Après 2032**, les projections sont grisées : l'incertitude devient trop forte pour les lire au premier degré.
 - **Les effets sociétaux sont traduits en paramètres**, donc simplifiés à l'extrême : tension sociale, droits, changements de modèle économique.
-- Aucun backtest sur 2015-2025 n'a encore été fait.
+- Le test sur 2015-2025 (`tests/backtest.js`) porte sur les mécanismes de chômage, d'intérêts et de dette, avec la croissance et le déficit observés ; il ne teste pas les effets des programmes sur la croissance.
 
 ## Contester un chiffrage
 
@@ -54,6 +54,7 @@ src/
 openfisca/          script reproductible des cas types (OpenFisca France) et résultats
 CHANGELOG.md        journal des modifications
 tests/smoke.js      test de fumée dans un navigateur sans interface
+tests/backtest.js   test historique 2015-2025 (données dans tests/backtest-data.js)
 ```
 
 ## Modifier et reconstruire

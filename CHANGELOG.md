@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, nuit : réalisme, énergie et géopolitique
+
+- **Test historique 2015-2025** (`tests/backtest.js`) : chômage recalé (loi d'Okun 0,3, chômage structurel 7,4 %, retour à 20 % par an, activité partielle en épidémie ; erreur moyenne de 1,6 à 0,6 point) ; environ 10 % de dette indexée sur l'inflation (erreur sur le taux apparent de 0,22 à 0,10 point) ; identité de la dette vérifiée (0,5 point d'écart hors 2020).
+- **Conjoncture 2026-2028** calée sur la Banque de France (septembre 2026) : croissance 0,4 / 0,9 / 1,2 %, inflation 2,3 / 1,9 / 1,6 %, choc d'Ormuz compris.
+- **Énergie et pétrole** : scénarios « retour au calme » (EIA, AIE), « tensions durables » et « offre en déclin » (The Shift Project, 2021) ; prix du Brent, facture énergétique, inflation, croissance, aides publiques temporaires, rationnement au-delà de l'offre disponible ; exposition selon la consommation fossile de chaque programme. Élasticités : Insee (2019).
+- **Nouveaux chocs** : flambée du pétrole, guerre commerciale (Banque de France), blocus de Taïwan (très incertain).
+- Nouvel indicateur : prix du pétrole.
+
 ## 29 octobre 2026, soir (4)
 
 - **Lecture « fondée sur l'historique »** : valeurs centrales, sauf les recettes perdues sur les impôts visant les plus riches (54 %, CAE Focus n° 118, juillet 2025) et la part des seniors restant en emploi quand l'âge de départ recule (65 %, Insee sur la réforme de 2010). Les hypothèses où l'histoire ne tranche pas restent centrales.
