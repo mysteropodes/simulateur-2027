@@ -1,0 +1,146 @@
+{
+ "c1": {
+  "label": "Personne seule au Smic, locataire",
+  "base": {
+   "revenu_disponible": 20164.5390625,
+   "salaire_net": 17317.673828125,
+   "ppa": 2861.1708984375,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "smic1700": {
+   "revenu_disponible": 22150.923828125,
+   "salaire_net": 20399.998046875,
+   "ppa": 2049.17138671875,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": -288.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "smic_net_gain": 256.8603515625,
+  "apl10": 0.0,
+  "csg": {
+   "revenu_disponible": 21459.44140625,
+   "salaire_net": 19204.50390625,
+   "ppa": 2377.8271484375,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": -111.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "csg_net_gain": 154.93617174074996
+ },
+ "c2": {
+  "label": "Parent seul, un enfant, Smic à mi-temps, locataire",
+  "base": {
+   "revenu_disponible": 21535.05078125,
+   "salaire_net": 8658.7783203125,
+   "ppa": 4942.60498046875,
+   "aide_logement": 5127.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "smic1700": {
+   "revenu_disponible": 22871.77734375,
+   "salaire_net": 10199.9990234375,
+   "ppa": 4947.1328125,
+   "aide_logement": 4918.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "smic_net_gain": 128.43505859375,
+  "apl10": 42.725,
+  "csg": {
+   "revenu_disponible": 22476.578125,
+   "salaire_net": 9602.373046875,
+   "ppa": 4951.58203125,
+   "aide_logement": 5116.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "csg_net_gain": 77.46808587037498
+ },
+ "c3": {
+  "label": "Couple, deux enfants, Smic et 1,5 Smic, locataire",
+  "base": {
+   "revenu_disponible": 46714.1640625,
+   "salaire_net": 43294.13671875,
+   "ppa": 1604.7216796875,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 1832.4901123046875
+  },
+  "smic1700": {
+   "revenu_disponible": 49014.40625,
+   "salaire_net": 46376.4609375,
+   "ppa": 818.712890625,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 1832.4901123046875
+  },
+  "smic_net_gain": 256.8603515625,
+  "apl10": 0.0,
+  "csg": {
+   "revenu_disponible": 48871.46875,
+   "salaire_net": 46386.421875,
+   "ppa": 665.0454711914062,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": 0.0,
+   "rsa": 0.0,
+   "af": 1832.4901123046875
+  },
+  "csg_net_gain": 253.91675047439634
+ },
+ "c4": {
+  "label": "Jeune de 27 ans seul, 3 200 € brut, locataire",
+  "base": {
+   "revenu_disponible": 28619.341796875,
+   "salaire_net": 30397.341796875,
+   "ppa": 0.0,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": -1778.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "apl10": 0.0,
+  "csg": {
+   "revenu_disponible": 28993.0703125,
+   "salaire_net": 30837.0703125,
+   "ppa": 0.0,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": -1844.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "csg_net_gain": 36.11080333912144,
+  "rn30": 148.16666666666666
+ },
+ "c5": {
+  "label": "Couple de cadres, 6 000 € brut chacun, 30 000 € de dividendes, propriétaires",
+  "base": {
+   "revenu_disponible": 116750.3046875,
+   "salaire_net": 114364.3046875,
+   "ppa": 0.0,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": -22034.0,
+   "rsa": 0.0,
+   "af": 0.0
+  },
+  "flat": {
+   "revenu_disponible": 112010.3046875,
+   "salaire_net": 114364.3046875,
+   "ppa": 0.0,
+   "aide_logement": 0.0,
+   "impot_revenu_restant_a_payer": -27194.0,
+   "rsa": 0.0,
+   "af": 0.0
+  }
+ }
+}

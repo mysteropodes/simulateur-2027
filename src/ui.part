@@ -1,0 +1,451 @@
+
+const CANDS0=[
+ {id:"statu",name:"Statu quo",color:"--c0",ageShift:0,rtt:0,housing:0,spServ:0,taxMd:0,zan:0,defense:0,A:0,c:1,parl:1,adh:1,legal:1,supply:0,longRun:0,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:0,topTax:0,botGain:0,climInv:0.2,healthSpend:0,aiCushion:0.2,aiAdopt:1,measures:[],why:"",why2:"",sources:[]},
+ {id:"melenchon",name:"Mélenchon (LFI)",color:"--c1",ageShift:-4,rtt:1,housing:70,spServ:1.0,taxMd:106,zan:0,defense:-0.2,housingInv:0.4,A:0.74,c:0.6,parl:0.30,adh:0.65,legal:0.6,supply:-0.05,longRun:0.10,eu:0.7,bce:0.18,bceOk:0.2,inflImp:0.3,uStruct:0,topTax:2.1,botGain:1.0,climInv:1.0,healthSpend:0.3,aiCushion:0.5,aiAdopt:0.9,
+  measures:["+106,4 Md€ de recettes : ISF climatique 10, fin de la flat tax 9, taxe Zucman 15, héritages 20, niches fiscales 22, GAFAM, taxe sur les transactions.","+81,7 Md€ de dépenses : point d'indice 17, APL +10 % 8, budgets ministériels 7, retraite à 62 ans (le programme vise 60 ans avec 40 annuités), Smic à 1 700 € net.","Solde annoncé ≈ +25 Md€ par an (≈ 0,8 pt de PIB), ramené ici à 0,6 pt pour le coût supplémentaire de la retraite à 60 ans, puis à 0,74 pt avec l'économie de prime d'activité liée à la hausse du Smic (calcul OpenFisca), déficit visé autour de 5 %.","Gel de la dette détenue par la BCE (≈ 18 %) en dette perpétuelle à taux zéro.","Planification écologique, règle verte, réduction du temps de travail."],
+  why:"Crédibilité 0,6 : rendement incertain des taxes sur les très hauts patrimoines, coût de la retraite à 60 ans mal chiffré (iFRAP : 20 à 40 Md€). Juridique 0,6 : gel BCE contraire aux traités (proba 20 %). Opinion 0,65 : taxe Zucman 86 % favorables (Ifop), gel BCE 47 % (YouGov). Redistribution : ≈ 65 Md€ pris aux 10 % les plus aisés (2,1 pts), ≈ 30 Md€ pour les plus modestes (1 pt).",
+  why2:"Climat 1,0 pt de PIB : la planification écologique est au cœur du programme. Santé +0,3 pt : réinvestissement dans l'hôpital. IA : amortisseur 0,5 (partage du travail, 32 heures, protection sociale), adoption 0,9 (encadrement plus strict).",
+  sources:[["LCP – contre-budget LFI","https://lcp.fr/actualites/contre-budget-lfi-propose-1064-milliards-d-euros-de-recettes-supplementaires-et-817"],["AFP – obstacles juridiques","https://fr.news.yahoo.com/annuler-partie-dette-france-proposition-151328169.html"]]},
+ {id:"lepen",name:"Le Pen (RN)",color:"--c2",ageShift:-2,rtt:0,housing:5,spServ:-0.1,taxMd:-30,zan:0,defense:0,defInA:1,A:3.4,c:0.3,parl:0.60,adh:0.50,legal:0.4,supply:-0.03,longRun:0,eu:0.5,bce:0,bceOk:0,inflImp:-0.2,uStruct:0,topTax:0,botGain:-0.1,climInv:0.05,healthSpend:-0.05,aiCushion:0.2,aiAdopt:0.9,
+  measures:["140 Md€ d'économies nettes en 2032 par rapport à 2026, dont la contribution à l'UE plafonnée à 5 Md€ (≈ 29 aujourd'hui).","30 Md€ de baisses d'impôts nettes ; suppression de plus de 120 taxes ; IFI transformé en impôt sur la fortune financière.","Solde net ≈ 110 Md€ (≈ 3,6 pts de PIB) ; déficit sous 3 % en 2030 annoncé.","Fin des subventions aux énergies renouvelables et moratoire sur les nouveaux projets.","Allocation sociale unique, aide au développement réduite."],
+  why:"Crédibilité 0,3 : l'Institut de l'Entreprise juge environ 80 % des économies non documentées ou juridiquement fragiles (≈ 7,5 Md€ crédibles en 2031, une lecture sévère). Juridique 0,4 : plafonner seul la contribution à l'UE viole les traités. Parlement 0,6 : candidate en tête. Opinion 0,5 : pas de sondage sur les mesures budgétaires. Redistribution : restrictions de prestations pour une partie des ménages modestes (−0,1 pt).",
+  why2:"Climat 0,05 pt : fin des aides aux renouvelables, priorité au nucléaire existant, peu d'adaptation chiffrée. Santé −0,05 pt : restrictions de l'aide médicale d'État. IA : amortisseur 0,2 (niveau actuel), adoption 0,9 (protection de l'emploi national).",
+  sources:[["Planète Grandes Écoles – contre-budget RN","https://www.planetegrandesecoles.com/budget-marine-le-pen-2027-mesures-contre-budget-rn"],["ÉlyséeScope – robots et emploi","https://www.elyseescope.com/le-radar/eric-zemmour-robots-et-immigration"]]},
+ {id:"philippe",name:"Philippe (Horizons)",color:"--c3",ageShift:1,rtt:0,housing:0,spServ:-0.4,taxMd:-3,zan:0,defense:0.6,defInA:1,A:3.0,c:0.6,parl:0.40,adh:0.40,legal:0.8,supply:0.10,longRun:0.05,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:-0.2,topTax:-0.1,botGain:-0.6,climInv:0.3,healthSpend:-0.2,aiCushion:0.3,aiAdopt:1.15,
+  measures:["Déficit ramené de plus de 5 % à 2 % du PIB en fin de mandat (≈ 3 pts d'effort), à 50 % sur les dépenses sociales.","Retraite à 65 ans et 45 ans de cotisation en moins de dix ans ; capitalisation collective.","Un départ en retraite de fonctionnaire sur trois non remplacé (plus de 250 000 postes).","50 Md€ d'impôts de production en moins, compensés par 50 Md€ d'aides supprimées ; heures supplémentaires exonérées.","Stabilisation des dépenses de santé, priorité à la prévention et à l'innovation."],
+  why:"Crédibilité 0,6 : mesures identifiées mais total non chiffré publiquement. Opinion 0,4 : 67 % rejettent la retraite à 65 ans, environ la moitié jugent les effectifs publics excessifs. Juridique 0,8 : surtout des lois ordinaires. Redistribution : la moitié de l'effort porte sur les dépenses sociales (−0,6 pt pour les plus modestes). Travail : plus d'actifs (+0,1 pt de croissance).",
+  why2:"Climat 0,3 pt : nucléaire et industrie, peu d'investissement d'adaptation chiffré. Santé −0,2 pt : stabilisation des dépenses alors que la population vieillit. IA : amortisseur 0,3 (formation), adoption 1,15 (soutien massif aux start-up et à l'innovation).",
+  sources:[["Site de campagne – priorités","https://www.edouardphilippe.fr/priorites/pour-une-france-plus-prospere"],["Public Sénat – sondage retraite à 65 ans","https://www.publicsenat.fr/actualites/politique/sondage-67-des-francais-rejettent-le-report-a-65-ans-de-l-age-legal-de-depart-a-la"]]},
+ {id:"glucksmann",name:"Glucksmann (PS-PP)",color:"--c4",ageShift:-2,rtt:0,housing:0,spServ:0.5,taxMd:20,zan:0,defense:0,A:-0.23,c:0.6,parl:0.35,adh:0.70,legal:0.7,supply:0.03,longRun:0.08,eu:0,bce:0,bceOk:0,inflImp:0.1,uStruct:0,topTax:0.8,botGain:0.5,climInv:0.8,healthSpend:0.2,aiCushion:0.4,aiAdopt:1.0,
+  measures:["Programme pas encore chiffré : valeurs tirées du chiffrage du projet du PS (déficit ≈ 5,7 % en 2030, dette ≈ 126 %).","Taxation des méga-héritages (objectif 15 Md€), tranche supérieure des successions à 50 %, révision de la flat tax.","Plan d'investissement dans la transition écologique, revalorisation des métiers essentiels, santé et éducation.","Mesures européennes : impôt minimum sur les sociétés, taxe sur les transactions, emprunt commun."],
+  why:"Crédibilité 0,6 par défaut, faute de chiffrage propre. Opinion 0,7 : la taxation des très hauts patrimoines est très majoritaire dans les sondages. Juridique 0,7 : une partie dépend d'accords européens. Redistribution : ≈ 25 Md€ pris aux plus aisés (0,8 pt), baisse de CSG et dépenses sociales pour les modestes (0,5 pt).",
+  why2:"Climat 0,8 pt : grand plan de rénovation et de renouvelables, en partie européen. Santé +0,2 pt. IA : amortisseur 0,4 (formation, régulation européenne), adoption 1,0.",
+  sources:[["francebudget.fr – projet PS","https://francebudget.fr/scenarios/ps-2027"],["La Facture 2027 – volet fiscal","https://lafacture2027.fr/programme-fiscal-raphael-glucksmann-2027"]]},
+ {id:"retailleau",name:"Retailleau (LR)",color:"--c5",ageShift:0.5,rtt:0,housing:30,spServ:-0.5,taxMd:-56,zan:1,defense:0,defInA:1,A:4.6,c:0.5,parl:0.35,adh:0.40,legal:0.5,supply:0.10,longRun:0.05,eu:0.15,bce:0,bceOk:0,inflImp:0,uStruct:-0.3,topTax:-0.5,botGain:-1.3,climInv:0.2,healthSpend:-0.3,aiCushion:0.15,aiAdopt:1.05,
+  measures:["197 Md€ d'économies sur le mandat : État 96 (400 000 départs de fonctionnaires non remplacés), social 91 (retraites 42, assurance chômage 30, arrêts maladie 4), collectivités 10, immigration 10.","56 Md€ de baisses d'impôts (entreprises ≈ 30, ménages ≈ 21).","Solde net ≈ 141 Md€ (≈ 4,6 pts de PIB) ; déficit à 2,2 % en fin de mandat annoncé.","Règle d'or dans la Constitution par référendum."],
+  why:"Crédibilité 0,5 : plan le plus ambitieux, une partie dépend d'un référendum constitutionnel. Opinion 0,4 : coupes sociales et non-remplacements peu populaires. Parlement 0,35 : candidat autour de 7,5 % au premier tour. Redistribution : environ la moitié des 91 Md€ d'économies sociales touche les plus modestes (−1,3 pt) ; baisses d'impôts des entreprises (−0,5 pt).",
+  why2:"Climat 0,2 pt : pas de plan d'adaptation chiffré. Santé −0,3 pt : économies sur les arrêts maladie et la protection sociale. IA : amortisseur 0,15 (assurance chômage réduite), adoption 1,05.",
+  sources:[["Public Sénat – plan Retailleau","https://www.publicsenat.fr/actualites/economie/presidentielle-2027-bruno-retailleau-sengage-sur-un-plan-deconomies-de-pres-de-200-milliards-deuros-sil-est-elu"]]}
+];
+
+// --- Paramètres v5 : climat (CO2), retraites, pouvoir d'achat par catégorie, grille qualitative, recoupement France Budget
+const EXT={
+ statu:{co2Rate:1.5,pensBal:0,retLiv:0,pa:{mod:0,moy:0,ais:0,top:0,ret:0,jeu:0},why3:"",fb:null,grid:null},
+ melenchon:{co2Rate:5.5,pensBal:-0.9,retLiv:3,pa:{mod:6,moy:1.5,ais:-1.5,top:-9,ret:2.5,jeu:7},
+  why3:"Émissions −5,5 %/an si appliqué (objectif −65 % en 2030, irréaliste en l'état ; 200 Md€ d'investissements, 700 000 rénovations par an). Retraites : 60 ans avec 40 annuités et indexation (CNews, 2 octobre 2026) ; 14-20 Md€ pour la seule abrogation des 64 ans, 20 à 40 Md€ pour 60 ans selon l'iFRAP (≈ −0,9 pt de PIB avec les autres mesures).",
+  fb:{def:-6.3,debt:127,unemp:6.3,pa:108.1,gini:0.271},
+  grid:{
+   egal:["renforce","Récépissé de contrôle d'identité contre le contrôle au faciès ; régularisation des sans-papiers.","Ses adversaires jugent la régularisation incitative pour l'immigration irrégulière."],
+   lib:["renforce","Interdiction des LBD, des grenades de désencerclement et de la nasse ; interdiction de la reconnaissance faciale ; fin de l'état d'urgence permanent ; IGPN remplacée par une autorité indépendante rattachée au Défenseur des droits.","Les syndicats de police estiment que ces mesures désarmeraient les forces de l'ordre face aux violences."],
+   cp:["mixte","Constituante pour une VIe République soumise à référendum ; police judiciaire rattachée à la justice. Mais désobéissance assumée aux traités européens et gel de la dette BCE, contraires au droit de l'UE selon les juristes cités par l'AFP ; mouvement très vertical, et déclarations hostiles aux médias par le passé.","Ses soutiens répondent que tout passerait par le vote et que la constituante élargit la démocratie."]},
+  gsrc:[["Programme sécurité (Votons 2027)","https://votons-2027.fr/candidats/melenchon/programme/securite"],["Programme climat (Votons 2027)","https://votons-2027.fr/candidats/melenchon/programme/climat"]]},
+ lepen:{co2Rate:0.8,pensBal:-0.4,retLiv:1.5,pa:{mod:0.5,moy:1.5,ais:1,top:0.5,ret:1,jeu:1.5},
+  why3:"Émissions −0,8 %/an : fin des aides aux renouvelables et moratoire sur les nouveaux projets, baisse des taxes sur les carburants. Retraites : abrogation des 64 ans, départ entre 60 et 62 ans selon l'âge d'entrée au travail (meeting d'Orléans, 25 octobre 2026), environ 10 Md€ (≈ −0,4 pt) ; effort global ramené de 3,6 à 3,4 pts.",
+  fb:{def:-6.5,debt:130,unemp:7.0,pa:105.0,gini:0.288},
+  grid:{
+   egal:["restreint","Priorité nationale inscrite dans la Constitution pour l'emploi, le logement social et les prestations ; fin du droit du sol et du regroupement familial ; possibilité d'exclure les binationaux de certains emplois publics. La priorité nationale exigerait une révision de la Constitution, le principe d'égalité s'y opposant : en avril 2024, le Conseil constitutionnel a jugé contraire à la Constitution une proposition de LR qui réservait certaines prestations aux étrangers résidant depuis cinq ans. La CNCDH qualifie la préférence nationale de notion « discriminante », contraire aux valeurs de la République.","Le RN parle de « priorité » et non de discrimination, et estime que la nation peut privilégier ses citoyens."],
+   lib:["restreint","Proposition de couper les subventions de la CGT si elle prend des « positions politiques politiciennes » (S. Chenu, 26 octobre 2026) ; privatisation de l'audiovisuel public au programme de 2024.","Le RN répond qu'il s'agit de neutralité syndicale et de bonne gestion de l'argent public."],
+   cp:["restreint","Révision de la Constitution par référendum de l'article 11 pour contourner le Sénat ; fin de la primauté du droit européen. Plusieurs constitutionnalistes y voient une violation de la Constitution ; Bardella prévient que le Conseil constitutionnel « ne pourra pas empêcher » la consultation.","Le RN invoque le précédent de 1962 et la souveraineté du peuple."]},
+  gsrc:[["AFP – révision par référendum","https://www.lagazettefrance.fr/article/en-revisant-la-constitution-par-referendum-le-rn-au-pouvoir-ouvrirait-une-crise-majeure"],["Les Surligneurs – analyse juridique","https://lessurligneurs.eu/immigration-les-promesses-et-les-non-dits-du-programme-du-rassemblement-national/"],["Binationaux (Le Monde via TSA)","https://www.tsa-algerie.com/france-le-rn-veut-interdire-certains-emplois-aux-binationaux"],["franceinfo – CGT","https://www.franceinfo.fr/politique/front-national/presidentielle-si-le-rassemblement-national-accede-au-pouvoir-la-cgt-n-aura-plus-de-subventions-assure-sebastien-chenu_8253898.html"]]},
+ philippe:{co2Rate:2.5,pensBal:0.9,retLiv:-0.5,pa:{mod:-2,moy:-0.3,ais:0.5,top:1,ret:-1.5,jeu:-0.5},
+  why3:"Émissions −2,5 %/an : nucléaire, électrification, prix du carbone aux frontières ; peu de mesures sur les transports et l'agriculture. Retraites : 65 ans et 45 annuités, gain annoncé de 30 Md€ par an par son équipe (≈ +0,9 pt), chiffre non vérifié de façon indépendante.",
+  fb:{def:-5.4,debt:127,unemp:7.5,pa:102.4,gini:0.292},
+  grid:{
+   egal:["restreint","À Mayotte : suspension de l'enregistrement des demandes d'asile et de toutes les voies d'immigration pendant le quinquennat, suspension totale du droit du sol, centre de retour en Afrique de l'Est. Le droit d'asile a valeur constitutionnelle et relève de la convention de Genève.","Il invoque la saturation exceptionnelle de Mayotte et une mesure limitée à ce territoire."],
+   lib:["neutre","Pas de mesure nouvelle majeure documentée sur le maintien de l'ordre ou la surveillance.","Programme partiel sur ces sujets."],
+   cp:["neutre","Règle d'or budgétaire inscrite dans la Constitution par référendum, selon la procédure de révision prévue.","Ses critiques y voient une contrainte forte sur les choix budgétaires futurs."]},
+  gsrc:[["LCP – Philippe et Mayotte","https://lcp.fr/actualites/mayotte-pour-edouard-philippe-l-urgence-est-de-fermer-les-vannes-de-l-immigration-440519"],["Programme climat (Votons 2027)","https://votons-2027.fr/candidats/philippe/programme/climat"]]},
+ glucksmann:{co2Rate:4.5,pensBal:-0.4,retLiv:1,pa:{mod:2.5,moy:1,ais:-0.3,top:-4,ret:0.5,jeu:2},
+  why3:"Émissions −4,5 %/an : sortie du gaz et du pétrole lancée dans les cent premiers jours, renouvelables et nouveau nucléaire, rail, rénovation (plan non chiffré). Retraites : abrogation de la réforme de 2023 votée en 2024 (≈ −0,4 pt).",
+  fb:{def:-5.7,debt:126,unemp:7.0,pa:106.5,gini:0.277},
+  grid:{
+   egal:["renforce","Positions centrées sur les droits humains ; pas de mesure de différenciation selon la nationalité documentée.","Programme partiel : positions sur l'immigration encore peu détaillées."],
+   lib:["neutre","Police de proximité, prévention de la délinquance, justice restaurative.","Mesures encore peu détaillées."],
+   cp:["renforce","Attachement à l'État de droit et au droit européen, mesures fiscales européennes négociées.","Ses critiques à gauche jugent sa ligne européenne trop contraignante pour les choix nationaux."]},
+  gsrc:[["L'Info durable – ambitions écologiques","https://www.linfodurable.fr/politique/apres-la-primaire-quelles-ambitions-ecologiques-pour-raphael-glucksmann-59331"],["ÉlyséeScope – sécurité","https://www.elyseescope.com/candidat/raphael-glucksmann/securite"]]},
+ retailleau:{co2Rate:1.5,pensBal:0.5,retLiv:-2,pa:{mod:-4,moy:0.5,ais:1,top:2,ret:-2.5,jeu:-2},
+  why3:"Émissions −1,5 %/an (tendance actuelle) : nucléaire renforcé (huit EPR2 de plus), mais fin des appels d'offres éolien en mer et photovoltaïque, suppression du ZAN, réautorisation de néonicotinoïdes. Retraites : 42 Md€ d'économies sur le mandat (≈ +0,5 pt).",
+  fb:{def:-6.8,debt:130,unemp:7.3,pa:105.2,gini:0.291,note:"économies non encodées"},
+  grid:{
+   egal:["restreint","Suppression du droit du sol par référendum ; durcissement de l'immigration, économies sur l'aide médicale d'État.","Il invoque la maîtrise des flux migratoires et la volonté populaire."],
+   lib:["neutre","Mesures de fermeté pénale ; pas de mesure majeure documentée sur le droit de manifester ou la surveillance.","Programme partiel sur ces sujets."],
+   cp:["restreint","Révision constitutionnelle pour permettre des référendums sur l'immigration et le pénal ; primauté du droit national sur les traités ; possibilité pour le président de soumettre au référendum une loi censurée par le Conseil constitutionnel, ce qui laisserait selon A.-C. Bezzina les droits constitutionnels sans protection.","Il veut redonner la parole au peuple face aux juges et à l'Europe."]},
+  gsrc:[["Public Sénat – faisabilité","https://www.publicsenat.fr/actualites/politique/referendum-sur-limmigration-primaute-du-droit-national-le-projet-de-bruno-retailleau-est-il-faisable"],["Club des juristes – droit du sol","https://www.leclubdesjuristes.com/en-bref/presidentielle-2027-bruno-retailleau-veut-supprimer-le-droit-du-sol-par-referendum-17273/"],["Programme climat (Votons 2027)","https://votons-2027.fr/candidats/retailleau/programme/climat"]]}
+};
+const RPTS={restreint:6,mixte:3,neutre:0,renforce:1};
+for(const c of CANDS0){ Object.assign(c,EXT[c.id]); c.rightsPts=c.grid?["egal","lib","cp"].reduce((s,k)=>s+RPTS[c.grid[k][0]],0):0; c.paMeasures=PA_MEASURES[c.id]; const ms=microsim(c.paMeasures); c.pa=ms.pa; c.paDec=ms.deciles; Object.assign(c,topFlows(c.paMeasures)); }
+
+let BASE=structuredClone(BASE0), CANDS=structuredClone(CANDS0), mode="credible", metric="debt";
+const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme, mais seule la part jugée crédible du chiffrage se réalise.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario."};
+const SHOCKHELP={none:"Pas de choc ponctuel.",recession:"Croissance −3 points, rebond partiel ensuite (type 2009).",financial:"Croissance −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012).",inflation:"Inflation +3 puis +1,5 point, croissance −1 point (type 2022-2023).",climat:"Canicule ou inondations majeures : croissance −1,5 point, déficit +1 point, environ 10 000 décès (type 2003).",pandemie:"Croissance −7 points puis rebond, déficit +5 puis +2 points, environ 75 000 décès sur deux ans (type 2020)."};
+const CLIMHELP={moderee:"Dommages limités : −0,03 point de croissance par an, décès liés à la chaleur +2 % par an.",forte:"Dommages notables : −0,07 point par an, décès liés à la chaleur +4 % par an.",tresforte:"Dommages lourds : −0,12 point par an, décès liés à la chaleur +6 % par an."};
+const AIHELP={lente:"Gains de productivité +0,1 point par an, pertes d'emplois au pic +0,5 point de chômage.",moyenne:"Gains +0,3 point par an, pertes d'emplois au pic +1,2 point de chômage.",rapide:"Gains +0,6 point par an, pertes d'emplois au pic +2,5 points de chômage."};
+const METRICS={debt:["Dette","% du PIB",1,"%"],def:["Déficit","% du PIB",1,"%"],unemp:["Chômage","% des actifs",1,"%"],pov:["Pauvreté","% de la population",1,"%"],gini:["Inégalités","indice de Gini",3,""],health:["Santé","mois d'espérance de vie",1," mois"],heat:["Décès en excès","décès par an",0,""],tension:["Tension sociale","indice 0-100",0,""],burden:["Charge d'intérêts","% des recettes publiques",1,"%"],co2:["Gaz à effet de serre","MtCO₂e par an",0,""],pm:["Décès dus à la pollution de l'air","décès par an",0,""],pens:["Solde des retraites","% du PIB",2,"%"],retliv:["Niveau de vie des retraités","% de celui de l'ensemble",1,"%"],nw:["Patrimoine net des administrations publiques","% du PIB",1,"%"],spread:["Écart de taux avec l'Allemagne","points de pourcentage, 10 ans",2,""],defense:["Dépense de défense","% du PIB (définition OTAN)",2,"%"],growth:["Croissance du PIB","% par an, en volume",1,"%"],infl:["Inflation","% par an",1,"%"],youth:["Chômage des 15-24 ans","% des actifs de 15-24 ans",1,"%"],po:["Prélèvements obligatoires","% du PIB",1,"%"],dep:["Dépense publique","% du PIB",1,"%"],energy:["Facture énergétique","Md€ par an",0,""],artif:["Terres artificialisées","hectares par an",0,""],cons:["Logements mis en chantier","milliers par an",0,""],sp:["Services publics","% du PIB",1,"%"],ratioEl:["Écart riches-modestes, services publics compris","revenu des 10 % les plus aisés / 10 % les plus modestes",2,""],emp55:["Emploi des 55-64 ans","taux d'emploi, %",1,"%"],w10:["Patrimoine des 10 % les plus riches","% du patrimoine brut total",1,"%"]};
+
+const YEARS=Array.from({length:END-START+1},(_,k)=>String(START+k));
+const yi=y=>y-START;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const fmt=(x,d=1)=>{const k=Math.pow(10,d);if(Math.round(x*k)===0)x=0;return x.toLocaleString("fr-FR",{minimumFractionDigits:d,maximumFractionDigits:d});};
+let chart;
+function rFB(p){return simulate(p,"credible",Object.assign({},BASE,{premPol:0,lpm:0,premPolDecay:0.8}));}
+const GOV={def:{2026:5.4,2027:5.0,2028:4.0,2029:2.9},debt:{2026:119.2,2027:121.7}};
+function fillOfficial(res){
+  const tb=document.querySelector("#tblofficial tbody"); if(!tb) return; const r=res[0].r;
+  const gdp27=BASE.gdpMd*(1+r.growth[yi(2026)]/100)*(1+r.infl[yi(2026)]/100)*(1+r.growth[yi(2027)]/100)*(1+r.infl[yi(2027)]/100);
+  const rows=[["Croissance 2026","0,5 % (gouvernement, jugé plausible par le HCFP)",fmt(r.growth[yi(2026)])+" %"],
+    ["Croissance 2027","0,8 % (consensus des prévisionnistes) ; 1,0 % (gouvernement)",fmt(r.growth[yi(2027)])+" %"],
+    ["Déficit 2026","5,4 % (gouvernement)",fmt(r.def[yi(2026)])+" %"],
+    ["Déficit 2027 sans nouvelles économies","environ 6,5 % (Premier ministre)",fmt(r.def[yi(2027)])+" %"],
+    ["Charge d'intérêts 2027","91 Md€ (PLF 2027)",fmt(r.burden[yi(2027)]*BASE.rev/100*gdp27/100,0)+" Md€"],
+    ["Dette 2027","environ 122 % avec les économies prévues (HCFP)",fmt(r.debt[yi(2027)])+" % sans économies"]];
+  tb.innerHTML=rows.map(x=>`<tr><td class="txt">${x[0]}</td><td class="sep txt">${x[1]}</td><td class="sep">${x[2]}</td></tr>`).join("");
+}
+const fogZone={id:"fogZone",beforeDatasetsDraw(c){const a=c.chartArea,g=c.ctx,x=c.scales.x.getPixelForValue(yi(2032));if(!(x>a.left&&x<a.right))return;
+  g.save();g.fillStyle=css("--line");g.globalAlpha=0.28;g.fillRect(x,a.top,a.right-x,a.bottom-a.top);g.globalAlpha=1;g.fillStyle=css("--muted");g.font="11px 'IBM Plex Mono', monospace";g.textAlign="left";g.fillText("après 2032 : tendances, pas prévisions",x+6,a.bottom-8);g.restore();}};
+const shockLine={id:"shockLine",afterDatasetsDraw(c){
+  if(BASE.shock==="none")return; const x=c.scales.x.getPixelForValue(yi(BASE.shockYear)), a=c.chartArea, g=c.ctx, right=x>a.right-80;
+  g.save();g.strokeStyle=css("--shock");g.setLineDash([4,4]);g.beginPath();g.moveTo(x,a.top);g.lineTo(x,a.bottom);g.stroke();
+  g.fillStyle=css("--shock");g.font="12px 'IBM Plex Mono', monospace";g.textAlign=right?"right":"left";g.fillText("choc",x+(right?-6:6),a.top+14);g.restore();}};
+function render(skipMC){
+  for(const c of CANDS){const ms=microsim(c.paMeasures,mode==="annonce"?0:BASE.leak); c.pa=ms.pa; c.paDec=ms.deciles;}
+  const res=CANDS.map(p=>({p,r:simulate(p,mode,BASE)}));
+  LASTRES=res;
+  const [mlabel,unit,dec,suf]=METRICS[metric];
+  const ink=css("--muted"), line=css("--line");
+  const ds=res.map(({p,r})=>{const evY=new Set(r.ev.filter(e=>EVMET[e.k]&&EVMET[e.k].includes(metric)).map(e=>e.t));return {label:p.name,data:r[metric].map(v=>v==null?null:+v.toFixed(dec+1)),borderColor:css(p.color),backgroundColor:css(p.color),borderWidth:p.id==="statu"?2:2.5,borderDash:p.id==="statu"?[6,4]:[],pointRadius:YEARS.map(y=>evY.has(+y)?4.5:0),pointBorderColor:css("--surface"),pointBorderWidth:1.5,pointHoverRadius:4,tension:.25,spanGaps:true};});
+  addBand(ds);
+  if(GOV[metric]){const g=GOV[metric];ds.push({label:"Trajectoire du gouvernement",isGov:true,data:YEARS.map(y=>g[+y]??null),borderColor:css("--ink"),backgroundColor:css("--ink"),borderWidth:1.5,borderDash:[2,3],pointRadius:3,pointStyle:"rectRot",spanGaps:true,tension:0});}
+  if(!chart){
+    Chart.defaults.font.family=getComputedStyle(document.body).fontFamily;chart=new Chart(document.getElementById("chart"),{type:"line",data:{labels:YEARS,datasets:ds},plugins:[shockLine,fogZone],
+      options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},interaction:{mode:"index",intersect:false},
+        plugins:{legend:{position:"bottom",labels:{boxWidth:12,filter:(l,d)=>!d.datasets[l.datasetIndex].isBand}},
+          tooltip:{filter:it=>!it.dataset.isBand,callbacks:{label:c=>`${c.dataset.label} : ${fmt(c.parsed.y,METRICS[metric][2])}${METRICS[metric][3]}`,footer:items=>tipFooter(items)}}},
+        scales:{x:{ticks:{maxTicksLimit:12}},y:{title:{display:true}}}}});
+  }
+  chart.data.datasets=ds;
+  chart.options.plugins.legend.labels.color=ink;
+  for(const a of ["x","y"]){chart.options.scales[a].ticks.color=ink;chart.options.scales[a].grid={color:line};}
+  chart.options.scales.y.ticks.callback=(v,i,ticks)=>{const st=ticks.length>1?Math.abs(ticks[1].value-ticks[0].value):1;const d=st>=1?0:st>=0.1?1:st>=0.01?2:3;return fmt(v,d)+(suf==="%"?" %":"");};
+  chart.options.scales.y.title.text=unit; chart.options.scales.y.title.color=ink;
+  chart.update();
+  explain(res);
+  if(skipMC!==true) scheduleMC();
+  fillSenior(res);
+  fillHousing(res);
+  fillEco(res);
+  fillIntl(res);
+  buildDeciles();
+  const sq=res[0].r;
+  const peak=(arr)=>Math.max(...arr.slice(yi(2027),yi(2036)+1));
+  const sum=(arr)=>arr.slice(yi(2027)).reduce((a,b)=>a+b,0);
+  const cls=(v,ref,lowerBetter=true,eps=0.05)=>{const dl=v-ref; if(Math.abs(dl)<eps)return ""; return (dl<0)===lowerBetter?"better":"worse";};
+  const nameCell=p=>`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>`;
+  const signed=(v,d=1)=>(v>0?"+":v<0?"−":"")+fmt(Math.abs(v),d);
+  const fill=(id,rowFn)=>{const tb=document.querySelector(`#${id} tbody`);tb.innerHTML="";for(const x of res){const tr=document.createElement("tr");tr.innerHTML=rowFn(x);tb.appendChild(tr);}};
+  fill("tbl",({p,r})=>{const q=p.id==="statu", c=(v,ref,lb,eps)=>q?"":cls(v,ref,lb,eps);
+    return nameCell(p)+`<td>${q?"–":fmt(p.c,2)}</td><td>${q?"–":fmt(r.f,2)}</td>
+      <td class="sep ${c(r.def[yi(2031)],sq.def[yi(2031)])}">${fmt(r.def[yi(2031)])} %</td>
+      <td class="${c(r.debt[yi(2036)],sq.debt[yi(2036)],true,0.5)}">${fmt(r.debt[yi(2036)])} %</td>
+      <td class="${c(r.debt[yi(2046)],sq.debt[yi(2046)],true,0.5)}">${fmt(r.debt[yi(2046)])} %</td>
+      <td class="${c(r.burden[yi(2036)],sq.burden[yi(2036)],true,0.2)}">${fmt(r.burden[yi(2036)])} %</td>
+      <td class="${c(r.pens[yi(2032)],sq.pens[yi(2032)],false,0.05)}">${signed(r.pens[yi(2032)],2)} %</td>
+      <td class="sep">${r.crisis!==null?`<span class="chip bad">crise ${r.crisis}</span>`:r.tpi!==null?`<span class="chip mid">filet BCE ${r.tpi}</span>`:`<span class="chip ok">accès normal</span>`}</td>`;});
+  fill("tbl2",({p,r})=>{const q=p.id==="statu", c=(v,ref,lb,eps)=>q?"":cls(v,ref,lb,eps);
+    const pmD=sum(r.pm)-sum(sq.pm);
+    return nameCell(p)+`<td class="${c(r.unemp[yi(2030)],sq.unemp[yi(2030)])}">${fmt(r.unemp[yi(2030)])} %</td>
+      <td class="${c(r.pov[yi(2032)],sq.pov[yi(2032)])}">${fmt(r.pov[yi(2032)])} %</td>
+      <td class="${c(r.gini[yi(2032)],sq.gini[yi(2032)],true,0.0005)}">${fmt(r.gini[yi(2032)],3)}</td>
+      <td class="${c(r.retliv[yi(2032)],sq.retliv[yi(2032)],false,0.1)}">${fmt(r.retliv[yi(2032)])} %</td>
+      <td class="sep ${c(r.health[yi(2036)],sq.health[yi(2036)],false,0.1)}">${signed(r.health[yi(2036)])} mois</td>
+      <td class="${c(sum(r.heat),sum(sq.heat),true,500)}">${fmt(sum(r.heat)/1000,0)} 000</td>
+      <td class="${q?"":(Math.abs(pmD)<500?"":pmD<0?"better":"worse")}">${q?"référence":signed(pmD/1000,0)+" 000"}</td>
+      <td class="sep ${c(r.co2[yi(2032)],sq.co2[yi(2032)],true,1)}">${fmt(r.co2[yi(2032)],0)}</td>
+      <td class="${c(r.co2[yi(2046)],sq.co2[yi(2046)],true,1)}">${fmt(r.co2[yi(2046)],0)}</td>
+      <td class="sep ${c(Math.max(...r.tension),Math.max(...sq.tension),true,1)}">${fmt(Math.max(...r.tension),0)}</td>`;});
+  fill("tbl3",({p,r})=>{const q=p.id==="statu";
+    return nameCell(p)+GROUPS.map(([g],i)=>{let v=(r.pa[g][yi(2032)]/sq.pa[g][yi(2032)]-1)*100;if(Math.abs(v)<0.05)v=0;
+      return `<td class="${i===0?"sep ":""}${q||Math.abs(v)<0.05?"":v>0?"better":"worse"}">${q?"référence":signed(v)+" %"}</td>`;}).join("");});
+  const fbRes=CANDS.map(p=>({p,r:simulate(p,"credible",BASE)})).filter(x=>x.p.fb);
+  const tbf=document.querySelector("#tblfb tbody");tbf.innerHTML="";
+  for(const {p,r} of fbRes){const tr=document.createElement("tr");
+    tr.innerHTML=nameCell(p)+`<td class="sep">${fmt(-p.fb.def)} %</td><td>${fmt(r.def[yi(2030)])} %</td>
+      <td class="sep">${fmt(p.fb.debt,0)} %</td><td>${fmt(r.debt[yi(2030)],0)} %</td>
+      <td class="sep">${fmt(p.fb.unemp)} %</td><td>${fmt(r.unemp[yi(2030)])} %</td>
+      <td class="sep">${fmt(p.fb.gini,3)}</td><td>${fmt(r.gini[yi(2030)],3)}</td>
+      <td class="sep">${fmt(p.fb.pa)}</td><td class="sep">${fmt(rFB(p).def[yi(2030)])} %</td><td>${fmt(rFB(p).debt[yi(2030)],0)} %</td><td class="src">${p.fb.note||""}</td>`;tbf.appendChild(tr);}
+  fillOfficial(res);
+  document.getElementById("modehelp").textContent=MODEHELP[mode];
+  document.getElementById("shockhelp").textContent=SHOCKHELP[BASE.shock];
+  document.getElementById("climhelp").textContent=CLIMHELP[BASE.clim];
+  document.getElementById("aihelp").textContent=AIHELP[BASE.ai];
+  document.getElementById("shockYear").disabled=BASE.shock==="none";
+}
+const GL=[["realg",v=>fmt(v)+" %"],["infl",v=>fmt(v)+" %"],["mktReal",v=>fmt(v)+" %"],["mult",v=>fmt(v)],["prem",v=>"+"+fmt(v,2)+" pt"],["redistEff",v=>fmt(v,2)],["redisDemand",v=>fmt(v,2)],["invMult",v=>fmt(v,1)],["climNeed",v=>fmt(v)+" pt"],["kDebt",v=>"+"+fmt(v,2)+" pt"],["crisisPrem",v=>fmt(v)+" pts"],["premPol",v=>"+"+fmt(v)+" pt"],["premPolDecay",v=>"−"+fmt((1-v)*100,0)+" %/an"],["leak",v=>fmt(v*100,0)+" %"],["seniorKeep",v=>fmt(v*100,0)+" %"],["tensionRights",v=>fmt(v,1)],["forcedMax",v=>fmt(v,0)+" pts"],["spRet",v=>fmt(v,2)],["invRet",v=>fmt(v,2)],["fiscalReact",v=>fmt(v,2)],["aiCost",v=>fmt(v,1)+" pt"],["rtt",v=>fmt(v*100,0)+" %"],["shockYear",v=>String(v)]];
+function syncSeg(attr,val){document.querySelectorAll(`[data-${attr}]`).forEach(b=>b.setAttribute("aria-pressed",b.dataset[attr]===val));}
+function bindGlobals(){
+  for(const [k,f] of GL){const el=document.getElementById(k),o=document.getElementById("o-"+k);
+    el.value=BASE[k];o.textContent=f(+el.value);el.oninput=()=>{BASE[k]=+el.value;o.textContent=f(+el.value);render()};}
+  syncSeg("shock",BASE.shock);syncSeg("clim",BASE.clim);syncSeg("ai",BASE.ai);
+}
+const PS=[["A","Effort annoncé (pt de PIB)",-1,6,0.1,v=>fmt(v)],["c","Crédibilité du chiffrage",0,1,0.05,v=>fmt(v,2)],["parl","Chances d'une majorité",0,1,0.05,v=>fmt(v,2)],["adh","Soutien de l'opinion",0,1,0.05,v=>fmt(v,2)],["legal","Solidité juridique",0,1,0.05,v=>fmt(v,2)],["eu","Prime de confrontation UE (pt)",0,2,0.1,v=>fmt(v)],["longRun","Croissance de long terme (pt/an)",-0.3,0.4,0.01,v=>fmt(v,2)],["climInv","Investissement climat (pt PIB/an)",0,2,0.05,v=>fmt(v,2)],["healthSpend","Dépenses de santé en plus (pt PIB)",-0.6,0.6,0.05,v=>fmt(v,2)],["aiCushion","Amortisseur IA (0-1)",0,1,0.05,v=>fmt(v,2)],["aiAdopt","Rythme d'adoption de l'IA",0.6,1.4,0.05,v=>fmt(v,2)],["co2Rate","Baisse des émissions (%/an)",0,8,0.1,v=>fmt(v)],["pensBal","Effet sur le solde des retraites (pt PIB)",-1.5,1.5,0.05,v=>fmt(v,2)],["retLiv","Effet sur le niveau de vie des retraités (pts)",-5,5,0.5,v=>fmt(v)],["ageShift","Changement de l'âge de départ (années)",-4,2,0.5,v=>(v>0?"+":"")+fmt(v)],["housing","Logements en plus par an (milliers)",-50,150,5,v=>(v>0?"+":"")+fmt(v,0)],["spServ","Services publics (pt de PIB)",-1.5,2,0.1,v=>(v>0?"+":"")+fmt(v)],["taxMd","Hausse nette des impôts (Md€ par an ; change la part impôts / dépenses, pas le déficit)",-60,150,1,v=>(v>0?"+":"")+fmt(v,0)],["defense","Défense au-delà de la loi de programmation (pt PIB)",-1,2,0.1,v=>(v>0?"+":"")+fmt(v)],["rightsPts","Tension liée aux droits et libertés (points)",0,25,1,v=>fmt(v,0)]];
+function buildCands(){
+  const box=document.getElementById("cands"); box.innerHTML="";
+  for(const p of CANDS){ if(p.id==="statu") continue;
+    const d=document.createElement("details"); d.className="cand";
+    d.innerHTML=`<summary><span class="sw" style="background:var(${p.color})"></span>${p.name}</summary>
+      <div class="cbody"><div style="display:grid;gap:10px;min-width:0;align-content:start"><h3>Mesures retenues</h3><ul>${p.measures.map(m=>`<li>${m}</li>`).join("")}</ul>
+      <p class="src">${p.why}</p><p class="src">${p.why2}</p><p class="src">${p.why3}</p>
+      <h3>Effet sur le revenu des ménages (Md€ par an, application complète)</h3>
+      <div class="tablewrap"><table class="mini"><thead><tr><th>Mesure</th><th>Md€</th><th>Qui est concerné</th></tr></thead><tbody>${p.paMeasures.map(([l,md,k])=>`<tr><td>${l}</td><td class="${md>0?"better":md<0?"worse":""}">${md>0?"+":md<0?"−":""}${fmt(Math.abs(md),1)}</td><td>${KEYLABEL[k]}</td></tr>`).join("")}</tbody></table></div><p class="src">Sources : ${p.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(" · ")}</p></div>
+      <div class="sliders">${PS.map(([k,l,mn,mx,st])=>`<div class="sl"><label for="${p.id}-${k}">${l} <output id="o-${p.id}-${k}"></output></label><input type="range" id="${p.id}-${k}" min="${mn}" max="${mx}" step="${st}"></div>`).join("")}</div></div>`;
+    box.appendChild(d);
+    for(const [k,,,,,f] of PS){const el=d.querySelector(`#${p.id}-${k}`),o=d.querySelector(`#o-${p.id}-${k}`);
+      el.value=p[k];o.textContent=f(p[k]);el.oninput=()=>{p[k]=+el.value;o.textContent=f(+el.value);render()};}
+  }
+}
+const mbox=document.getElementById("metrics");
+for(const [k,[l]] of Object.entries(METRICS)){const b=document.createElement("button");b.textContent=l;b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
+  b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
+const PRESETS={keynes:{spRet:0.2,invRet:0.15,rtt:0.9,mult:1.0,redisDemand:0.6,invMult:1.4,leak:0.1,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.4},
+  central:{spRet:0.1,invRet:0.1,rtt:0.5,mult:0.7,redisDemand:0.3,invMult:0.9,leak:0.25,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.7},
+  liberal:{spRet:0.03,invRet:0.05,rtt:0.1,mult:0.4,redisDemand:0.1,invMult:0.4,leak:0.5,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:2.0}};
+const PRESETHELP={keynes:"Lecture keynésienne (proche de l'OFCE ou des Économistes atterrés) : les économies freinent fortement l'activité, la redistribution vers les modestes et l'investissement public la relancent, peu de recettes s'évaporent, les marchés sont patients.",
+  central:"Hypothèses centrales : moyenne des estimations publiées.",
+  liberal:"Lecture libérale (proche de l'iFRAP, de l'Institut Montaigne ou de Rexecode) : les économies coûtent peu en activité, la redistribution relance peu, une grande part des impôts sur les plus riches s'évapore, les marchés réagissent vite à la dette."};
+let preset="central";
+document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{preset=b.dataset.preset;Object.assign(BASE,PRESETS[preset]);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];bindGlobals();render()});
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;syncSeg("mode",mode);render()});
+for(const k of ["shock","clim","ai"]) document.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{BASE[k]=b.dataset[k];syncSeg(k,BASE[k]);render()});
+document.getElementById("reset").onclick=()=>{BASE=structuredClone(BASE0);CANDS=structuredClone(CANDS0);bandCand="none";preset="central";syncSeg("preset","central");mode="credible";syncSeg("mode",mode);document.getElementById("presethelp").textContent=PRESETHELP.central;bindGlobals();buildCands();buildBandSel();render()};
+window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
+new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+const KEYLABEL={minima:"surtout les 30 % les plus modestes",chomage:"chômeurs, surtout modestes et moyens",bassal:"salariés modestes",fonction:"agents publics, classes moyennes",retraites:"retraités",capital:"surtout les 10 % les plus riches",ir:"contribuables, surtout les plus aisés",conso:"tous, selon la consommation",tete:"tous, à parts égales",entreprises:"actionnaires, surtout les plus aisés",heuressup:"salariés, surtout classes moyennes",jeunes:"18-29 ans"};
+function buildDeciles(){
+  const tb=document.querySelector("#tbldec tbody");tb.innerHTML="";
+  for(const p of CANDS){ if(p.id==="statu") continue; const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>`+p.paDec.map((v,i)=>`<td class="${i===0?"sep ":""}${Math.abs(v)<0.05?"":v>0?"better":"worse"}">${v>0?"+":v<0?"−":""}${fmt(Math.abs(v))} %</td>`).join("");
+    tb.appendChild(tr);}
+}
+const GRIDCRIT=[["egal","Égalité de traitement et discriminations"],["lib","Libertés publiques et maintien de l'ordre"],["cp","Contre-pouvoirs et État de droit"]];
+const GLAB={renforce:["renforce","ok"],neutre:["peu de changement","neutral"],mixte:["mixte","mid"],restreint:["restreint","bad"]};
+function buildGrid(){
+  const box=document.getElementById("grid");box.innerHTML="";
+  for(const p of CANDS0){ if(!p.grid) continue;
+    const art=document.createElement("article");art.className="gcard";
+    art.innerHTML=`<h3><span class="sw" style="background:var(${p.color})"></span>${p.name}</h3>`+GRIDCRIT.map(([k,l])=>{const [dir,what,def]=p.grid[k];const [lab,cl]=GLAB[dir];
+      return `<div class="grow"><div class="ghead"><span class="eyebrow">${l}</span><span class="chip ${cl}">${lab}</span></div><p>${what}</p><p class="src">L’autre point de vue : ${def}</p></div>`;}).join("")+
+      `<p class="src">Sources : ${p.gsrc.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(" · ")}</p>`;
+    box.appendChild(art);}
+}
+
+// ---- v6 : explications des inflexions, fourchettes d'incertitude, seniors et patrimoine
+let LASTRES=null, MC=null, mcTimer=null, bandCand="none";
+const ALLM=Object.keys(METRICS);
+const EVMET={rights:["tension"],react:["debt","def","burden","unemp","growth","dep","po","spread","nw","tension"],start:ALLM,shock:ALLM,crisis:ALLM,bce:["debt","def","burden"],tpi:["debt","def","burden"],rating:["debt","def","burden"],
+  retreat:["debt","def","burden","tension","pov","gini","unemp","pens","retliv","co2","pm","emp55","w10"],lr:["debt","def","burden","unemp"],age:["emp55","pens","unemp","retliv","debt","def"]};
+const MINCHG={nw:1.5,spread:0.3,defense:0.1,rating:1,growth:0.6,infl:0.6,youth:0.8,po:0.3,dep:0.5,energy:2,artif:500,cons:8,sp:0.2,ratioEl:0.05,debt:1.5,def:0.5,unemp:0.3,pov:0.3,gini:0.003,health:0.5,heat:400,tension:4,burden:0.5,co2:4,pm:400,pens:0.1,retliv:0.4,emp55:0.4,w10:0.1};
+function hexA(h,a){const n=parseInt(h.replace("#",""),16);return `rgba(${n>>16&255},${n>>8&255},${n&255},${a})`;}
+function tipFooter(items){
+  if(!LASTRES||!items.length) return "";
+  const t=+items[0].label, out=[];
+  for(const it of items){const x=LASTRES[it.datasetIndex]; if(!x) continue;
+    for(const e of x.r.ev) if(e.t===t&&EVMET[e.k].includes(metric)) out.push(`${x.p.name} : ${e.txt}`);}
+  return out.length?wrapLines(out,60):"";
+}
+function wrapLines(arr,n){const res=[];for(const s of arr){let line="";for(const w of s.split(" ")){if((line+" "+w).length>n){res.push(line);line=w;}else line=line?line+" "+w:w;}res.push(line);}return res;}
+function commonCause(t,dl,m){
+  const c=[];
+  if(t===2027) c.push("début des mandats : les mesures de chaque programme commencent à s'appliquer");
+  if(t===2031||t===2032) c.push("fin de la montée en charge des programmes (cinq ans)");
+  if((m==="unemp"||m==="pov"||m==="tension")&&t>=2027&&t<=2033&&dl>0) c.push("pertes d'emplois liées à l'IA, qui culminent vers 2032");
+  if((m==="unemp"||m==="pov"||m==="tension")&&t>=2034&&dl<0) c.push("résorption progressive des pertes d'emplois liées à l'IA");
+  if(m==="pens"&&t>2030) c.push("vieillissement : le COR prévoit un déficit des retraites croissant après 2030");
+  if(m==="heat") c.push("réchauffement : les décès liés à la chaleur augmentent chaque année");
+  if(m==="emp55"&&t===2033) c.push("fin de la montée en charge de la réforme de 2023 (hypothèse)");
+  return c;
+}
+function sg(v,d){const s=fmt(Math.abs(v),d);return (/^0(,0+)?$/.test(s)?"":v>0?"+":"−")+s;}
+function explain(res){
+  const box=document.getElementById("explain"); if(!box) return;
+  const [ml,,dec,suf]=METRICS[metric], u=suf==="%"?" pt":suf;
+  let html="";
+  for(const {p,r} of res){
+    const a=r[metric], d=[], items=[];
+    for(let k=2;k<a.length;k++) d[k]=(a[k]==null||a[k-1]==null||a[k-2]==null)?null:(a[k]-a[k-1])-(a[k-1]-a[k-2]);
+    const absd=d.filter(x=>x!=null).map(Math.abs).sort((x,y)=>x-y), med=absd[Math.floor(absd.length/2)]||0;
+    const thr=Math.max(2.5*med,MINCHG[metric]);
+    let last=-9;
+    for(let k=2;k<a.length;k++){ const t=START+k;
+      if(d[k]==null) continue;
+      if(Math.abs(d[k])<thr||k-last<=1){ if(Math.abs(d[k])>=thr) last=k; continue;}
+      last=k;
+      const dl=a[k]-a[k-1], dPrev=a[k-1]-a[k-2];
+      const evs=r.ev.filter(e=>(e.t===t||e.t===t-1)&&EVMET[e.k].includes(metric)).map(e=>e.t===t?e.txt:`Effet de l'événement de ${e.t} : ${e.txt[0].toLowerCase()+e.txt.slice(1)}`);
+      const causes=evs.length?evs:commonCause(t,dl,metric).map(s=>s[0].toUpperCase()+s.slice(1)+".");
+      let deco="";
+      if(metric==="debt") deco=` Décomposition : intérêts moins croissance ${sg(r.snow[k],1)} pt, déficit hors intérêts ${sg(r.prim[k],1)} pt.`;
+      items.push(`<li><strong>${t}</strong> : ${sg(dl,dec)}${u} sur l'année, contre ${sg(dPrev,dec)}${u} l'année précédente.${deco} ${causes.length?causes.join(" "):"Pas d'événement particulier : effet cumulé des tendances (taux, croissance, chômage)."}</li>`);
+      if(items.length>=4) break;
+    }
+    if(items.length) html+=`<div class="xp"><h3><span class="sw" style="background:var(${p.color})"></span>${p.name}</h3><ul>${items.join("")}</ul></div>`;
+  }
+  box.innerHTML=html||`<p class="help">Pas de rupture marquée pour « ${ml} » avec ces réglages : les courbes suivent des tendances régulières.</p>`;
+}
+// --- Monte-Carlo
+function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+const NMC=200;
+function scheduleMC(){clearTimeout(mcTimer);mcTimer=setTimeout(runMC,250);}
+function pick(r,opts,w){let x=r(),s=0;for(let i=0;i<opts.length;i++){s+=w[i];if(x<s)return opts[i];}return opts[opts.length-1];}
+function runMC(){
+  const R=rng(2027), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R());
+  const draws=[];
+  for(let n=0;n<NMC;n++){
+    const b=Object.assign({},BASE);
+    b.realg=Math.max(-0.5,BASE.realg+0.4*gauss()); b.mktReal=Math.max(0,BASE.mktReal+0.5*gauss()); b.infl=Math.max(0,BASE.infl+0.4*gauss());
+    b.mult=Math.max(0.2,BASE.mult+(R()-0.5)*0.6); b.kDebt=Math.max(0,BASE.kDebt*(0.5+R())); b.crisisPrem=Math.max(1.5,BASE.crisisPrem-1+2*R());
+    b.leak=Math.min(0.9,Math.max(0,BASE.leak+(R()-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,BASE.seniorKeep+(R()-0.5)*0.3));
+    b.clim=pick(R,["moderee","forte","tresforte"],[0.3,0.5,0.2]); b.ai=pick(R,["lente","moyenne","rapide"],[0.3,0.45,0.25]);
+    if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat"],[0.35,0.25,0.2,0.2]);b.shockYear=2028+Math.floor(R()*13);}
+    b.bceDraw=R();
+    draws.push({b,cj:(R()-0.5)*0.3,ej:0.5+R()});
+  }
+  const q=(arr,x)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.min(s.length-1,Math.floor(x*s.length))];};
+  MC={metric,rows:[],series:{}};
+  for(const p of CANDS){
+    const debt=[],up=[],pov=[],ser=[];let cr=0,tp=0;
+    for(const {b,cj,ej} of draws){
+      const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:cj))),eu:p.eu*ej,pa:ms.pa,paDec:ms.deciles});
+      const r=simulate(pp,mode,b);
+      debt.push(r.debt[yi(2036)]); up.push(Math.max(...r.unemp.slice(yi(2027),yi(2036)+1))); pov.push(r.pov[yi(2032)]);
+      if(r.crisis!==null) cr++; else if(r.tpi!==null) tp++;
+      ser.push(r[metric]);
+    }
+    const band=YEARS.map((_,k)=>{const col=ser.map(s=>s[k]).filter(v=>v!=null);return col.length?[q(col,0.1),q(col,0.5),q(col,0.9)]:[null,null,null];});
+    MC.series[p.id]=band;
+    MC.rows.push({p,debt:[q(debt,0.1),q(debt,0.5),q(debt,0.9)],up:[q(up,0.1),q(up,0.5),q(up,0.9)],pov:[q(pov,0.1),q(pov,0.5),q(pov,0.9)],cr:cr/NMC,tp:tp/NMC});
+  }
+  const tb=document.querySelector("#tblmc tbody"); if(tb){tb.innerHTML="";
+    const rg=(a,d=0,s="")=>`${fmt(a[1],d)}${s} <span class="rng">${fmt(a[0],d)} – ${fmt(a[2],d)}</span>`;
+    for(const x of MC.rows){const tr=document.createElement("tr");
+      tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${x.p.color})"></span>${x.p.name}</td><td class="sep">${rg(x.debt,0," %")}</td><td>${rg(x.up,1," %")}</td><td>${rg(x.pov,1," %")}</td><td class="sep ${x.cr>=0.25?"worse":x.cr<=0.05?"better":""}">${fmt(x.cr*100,0)} %</td><td>${fmt(x.tp*100,0)} %</td>`;
+      tb.appendChild(tr);}}
+  if(bandCand!=="none") render(true);
+}
+function addBand(ds){
+  if(bandCand==="none"||!MC||MC.metric!==metric||!MC.series[bandCand]) return;
+  const p=CANDS.find(c=>c.id===bandCand), col=css(p.color), b=MC.series[bandCand], dec=METRICS[metric][2];
+  ds.push({label:"bas",isBand:true,data:b.map(v=>v[0]==null?null:+v[0].toFixed(dec+1)),borderWidth:0,pointRadius:0,pointHoverRadius:0,fill:false,tension:.25});
+  ds.push({label:"haut",isBand:true,data:b.map(v=>v[2]==null?null:+v[2].toFixed(dec+1)),borderWidth:0,pointRadius:0,pointHoverRadius:0,fill:"-1",backgroundColor:hexA(col,0.16),tension:.25});
+}
+function fillSenior(res){
+  const tb=document.querySelector("#tblsen tbody"); if(!tb) return; tb.innerHTML="";
+  const sq=res[0].r;
+  for(const {p,r} of res){const q=p.id==="statu";
+    const e=r.emp55[yi(2032)], w=r.w10[yi(2036)], lost=(p.topRev||0)*(mode==="annonce"?0:BASE.leak);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>
+      <td class="sep txt">${AGETXT[p.id]||""}</td>
+      <td class="${q?"":Math.abs(e-sq.emp55[yi(2032)])<0.2?"":e>sq.emp55[yi(2032)]?"better":"worse"}">${fmt(e)} %</td>
+      <td>${q?"–":(r.uSen>=0?"+":"−")+fmt(Math.abs(r.uSen),2)+" pt"}</td>
+      <td class="sep">${p.topRev?fmt(p.topRev,0)+" Md€":"–"}</td><td class="${lost>0.5?"worse":""}">${p.topRev?fmt(lost,0)+" Md€":"–"}</td>
+      <td class="sep">${fmt(w)} %</td>`;
+    tb.appendChild(tr);}
+}
+const AGETXT={statu:"64 ans (réforme de 2023)",melenchon:"60 ans, 40 annuités",lepen:"60 à 62 ans selon l'âge d'entrée au travail",philippe:"65 ans, 45 annuités",glucksmann:"62 ans, adapté à la pénibilité",retailleau:"63 ans avec décote, taux plein à 65 ans"};
+function buildBandSel(){
+  const s=document.getElementById("bandSel"); if(!s) return;
+  s.innerHTML=`<option value="none">Aucune</option>`+CANDS.map(p=>`<option value="${p.id}">${p.name}</option>`).join("");
+  s.value=bandCand; s.onchange=()=>{bandCand=s.value;render(true);};
+}
+buildBandSel();
+const CASES=[{"id": "c1", "label": "Personne seule au Smic, locataire", "rd": 1680, "ppa": 238, "al": 0, "smic": 166, "smicNet": 257, "apl": null, "flat": null, "csg": 108, "csgNet": 155, "rn30": null, "lr": -57, "lrH": 14, "lrCut": -71}, {"id": "c2", "label": "Parent seul, un enfant, Smic à mi-temps, locataire", "rd": 1795, "ppa": 412, "al": 427, "smic": 111, "smicNet": 128, "apl": 43, "flat": null, "csg": 78, "csgNet": 77, "rn30": null, "lr": -116, "lrH": 7, "lrCut": -124}, {"id": "c3", "label": "Couple, deux enfants, Smic et 1,5 Smic, locataire", "rd": 3893, "ppa": 134, "al": 0, "smic": 192, "smicNet": 257, "apl": null, "flat": null, "csg": 180, "csgNet": 254, "rn30": null, "lr": -4, "lrH": 36, "lrCut": -40}, {"id": "c4", "label": "Jeune de 27 ans seul, 3 200 € brut, locataire", "rd": 2385, "ppa": 0, "al": 0, "smic": null, "smicNet": null, "apl": null, "flat": null, "csg": 31, "csgNet": 36, "rn30": 148, "lr": 25, "lrH": 25, "lrCut": 0}, {"id": "c5", "label": "Couple de cadres, 6 000 € brut chacun, 30 000 € de dividendes, propriétaires", "rd": 9729, "ppa": 0, "al": 0, "smic": null, "smicNet": null, "apl": null, "flat": -395, "csg": null, "csgNet": null, "rn30": null, "lr": 95, "lrH": 95, "lrCut": 0}];
+function buildCases(){
+  const tb=document.querySelector("#tblcases tbody"); if(!tb) return; tb.innerHTML="";
+  const c=(v,net)=>v==null?`<td class="na">–</td>`:`<td class="${v>0?"better":v<0?"worse":""}">${v>0?"+":v<0?"−":""}${fmt(Math.abs(v),0)}&nbsp;€${net!=null?`<span class="rng">sur ${fmt(net,0)}&nbsp;€ de salaire net en plus</span>`:""}</td>`;
+  for(const x of CASES){const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="txt">${x.label}</td><td class="sep">${fmt(x.rd,0)}&nbsp;€<span class="rng">dont prime d'activité ${fmt(x.ppa,0)}&nbsp;€, aide au logement ${fmt(x.al,0)}&nbsp;€</span></td>`+c(x.smic,x.smicNet)+c(x.apl)+c(x.flat)+`<td class="sep${x.csg>0?" better":""}">${x.csg==null?"–":"+"+fmt(x.csg,0)+"&nbsp;€"}${x.csgNet!=null?`<span class="rng">sur ${fmt(x.csgNet,0)}&nbsp;€ de CSG en moins</span>`:""}</td>`+c(x.rn30)+`<td class="sep ${x.lr>0?"better":x.lr<0?"worse":""}">${x.lr>0?"+":x.lr<0?"−":""}${fmt(Math.abs(x.lr),0)}&nbsp;€<span class="rng">aides ${x.lrCut<0?"−":""}${fmt(Math.abs(x.lrCut),0)}&nbsp;€, heures +${fmt(x.lrH,0)}&nbsp;€</span></td>`;
+    tb.appendChild(tr);}
+}
+buildCases();
+function fillHousing(res){
+  const tb=document.querySelector("#tblhous tbody"); if(!tb) return; tb.innerHTML=""; const sq=res[0].r, y=yi(2032);
+  for(const {p,r} of res){const q=p.id==="statu", cl=(v,ref,hb,eps)=>q||Math.abs(v-ref)<eps?"":(v>ref)===hb?"better":"worse";
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>
+      <td class="sep ${cl(r.cons[y],sq.cons[y],true,3)}">${fmt(r.cons[y],0)} 000</td><td class="txt">${HOUSTXT[p.id]}</td>
+      <td class="sep ${cl(r.sp[y],sq.sp[y],true,0.05)}">${fmt(r.sp[y])} %</td>
+      <td class="sep ${cl(r.ratioMon[y],sq.ratioMon[y],false,0.03)}">${fmt(r.ratioMon[y],2)}</td><td class="${cl(r.ratioEl[y],sq.ratioEl[y],false,0.02)}">${fmt(r.ratioEl[y],2)}</td>`;
+    tb.appendChild(tr);}
+}
+function fillEco(res){
+  const tb=document.querySelector("#tbleco tbody"); if(!tb) return; tb.innerHTML=""; const sq=res[0].r;
+  const avg=(a,y0,y1)=>{let s=0;for(let y=y0;y<=y1;y++)s+=a[yi(y)];return s/(y1-y0+1);};
+  for(const {p,r} of res){const q=p.id==="statu", cl=(v,ref,hb,eps)=>q||Math.abs(v-ref)<eps?"":(v>ref)===hb?"better":"worse";
+    const g=avg(r.growth,2027,2036), gs=avg(sq.growth,2027,2036), inf=avg(r.infl,2027,2032), infs=avg(sq.infl,2027,2032);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>
+      <td class="sep ${cl(g,gs,true,0.03)}">${fmt(g,2)} %</td><td class="${cl(inf,infs,false,0.03)}">${fmt(inf,2)} %</td>
+      <td class="${cl(r.youth[yi(2030)],sq.youth[yi(2030)],false,0.2)}">${fmt(r.youth[yi(2030)])} %</td>
+      <td class="sep">${fmt(r.po[yi(2032)])} %</td><td>${fmt(r.dep[yi(2032)])} %</td>
+      <td class="sep ${cl(r.energy[yi(2035)],sq.energy[yi(2035)],false,0.5)}">${fmt(r.energy[yi(2035)],0)} Md€</td>
+      <td class="${cl(r.artif[yi(2030)],sq.artif[yi(2030)],false,300)}">${fmt(Math.round(r.artif[yi(2030)]/100)*100,0)} ha</td>
+      <td class="sep ${cl(r.nw[yi(2036)],sq.nw[yi(2036)],true,1)}">${sg(r.nw[yi(2036)],0)} %</td>`;
+    tb.appendChild(tr);}
+}
+const NOTES=["A+","A","A−","BBB+","BBB","BBB−","BB+","BB"];
+const EU25=[["Grèce",146.1],["Italie",137.1],["France",115.6],["Belgique",107.9],["Espagne",100.7],["Portugal",89.7],["Allemagne",63.5]];
+const ART={"Grèce":"la Grèce","Italie":"l'Italie","Belgique":"la Belgique","Espagne":"l'Espagne","Portugal":"le Portugal","Allemagne":"l'Allemagne"};
+function placeDebt(v){const o=EU25.filter(x=>x[0]!=="France");const above=o.filter(x=>x[1]>v);if(!above.length)return "au-dessus de la Grèce aujourd'hui (146 %)";const a=above[above.length-1];const below=o.find(x=>x[1]<=v);return below?`entre ${ART[below[0]]} (${fmt(below[1],0)} %) et ${ART[a[0]]} (${fmt(a[1],0)} %) aujourd'hui`:`sous ${ART[a[0]]} aujourd'hui (${fmt(a[1],0)} %)`;}
+function fillIntl(res){
+  const tb=document.querySelector("#tblintl tbody"); if(!tb) return; tb.innerHTML=""; const sq=res[0].r;
+  for(const {p,r} of res){const q=p.id==="statu", cl=(v,ref,hb,eps)=>q||Math.abs(v-ref)<eps?"":(v>ref)===hb?"better":"worse";
+    const n=Math.min(NOTES.length-1,r.rating[yi(2032)]), ns=Math.min(NOTES.length-1,sq.rating[yi(2032)]);
+    const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>
+      <td class="sep ${cl(r.spread[yi(2030)],sq.spread[yi(2030)],false,0.05)}">${fmt(r.spread[yi(2030)],2)} pt</td>
+      <td class="${q?"":n<ns?"better":n>ns?"worse":""}">${NOTES[n]}</td>
+      <td class="sep">${fmt(r.defense[yi(2035)],2)} %</td>
+      <td class="sep txt">${fmt(r.debt[yi(2036)],0)} % : ${placeDebt(r.debt[yi(2036)])}</td>`;
+    tb.appendChild(tr);}
+}
+const HOUSTXT={statu:"Tendance : 265 000 en 2025, reprise lente",melenchon:"400 000 logements abordables par an dont 200 000 publics, 12 Md€ par an ; fin des aides à l'investissement locatif, encadrement des loyers partout",lepen:"Assouplissement du DPE ; programme logement non publié",philippe:"Programme logement non publié",glucksmann:"Encadrement des loyers en zones tendues ; programme logement partiel",retailleau:"Statut du bailleur (amortissement 4 %), fin de l'encadrement des loyers et des interdictions de louer liées au DPE, suppression du ZAN"};
+
+// ---- onglets et tableau « crise de la dette »
+function crisisTable(){
+  const tb=document.querySelector("#tblcrisis tbody"); if(!tb) return;
+  const R=rng(2046), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R());
+  const raw=[]; for(let n=0;n<NMC;n++) raw.push({g1:gauss(),g2:gauss(),g3:gauss(),u:[R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R()]});
+  const out={};
+  for(const pk of ["keynes","central","liberal"]){
+    const B0=Object.assign({},BASE,PRESETS[pk]);
+    for(const p of CANDS){
+      const ms0=microsim(p.paMeasures,mode==="annonce"?0:B0.leak); const r0=simulate(Object.assign({},p,{pa:ms0.pa,paDec:ms0.deciles}),mode,B0); let cr=0,tp=0;
+      for(const d of raw){const b=Object.assign({},B0),u=d.u;
+        b.realg=Math.max(-0.5,B0.realg+0.4*d.g1); b.mktReal=Math.max(0,B0.mktReal+0.5*d.g2); b.infl=Math.max(0,B0.infl+0.4*d.g3);
+        b.mult=Math.max(0.2,B0.mult+(u[0]-0.5)*0.6); b.kDebt=Math.max(0,B0.kDebt*(0.5+u[1])); b.crisisPrem=Math.max(1.5,B0.crisisPrem-1+2*u[2]);
+        b.leak=Math.min(0.9,Math.max(0,B0.leak+(u[3]-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,B0.seniorKeep+(u[4]-0.5)*0.3));
+        b.bceDraw=u[11]; b.clim=u[5]<0.3?"moderee":u[5]<0.8?"forte":"tresforte"; b.ai=u[6]<0.3?"lente":u[6]<0.75?"moyenne":"rapide";
+        if(BASE.shock==="none"&&u[7]<0.4){b.shock=u[8]<0.35?"recession":u[8]<0.6?"financial":u[8]<0.8?"inflation":"climat";b.shockYear=2028+Math.floor(u[9]*13);}
+        const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{eu:p.eu*(0.5+u[12]),c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:(u[10]-0.5)*0.3))),pa:ms.pa,paDec:ms.deciles});
+        const r=simulate(pp,mode,b); if(r.crisis!==null) cr++; else if(r.tpi!==null) tp++;}
+      (out[p.id]=out[p.id]||{})[pk]={r0,cr:cr/NMC,tp:tp/NMC};
+    }
+  }
+  tb.innerHTML="";
+  for(const p of CANDS){const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>`+["keynes","central","liberal"].map((pk,i)=>{const x=out[p.id][pk];
+      const main=x.r0.crisis!==null?`Crise en ${x.r0.crisis}`:x.r0.tpi!==null?`Filet BCE en ${x.r0.tpi}`:"Pas de crise";
+      const cls=x.cr>=0.5?"worse":x.cr<=0.1?"better":"";
+      return `<td class="cr ${i===0?"sep ":""}${cls}"><b>${main}</b>crise dans ${fmt(x.cr*100,0)} % des tirages${x.tp>0?`, filet BCE dans ${fmt(x.tp*100,0)} %`:""}</td>`;}).join("");
+    tb.appendChild(tr);}
+}
+function showTab(id){
+  for(const t of ["sim","info"]){const on=t===id;document.getElementById("tab-"+t).hidden=!on;document.getElementById("tab-btn-"+t).setAttribute("aria-selected",on);}
+  if(id==="info"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);} else if(chart) chart.resize();
+  try{localStorage.setItem("simTab",id);}catch(e){}
+}
+document.getElementById("tab-btn-sim").onclick=()=>showTab("sim");
+document.getElementById("tab-btn-info").onclick=()=>showTab("info");
+try{if(localStorage.getItem("simTab")==="info") setTimeout(()=>showTab("info"),0);}catch(e){}
+
+bindGlobals(); buildCands(); buildGrid(); render();

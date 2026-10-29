@@ -1,0 +1,432 @@
+<div class="wrap">
+  <header>
+    <span class="eyebrow">Présidentielle 2027 · finances publiques, climat, IA, santé · horizon 2046</span>
+    <h1>Que deviendrait la France avec chaque programme ?</h1>
+    <p class="lede">Un modèle simple, appliqué avec les mêmes règles à tous : mesures annoncées, crédibilité du chiffrage, faisabilité politique, juridique et sociale. On peut ajouter une crise, une épidémie ou une catastrophe climatique, choisir la vitesse du réchauffement et de l'IA, et suivre la dette, l'emploi, la pauvreté, les inégalités, la santé et la tension sociale.</p>
+    <p class="notice">Simulation pédagogique, pas une prévision. Les notes de crédibilité, de faisabilité, de redistribution, de climat, d'IA et de santé sont des jugements argumentés : modifiez-les si vous les trouvez injustes, le résultat en dépend beaucoup.</p>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button role="tab" id="tab-btn-sim" aria-selected="true" aria-controls="tab-sim">Simulateur</button>
+    <button role="tab" id="tab-btn-info" aria-selected="false" aria-controls="tab-info">Informations</button>
+  </nav>
+
+  <div id="tab-info" role="tabpanel" aria-labelledby="tab-btn-info" class="tabpane" hidden>
+  <section class="panel info" aria-labelledby="h-crisis">
+    <h2 id="h-crisis">Une crise de la dette est-elle inévitable ?</h2>
+    <p><strong>Non.</strong> Dans le simulateur, elle dépend surtout de la lecture économique retenue et des efforts budgétaires de chaque programme. Le tableau ci-dessous est recalculé pour chacune des trois lectures avec votre mode d'application et votre choc ; le scénario de base reprend aussi votre climat et votre IA, qui sont tirés au hasard dans les 200 tirages.</p>
+    <div class="tablewrap"><table id="tblcrisis">
+      <thead><tr><th>Programme</th><th class="sep">Lecture keynésienne</th><th>Lecture centrale</th><th>Lecture libérale</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Dans chaque case : ce qui se passe dans le scénario de base, puis la part des 200 tirages au hasard des hypothèses où survient une crise de financement d'ici 2046 (et celle où la BCE active son filet).</p>
+
+    <p class="notice"><strong>Attention à l'effet de la règle du modèle.</strong> Une dette qui monte n'entraîne pas forcément une crise : dans ce simulateur, c'est le seuil de prime de risque (3 points par défaut, réglable) qui décide si et quand elle survient. Dans la réalité, tout dépendrait de la confiance des marchés et de l'attitude de la BCE, que personne ne peut prévoir. Les années de crise affichées sont des signaux de fragilité, pas des prévisions.</p>
+    <h3>Pourquoi la crise revient si souvent</h3>
+    <p>Le point de départ est lourd : un déficit hors intérêts d'environ 2,9 % du PIB (Insee, 2025), avec des taux d'intérêt un peu supérieurs à la croissance. Sans effort, la dette monte donc mécaniquement chaque année, et sur vingt ans elle finit par franchir le seuil fixé dans le modèle. Seuls les programmes qui réduisent nettement ce déficit, ceux de Philippe et de Retailleau, l'évitent dans la lecture centrale. Les programmes de gauche l'évitent si les recettes nouvelles rentrent vraiment et si la relance fonctionne, ce qui correspond à la lecture keynésienne.</p>
+
+    <h3>Ce qui rend ce résultat trop mécanique</h3>
+    <ul>
+      <li><strong>Les gouvernements suivants réagissent</strong> : depuis cette version, à partir de 2032, ils corrigent une partie du déficit selon le niveau atteint par la dette (règle de réaction budgétaire, environ 0,04 point de déficit en moins par point de dette au-dessus du niveau de 2025, d'après une étude de la BCE sur la zone euro). Mettez ce réglage à 0 pour voir ce qui se passerait si personne ne corrigeait pendant vingt ans.</li>
+      <li><strong>Les services publics et l'investissement rapportent</strong> : une partie de la dépense supplémentaire d'éducation, de santé et d'investissement public revient en croissance après quelques années, donc en recettes. Ce rendement est élevé en lecture keynésienne, faible en lecture libérale, car il dépend de l'efficacité de la dépense : la France a déjà la dépense publique la plus élevée de l'Union européenne.</li>
+      <li><strong>Une « crise » est ici une règle</strong> : une prime de risque au-delà de 3 points. Dans la réalité, c'est un emballement de confiance que personne ne sait dater. Le Japon vit avec plus de 200 % de dette sans crise, parce qu'il emprunte surtout auprès de ses propres épargnants et dans sa propre monnaie. L'Italie a frôlé la crise en 2011-2012 avec une dette bien plus basse.</li>
+      <li><strong>La BCE change la donne</strong> : depuis 2022, son instrument de protection (TPI) lui permet d'acheter la dette d'un pays attaqué par les marchés, à condition qu'il respecte les règles européennes. C'est pour cela que le conflit avec l'Union européenne pèse autant dans le modèle pour Mélenchon et pour Le Pen.</li>
+      <li><strong>Le seuil est réglable</strong> dans l'onglet Simulateur (« Seuil de crise de financement ») : à 4 points, les crises reculent d'un à trois ans dans la lecture centrale, et le recours au filet de la BCE passe après 2040 pour certains programmes.</li>
+    </ul>
+
+    <h3>Ce qu'il faut en retenir</h3>
+    <p>Le modèle ne dit pas qu'une crise est certaine. Il dit que sans baisse du déficit, ou sans croissance plus forte que prévu, la dette française devient vulnérable d'ici dix à quinze ans. Les économistes s'accordent assez largement sur ce point. Ils divergent sur le moyen de l'éviter : économies sur les dépenses, recettes nouvelles sur les plus aisés, ou relance de l'activité.</p>
+  </section>
+
+  <section class="panel info" aria-labelledby="h-ind">
+    <h2 id="h-ind">Ce que le simulateur mesure, et ce qu'il ne mesure pas</h2>
+    <h3>Indicateurs calculés</h3>
+    <ul>
+      <li><strong>Finances publiques</strong> : dette, déficit, charge d'intérêts, accès au financement (crise, filet BCE), prélèvements obligatoires, dépense publique, solde des retraites.</li>
+      <li><strong>Économie</strong> : croissance, inflation, chômage, chômage des jeunes, emploi des 55-64 ans, logements mis en chantier, facture énergétique.</li>
+      <li><strong>Revenus et inégalités</strong> : pouvoir d'achat par groupe et par décile, cas types calculés avec OpenFisca, pauvreté, Gini, écart entre les plus aisés et les plus modestes avec et sans services publics, niveau de vie des retraités, part du patrimoine des 10 % les plus riches.</li>
+      <li><strong>Santé et environnement</strong> : espérance de vie, décès liés à la chaleur et aux épidémies, décès dus à la pollution de l'air, émissions de gaz à effet de serre, terres artificialisées, services publics.</li>
+      <li><strong>Société et institutions</strong> : tension sociale, et une grille qualitative sur l'égalité de traitement, les libertés publiques et les contre-pouvoirs.</li>
+    </ul>
+    <h3>Indicateurs non chiffrés, et pourquoi</h3>
+    <ul>
+      <li><strong>Immigration et population active</strong> : c'est un enjeu central des programmes du RN et de LR, mais l'effet sur l'emploi, les comptes publics et les retraites dépend d'hypothèses très débattues (qualification, taux d'emploi, durée de séjour), sans chiffrage public des programmes. Le COR retient un solde migratoire de +150 000 personnes par an.</li>
+      <li><strong>Sécurité et délinquance</strong> : aucun lien chiffré solide entre mesures annoncées et évolution de la délinquance ; traité dans la grille qualitative.</li>
+      <li><strong>Éducation (niveau des élèves)</strong> et <strong>accès aux soins</strong> : seulement à travers la dépense de services publics ; les résultats dépendent de l'organisation plus que du budget.</li>
+      <li><strong>Commerce extérieur et industrie</strong> : les effets du protectionnisme (RN, LFI) ou des baisses d'impôts de production (Philippe, Retailleau) sont trop incertains pour un modèle de cette taille.</li>
+      <li><strong>Égalité femmes-hommes</strong>, <strong>confiance dans les institutions</strong>, <strong>biodiversité</strong> hors artificialisation : pas de donnée chiffrée par programme.</li>
+      <li><strong>Géopolitique</strong> (Russie, approvisionnement en uranium et en gaz, défense) : non modélisée, sauf à travers le choc d'inflation et la crise financière proposés dans le scénario.</li>
+    </ul>
+  </section>
+
+  <section class="panel info" aria-labelledby="h-world">
+    <h2 id="h-world">La situation de la France à l'étranger, fin octobre 2026</h2>
+    <ul>
+      <li><strong>Taux d'emprunt</strong> : 4,94 % à 10 ans pour la France, 3,37 % pour l'Allemagne, soit un écart d'environ 1,57 point le 28 octobre 2026, au plus haut depuis la crise de l'euro de 2012.</li>
+      <li><strong>Notes</strong> : A+ chez S&amp;P (abaissée en octobre 2025) et chez Fitch ; Aa3 avec perspective négative chez Moody's, maintenue le 23 octobre 2026 à condition qu'un budget réduisant le déficit soit adopté. Prochain examen de S&amp;P : 27 novembre 2026.</li>
+      <li><strong>Créanciers</strong> : 58,4 % de la dette à long terme des administrations publiques est détenue par des non-résidents (Banque de France, juin 2026). C'est une source de vulnérabilité : ces investisseurs peuvent vendre plus facilement que des épargnants nationaux. C'est aussi ce qui distingue la France du Japon, dont la dette est surtout détenue par ses propres épargnants et sa banque centrale.</li>
+      <li><strong>Voisins</strong> (dette 2025, Eurostat) : Grèce 146,1 %, Italie 137,1 %, France 115,6 %, Belgique 107,9 %, Espagne 100,7 %, Portugal 89,7 %, Allemagne 63,5 %, moyenne de la zone euro 87,8 %.</li>
+      <li><strong>Déficit</strong> : 5,1 % du PIB en 2025, attendu autour de 5,4 % en 2026, le plus élevé de la zone euro ; l'objectif du gouvernement pour 2027 est 5 %.</li>
+      <li><strong>Défense</strong> : en 2025, les pays de l'OTAN se sont engagés à porter leurs dépenses de défense à 3,5 % du PIB d'ici 2035, plus 1,5 % pour la sécurité au sens large. La France est autour de 2 %.</li>
+    </ul>
+  </section>
+  </div>
+
+  <div id="tab-sim" role="tabpanel" aria-labelledby="tab-btn-sim" class="tabpane">
+  <section class="panel" aria-labelledby="h-scen">
+    <h2 id="h-scen">Scénario</h2>
+    <div class="controls">
+      <div class="ctl">
+        <span class="eyebrow">Application des programmes</span>
+        <div class="seg" role="group" aria-label="Application des programmes">
+          <button data-mode="annonce" aria-pressed="false">Tel qu'annoncé</button>
+          <button data-mode="credible" aria-pressed="true">Si élu, chiffrage crédible</button>
+          <button data-mode="pondere" aria-pressed="false">Pondéré par la faisabilité</button>
+        </div>
+        <p class="help" id="modehelp"></p>
+        <span class="eyebrow" style="margin-top:10px;display:block">Lecture économique</span>
+        <div class="seg" role="group" aria-label="Lecture économique">
+          <button data-preset="keynes" aria-pressed="false">Keynésienne</button>
+          <button data-preset="central" aria-pressed="true">Centrale</button>
+          <button data-preset="liberal" aria-pressed="false">Libérale</button>
+        </div>
+        <p class="help" id="presethelp">Hypothèses centrales : moyenne des estimations publiées.</p>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Choc ponctuel</span>
+        <div class="seg shock" role="group" aria-label="Choc ponctuel">
+          <button data-shock="none" aria-pressed="true">Aucun</button>
+          <button data-shock="recession" aria-pressed="false">Récession mondiale</button>
+          <button data-shock="financial" aria-pressed="false">Crise financière</button>
+          <button data-shock="inflation" aria-pressed="false">Choc d'inflation</button>
+          <button data-shock="climat" aria-pressed="false">Catastrophe climatique</button>
+          <button data-shock="pandemie" aria-pressed="false">Épidémie</button>
+        </div>
+        <div class="sl"><label for="shockYear">Année du choc <output id="o-shockYear"></output></label><input type="range" id="shockYear" min="2027" max="2040" step="1"></div>
+        <p class="help" id="shockhelp"></p>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Réchauffement climatique</span>
+        <div class="seg" role="group" aria-label="Réchauffement climatique">
+          <button data-clim="moderee" aria-pressed="false">Modéré</button>
+          <button data-clim="forte" aria-pressed="true">Fort</button>
+          <button data-clim="tresforte" aria-pressed="false">Très fort</button>
+        </div>
+        <p class="help" id="climhelp"></p>
+      </div>
+      <div class="ctl">
+        <span class="eyebrow">Diffusion de l'intelligence artificielle</span>
+        <div class="seg" role="group" aria-label="Diffusion de l'IA">
+          <button data-ai="lente" aria-pressed="false">Lente</button>
+          <button data-ai="moyenne" aria-pressed="true">Moyenne</button>
+          <button data-ai="rapide" aria-pressed="false">Rapide</button>
+        </div>
+        <p class="help" id="aihelp"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-chart">
+    <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between">
+      <h2 id="h-chart">Trajectoires</h2>
+      <div class="seg" role="group" aria-label="Indicateur affiché" id="metrics"></div>
+    </div>
+    <div class="grid2">
+      <div class="chartcol"><div class="bandrow"><label for="bandSel">Fourchette d'incertitude (10-90 %) sur le graphique</label><select id="bandSel"></select></div>
+      <div class="chartbox"><canvas id="chart" aria-label="Graphique de l'indicateur choisi par candidat"></canvas></div>
+      <p class="help">Les points sur les courbes marquent un événement (crise, recul, filet BCE, réforme achevée…). Survolez-les pour l'explication.</p></div>
+      <div class="sliders" aria-label="Paramètres économiques communs">
+        <div class="eyebrow">Économie commune à tous</div>
+        <div class="sl"><label for="realg">Croissance réelle de base <output id="o-realg"></output></label><input type="range" id="realg" min="0" max="2.5" step="0.1"><small>Avant climat, IA, mesures et chocs.</small></div>
+        <div class="sl"><label for="infl">Inflation de base <output id="o-infl"></output></label><input type="range" id="infl" min="0" max="4" step="0.1"><small>Gonfle le PIB nominal, mais les taux suivent.</small></div>
+        <div class="sl"><label for="mktReal">Taux réel d'emprunt <output id="o-mktReal"></output></label><input type="range" id="mktReal" min="0" max="3.5" step="0.1"><small>Taux de marché moins l'inflation.</small></div>
+        <div class="sl"><label for="mult">Effet récessif des économies <output id="o-mult"></output></label><input type="range" id="mult" min="0" max="1.8" step="0.1"><small>Multiplicateur : 0,7 par défaut ; le FMI a mesuré plus de 1 en crise.</small></div>
+        <div class="sl"><label for="prem">Réaction des marchés au déficit <output id="o-prem"></output></label><input type="range" id="prem" min="0" max="0.5" step="0.05"><small>Hausse du taux par point de déficit au-dessus de 3 %.</small></div>
+        <div class="sl"><label for="redistEff">Part des mesures qui atteint les revenus <output id="o-redistEff"></output></label><input type="range" id="redistEff" min="0.3" max="1" step="0.05"><small>Non-recours aux aides, hausses absorbées par les loyers ou les prix : 0,85 par défaut.</small></div>
+        <div class="sl"><label for="redisDemand">Relance par la redistribution <output id="o-redisDemand"></output></label><input type="range" id="redisDemand" min="0" max="0.8" step="0.05"><small>Activité créée par point de PIB transféré vers les 50 % les plus modestes, qui dépensent plus ce qu'ils reçoivent.</small></div>
+        <div class="sl"><label for="invMult">Effet de l'investissement public <output id="o-invMult"></output></label><input type="range" id="invMult" min="0.2" max="2" step="0.1"><small>Multiplicateur de l'investissement climat (souvent estimé au-dessus de celui des dépenses courantes).</small></div>
+        <div class="sl"><label for="climNeed">Besoin d'investissement climat <output id="o-climNeed"></output></label><input type="range" id="climNeed" min="0.3" max="2.5" step="0.1"><small>Effort public annuel (pt de PIB) qui réduirait de moitié les dommages.</small></div>
+        <div class="sl"><label for="kDebt">Sensibilité des marchés à la dette <output id="o-kDebt"></output></label><input type="range" id="kDebt" min="0" max="0.8" step="0.05"><small>Hausse du taux par tranche de 10 points de dette au-dessus de 120 %.</small></div>
+        <div class="sl"><label for="crisisPrem">Seuil de crise de financement <output id="o-crisisPrem"></output></label><input type="range" id="crisisPrem" min="1.5" max="6" step="0.1"><small>Prime de risque au-delà de laquelle les marchés ne prêtent plus normalement.</small></div>
+        <div class="sl"><label for="premPol">Prime d'instabilité politique actuelle <output id="o-premPol"></output></label><input type="range" id="premPol" min="0" max="2.5" step="0.1"><small>Fin octobre 2026, la France emprunte à 10 ans environ 1,5 point plus cher que l'Allemagne, bien plus que ce que ses seuls chiffres de déficit et de dette expliquent ; ce supplément est attribué à l'instabilité politique.</small></div>
+        <div class="sl"><label for="premPolDecay">Résorption après l'élection <output id="o-premPolDecay"></output></label><input type="range" id="premPolDecay" min="0.5" max="1" step="0.05"><small>Baisse annuelle de cette prime à partir de 2028 si la situation politique se stabilise ; 0 % = elle reste.</small></div>
+        <div class="eyebrow" style="margin-top:6px">Comportements</div>
+        <div class="sl"><label for="leak">Recettes perdues sur les plus riches <output id="o-leak"></output></label><input type="range" id="leak" min="0" max="0.8" step="0.05"><small>Part des impôts visant les 10 % les plus riches qui s'évapore (départs, optimisation, moindre investissement). Zucman : faible ; CAE : exil faible, optimisation jusqu'à 2,5 fois plus ; Sénat : 2 à 3 Md€ au lieu de 20 pour la taxe Zucman.</small></div>
+        <div class="sl"><label for="seniorKeep">Seniors restant en emploi après un report <output id="o-seniorKeep"></output></label><input type="range" id="seniorKeep" min="0.2" max="0.9" step="0.05"><small>Les autres passent au chômage, en invalidité ou aux minima. IPP (réforme de 2010) : environ 55-60 % en emploi.</small></div>
+        <div class="sl"><label for="forcedMax">Ajustement maximal imposé en crise <output id="o-forcedMax"></output></label><input type="range" id="forcedMax" min="2" max="12" step="0.5"><small>Effort budgétaire cumulé exigé au plus par les créanciers (Union européenne, FMI). Programmes passés : environ 3 points pour l'Italie en 2011-2012, 6 à 9 pour le Portugal et l'Irlande, plus de 10 pour la Grèce.</small></div>
+        <div class="sl"><label for="aiCost">Coût de l'amortisseur IA <output id="o-aiCost"></output></label><input type="range" id="aiCost" min="0" max="1" step="0.1"><small>Dépense publique au pic des pertes d'emplois (formation, reconversion, revenu de transition) pour un amortisseur maximal ; proportionnelle à l'amortisseur de chaque programme.</small></div>
+        <div class="sl"><label for="spRet">Rendement des services publics <output id="o-spRet"></output></label><input type="range" id="spRet" min="0" max="0.4" step="0.01"><small>Croissance gagnée, à partir de cinq ans, par point de PIB de dépense supplémentaire d'éducation et de santé accumulée (population mieux formée et en meilleure santé). Les coupes ont l'effet inverse.</small></div>
+        <div class="sl"><label for="invRet">Rendement de l'investissement public <output id="o-invRet"></output></label><input type="range" id="invRet" min="0" max="0.3" step="0.01"><small>Gain durable d'activité, à partir de trois ans, par point de PIB d'investissement public accumulé (climat, logement public), en plus de l'effet immédiat sur la demande. FMI (2014) : +0,4 % de production la première année et +1,5 % après quatre ans pour 1 point de PIB investi efficacement.</small></div>
+        <div class="sl"><label for="fiscalReact">Réaction des gouvernements suivants <output id="o-fiscalReact"></output></label><input type="range" id="fiscalReact" min="0" max="0.1" step="0.01"><small>À partir de 2032, réduction du déficit par point de dette au-dessus du niveau de 2025, 115,6 % (plafonnée à 4 points de PIB). BCE (2017) : environ 0,03 à 0,05 dans la zone euro. 0 = personne ne corrige.</small></div>
+        <div class="sl"><label for="tensionRights">Mobilisation contre les atteintes aux droits <output id="o-tensionRights"></output></label><input type="range" id="tensionRights" min="0" max="2" step="0.1"><small>Poids, dans la tension sociale, des mesures jugées restrictives dans la grille droits et libertés (discriminations, maintien de l'ordre, contre-pouvoirs). 0 = ignoré.</small></div>
+        <div class="sl"><label for="rtt">Emplois créés par les 32 heures <output id="o-rtt"></output></label><input type="range" id="rtt" min="0" max="1.2" step="0.05"><small>Part de l'effet des 35 heures (environ 350 000 emplois selon la Dares, chiffre contesté) que reproduirait le passage à 32 heures proposé par Mélenchon. Sans créations d'emplois, la baisse des heures freine l'activité.</small></div>
+        <button class="reset" id="reset">Revenir aux réglages par défaut</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-explain">
+    <h2 id="h-explain">Pourquoi les courbes changent de pente</h2>
+    <p class="help">Pour l'indicateur affiché, les années où la trajectoire accélère ou ralentit nettement, avec la cause trouvée dans le modèle. Pour la dette, la variation est découpée entre l'effet « boule de neige » (taux d'intérêt moins croissance) et le déficit hors intérêts.</p>
+    <div id="explain" class="xpgrid"></div>
+  </section>
+
+  <section class="panel" aria-labelledby="h-mc">
+    <h2 id="h-mc">Fourchettes d'incertitude</h2>
+    <div class="tablewrap"><table id="tblmc">
+      <thead><tr><th>Programme</th><th class="sep">Dette 2036<br>médiane et 10-90 %</th><th>Chômage pic<br>2027-2036</th><th>Pauvreté<br>2032</th><th class="sep">Crise de financement<br>d'ici 2046</th><th>Filet BCE<br>d'ici 2046</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">200 tirages au hasard des hypothèses incertaines, identiques pour tous les candidats : croissance (±0,4 pt), taux réel (±0,5 pt), inflation, effet récessif des économies (±0,3 autour de votre réglage), réaction des marchés à la dette (de la moitié à une fois et demie), seuil de crise (±1 pt), recettes perdues sur les plus riches (±20 points), seniors restant en emploi (±15 points), vitesse du réchauffement et de l'IA, crédibilité du chiffrage (±0,15), conflit avec l'UE, et un choc dans 40 % des cas si vous n'en avez pas choisi. Le chiffre principal est la médiane, l'intervalle contient 80 % des tirages. Le reste des réglages (mode d'application, choc choisi) est repris tel quel.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-table">
+    <h2 id="h-table">Finances publiques</h2>
+    <div class="tablewrap"><table id="tbl">
+      <thead><tr>
+        <th>Programme</th><th>Crédi-<br>bilité</th><th>Faisa-<br>bilité</th>
+        <th class="sep">Déficit<br>2031</th><th>Dette<br>2036</th><th>Dette<br>2046</th><th>Charge<br>d'intérêts 2036</th><th>Solde des<br>retraites 2032</th>
+        <th class="sep">Accès au<br>financement</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="notice"><strong>Attention à l'effet de la règle du modèle.</strong> Une dette qui monte n'entraîne pas forcément une crise : dans ce simulateur, c'est le seuil de prime de risque (3 points par défaut, réglable) qui décide si et quand elle survient. Dans la réalité, tout dépendrait de la confiance des marchés et de l'attitude de la BCE, que personne ne peut prévoir. Les années de crise affichées sont des signaux de fragilité, pas des prévisions.</p>
+    <p class="help">Faisabilité = 50 % chances d'une majorité + 25 % soutien de l'opinion + 25 % solidité juridique. Charge d'intérêts en % des recettes publiques (environ 4 % en 2025 selon l'Insee : 2,2 % du PIB d'intérêts pour 52 % de recettes). Solde des retraites en % du PIB, trajectoire du COR (−0,2 % aujourd'hui) plus l'effet du programme ; il est déjà compris dans le déficit. En vert ou rouge : écart avec le statu quo.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-table2">
+    <h2 id="h-table2">Société, santé et environnement</h2>
+    <div class="tablewrap"><table id="tbl2">
+      <thead><tr>
+        <th>Programme</th><th>Chômage<br>2030</th><th>Pauvreté<br>2032</th><th>Gini<br>2032</th><th>Niveau de vie<br>retraités 2032</th>
+        <th class="sep">Santé<br>2036</th><th>Décès chaleur<br>et épidémie</th><th>Décès pollution<br>vs statu quo</th>
+        <th class="sep">GES<br>2032</th><th>GES<br>2046</th><th class="sep">Tension<br>max</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Chômage en 2030. Pauvreté et Gini partent des valeurs Insee 2024 (15,4 % et 0,302). Niveau de vie des retraités rapporté à celui de l'ensemble de la population (100,2 % en 2023 selon le COR). Santé : effet estimé sur l'espérance de vie en 2036, en mois (espérance de vie en 2025 : 85,9 ans pour les femmes, 80,3 ans pour les hommes, Insee). Décès : cumul 2027-2046 ; pour la pollution de l'air, écart avec le statu quo (négatif = décès évités). GES : émissions en MtCO₂e (364 en 2025 selon le Citepa). Tension sociale : indice 0-100 (40 aujourd'hui).</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-table3">
+    <h2 id="h-table3">Pouvoir d'achat en 2032, par catégorie</h2>
+    <div class="tablewrap"><table id="tbl3">
+      <thead><tr>
+        <th>Programme</th><th class="sep">Ménages<br>modestes (D1-D3)</th><th>Classes<br>moyennes (D4-D7)</th><th>Aisés<br>(D8-D9)</th><th>10 % les<br>plus riches</th><th>Retraités</th><th>Jeunes<br>18-29 ans</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Écart de revenu disponible réel avec le statu quo en 2032. Part de l'effet direct des mesures, calculé mesure par mesure (voir le tableau par décile et les fiches), multiplié par la part réalisée selon le scénario. S'y ajoutent la croissance, le chômage (qui pèse surtout sur les modestes et les jeunes), les chocs d'inflation et un éventuel ajustement imposé.</p>
+  </section>
+
+
+  <section class="panel" aria-labelledby="h-sen">
+    <h2 id="h-sen">Seniors, plus riches et patrimoine</h2>
+    <div class="tablewrap"><table id="tblsen">
+      <thead><tr><th>Programme</th><th class="sep">Âge de départ visé</th><th>Emploi des<br>55-64 ans 2032</th><th>Chômage dû<br>à l'âge de départ</th><th class="sep">Impôts visant<br>les 10 % plus riches</th><th>dont perdus</th><th class="sep">Part des 10 % dans<br>le patrimoine 2036</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Emploi des 55-64 ans : 62,1 % fin 2025 (Insee, record depuis 1975), tendance +0,6 pt par an jusqu'en 2032 avec la réforme de 2023, puis +0,2. Chaque année de report concerne environ 10 % de la tranche d'âge, dont un peu plus d'un tiers est vraiment retenu au travail (hors carrières longues, invalidité, déjà sans emploi), et seule une partie reste en emploi (réglage ci-dessus) ; les autres passent au chômage ou aux minima, ce qui coûte de l'argent public. Avancer l'âge fait l'inverse : moins de seniors en emploi, donc un peu moins de croissance. Patrimoine : les 10 % les mieux dotés détiennent 48 % du patrimoine brut début 2024 (Insee), tendance +0,05 pt par an ; les impôts sur le capital et les héritages ralentissent leur accumulation, une partie s'évapore selon le réglage « recettes perdues ».</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-eco">
+    <h2 id="h-eco">Économie, État et environnement</h2>
+    <div class="tablewrap"><table id="tbleco">
+      <thead><tr><th>Programme</th><th class="sep">Croissance<br>moyenne 2027-2036</th><th>Inflation<br>moyenne 2027-2032</th><th>Chômage des<br>15-24 ans 2030</th><th class="sep">Prélèvements<br>obligatoires 2032</th><th>Dépense<br>publique 2032</th><th class="sep">Facture<br>énergétique 2035</th><th>Terres<br>artificialisées 2030</th><th class="sep">Patrimoine public<br>net 2036</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Points de départ (2025) : croissance 0,9 %, prélèvements obligatoires 43,6 % et dépense publique 57,2 % du PIB (Insee), chômage des 15-24 ans 21,6 % (Insee, T2 2026, supposé évoluer comme le chômage global), facture énergétique 45,8 Md€ (SDES, données provisoires 2025), environ 19 000 hectares artificialisés par an (Cérema : 20 300 en 2022). Prélèvements : hausse nette d'impôts annoncée (Mélenchon +106 Md€, contre-budget LFI ; Glucksmann +20 Md€ ; Le Pen −30 et Retailleau −56, baisses nettes qu'ils annoncent ; Philippe −3, d'après les mesures retenues), moins la part qui s'évapore selon le réglage « recettes perdues ». Dépense publique = prélèvements et autres recettes + déficit. Facture énergétique : proportionnelle aux émissions de CO₂ (combustibles fossiles importés), à prix constants. Artificialisation : baisse de 4 % par an jusqu'en 2031 avec l'objectif « zéro artificialisation nette », de 1 % sans lui (Retailleau propose de le supprimer), modulée par la construction de logements. Patrimoine public net : environ 690 Md€ fin 2024, soit environ 23 % du PIB (Insee) ; il baisse avec la dette et monte avec l'investissement public supplémentaire (climat, logement public), qui laisse des actifs. C'est une approximation : les agences de notation et les marchés regardent surtout la dette brute.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-intl">
+    <h2 id="h-intl">La France vue de l'étranger</h2>
+    <div class="tablewrap"><table id="tblintl">
+      <thead><tr><th>Programme</th><th class="sep">Écart de taux avec<br>l'Allemagne 2030</th><th>Note estimée<br>2032 (S&amp;P, Fitch)</th><th class="sep">Défense 2035<br>(cible OTAN 3,5 %)</th><th class="sep">Dette 2036 comparée aux voisins</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Écart de taux : prime de risque du modèle, partant d'environ 1,5 point fin octobre 2026 (OAT 4,94 %, Bund 3,37 % le 28 octobre). Note : A+ chez S&amp;P et Fitch, Aa3 avec perspective négative chez Moody's (23 octobre 2026) ; un cran de moins quand la charge d'intérêts dépasse 8, 11 puis 14 % des recettes, un cran avec le filet BCE, deux en cas de crise. C'est une règle simplifiée, les agences jugent aussi la politique et les institutions. Défense : la loi de programmation militaire porte le budget des armées de 50 Md€ (2025) à 76 Md€ (2030), soit environ +0,55 point de PIB, ajoutée au déficit pour le statu quo, Mélenchon et Glucksmann, dont l'effort budgétaire est construit mesure par mesure ; pour Le Pen, Philippe et Retailleau, dont l'effort part d'un objectif de déficit (sous 3 %), elle est supposée déjà financée. Philippe vise 3 % du PIB hors pensions (+0,6 point de plus), Mélenchon a voté contre la dernière hausse (hypothèse −0,2 point), Le Pen veut « sanctuariser » la trajectoire, Glucksmann mise sur un fonds européen de 500 Md€ (hors budget national), Retailleau ne donne pas de montant. Voisins : dette 2025 selon Eurostat.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-hous">
+    <h2 id="h-hous">Logement et services publics</h2>
+    <div class="tablewrap"><table id="tblhous">
+      <thead><tr><th>Programme</th><th class="sep">Logements mis<br>en chantier 2032</th><th>Mesures logement retenues</th><th class="sep">Services publics<br>2032 (% du PIB)</th><th class="sep">Écart riches-modestes<br>revenu monétaire</th><th>Écart riches-modestes<br>services publics compris</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Logement : 264 800 mises en chantier en 2025 contre 412 600 en 2021 (Insee, SDES). Tendance +1 % par an, freinée par la hausse des taux et les récessions ; l'effet de chaque programme (réglable dans les fiches) est mon estimation : Mélenchon +70 000 par an à pleine application (200 000 logements publics, moins le recul de l'investissement locatif privé), Retailleau +30 000 (statut du bailleur, fin du ZAN), Le Pen +5 000, Philippe et Glucksmann 0 faute de programme publié. Services publics : santé, école, logement, action sociale et culture représentent 506 Md€ de transferts en nature (Insee, 2023), soit 13 400 € par an et par unité de consommation pour les 10 % les plus modestes et 7 900 € pour les 10 % les plus aisés. En les comptant, l'écart de niveau de vie entre ces deux groupes tombe d'environ 7,7 à 3,6. L'évolution de ces services par programme (+1 point de PIB pour Mélenchon, +0,5 pour Glucksmann, −0,1 pour Le Pen, −0,4 pour Philippe, −0,5 pour Retailleau) est mon estimation à partir de leurs dépenses et économies annoncées.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-cases">
+    <h2 id="h-cases">Cas types calculés avec OpenFisca</h2>
+    <div class="tablewrap"><table id="tblcases">
+      <thead><tr><th>Ménage (législation 2026)</th><th class="sep">Revenu disponible<br>actuel par mois</th><th>Mélenchon :<br>Smic à 1 700 € net</th><th>Mélenchon :<br>APL +10 %</th><th>Mélenchon :<br>fin de la flat tax</th><th class="sep">PS : CSG<br>progressive</th><th>Le Pen : pas d'impôt<br>sur le revenu avant 30 ans</th><th class="sep">Retailleau : aides<br>−30 %, 16 h de plus</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Calcul exact des impôts et prestations par OpenFisca-France (moteur libre utilisé par l'administration et l'IPP), pour des ménages types, effet par mois. Une hausse de salaire au Smic ne se retrouve qu'en partie dans le revenu : la prime d'activité baisse. C'est pourquoi un gain de 257 € de salaire net ne donne que 166 € de plus à une personne seule. Ce taux de transmission (environ 72 % pour le Smic, 75 % pour la CSG) est maintenant appliqué dans le calcul par décile, et l'économie de prime d'activité améliore le solde public de Mélenchon et du PS. CSG progressive : proposition des députés socialistes (16 septembre 2026), de 0,55 % au Smic à 9,2 % à 2 700 € net. Fin de la flat tax : dividendes imposés au barème sans abattement. Retailleau (7 janvier 2026) : fusion du RSA, de la prime d'activité et de l'ASS avec une baisse de 30 %, estimée ici sur la prime d'activité calculée par OpenFisca, et 16 heures de plus par an payées sans cotisations (hors CSG et CRDS). Son équipe annonce environ 230 € par mois de gain pour un salaire de 2 115 € net ; 16 heures par an n'en donnent qu'environ 20 €, le chiffre annoncé suppose sans doute davantage d'heures supplémentaires. Les mesures de Philippe (âge de départ, baisses d'impôt non détaillées) ne se prêtent pas à ce calcul.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-dec">
+    <h2 id="h-dec">Effet direct des mesures, décile par décile</h2>
+    <div class="tablewrap"><table id="tbldec">
+      <thead><tr><th>Programme</th><th class="sep">D1</th><th>D2</th><th>D3</th><th>D4</th><th>D5</th><th>D6</th><th>D7</th><th>D8</th><th>D9</th><th>D10</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Variation du revenu disponible de chaque dixième de la population (D1 = les 10 % les plus modestes, D10 = les 10 % les plus aisés) si les mesures monétaires du programme étaient appliquées entièrement, avant effets sur la croissance et l'emploi. Calcul : montant de chaque mesure (détaillé dans les fiches) × part reçue ou payée par chaque décile ÷ revenu de ce décile, à partir des niveaux de vie moyens par décile de l'Insee pour 2024 (de 9 960 € à 76 970 € par an). Les services publics (santé, école, transports) ne sont pas comptés.</p>
+  </section>
+  <section class="panel" aria-labelledby="h-off">
+    <h2 id="h-off">Recalage sur les prévisions officielles</h2>
+    <div class="tablewrap"><table id="tblofficial">
+      <thead><tr><th>Indicateur (statu quo)</th><th class="sep">Prévision officielle</th><th class="sep">Ce simulateur</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Le statu quo du simulateur ne prend aucune mesure nouvelle ; le gouvernement, lui, prévoit des économies. Sa trajectoire (déficit 5,4 % en 2026, 5 % en 2027, 4 % en 2028, moins de 3 % en 2029) est tracée en pointillés noirs sur le graphique du déficit et de la dette ; le Haut Conseil des finances publiques juge le retour sous 3 % en 2029 « très peu vraisemblable ». La conjoncture 2026-2027 du simulateur est calée sur ces prévisions (croissance 0,5 % puis 0,8 %, inflation plus faible), après quoi le modèle reprend ses propres hypothèses.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-fb">
+    <h2 id="h-fb">Recoupement avec un autre modèle</h2>
+    <p class="help">Le simulateur citoyen France Budget fait tourner les mêmes programmes dans un modèle différent (multiplicateurs du FMI, loi d'Okun, courbe de Phillips), sans contrainte de financement ni climat. Ses résultats pour 2030 sont mis en face de ceux de cette page (scénario « si élu, chiffrage crédible »).</p>
+    <div class="tablewrap"><table id="tblfb">
+      <thead><tr>
+        <th>Programme</th><th class="sep">Déficit 2030<br>France Budget</th><th>Ici</th><th class="sep">Dette 2030<br>France Budget</th><th>Ici</th><th class="sep">Chômage 2030<br>France Budget</th><th>Ici</th><th class="sep">Gini 2030<br>France Budget</th><th>Ici</th><th class="sep">Pouvoir d'achat<br>France Budget</th><th class="sep">Déficit 2030 ici,<br>hypothèses proches</th><th>Dette 2030 ici,<br>hypothèses proches</th><th>Note</th>
+      </tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Pouvoir d'achat France Budget : indice base 100 en 2025. France Budget part d'un Gini de 0,290, cette page de la valeur Insee 2024 (0,302) : comparez les évolutions plutôt que les niveaux. Les deux modèles s'accordent sur l'essentiel : aucun programme n'atteint ses objectifs de déficit une fois chiffré de façon prudente. Les colonnes « hypothèses proches » retirent les deux hypothèses propres à cette page, la prime d'instabilité politique actuelle (taux d'emprunt réels de fin octobre 2026) et la hausse votée du budget des armées : l'écart restant vient surtout de l'effet de relance, plus fort chez France Budget, et de l'encodage incomplet de certains programmes (économies de Retailleau non encodées). Sources : <a href="https://francebudget.fr/scenarios/lfi-2027" target="_blank" rel="noopener">LFI</a> · <a href="https://francebudget.fr/scenarios/rn-2027" target="_blank" rel="noopener">RN</a> · <a href="https://francebudget.fr/scenarios/horizons-2027" target="_blank" rel="noopener">Horizons</a> · <a href="https://francebudget.fr/scenarios/ps-2027" target="_blank" rel="noopener">PS</a> · <a href="https://francebudget.fr/scenarios/lr-2027" target="_blank" rel="noopener">LR</a>.</p>
+  </section>
+
+  <section class="panel" aria-labelledby="h-grid">
+    <h2 id="h-grid">Droits, libertés et contre-pouvoirs</h2>
+    <p class="help">Ces conséquences ne se chiffrent pas : chaque programme est passé sur la même grille, avec ses mesures concrètes, ce qu'en disent les juristes ou les institutions quand ils se sont prononcés, et la réponse de ses défenseurs. Le sens de l'effet (« renforce », « restreint ») porte sur les droits et contrôles existants, pas sur le bien-fondé politique des mesures. Plusieurs programmes sont encore partiels.</p>
+    <div class="gridcards" id="grid"></div>
+  </section>
+
+  <section aria-labelledby="h-cands" style="display:grid;gap:12px">
+    <h2 id="h-cands">Programmes et réglages par candidat</h2>
+    <div class="cands" id="cands"></div>
+  </section>
+
+  <section class="panel method" aria-labelledby="h-method">
+    <h2 id="h-method">Méthode et limites</h2>
+    <h3>Dette et croissance</h3>
+    <ul>
+      <li>Départ (Insee, comptes 2025) : dette de 115,6 % du PIB, déficit public de 5,1 % dont 2,2 points d'intérêts, soit un déficit hors intérêts de 2,9 % ; recettes publiques d'environ 52 % du PIB. Croissance de 0,9 % en 2025, chômage de 8,3 % au deuxième trimestre 2026. Le taux moyen de la dette (1,9 %) converge vers le taux de marché, un huitième de la dette étant refinancé chaque année.</li>
+      <li>Les mesures montent en charge de 2027 à 2031. Les économies creusent l'écart de production du montant du multiplicateur ; cet écart se résorbe de moitié chaque année. Stabilisateurs automatiques : le déficit augmente de 0,5 point par point d'écart.</li>
+      <li>Prime de risque : les marchés exigent davantage quand le déficit dépasse 3 %, et en cas de confrontation avec les règles européennes (gel de la dette BCE pour LFI, plafonnement unilatéral de la contribution à l'UE pour le RN).</li>
+    </ul>
+    <h3>Capacité d'emprunt</h3>
+    <ul>
+      <li>Le taux exigé monte avec le déficit (au-dessus de 3 %), avec le niveau de la dette (au-dessus de 120 % du PIB, réglable) et avec les dégradations de note. Celles-ci arrivent par paliers selon la part des recettes publiques absorbée par les intérêts : +0,2 point au-delà de 8 %, +0,6 au-delà de 11 %, +1,4 au-delà de 14 %. La charge d'intérêts représente aujourd'hui environ 4 % des recettes.</li>
+      <li>Quand la prime de risque dépasse le seuil de crise (3 points par défaut), deux issues. Si le pays mène une consolidation crédible (au moins 1 point de PIB) sans confrontation avec les règles européennes, la BCE peut intervenir (outil anti-fragmentation TPI) et plafonner la prime à 1 point. Sinon, c'est une crise de financement : prêts d'urgence à taux réduit, mais ajustement imposé de 1,5 point de PIB par an jusqu'à un déficit sous 3 %, avec un effet récessif plus fort (multiplicateur 1,5), un choc de −2 points de croissance, des séquelles durables sur la croissance pendant cinq ans, plus de pauvreté et d'inégalités, et une forte tension sociale (type Grèce 2010-2015, en plus modéré).</li>
+      <li>Une crise de financement impose en plus du programme un ajustement budgétaire de 1,5 point de PIB par an tant que le déficit dépasse 3 %, avec un choc de −2 points de croissance l'année suivante et des séquelles pendant cinq ans : la dette peut alors baisser vite, au prix d'un coût social élevé. Les effets non budgétaires du programme (revenus, climat, logement) continuent.</li>
+    </ul>
+    <h3>Retraites, pouvoir d'achat, climat et pollution</h3>
+    <ul>
+      <li>Retraites : trajectoire de référence du Conseil d'orientation des retraites (juin 2026) : solde de −0,2 % du PIB jusqu'en 2030, −0,9 % en 2045 ; niveau de vie des retraités de 100,2 % de celui de l'ensemble en 2023, en baisse lente. L'effet de chaque programme s'ajoute, à partir des chiffrages disponibles (abrogation des 64 ans : 14 à 20 Md€ ; plan Philippe : 30 Md€ par an selon son équipe ; plan Retailleau : 42 Md€ sur le mandat).</li>
+      <li>Inégalités et pauvreté (depuis la version 8) : calculées directement à partir des revenus par décile (niveaux Insee 2024, modifiés par l'effet direct des mesures, le chômage et un éventuel ajustement imposé). Le Gini suit la variation du Gini entre déciles ; la pauvreté baisse de 0,35 point pour 1 % de gain relatif des ménages autour du seuil (déciles 1 et 2) par rapport au revenu médian.</li>
+      <li>Effets de demande : en plus de l'effet récessif des économies, le transfert de revenu vers les 50 % les plus modestes relance l'activité (réglage « relance par la redistribution »), et l'investissement climat a son propre multiplicateur. Les trois lectures (keynésienne, centrale, libérale) changent ces réglages ensemble, ainsi que la fuite des recettes, la réaction des marchés et l'emploi des seniors.</li>
+      <li>Temps de travail : les 32 heures de Mélenchon baissent le chômage de 1,1 point fois la part de l'effet des 35 heures reproduite (50 % en lecture centrale, 90 % keynésienne, 10 % libérale) ; la part non compensée freine la croissance (jusqu'à −0,12 point par an pendant cinq ans). Les 16 heures annuelles de plus de Retailleau ont un effet macroéconomique négligeable ; ses économies sur les aides sont déjà comptées.</li>
+      <li>Logement et services publics : voir la section dédiée. Les mises en chantier baissent de 8 % par point de prime de risque, ce qui pénalise les programmes qui font monter les taux.</li>
+      <li>Conflit avec l'Union européenne : prime de risque de 0,7 point pour Mélenchon (désobéissance aux traités, gel de la dette BCE), 0,5 pour Le Pen (primauté du droit national, contribution européenne plafonnée), 0,15 pour Retailleau (primauté du droit national, mais budget conforme aux règles européennes, ce qui lui garde l'accès au filet de la BCE), 0 pour Philippe et Glucksmann.</li>
+      <li>Recettes perdues : appliquées aux hausses d'impôts visant les plus riches et, symétriquement, une partie des baisses d'impôts qui leur profitent revient par plus d'activité déclarée ; aucune perte en mode « tel qu'annoncé ».</li>
+      <li>Après une crise, l'ajustement imposé, l'effet récessif renforcé et les prêts d'urgence durent cinq ans ; les économies imposées restent ensuite acquises. Le modèle ne simule pas de seconde crise, et le filet de la BCE, une fois activé, reste en place.</li>
+      <li>Crise de financement : l'ajustement imposé est plafonné (6 points de PIB par défaut, réglable) et les prêts d'urgence à taux réduit durent cinq ans, après quoi l'État emprunte de nouveau au taux du marché.</li>
+      <li>Gel de la dette détenue par la BCE (Mélenchon) : la BCE l'accepte ou le refuse, sans moyenne entre les deux. Accepté en mode « tel qu'annoncé », refusé dans les autres modes (probabilité d'acceptation jugée à 20 %, car contraire aux traités selon les juristes cités par l'AFP) ; dans les fourchettes d'incertitude, il est accepté dans 20 % des tirages (en mode « pondéré », 20 % multiplié par la faisabilité, soit environ 9 %).</li>
+      <li>Amortisseur IA : protéger les salariés des pertes d'emplois liées à l'IA coûte de l'argent (au pic, environ 0,4 point de PIB pour un amortisseur maximal avec une diffusion moyenne de l'IA, 0,8 si elle est rapide), ce qui pèse sur le déficit des programmes qui en prévoient le plus.</li>
+      <li>Recalage et limites connues : la conjoncture 2026-2027 est calée sur les prévisions du gouvernement, du HCFP et du consensus ; le simulateur n'a pas été testé sur le passé (rejouer 2015-2025 demanderait les séries détaillées de l'Insee) ni relu par des économistes. Il reste plus simple que les modèles du Trésor (Mésange), de la Banque de France ou de l'OFCE : pas de commerce extérieur, de secteurs ni de réaction des taux de la BCE, et une répartition des revenus par clés approximatives plutôt que sur des ménages réels. Au-delà de 2032, les résultats sont des tendances.</li>
+      <li>Explications des courbes : le modèle note chaque événement (début du programme, choc, dégradation de la note, filet BCE, crise de financement, recul face à la contestation, réforme des retraites achevée, effets de long terme). Une inflexion est signalée quand la variation annuelle change de plus de 2,5 fois sa variation habituelle ; la cause affichée est l'événement de l'année ou de la précédente, sinon un facteur commun (IA, vieillissement, réchauffement).</li>
+      <li>Incertitude : simulation de Monte-Carlo, 200 tirages avec les mêmes tirages pour tous les candidats, pour que les écarts reflètent les programmes et non le hasard.</li>
+      <li>Recettes perdues sur les plus riches : appliquées aux mesures visant les 10 % les plus riches (impôts sur le capital, héritages, part de l'impôt sur le revenu et des impôts des entreprises payée par eux), en plus de la note de crédibilité. Le débat est réel : Zucman estime la perte faible ; le CAE (juillet 2025) trouve un exil limité (0,02 à 0,23 % des hauts patrimoines par point d'impôt) mais des réactions d'optimisation possiblement 2,5 fois plus fortes ; le Sénat chiffre la taxe Zucman à 2 ou 3 Md€ au lieu de 20, surtout à cause de son assiette.</li>
+      <li>Âge de départ et seniors : d'après l'étude de l'IPP sur le passage de 60 à 62 ans (rapport n° 61, 2025), l'emploi entre 60 et 62 ans a augmenté de 20 à 25 points et le chômage indemnisé de 12 à 15 points chez les personnes concernées.</li>
+      <li>Climat : la France émet environ 1 % des gaz à effet de serre mondiaux. Les chocs climatiques et la chaleur dépendent donc presque entièrement de la trajectoire mondiale (réglage « trajectoire climatique »), pas des émissions françaises. Ce que chaque programme change vraiment ici : les émissions françaises (engagements européens), la pollution de l'air locale et ses décès, l'adaptation et la facture d'énergie importée. Les candidats ne sont donc pas crédités d'un climat plus clément.</li>
+      <li>Pouvoir d'achat : microsimulation simplifiée. Chaque mesure monétaire est chiffrée en Md€ par an (chiffres des candidats ou des sources citées), puis répartie entre les déciles selon une clé d'incidence tirée des études de la DREES et de l'IPP (par exemple 80 % des minima sociaux et aides au logement vont aux 30 % les plus modestes, près de 90 % des revenus du capital aux 10 % les plus riches, et environ 57 % de l'impôt sur le revenu est payé par ces derniers). Le résultat est rapporté au revenu disponible de chaque décile, calculé à partir des niveaux de vie moyens par décile de l'Insee (2024) pour un total d'environ 1 550 Md€. Retraités et jeunes sont traités à part. Les clés sont des approximations : un modèle comme TAXIPP (IPP) ou Ines (Insee-DREES) travaillerait sur des ménages réels.</li>
+      <li>Gaz à effet de serre : 364 MtCO₂e en 2025, en baisse de 1,5 % par an (Citepa) ; la future stratégie bas-carbone vise environ 4 % par an. Chaque programme remplace ce rythme par le sien, une fois monté en charge (2027-2030). La France pèse environ 1 % des émissions mondiales : sa baisse change peu le réchauffement subi en France, qui dépend surtout des autres pays. Le réglage du réchauffement reste donc commun à tous.</li>
+      <li>Pollution de l'air : environ 40 000 décès prématurés par an liés aux particules fines (Santé publique France), qui suivent en partie les émissions de combustion (élasticité retenue : 0,8) avec un progrès technique de 1 % par an. C'est l'effet local et rapide des politiques climatiques.</li>
+      <li>Les chiffrages des instituts restent rares : aucun programme n'a encore été évalué par l'IPP ou l'OFCE pour 2027. Le comparateur Déchiffrer 2027 recense 773 positions, dont 222 chiffrées.</li>
+    </ul>
+    <h3>Chocs ponctuels</h3>
+    <ul>
+      <li>Récession mondiale : −3 points de croissance, rebond partiel (type 2009). Crise financière : −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012). Choc d'inflation : +3 puis +1,5 point d'inflation (type 2022-2023).</li>
+      <li>Catastrophe climatique : canicule ou inondations majeures, −1,5 point de croissance, +1 point de déficit (reconstruction, aides), +1 point d'inflation (énergie, alimentation), environ 10 000 décès en excès comme lors de la canicule de 2003 (moins avec l'adaptation).</li>
+      <li>Épidémie : −7 points de croissance puis rebond, +5 puis +2 points de déficit, environ 75 000 décès en excès sur deux ans (ordre de grandeur de 2020), modulés par les moyens du système de santé (type 2020-2021).</li>
+    </ul>
+    <h3>Climat</h3>
+    <ul>
+      <li>Le réchauffement retire chaque année un peu de croissance (dommages aux récoltes, aux infrastructures, au travail par forte chaleur) : 0,03, 0,07 ou 0,12 point selon la trajectoire.</li>
+      <li>Les décès en excès liés à la chaleur partent de 2 000 par an, de l'ordre des étés récents, et augmentent de 2, 4 ou 6 % par an.</li>
+      <li>L'investissement d'adaptation et de transition de chaque programme réduit jusqu'à moitié les dommages et jusqu'à 40 % les décès, une fois monté en charge (2027-2035), selon le rapport entre l'effort et le besoin réglé ci-dessus.</li>
+    </ul>
+    <h3>Intelligence artificielle</h3>
+    <ul>
+      <li>Selon le CESE, 62 % des emplois des économies avancées sont exposés à l'IA. Le modèle ajoute des gains de productivité (0,1, 0,3 ou 0,6 point de croissance par an une fois diffusée) et une vague temporaire de pertes d'emplois qui monte jusqu'en 2032, puis se résorbe au fil des reconversions (0,5, 1,2 ou 2,5 points de chômage au pic).</li>
+      <li>L'IA augmente les inégalités (la part des revenus du capital progresse) et réduit un peu les recettes sociales tant que les pertes d'emploi durent.</li>
+      <li>Chaque programme agit par deux leviers : l'amortisseur (formation, reconversion, partage du temps de travail, protection des chômeurs), qui réduit les pertes d'emplois et leurs effets, et le rythme d'adoption (soutien à l'innovation ou freins), qui augmente ou réduit les gains de productivité.</li>
+    </ul>
+    <h3>Effets sociaux et santé</h3>
+    <ul>
+      <li>Chômage : loi d'Okun (0,5 point par point d'écart de production), retour progressif vers un chômage structurel de 7,6 %, auquel s'ajoutent les pertes d'emplois liées à l'IA.</li>
+      <li>Inégalités (Gini, à partir de 0,302 en 2024, Insee) et pauvreté (15,4 %) : calculées à partir des revenus par décile, qui intègrent l'effet direct des mesures, le chômage (qui touche davantage les déciles modestes) et un éventuel ajustement imposé ; détail plus bas.</li>
+      <li>Santé : l'espérance de vie baisse de 0,6 mois par point de chômage et de 0,8 mois par point de pauvreté supplémentaires (le chômage et la pauvreté sont associés à une mortalité plus élevée), et gagne jusqu'à 6 mois par point de PIB de dépenses de santé en plus, à terme. Une épidémie retire environ un mois par 20 000 décès en excès. Coefficients indicatifs.</li>
+      <li>Tension sociale : indice qui monte avec le chômage, la pauvreté, l'inflation, les chocs, les réformes impopulaires appliquées et, depuis cette version, les mesures touchant aux droits. Ces dernières sont tirées de la grille qualitative : 6 points par critère jugé « restreint » (égalité de traitement, libertés, contre-pouvoirs), 3 pour « mixte », 1 pour « renforce » (contre-mobilisation, par exemple des syndicats de police), avec un pic l'année de l'élection. Cela donne 18 points pour Le Pen, 12 pour Retailleau, 6 pour Philippe, 5 pour Mélenchon et 2 pour Glucksmann. Repère : entre 250 000 (police) et 640 000 (organisateurs) personnes ont manifesté contre l'extrême droite le 15 juin 2024, après la dissolution. Les soutiens du RN et de LR répondent que l'immigration non maîtrisée est elle-même une source de tension et que leurs mesures la réduiraient ; aucune étude ne permet de chiffrer cet effet. Au-dessus de 65, un gouvernement recule partiellement chaque année (comme sur la taxe carbone en 2018 ou les retraites en 2025) : jusqu'à 40 % de l'effort budgétaire abandonné. Ce recul ne s'applique pas au mode « tel qu'annoncé ».</li>
+    </ul>
+    <h3>Limites</h3>
+    <ul>
+      <li>Ces coefficients donnent des ordres de grandeur. Ils ne remplacent pas les modèles de l'Insee, de la Banque de France, de l'OFCE ou de l'IPP, ni les études climatiques détaillées.</li>
+      <li>Non modélisés : guerre, démographie détaillée des retraites, réaction des autres pays européens, effets de l'IA sur les prix, migrations climatiques.</li>
+      <li>Le programme de Raphaël Glucksmann n'est pas encore chiffré : la simulation reprend le chiffrage du projet du PS par francebudget.fr.</li>
+    </ul>
+  </section>
+
+  <section class="panel method" aria-labelledby="h-src">
+    <h2 id="h-src">Sources</h2>
+    <h3>Statistiques publiques</h3>
+    <ul>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/8956575" target="_blank" rel="noopener">compte des administrations publiques 2025</a> : déficit 5,1 %, dette 115,6 %, intérêts 2,2 % du PIB, prélèvements obligatoires 43,6 %.</li>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/9032359" target="_blank" rel="noopener">chômage au deuxième trimestre 2026</a> : 8,3 %, 21,6 % chez les 15-24 ans.</li>
+      <li>Insee, <a href="https://insee.fr/fr/statistiques/9019316" target="_blank" rel="noopener">niveau de vie et pauvreté en 2024</a> : pauvreté 15,4 %, Gini 0,302, niveau de vie médian 2 228 € par mois (Insee Première n° 2117, juillet 2026).</li>
+      <li>Insee, <a href="https://www.insee.fr/en/statistiques/8726555" target="_blank" rel="noopener">bilan démographique 2025</a> : espérance de vie 85,9 ans (femmes) et 80,3 ans (hommes), 651 000 décès.</li>
+      <li>Insee, note de conjoncture de décembre 2025, via <a href="https://www.boursorama.com/actualite-economique/actualites/rebond-de-croissance-en-vue-en-france-en-2026-mais-qui-ne-profitera-pas-a-l-emploi-86f41bdbaef9dfd54bf9caaaf10dbbad" target="_blank" rel="noopener">AFP</a> : croissance 0,9 % en 2025, inflation autour de 1 à 1,5 %.</li>
+      <li>Conseil d'orientation des retraites, <a href="https://www.cor-retraites.fr/sites/default/files/2026-06/Synth%C3%A8se_RA_2026.pdf" target="_blank" rel="noopener">rapport annuel 2026</a> : solde du système, niveau de vie des retraités, coût de la suspension de la réforme.</li>
+      <li>Citepa, via <a href="https://www.banquedesterritoires.fr/emissions-de-gaz-effet-de-serre-une-baisse-restee-insuffisante-en-2025" target="_blank" rel="noopener">Banque des territoires</a> : 364 MtCO₂e en 2025, −1,5 %.</li>
+      <li>Santé publique France, via <a href="https://www.linfodurable.fr/sante/40-000-deces-par-les-morts-liees-la-pollution-de-lair-en-legere-baisse-25137" target="_blank" rel="noopener">L'Info durable</a> : environ 40 000 décès par an liés aux particules fines.</li>
+      <li>CESE, <a href="https://www.lecese.fr/print/pdf/node/19360" target="_blank" rel="noopener">IA, travail et emploi</a> : 62 % des emplois des économies avancées exposés.</li>
+    </ul>
+    <h3>Instituts et think tanks</h3>
+    <ul>
+      <li>I4CE, <a href="https://www.i4ce.org/wp-content/uploads/2025/07/Panorama-des-financements-climat-ed-2025_Synthese-et-resultats.pdf" target="_blank" rel="noopener">panorama des financements climat 2025</a> : 102 Md€ investis en 2024, 87 Md€ de plus nécessaires d'ici 2030.</li>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/fichier/version-html/8735266/IR34_Chomage_4T2025.pdf" target="_blank" rel="noopener">chômage au quatrième trimestre 2025</a> : taux d'emploi des 55-64 ans de 62,1 %.</li>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/8672665" target="_blank" rel="noopener">patrimoine des ménages début 2024</a> : 48 % du patrimoine brut détenu par les 10 % les mieux dotés, 15 % par les 1 %.</li>
+      <li>IPP, <a href="https://www.ipp.eu/wp-content/uploads/2025/11/Synthese_rapport61.pdf" target="_blank" rel="noopener">effets du report de l'âge légal de 2010 sur l'emploi et le chômage des seniors</a>.</li>
+      <li>CAE, <a href="https://cae-eco.fr/static/pdf/Communique-de-presse_f118_exil_fiscal.pdf" target="_blank" rel="noopener">exil fiscal des hauts patrimoines</a> (juillet 2025) ; iFRAP, <a href="https://www.ifrap.org/la-revue/fiscalite-des-riches-le-mirage-des-milliards-eu-de-recettes" target="_blank" rel="noopener">estimations de rendement de la taxe Zucman</a> (Zucman, Sénat, critiques).</li>
+      <li>Selectra, <a href="https://selectra.info/finance/actualites/marche/age-depart-retraite-propositions-candidats" target="_blank" rel="noopener">âge de départ proposé par chaque candidat</a> (27 octobre 2026).</li>
+      <li>OpenFisca-France, <a href="https://openfisca.org/fr/" target="_blank" rel="noopener">moteur de calcul des impôts et prestations</a> (version 176, législation 2026) : cas types.</li>
+      <li>Selectra, <a href="https://selectra.info/finance/actualites/marche/csg-progressive-2027-salaire-net-smic" target="_blank" rel="noopener">CSG progressive des députés socialistes</a> (17 septembre 2026).</li>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/8974371" target="_blank" rel="noopener">redistribution élargie aux services publics</a> (2023) : 506 Md€ de transferts en nature ; Insee, <a href="https://www.insee.fr/fr/statistiques/2015606" target="_blank" rel="noopener">logements mis en chantier 2000-2025</a>.</li>
+      <li>Logement : <a href="https://edito.seloger.com/actualites/presidentielles/logement-5-grandes-mesures-de-melenchon-presidentielle-de-2027-article" target="_blank" rel="noopener">plan de Mélenchon (SeLoger)</a>, <a href="https://www.investissement-locatif.com/presidentielle-2027-immobilier.html" target="_blank" rel="noopener">comparatif des programmes immobiliers</a>.</li>
+      <li>Travail : <a href="https://www.publicsenat.fr/actualites/politique/la-fete-est-finie-bruno-retailleau-veut-supprimer-les-35-heures-inciter-a-la-reprise-dactivite-et-plafonner-les-aides-sociales-pour-relancer-lemploi" target="_blank" rel="noopener">Retailleau, 35 heures et aides sociales (Public Sénat)</a>, <a href="https://www.elyseescope.com/le-radar/jean-luc-melenchon-emploi" target="_blank" rel="noopener">Mélenchon, 32 heures (ÉlyséeScope)</a>.</li>
+      <li>SDES, <a href="https://www.statistiques.developpement-durable.gouv.fr/bilan-energetique-de-la-france-en-2025-donnees-provisoires" target="_blank" rel="noopener">bilan énergétique 2025</a> : facture de 45,8 Md€ ; Cérema via <a href="https://maire-info.com/lartificialisation-des-sols-baisse-legerement-mais-reste-encore-elevee-article2-28609" target="_blank" rel="noopener">Maire-info</a> : 20 276 ha artificialisés en 2022.</li>
+      <li>International : <a href="https://www.ideal-investisseur.fr/en/markets/oat-bund-spread.html" target="_blank" rel="noopener">écart OAT-Bund (28 octobre 2026)</a> ; <a href="https://www.lespritfr.com/2026/10/24/moodys-note-france-aa3-repit-budget-2027/" target="_blank" rel="noopener">décision de Moody's (23 octobre 2026)</a> ; Banque de France, <a href="https://www.banque-france.fr/fr/statistiques/credit/emission-et-detention-de-titres-francais-2026-q2" target="_blank" rel="noopener">détention des titres français</a> ; Insee-Eurostat, <a href="https://www.insee.fr/fr/statistiques/2830286" target="_blank" rel="noopener">dette publique dans l'UE en 2025</a>.</li>
+      <li>Défense : <a href="https://opexnews.fr/budget-armees-defense-2027-presidentielle/" target="_blank" rel="noopener">positions des candidats (OpexNews)</a>, <a href="https://www.zonebourse.com/actualite-bourse/presidentielle-2027-vers-un-trou-d-air-pour-la-defense-francaise--ce785ddbd18ff02d" target="_blank" rel="noopener">trajectoire budgétaire et objectif de Philippe (Zonebourse, étude Bernstein)</a>.</li>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/8661938" target="_blank" rel="noopener">patrimoine économique national 2024</a> : patrimoine net des administrations publiques de 690 Md€ ; FMI, <a href="https://www.imf.org/en/blogs/articles/2014/09/30/now-is-a-good-time-to-invest-in-infrastructure" target="_blank" rel="noopener">effet de l'investissement public</a> (2014) ; BCE, <a href="https://ecb.europa.eu/pub/pdf/scpwps/ecb.wp2036.ga.pdf" target="_blank" rel="noopener">règle de réaction budgétaire dans la zone euro</a> (document de travail n° 2036).</li>
+      <li>CNCDH, <a href="https://www.cncdh.fr/sites/default/files/2023-12/23.12.20%20CP%20Adoption%20PJL%20Immigration_1.pdf" target="_blank" rel="noopener">communiqué sur la loi immigration</a> (20 décembre 2023) : préférence nationale « discriminante » ; <a href="https://news.radioalgerie.dz/fr/node/47264" target="_blank" rel="noopener">manifestations du 15 juin 2024</a>.</li>
+      <li>HCFP, <a href="https://www.hcfp.fr/sites/default/files/2026-10/Avis%20HCFP%202026-5%20-%20PLF-PLFSS%202027.pdf" target="_blank" rel="noopener">avis sur le PLF 2027</a> (25 septembre 2026) ; <a href="https://fr.euronews.com/2026/10/01/le-gouvernement-francais-presente-son-budget-sur-fond-de-dette-record" target="_blank" rel="noopener">déficit 2027 sans économies (Euronews)</a> ; Insee, <a href="https://www.insee.fr/fr/statistiques/8988793" target="_blank" rel="noopener">comptes nationaux 2025</a> et <a href="https://www.insee.fr/fr/statistiques/8988841" target="_blank" rel="noopener">finances publiques 2018-2025</a>.</li>
+      <li>Insee, <a href="https://www.insee.fr/fr/statistiques/2417897" target="_blank" rel="noopener">niveau de vie moyen par décile, 1996-2024</a> : base de la microsimulation.</li>
+      <li>DREES, <a href="https://drees.solidarites-sante.gouv.fr/sites/default/files/2021-12/1%20-%20La%20redistribution%20op%C3%A9r%C3%A9e%20par%20laprotection%20sociale%20en%20France%20en%202020.pdf" target="_blank" rel="noopener">la redistribution opérée par la protection sociale</a> : répartition des prestations par niveau de vie.</li>
+      <li>IPP, <a href="https://www.ipp.eu/wp-content/uploads/2022/03/Note_IPP_81_mar2022.pdf" target="_blank" rel="noopener">effets redistributifs des mesures 2017-2022</a> et <a href="https://www.europe1.fr/economie/les-francais-les-plus-riches-paient-proportionnellement-moins-dimpots-que-les-autres-selon-lipp-4187234" target="_blank" rel="noopener">imposition des plus hauts revenus</a> : incidence des mesures fiscales selon le niveau de vie.</li>
+      <li>Institut de l'Entreprise, analyse du contre-budget du RN, via <a href="https://www.planetegrandesecoles.com/budget-marine-le-pen-2027-mesures-contre-budget-rn" target="_blank" rel="noopener">Planète Grandes Écoles</a>.</li>
+      <li>iFRAP, <a href="https://www.ifrap.org/retraite/retraite-60-ans-entre-20-et-40-milliards-deuros-de-cout" target="_blank" rel="noopener">coût d'un abaissement de l'âge de départ</a> ; Moneyvox, <a href="https://www.moneyvox.fr/retraite/actualites/98707/abroger-la-reforme-des-retraites-et-le-depart-a-64-ans-combien-ca-coute" target="_blank" rel="noopener">coût de l'abrogation des 64 ans</a>.</li>
+      <li>OFCE, <a href="https://www.ofce.sciences-po.fr/pdf/etudes/2022/EtudeOFCE-02-2022.pdf" target="_blank" rel="noopener">bilan redistributif 2017-2022</a> et multiplicateurs budgétaires.</li>
+      <li>France Budget, <a href="https://francebudget.fr/" target="_blank" rel="noopener">simulateur citoyen open source</a> utilisé pour le recoupement.</li>
+      <li>Institut Montaigne, <a href="https://www.institutmontaigne.org/communiques-de-presse/presidentielle-2027-linstitut-montaigne-devoile-les-reperes-de-montaigne-25-recommandations-pour-la" target="_blank" rel="noopener">dispositif présidentielle 2027</a> (6 octobre 2026) : chiffrage des programmes annoncé pour le premier trimestre 2027. À fin octobre 2026, ni l'IPP, ni l'OFCE, ni Montaigne n'ont publié de chiffrage des programmes : les montants viennent des candidats, de France Budget et des sources citées.</li>
+      <li>Déchiffrer 2027, <a href="https://dechiffrer2027.fr/en" target="_blank" rel="noopener">comparateur des programmes</a>.</li>
+    </ul>
+    <h3>Programmes, analyses juridiques et sondages</h3>
+    <ul>
+      <li>LFI : <a href="https://lcp.fr/actualites/contre-budget-lfi-propose-1064-milliards-d-euros-de-recettes-supplementaires-et-817" target="_blank" rel="noopener">contre-budget 2027 (LCP)</a>, <a href="https://votons-2027.fr/candidats/melenchon/programme/climat" target="_blank" rel="noopener">climat</a>, <a href="https://votons-2027.fr/candidats/melenchon/programme/securite" target="_blank" rel="noopener">sécurité</a>, <a href="https://fr.news.yahoo.com/annuler-partie-dette-france-proposition-151328169.html" target="_blank" rel="noopener">gel de la dette BCE (AFP)</a>.</li>
+      <li>RN : <a href="https://www.planetegrandesecoles.com/budget-marine-le-pen-2027-mesures-contre-budget-rn" target="_blank" rel="noopener">contre-budget 2027</a>, <a href="https://www.lagazettefrance.fr/article/en-revisant-la-constitution-par-referendum-le-rn-au-pouvoir-ouvrirait-une-crise-majeure" target="_blank" rel="noopener">révision par référendum (AFP)</a>, <a href="https://lessurligneurs.eu/immigration-les-promesses-et-les-non-dits-du-programme-du-rassemblement-national/" target="_blank" rel="noopener">analyse des Surligneurs</a>, <a href="https://www.tsa-algerie.com/france-le-rn-veut-interdire-certains-emplois-aux-binationaux" target="_blank" rel="noopener">binationaux</a>, <a href="https://www.franceinfo.fr/politique/front-national/presidentielle-si-le-rassemblement-national-accede-au-pouvoir-la-cgt-n-aura-plus-de-subventions-assure-sebastien-chenu_8253898.html" target="_blank" rel="noopener">CGT (franceinfo)</a>.</li>
+      <li>Horizons : <a href="https://www.edouardphilippe.fr/priorites/pour-une-france-plus-prospere" target="_blank" rel="noopener">priorités de campagne</a>, <a href="https://votons-2027.fr/candidats/philippe/programme/climat" target="_blank" rel="noopener">climat</a>, <a href="https://lcp.fr/actualites/mayotte-pour-edouard-philippe-l-urgence-est-de-fermer-les-vannes-de-l-immigration-440519" target="_blank" rel="noopener">Mayotte (LCP)</a>.</li>
+      <li>PS-Place publique : <a href="https://francebudget.fr/scenarios/ps-2027" target="_blank" rel="noopener">chiffrage du projet du PS</a>, <a href="https://lafacture2027.fr/programme-fiscal-raphael-glucksmann-2027" target="_blank" rel="noopener">volet fiscal</a>, <a href="https://www.linfodurable.fr/politique/apres-la-primaire-quelles-ambitions-ecologiques-pour-raphael-glucksmann-59331" target="_blank" rel="noopener">écologie</a>, <a href="https://www.elyseescope.com/candidat/raphael-glucksmann/securite" target="_blank" rel="noopener">sécurité</a>.</li>
+      <li>LR : <a href="https://www.publicsenat.fr/actualites/economie/presidentielle-2027-bruno-retailleau-sengage-sur-un-plan-deconomies-de-pres-de-200-milliards-deuros-sil-est-elu" target="_blank" rel="noopener">plan d'économies</a>, <a href="https://votons-2027.fr/candidats/retailleau/programme/climat" target="_blank" rel="noopener">climat</a>, <a href="https://www.publicsenat.fr/actualites/politique/referendum-sur-limmigration-primaute-du-droit-national-le-projet-de-bruno-retailleau-est-il-faisable" target="_blank" rel="noopener">faisabilité juridique (Public Sénat)</a>, <a href="https://www.leclubdesjuristes.com/en-bref/presidentielle-2027-bruno-retailleau-veut-supprimer-le-droit-du-sol-par-referendum-17273/" target="_blank" rel="noopener">droit du sol (Club des juristes)</a>.</li>
+      <li>Sondages : <a href="https://www.publicsenat.fr/actualites/politique/sondage-67-des-francais-rejettent-le-report-a-65-ans-de-l-age-legal-de-depart-a-la" target="_blank" rel="noopener">retraite à 65 ans</a>, <a href="https://www.brut.media/fr/articles/86-des-francais-sont-pour-la-taxe-zucman-selon-un-sondage-ifop-commande-par-les-socialistes" target="_blank" rel="noopener">taxe Zucman (Ifop)</a>, <a href="https://actu.orange.fr/politique/presidentielle-2027-jean-luc-melenchon-defend-l-annulation-de-la-dette-francaise-detenue-par-la-bce-et-fustige-ses-adversaires-magic-CNT000002rK1L3.html" target="_blank" rel="noopener">gel de la dette BCE (YouGov)</a>, <a href="https://www.epocinfo.fr/ep2027.php" target="_blank" rel="noopener">intentions de vote</a>.</li>
+    </ul>
+  </section>
+  </div>
+</div>
