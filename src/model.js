@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:1.7,mktReal:1.7,ieff0:1.9,mult:0.7,prem:0.15,okun:0.5,u0:8.3,uStar:7.6,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.5,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -70,8 +70,8 @@ function simulate(p,mode,b){
   const consolid=(p.A-((p.topRev||0)-(p.topCut||0))*(mode==="annonce"?0:b.leak)/b.gdpMd*100)*real; // effort crédible : condition du filet BCE
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false; const spHist=[], invHist=[];
   const comp=fiscalComp(p,b); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
-  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0;
-  const o={nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0;
+  const o={mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
     const z=shockAt(b.shock,b.shockYear,t);
@@ -113,7 +113,11 @@ function simulate(p,mode,b){
     const pubRet=b.spRet*(KS-KSp)+b.invRet*(KI-KIp);
     // inégalités et croissance de long terme (OCDE, Cingano 2014 : surtout via l'éducation des ménages modestes) : effet décalé de trois ans, réglable, nul en lecture libérale
     const giniLag=o.gini.length>=3?o.gini[o.gini.length-3]:b.gini0, ineqDrag=b.ineqGrowth*100*(giniLag-b.gini0);
-    const supply=(t>=2027?p.supply*pol:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet-ineqDrag; empPrev=empEff;
+    // solde migratoire : écart à la tendance (milliers par an), réduit par la solidité juridique comme les autres mesures touchant aux droits ; il change le nombre d'actifs, donc le PIB total (le PIB par habitant bouge peu)
+    const migReal=mode==="annonce"?1:mode==="pondere"?f:(p.legal==null?1:p.legal);
+    const dm=(p.migDelta||0)*migReal*retreat*ramp(t,2026,2030); migN+=dm; migW+=dm*b.migWork;
+    const migLevel=b.migGdp*migW/b.emp0*100, migGrowth=migLevel-migLevelPrev; migLevelPrev=migLevel;
+    const supply=migGrowth+(t>=2027?p.supply*pol:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet-ineqDrag; empPrev=empEff;
     if(t===2032&&Math.abs(p.longRun*pol)>=0.03) E(t,"lr",(p.longRun>0?"Les réformes commencent à relever":"Les réformes commencent à freiner")+" la croissance de long terme ("+(p.longRun>0?"+":"")+(p.longRun*pol).toFixed(2)+" pt par an à terme).");
     const gapPrev=gap, structPrev=struct;
     const dec0=p.paDec||[0,0,0,0,0,0,0,0,0,0];
@@ -132,7 +136,7 @@ function simulate(p,mode,b){
     const near=t===2026?NEAR[2026]:t===2027?NEAR[2027]:{g:0,pi:0}; // conjoncture : prévisions officielles 2026-2027 (HCFP, consensus)
     const realg=b.realg+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
     const pi=b.infl+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
-    const pd=s-b.stab*gap+z.pd+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
+    const pd=s-b.stab*gap+z.pd-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const rating=burden>14?1.4:burden>11?0.6:burden>8?0.2:0;   // dégradations de note par paliers
     const polPrem=b.premPol*(t<=2027?1:Math.pow(b.premPolDecay,t-2027)); // prime d'instabilité politique actuelle, qui se résorbe après l'élection
     let prem=b.prem*Math.max(0,lastDef-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(t>=2027?p.eu*euW*z.euMult:0)+z.spread;
@@ -158,7 +162,7 @@ function simulate(p,mode,b){
     // pollution de l'air (PM2.5) : suit les émissions de combustion, plus un progrès technique de 1 %/an
     const pm=b.pm0*Math.pow(co2/b.co2_0,0.8)*Math.pow(0.99,t-START);
     // retraites : trajectoire COR (−0,2 % du PIB jusqu'en 2030, −0,9 % en 2045) + effet du programme (déjà compris dans le déficit)
-    const pens=(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*real*retreat*phase-0.15*Math.max(0,u-b.u0);
+    const pens=(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*real*retreat*phase-0.15*Math.max(0,u-b.u0)+14*migW/b.emp0*Math.max(0,1-(t-2027)/30); // cotisations des actifs en plus ou en moins, effet qui s'estompe quand ils partent à la retraite (COR)
     const retliv=b.retLiv0-0.21*(t-2023)+p.retLiv*real*retreat*phase-1.5*forcedCum;
     // pouvoir d'achat : croissance commune + mesures du programme + chômage + ajustement imposé + chocs d'inflation
     gdp*=1+realg/100; inflCum+=Math.max(0,z.infl);
@@ -198,7 +202,7 @@ function simulate(p,mode,b){
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
     o.growth.push(realg);o.infl.push(pi);o.youth.push(b.youth0*u/b.u0);o.po.push(po);o.dep.push(dep);o.energy.push(b.energy0*co2/b.co2_0*(1+Math.max(0,z.infl)/10));o.artif.push(artif);o.sp.push(sp);o.ratioEl.push((inc[9]+ik[9])/(inc[0]+ik[0]));o.ratioMon.push(inc[9]/inc[0]);
     o.spread.push(premMkt);o.rating.push((rating>=0.2?1:0)+(rating>=0.6?1:0)+(rating>=1.4?1:0)+(crisis!==null?2:0)+(tpi!==null?1:0));o.defense.push(defSp);
-    o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
+    o.mig.push(migW);o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
     sPrev=s;
   }
   o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.f=f;o.crisis=crisis;o.tpi=tpi;return o;

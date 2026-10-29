@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, soir (2)
+
+- **Démographie et immigration** : solde migratoire par programme, en écart à la tendance du COR (+150 000 par an). Valeurs par défaut, hypothèses du simulateur faute de chiffrage par les candidats : Le Pen −100 000, Retailleau −70 000, Philippe −10 000, Glucksmann 0, Mélenchon +20 000 ; pondérées par la solidité juridique en mode « chiffrage crédible ». Effets sur le nombre d'actifs, le PIB total et les cotisations de retraite ; contribution budgétaire nette nulle par défaut (OCDE, 2021), réglable. Nouvel indicateur : actifs liés au solde migratoire.
+
 ## 29 octobre 2026, soir
 
 - **Inégalités et croissance de long terme** (nouveau réglage) : chaque point de Gini en plus réduit la croissance de 0,06 point par an en lecture centrale, avec trois ans de décalage (0,12 keynésienne, 0 libérale), d'après l'OCDE (Cingano, 2014) et le FMI (Ostry et autres, 2014), avec les réserves de Barro (2000), Forbes (2000) et de l'OFCE (Allègre, 2015).
