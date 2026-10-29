@@ -1,0 +1,15 @@
+name: Erreur dans la page
+description: Un affichage cassé, un calcul incohérent, un lien mort.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: quoi
+    attributes:
+      label: Ce qui ne va pas
+      description: Que voyez-vous, et qu'attendiez-vous ? Le lien de partage du scénario (bouton « Copier le lien du scénario ») aide beaucoup.
+    validations:
+      required: true
+  - type: input
+    id: navigateur
+    attributes:
+      label: Navigateur et appareil

@@ -14,14 +14,16 @@ Candidats comparés : Jean-Luc Mélenchon (LFI), Marine Le Pen (RN), Édouard Ph
   - « Tel qu'annoncé » : les mesures sont prises telles que chiffrées par le candidat ;
   - « Si élu, chiffrage crédible » (par défaut) : le modèle tient compte des fuites fiscales, de la réaction des marchés et des délais de mise en œuvre ;
   - « Pondéré par la faisabilité » : les mesures juridiquement ou politiquement fragiles comptent moins.
+- **Effets sur l'activité par type de mesure** : chaque programme est découpé (impôts sur les plus aisés, impôts larges, entreprises, transferts, fonctionnement, investissement…), avec un multiplicateur propre à chaque type et au temps écoulé, d'après la synthèse de [Déchiffrer 2027](https://dechiffrer2027.fr/en/methode). Les récessions peuvent laisser des séquelles durables (hystérésis).
 - **Fourchettes d'incertitude** obtenues par 200 tirages Monte-Carlo autour des réglages courants.
 - **Explications des ruptures de courbe** : la page indique la cause de chaque cassure (crise, prêts d'urgence, règle budgétaire…).
-- **Cas types OpenFisca** : effet des principales mesures sur des ménages types.
+- **Cas types OpenFisca** : effet des principales mesures sur huit ménages types (dont un fonctionnaire et deux ménages de retraités), avec le détail de leur revenu.
 - **Recoupements** :
   - avec les prévisions officielles 2026-2027 ;
   - avec les chiffrages de France Budget, dans des colonnes alignées sur leurs hypothèses.
 - **Onglet Informations** : quand et pourquoi le modèle déclenche une crise de la dette, indicateurs couverts, regard international.
-- **Fiches candidats** : mesures principales, critiques formulées et réponses de leurs défenseurs (« L'autre point de vue »).
+- **Fiches candidats** : mesures principales, origine de chaque mesure (programme, document du parti, déclaration) et de son montant, date de dernière revue, critiques formulées et réponses de leurs défenseurs (« L'autre point de vue »).
+- **Lien de partage** : le bouton « Copier le lien du scénario » garde tous les réglages dans l'adresse.
 
 Tous les paramètres sont réglables. Trois lectures économiques sont proposées : keynésienne (proche de l'OFCE), centrale et libérale (proche de l'iFRAP). Les mêmes règles s'appliquent à tous les candidats.
 
@@ -32,6 +34,10 @@ Tous les paramètres sont réglables. Trois lectures économiques sont proposée
 - **Après 2032**, les projections sont grisées : l'incertitude devient trop forte pour les lire au premier degré.
 - **Les effets sociétaux sont traduits en paramètres**, donc simplifiés à l'extrême : tension sociale, droits, changements de modèle économique.
 - Aucun backtest sur 2015-2025 n'a encore été fait.
+
+## Contester un chiffrage
+
+Équipes de campagne et lecteurs peuvent [signaler une erreur ou compléter un chiffrage](https://github.com/mysteropodes/simulateur-2027/issues/new/choose). Les corrections sont datées dans l'onglet « Informations » et dans [CHANGELOG.md](CHANGELOG.md).
 
 ## Structure du dépôt
 
@@ -45,7 +51,8 @@ src/
   model.js          modèle macro-budgétaire (simulate, BASE0, chocs)
   microsim.js       microsimulation par décile, mesures et fuites
   ui.part           paramètres des candidats, graphiques, interface
-openfisca/          script des cas types (OpenFisca France) et résultats
+openfisca/          script reproductible des cas types (OpenFisca France) et résultats
+CHANGELOG.md        journal des modifications
 tests/smoke.js      test de fumée dans un navigateur sans interface
 ```
 

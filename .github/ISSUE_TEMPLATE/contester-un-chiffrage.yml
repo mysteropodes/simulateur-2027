@@ -1,0 +1,54 @@
+name: Contester ou compléter un chiffrage
+description: Une mesure manque, est mal décrite, ou son montant vous paraît faux.
+title: "[Candidat] "
+labels: ["chiffrage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de prendre le temps de signaler un point. Équipes de campagne comme lecteurs sont les bienvenus.
+        Les mêmes règles s'appliquent à tous les candidats ; les corrections sont datées dans l'onglet « Informations » et dans CHANGELOG.md, et les réponses sont publiées ici.
+  - type: dropdown
+    id: candidat
+    attributes:
+      label: Candidat concerné
+      options:
+        - Mélenchon (LFI)
+        - Le Pen (RN)
+        - Philippe (Horizons)
+        - Glucksmann (PS-Place publique)
+        - Retailleau (LR)
+        - Plusieurs ou aucun (méthode générale)
+    validations:
+      required: true
+  - type: dropdown
+    id: qui
+    attributes:
+      label: Vous écrivez en tant que
+      options:
+        - Lecteur ou lectrice
+        - Membre ou représentant d'une équipe de campagne
+        - Chercheur, journaliste ou institut
+    validations:
+      required: true
+  - type: textarea
+    id: mesure
+    attributes:
+      label: Mesure ou paramètre en cause
+      description: Nom de la mesure tel qu'il apparaît dans la fiche, ou réglage du simulateur.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Ce qui devrait changer, et pourquoi
+      description: Montant, description, origine (programme, déclaration…), hypothèse du modèle.
+    validations:
+      required: true
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: Lien vers le programme, la déclaration ou le chiffrage, avec la page ou l'extrait si possible.
+    validations:
+      required: true

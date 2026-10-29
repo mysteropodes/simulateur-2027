@@ -58,7 +58,7 @@ button:focus-visible,input:focus-visible,summary:focus-visible,select:focus-visi
 .help{font-size:.88rem;color:var(--muted)}
 .controls{display:grid;grid-template-columns:1fr 1fr;gap:18px}
 @media (max-width:820px){.controls{grid-template-columns:1fr}}
-.ctl{display:grid;gap:8px;min-width:0}
+.ctl{display:grid;gap:8px;min-width:0;align-content:start}
 .chartbox{position:relative;height:420px;max-width:100%}
 .chartcol{display:grid;gap:8px;min-width:0;align-content:start;align-self:start;position:sticky;top:12px}
 .grid2{display:grid;grid-template-columns:2fr 1fr;gap:18px}
@@ -119,6 +119,7 @@ table.mini td:first-child,table.mini td:last-child,table.mini th:last-child{font
 .method ul{margin:0;padding-left:18px;display:grid;gap:6px;max-width:78ch}
 .method h3{margin-top:4px}
 a{color:var(--accent)}
+.sharebar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:12px}
 .reset{justify-self:start;font:600 .85rem var(--f-body);padding:6px 12px;border-radius:4px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 </style>
@@ -198,6 +199,15 @@ a{color:var(--accent)}
       <li><strong>Défense</strong> : en 2025, les pays de l'OTAN se sont engagés à porter leurs dépenses de défense à 3,5 % du PIB d'ici 2035, plus 1,5 % pour la sécurité au sens large. La France est autour de 2 %.</li>
     </ul>
   </section>
+
+  <section class="panel info" aria-labelledby="h-log">
+    <h2 id="h-log">Corrections et modifications</h2>
+    <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
+    <ul>
+      <li><strong>29 octobre 2026.</strong> Le multiplicateur unique (0,7) est remplacé par des multiplicateurs propres à chaque type de mesure et au temps écoulé (synthèse de Déchiffrer 2027 : Mésange, OFCE, HCFP, FMI). Conséquence : les programmes qui réduisent fortement les dépenses de fonctionnement (Retailleau, Philippe, Le Pen) freinent davantage l'activité qu'avant, avec une dette 2032 plus élevée de 1,5 à 6,5 points selon la lecture en mode « chiffrage crédible » (davantage en mode « tel qu'annoncé ») ; ceux qui financent leurs dépenses par des impôts sur les plus aisés (Mélenchon, Glucksmann) la freinent un peu moins, avec une dette 2032 plus basse de 1 à 2 points. Pour Retailleau et Philippe, la part sociale de leurs économies est reprise de leur plan. Ajout des séquelles durables des récessions (hystérésis), de trois ménages types (fonctionnaire de catégorie C, deux ménages de retraités) avec le détail de leur revenu, de l'origine de chaque mesure, et d'un lien pour partager un scénario.</li>
+      <li><strong>Fin octobre 2026.</strong> Conjoncture 2026-2027 calée sur les prévisions officielles, trajectoire du gouvernement, colonnes alignées sur les hypothèses de France Budget, zone grisée après 2032. Le Pen : abrogation des 64 ans avec départ entre 60 et 62 ans (meeting d'Orléans, 25 octobre). Mélenchon : retraite à 60 ans avec 40 annuités (2 octobre).</li>
+    </ul>
+  </section>
   </div>
 
   <div id="tab-sim" role="tabpanel" aria-labelledby="tab-btn-sim" class="tabpane">
@@ -219,6 +229,8 @@ a{color:var(--accent)}
           <button data-preset="liberal" aria-pressed="false">Libérale</button>
         </div>
         <p class="help" id="presethelp">Hypothèses centrales : moyenne des estimations publiées.</p>
+        <div class="sharebar"><button class="reset" id="share" type="button">Copier le lien du scénario</button><span class="help" id="sharemsg" role="status" aria-live="polite"></span></div>
+        <p class="help">Le lien garde tous vos réglages : lecture, mode, chocs, paramètres et curseurs des candidats.</p>
       </div>
       <div class="ctl">
         <span class="eyebrow">Choc ponctuel</span>
@@ -268,11 +280,11 @@ a{color:var(--accent)}
         <div class="sl"><label for="realg">Croissance réelle de base <output id="o-realg"></output></label><input type="range" id="realg" min="0" max="2.5" step="0.1"><small>Avant climat, IA, mesures et chocs.</small></div>
         <div class="sl"><label for="infl">Inflation de base <output id="o-infl"></output></label><input type="range" id="infl" min="0" max="4" step="0.1"><small>Gonfle le PIB nominal, mais les taux suivent.</small></div>
         <div class="sl"><label for="mktReal">Taux réel d'emprunt <output id="o-mktReal"></output></label><input type="range" id="mktReal" min="0" max="3.5" step="0.1"><small>Taux de marché moins l'inflation.</small></div>
-        <div class="sl"><label for="mult">Effet récessif des économies <output id="o-mult"></output></label><input type="range" id="mult" min="0" max="1.8" step="0.1"><small>Multiplicateur : 0,7 par défaut ; le FMI a mesuré plus de 1 en crise.</small></div>
+        <div class="sl"><label for="multScale">Effet des mesures sur l'activité <output id="o-multScale"></output></label><input type="range" id="multScale" min="0.4" max="1.6" step="0.05"><small>Échelle appliquée aux multiplicateurs par type de mesure (× 1 : valeurs centrales des études ; voir Méthode).</small></div>
+        <div class="sl"><label for="mult">Effet des économies imposées <output id="o-mult"></output></label><input type="range" id="mult" min="0" max="1.8" step="0.1"><small>Multiplicateur des ajustements hors programme (crise, règle de réaction) : 0,7 par défaut, au moins 1,5 en crise.</small></div>
         <div class="sl"><label for="prem">Réaction des marchés au déficit <output id="o-prem"></output></label><input type="range" id="prem" min="0" max="0.5" step="0.05"><small>Hausse du taux par point de déficit au-dessus de 3 %.</small></div>
         <div class="sl"><label for="redistEff">Part des mesures qui atteint les revenus <output id="o-redistEff"></output></label><input type="range" id="redistEff" min="0.3" max="1" step="0.05"><small>Non-recours aux aides, hausses absorbées par les loyers ou les prix : 0,85 par défaut.</small></div>
-        <div class="sl"><label for="redisDemand">Relance par la redistribution <output id="o-redisDemand"></output></label><input type="range" id="redisDemand" min="0" max="0.8" step="0.05"><small>Activité créée par point de PIB transféré vers les 50 % les plus modestes, qui dépensent plus ce qu'ils reçoivent.</small></div>
-        <div class="sl"><label for="invMult">Effet de l'investissement public <output id="o-invMult"></output></label><input type="range" id="invMult" min="0.2" max="2" step="0.1"><small>Multiplicateur de l'investissement climat (souvent estimé au-dessus de celui des dépenses courantes).</small></div>
+        <div class="sl"><label for="hyst">Séquelles durables des récessions <output id="o-hyst"></output></label><input type="range" id="hyst" min="0" max="0.2" step="0.01"><small>Part de l'activité perdue chaque année sous le potentiel qui ne revient pas (hystérésis) : 5 % par défaut, 0 en lecture libérale.</small></div>
         <div class="sl"><label for="climNeed">Besoin d'investissement climat <output id="o-climNeed"></output></label><input type="range" id="climNeed" min="0.3" max="2.5" step="0.1"><small>Effort public annuel (pt de PIB) qui réduirait de moitié les dommages.</small></div>
         <div class="sl"><label for="kDebt">Sensibilité des marchés à la dette <output id="o-kDebt"></output></label><input type="range" id="kDebt" min="0" max="0.8" step="0.05"><small>Hausse du taux par tranche de 10 points de dette au-dessus de 120 %.</small></div>
         <div class="sl"><label for="crisisPrem">Seuil de crise de financement <output id="o-crisisPrem"></output></label><input type="range" id="crisisPrem" min="1.5" max="6" step="0.1"><small>Prime de risque au-delà de laquelle les marchés ne prêtent plus normalement.</small></div>
@@ -389,7 +401,14 @@ a{color:var(--accent)}
       <thead><tr><th>Ménage (législation 2026)</th><th class="sep">Revenu disponible<br>actuel par mois</th><th>Mélenchon :<br>Smic à 1 700 € net</th><th>Mélenchon :<br>APL +10 %</th><th>Mélenchon :<br>fin de la flat tax</th><th class="sep">PS : CSG<br>progressive</th><th>Le Pen : pas d'impôt<br>sur le revenu avant 30 ans</th><th class="sep">Retailleau : aides<br>−30 %, 16 h de plus</th></tr></thead>
       <tbody></tbody>
     </table></div>
-    <p class="help">Calcul exact des impôts et prestations par OpenFisca-France (moteur libre utilisé par l'administration et l'IPP), pour des ménages types, effet par mois. Une hausse de salaire au Smic ne se retrouve qu'en partie dans le revenu : la prime d'activité baisse. C'est pourquoi un gain de 257 € de salaire net ne donne que 166 € de plus à une personne seule. Ce taux de transmission (environ 72 % pour le Smic, 75 % pour la CSG) est maintenant appliqué dans le calcul par décile, et l'économie de prime d'activité améliore le solde public de Mélenchon et du PS. CSG progressive : proposition des députés socialistes (16 septembre 2026), de 0,55 % au Smic à 9,2 % à 2 700 € net. Fin de la flat tax : dividendes imposés au barème sans abattement. Retailleau (7 janvier 2026) : fusion du RSA, de la prime d'activité et de l'ASS avec une baisse de 30 %, estimée ici sur la prime d'activité calculée par OpenFisca, et 16 heures de plus par an payées sans cotisations (hors CSG et CRDS). Son équipe annonce environ 230 € par mois de gain pour un salaire de 2 115 € net ; 16 heures par an n'en donnent qu'environ 20 €, le chiffre annoncé suppose sans doute davantage d'heures supplémentaires. Les mesures de Philippe (âge de départ, baisses d'impôt non détaillées) ne se prêtent pas à ce calcul.</p>
+    <p class="help">Calcul exact des impôts et prestations par OpenFisca-France (moteur libre utilisé par l'administration et l'IPP), pour des ménages types, effet par mois. Une hausse de salaire au Smic ne se retrouve qu'en partie dans le revenu : la prime d'activité baisse. C'est pourquoi un gain de 257 € de salaire net ne donne que 166 € de plus à une personne seule. Ce taux de transmission (environ 72 % pour le Smic, 75 % pour la CSG) est maintenant appliqué dans le calcul par décile, et l'économie de prime d'activité améliore le solde public de Mélenchon et du PS. CSG progressive : proposition des députés socialistes (16 septembre 2026), de 0,55 % au Smic à 9,2 % à 2 700 € net. Fin de la flat tax : dividendes imposés au barème sans abattement. Retailleau (7 janvier 2026) : fusion du RSA, de la prime d'activité et de l'ASS avec une baisse de 30 %, estimée ici sur la prime d'activité calculée par OpenFisca, et 16 heures de plus par an payées sans cotisations (hors CSG et CRDS). Son équipe annonce environ 230 € par mois de gain pour un salaire de 2 115 € net ; 16 heures par an n'en donnent qu'environ 20 €, le chiffre annoncé suppose sans doute davantage d'heures supplémentaires. Les mesures de Philippe (âge de départ, baisses d'impôt non détaillées) ne se prêtent pas à ce calcul. Le fonctionnaire de catégorie C touche déjà plus de 1 700 € net : la hausse du Smic ne le concerne pas, et la hausse du point d'indice promise par Mélenchon n'est pas simulée faute de montant par agent.</p>
+    <p class="notice"><strong>Une mesure non simulée n'est pas une mesure sans effet.</strong> Aucune des mesures calculées ici ne touche directement les deux ménages de retraités : les changements d'âge de départ concernent les futurs retraités, et l'indexation des pensions, la TVA sur l'énergie (Le Pen), les économies de santé (Philippe, Retailleau) ou les hausses d'impôts sur le patrimoine ne passent pas par ce calcul. Leur effet n'est pas nul : il n'est pas mesuré ici. Les effets globaux de ces mesures sont pris en compte dans le calcul par décile et par groupe ci-dessous.</p>
+    <h3>Détail du revenu disponible actuel (par mois, législation 2026)</h3>
+    <div class="tablewrap"><table id="tblcasedet">
+      <thead><tr><th>Ménage</th><th class="sep">Salaires ou pensions nets</th><th>Impôt sur le revenu</th><th>Prime d'activité</th><th>Aides au logement</th><th>RSA, allocations, minimum vieillesse</th><th class="sep">Revenu disponible</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+    <p class="help">Calcul : <a href="https://github.com/mysteropodes/simulateur-2027/blob/main/openfisca/cases.py" target="_blank" rel="noopener">script OpenFisca du dépôt</a>, reproductible.</p>
   </section>
 
   <section class="panel" aria-labelledby="h-dec">
@@ -437,7 +456,7 @@ a{color:var(--accent)}
     <h3>Dette et croissance</h3>
     <ul>
       <li>Départ (Insee, comptes 2025) : dette de 115,6 % du PIB, déficit public de 5,1 % dont 2,2 points d'intérêts, soit un déficit hors intérêts de 2,9 % ; recettes publiques d'environ 52 % du PIB. Croissance de 0,9 % en 2025, chômage de 8,3 % au deuxième trimestre 2026. Le taux moyen de la dette (1,9 %) converge vers le taux de marché, un huitième de la dette étant refinancé chaque année.</li>
-      <li>Les mesures montent en charge de 2027 à 2031. Les économies creusent l'écart de production du montant du multiplicateur ; cet écart se résorbe de moitié chaque année. Stabilisateurs automatiques : le déficit augmente de 0,5 point par point d'écart.</li>
+      <li>Les mesures montent en charge de 2027 à 2031. Chaque programme est découpé par type de mesure (impôts sur les ménages aisés, impôts larges, prélèvements sur les entreprises, transferts aux modestes, autres transferts, fonctionnement, investissement…), et chaque type a son propre multiplicateur selon le temps écoulé (effet sur le PIB d'un euro de mesure permanente).<div class="tablewrap" id="multtable"></div>Ces valeurs centrales viennent de la synthèse publiée par <a href="https://dechiffrer2027.fr/en/methode" target="_blank" rel="noopener">Déchiffrer 2027</a> (modèle Mésange de la DG Trésor et de l'Insee, OFCE, Haut Conseil des finances publiques, FMI, Commission européenne). L'investissement public est limité à 0,9 à long terme, car son effet sur la production passe déjà par le rendement du capital public. Les économies ont le multiplicateur des dépenses de même nature. La part de l'effet qui dure au-delà de trois ans devient peu à peu un effet sur la capacité de production (à dix ans, entièrement). Stabilisateurs automatiques : le déficit augmente de 0,5 point par point d'écart de production.</li>
       <li>Prime de risque : les marchés exigent davantage quand le déficit dépasse 3 %, et en cas de confrontation avec les règles européennes (gel de la dette BCE pour LFI, plafonnement unilatéral de la contribution à l'UE pour le RN).</li>
     </ul>
     <h3>Capacité d'emprunt</h3>
@@ -450,7 +469,8 @@ a{color:var(--accent)}
     <ul>
       <li>Retraites : trajectoire de référence du Conseil d'orientation des retraites (juin 2026) : solde de −0,2 % du PIB jusqu'en 2030, −0,9 % en 2045 ; niveau de vie des retraités de 100,2 % de celui de l'ensemble en 2023, en baisse lente. L'effet de chaque programme s'ajoute, à partir des chiffrages disponibles (abrogation des 64 ans : 14 à 20 Md€ ; plan Philippe : 30 Md€ par an selon son équipe ; plan Retailleau : 42 Md€ sur le mandat).</li>
       <li>Inégalités et pauvreté (depuis la version 8) : calculées directement à partir des revenus par décile (niveaux Insee 2024, modifiés par l'effet direct des mesures, le chômage et un éventuel ajustement imposé). Le Gini suit la variation du Gini entre déciles ; la pauvreté baisse de 0,35 point pour 1 % de gain relatif des ménages autour du seuil (déciles 1 et 2) par rapport au revenu médian.</li>
-      <li>Effets de demande : en plus de l'effet récessif des économies, le transfert de revenu vers les 50 % les plus modestes relance l'activité (réglage « relance par la redistribution »), et l'investissement climat a son propre multiplicateur. Les trois lectures (keynésienne, centrale, libérale) changent ces réglages ensemble, ainsi que la fuite des recettes, la réaction des marchés et l'emploi des seniors.</li>
+      <li>Répartition des programmes : les mesures sur le revenu des ménages viennent de la microsimulation (la hausse du Smic, payée par les employeurs, n'y compte pas comme dépense publique) ; s'y ajoutent l'investissement climat au-delà de la tendance, l'investissement logement, les services publics et le reste des impôts annoncés (moitié entreprises, moitié ménages, sauf précision du programme). Le solde jusqu'à l'effort annoncé est classé en dépenses de fonctionnement et économies non détaillées. Chaque fiche candidat affiche cette répartition. Les autres variations du déficit (ajustement imposé en crise, règle de réaction après 2031, défense hors programme) gardent un multiplicateur moyen de 0,7, porté à 1,5 en crise.</li>
+      <li>Séquelles durables (hystérésis) : chaque année passée sous le potentiel, une part de l'activité perdue ne revient pas (5 % en lecture centrale, 10 % en lecture keynésienne, 0 en lecture libérale). Les trois lectures changent aussi l'échelle des multiplicateurs (× 1,25, × 1, × 0,7), la fuite des recettes, la réaction des marchés et l'emploi des seniors.</li>
       <li>Temps de travail : les 32 heures de Mélenchon baissent le chômage de 1,1 point fois la part de l'effet des 35 heures reproduite (50 % en lecture centrale, 90 % keynésienne, 10 % libérale) ; la part non compensée freine la croissance (jusqu'à −0,12 point par an pendant cinq ans). Les 16 heures annuelles de plus de Retailleau ont un effet macroéconomique négligeable ; ses économies sur les aides sont déjà comptées.</li>
       <li>Logement et services publics : voir la section dédiée. Les mises en chantier baissent de 8 % par point de prime de risque, ce qui pénalise les programmes qui font monter les taux.</li>
       <li>Conflit avec l'Union européenne : prime de risque de 0,7 point pour Mélenchon (désobéissance aux traités, gel de la dette BCE), 0,5 pour Le Pen (primauté du droit national, contribution européenne plafonnée), 0,15 pour Retailleau (primauté du droit national, mais budget conforme aux règles européennes, ce qui lui garde l'accès au filet de la BCE), 0 pour Philippe et Glucksmann.</li>
@@ -564,7 +584,7 @@ a{color:var(--accent)}
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:1.7,mktReal:1.7,ieff0:1.9,mult:0.7,prem:0.15,okun:0.5,u0:8.3,uStar:7.6,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.5,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,redisDemand:0.3,invMult:0.9,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -587,6 +607,31 @@ const SU_D=[2,1.5,1.2,1,0.8,0.7,0.6,0.5,0.4,0.2], SF_D=[2.2,2,1.8,1.4,1.2,1.1,1,
 function giniDec(x){let s=0,mu=0;for(const a of x){mu+=a;for(const b of x)s+=Math.abs(a-b);}mu/=x.length;return s/(2*x.length*x.length*mu);}
 const G_DEC0=giniDec(LEV);
 const IK=[13400,12000,11300,10900,10600,10400,10300,10200,9400,7900]; // transferts en nature par unité de consommation et par décile (Insee 2023, D1 et D10 ; intermédiaires interpolés)
+// Multiplicateurs par type de mesure (effet sur le PIB d'1 € de mesure permanente) à 1-2 ans, 5 ans et 10 ans :
+// valeurs centrales de la synthèse de Déchiffrer 2027 (Mésange, OFCE, HCFP, FMI, Commission européenne, octobre 2026).
+// Investissement public plafonné à 0,9 à 10 ans : son effet d'offre passe déjà par le rendement du capital public (invRet).
+// « ext » (versements hors de France, ex. contribution à l'UE) : hypothèse propre au simulateur, 0,1.
+const MULT={inv:[1.3,0.9,0.9],log:[1.3,0.9,0.8],fonct:[0.9,0.9,0.6],trMod:[0.8,0.8,0.6],trAutres:[0.6,0.6,0.6],taxMod:[0.8,0.8,0.9],taxLarge:[0.5,0.9,0.9],taxAis:[0.3,0.3,0.3],entr:[0.3,0.8,1.0],ext:[0.1,0.1,0.1]};
+const MULTLABEL={inv:"Investissement public",log:"Aides à l'investissement logement",fonct:"Dépenses de fonctionnement (salaires publics, achats, services) et économies non détaillées",trMod:"Transferts aux ménages modestes",trAutres:"Autres transferts (retraites, santé, famille)",taxMod:"Baisses d'impôts ciblées sur les modestes",taxLarge:"Impôts larges sur les ménages (TVA, CSG, IR)",taxAis:"Impôts sur les ménages aisés (capital, patrimoine, héritages)",entr:"Prélèvements sur les entreprises",ext:"Versements hors de France (contribution à l'UE)"};
+const KEYCAT={minima:"trMod",chomage:"trMod",jeunes:"trMod",fonction:"fonct",retraites:"trAutres",tete:"trAutres",capital:"taxAis",ir:"taxLarge",conso:"taxLarge",heuressup:"taxLarge",entreprises:"entr",bassal:"taxMod"};
+const TAXCAT={taxAis:1,taxLarge:1,taxMod:1,entr:1};
+function multAt(c,h){const m=MULT[c];return h<=2?m[0]:h<=5?m[0]+(m[1]-m[0])*(h-2)/3:h<=10?m[1]+(m[2]-m[1])*(h-5)/5:m[2];}
+// Répartition de l'effort du programme par type de mesure, en points de PIB à application complète (+ = soutien à l'activité).
+// Mesures ménages de la microsimulation, investissement climat et logement, services publics, reste des impôts annoncés ;
+// le solde jusqu'à l'effort annoncé A est classé en dépenses de fonctionnement.
+function fiscalComp(p,gdpMd){
+  const c={}; for(const k in MULT) c[k]=0; const pt=md=>md/gdpMd*100; let taxList=0;
+  for(const [label,md,key] of (p.paMeasures||[])){
+    if(key==="bassal"&&/Smic/.test(label)) continue; // hausse du Smic : payée par les employeurs, pas par l'État
+    const cat=KEYCAT[key]; if(!cat) continue; c[cat]+=pt(md); if(TAXCAT[cat]) taxList+=-md;
+  }
+  c.inv+=(p.climInv||0)-0.2; c.log+=p.housingInv||0; c.fonct+=p.spServ||0; c.ext+=pt(p.extMd||0);
+  for(const [k,md] of Object.entries(p.compFix||{})) c[k]+=pt(md); // compléments tirés du plan du candidat (part sociale des économies…)
+  const rest=(p.taxMd||0)-taxList, sh=p.taxRestEntr==null?0.5:p.taxRestEntr; // impôts annoncés non détaillés : moitié entreprises, moitié ménages par défaut
+  c.entr+=-pt(rest)*sh; c.taxLarge+=-pt(rest)*(1-sh);
+  let sum=0; for(const k in c) sum+=c[k]; c.fonct+=-(p.A||0)-sum;
+  return c;
+}
 const NEAR={2026:{g:-0.55,pi:-0.5},2027:{g:-0.25,pi:-0.2}};
 function simulate(p,mode,b){
   const f=feas(p);
@@ -595,11 +640,13 @@ function simulate(p,mode,b){
   const bceOn= mode==="annonce"?1 : (b.bceDraw!=null&&b.bceDraw<bceProb?1:0); // la BCE accepte ou refuse, pas de moyenne
   const euW= mode==="pondere"?f:1;
   const C=CLIM[b.clim], I=AI[b.ai];
-  let uSenLast=0, ageRealLast=0, empPrev=0, nbPrev=0, invPrev=0, ratingPrev=0, retreatSaid=false; const ev=[]; const E=(t,k,txt)=>ev.push({t,k,txt});
+  let uSenLast=0, ageRealLast=0, empPrev=0, ratingPrev=0, retreatSaid=false; const ev=[]; const E=(t,k,txt)=>ev.push({t,k,txt});
   const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/b.gdpMd*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
   let d=b.d0, ieff=b.ieff0, sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
   const consolid=(p.A-((p.topRev||0)-(p.topCut||0))*(mode==="annonce"?0:b.leak)/b.gdpMd*100)*real; // effort crédible : condition du filet BCE
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false; const spHist=[], invHist=[];
+  const comp=fiscalComp(p,b.gdpMd); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
+  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0;
   const o={nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
@@ -642,14 +689,21 @@ function simulate(p,mode,b){
     const pubRet=b.spRet*(KS-KSp)+b.invRet*(KI-KIp);
     const supply=(t>=2027?p.supply*real:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet; empPrev=empEff;
     if(t===2032&&Math.abs(p.longRun*real)>=0.03) E(t,"lr",(p.longRun>0?"Les réformes commencent à relever":"Les réformes commencent à freiner")+" la croissance de long terme ("+(p.longRun>0?"+":"")+(p.longRun*real).toFixed(2)+" pt par an à terme).");
-    const gapPrev=gap;
+    const gapPrev=gap, structPrev=struct;
     const dec0=p.paDec||[0,0,0,0,0,0,0,0,0,0];
-    const nb=dec0.slice(0,5).reduce((a,v,i)=>a+v/100*LEV[i],0)/LEV.reduce((a,v)=>a+v,0)*1550/b.gdpMd*100*real*retreat*phase; // gain net des 50 % les plus modestes, pt de PIB
-    const inv=Math.max(0,p.climInv)*real*retreat*phase;
-    gap=0.5*gap-(crisis!==null&&t-crisis<=5?Math.max(b.mult,1.5):b.mult)*(sPrev-s)+b.redisDemand*(nb-nbPrev)+(b.invMult-b.mult)*(inv-invPrev)+z.real+(crisis===t-1?-2:0); // choc de la crise l'année suivant son déclenchement
-    nbPrev=nb; invPrev=inv; // multiplicateur plus fort en crise
+    // effet des mesures du programme sur l'activité : multiplicateur propre à chaque type de mesure, selon le temps écoulé
+    const progBal=(p.A-topLeak)*real*retreat*phase, dx={}; let dxAny=false;
+    for(const k in comp){const x=comp[k]*real*retreat*phase; dx[k]=x-xPrev[k]; xPrev[k]=x; if(Math.abs(dx[k])>1e-9) dxAny=true;}
+    if(dxAny) imp.push({t,dx});
+    let cyc=0; struct=0;
+    for(const q of imp){const h=t-q.t+1, w=ramp(h,3,10); for(const k in q.dx){const e=q.dx[k]*multAt(k,h)*b.multScale; cyc+=e*(1-w); struct+=e*w;}} // la part durable devient un effet sur le niveau du PIB potentiel
+    // autres variations du solde (ajustement imposé, règle de réaction, défense hors programme…) : multiplicateur moyen, plus fort en crise
+    const sOther=s+progBal;
+    gapO=0.5*gapO-(crisis!==null&&t-crisis<=5?Math.max(b.mult,1.5):b.mult)*(sOtherPrev-sOther)+z.real+(crisis===t-1?-2:0); sOtherPrev=sOther; // choc de la crise l'année suivant son déclenchement
+    const hystLoss=b.hyst*Math.max(0,-gapPrev); // séquelles durables : une partie de l'activité perdue ne revient pas
+    gap=gapO+cyc;
     const near=t===2026?NEAR[2026]:t===2027?NEAR[2027]:{g:0,pi:0}; // conjoncture : prévisions officielles 2026-2027 (HCFP, consensus)
-    const realg=b.realg+supply+(gap-gapPrev)+(b.calib?near.g:0);
+    const realg=b.realg+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
     const pi=b.infl+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
     const pd=s-b.stab*gap+z.pd+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const rating=burden>14?1.4:burden>11?0.6:burden>8?0.2:0;   // dégradations de note par paliers
@@ -719,7 +773,7 @@ function simulate(p,mode,b){
     o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
     sPrev=s;
   }
-  o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.f=f;o.crisis=crisis;o.tpi=tpi;return o;
+  o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.f=f;o.crisis=crisis;o.tpi=tpi;return o;
 }
 // Microsimulation simplifiée : montant de chaque mesure (Md€ par an en fin de mandat, + = gain des ménages)
 // réparti par décile selon une clé d'incidence, rapporté au revenu disponible de chaque décile (Insee 2024).
@@ -755,14 +809,18 @@ function microsim(list,leak=0){
   return {pa:{mod:grp(0,2),moy:grp(3,6),ais:grp(7,8),top:grp(9,9),ret:100*ret/RET_INC,jeu:100*jeu/JEU_INC},
     deciles:dec.map((g,i)=>100*g/DEC_INC[i])};
 }
+// [libellé, Md€ par an, clé d'incidence, origine de la mesure, origine du montant]
+// origine : prog = programme ou plan du candidat, parti = document du parti ou contre-budget, decl = déclaration publique du candidat
+// montant : cand = chiffre du candidat ou du parti (annualisé si besoin), inst = estimation d'un institut, sim = estimation du simulateur
+const ORIG={prog:"Programme du candidat",parti:"Document du parti",decl:"Déclaration publique"}, CHIF={cand:"chiffré par le candidat ou le parti",inst:"chiffré par un institut",sim:"estimé par le simulateur"};
 const PA_MEASURES={
  statu:[],
- melenchon:[["Smic à 1 700 € net (gain après baisse de la prime d'activité, calcul OpenFisca : 72 % du gain de salaire)",10.8,"bassal"],["APL +10 % et logement",8,"minima"],["Indexation des prestations, lutte contre la pauvreté",5,"minima"],["Abrogation des réformes de l'assurance chômage",3,"chomage"],["Point d'indice des fonctionnaires",17,"fonction"],["Retraite à 60 ans avec 40 annuités, indexation des pensions",22,"retraites"],["Allocation d'autonomie des jeunes (partielle)",6,"jeunes"],
-   ["ISF climatique",-10,"capital"],["Suppression de la flat tax",-9,"capital"],["Taxe Zucman (patrimoines > 100 M€)",-15,"capital"],["Taxe sur les héritages",-20,"capital"],["Rabot des niches fiscales",-22,"ir"],["Impôts sur les sociétés, GAFAM, transactions",-8,"entreprises"]],
- lepen:[["TVA à 5,5 % sur l'énergie et les carburants",10,"conso"],["Suppression de taxes",5,"conso"],["Abrogation des 64 ans : départ entre 60 et 62 ans selon l'âge d'entrée au travail",10,"retraites"],["Exonération d'impôt pour les moins de 30 ans",2,"jeunes"],["Priorité nationale et allocation sociale unique",-5,"minima"]],
- philippe:[["Retraite à 65 ans et 45 annuités (pensions versées plus tard)",-15,"retraites"],["Économies d'assurance chômage",-4.5,"chomage"],["Autres économies sociales",-5,"minima"],["Stabilisation des dépenses de santé (reste à charge)",-5,"tete"],["Heures supplémentaires exonérées",3,"heuressup"],["Baisse des impôts de production (nette des aides supprimées)",0,"entreprises"]],
- glucksmann:[["Taxation des méga-héritages",-15,"capital"],["Révision de la flat tax",-5,"capital"],["CSG progressive jusqu'à 2 700 € net (gain après baisse de la prime d'activité, calcul OpenFisca : 75 %)",7.5,"bassal"],["Revalorisation des métiers essentiels",5,"fonction"],["Retour à 62 ans, adapté à la pénibilité",8,"retraites"],["Pass transport et aides aux jeunes",1,"jeunes"]],
- retailleau:[["63 ans avec décote, taux plein à 65 ans",-14,"retraites"],["Économies d'assurance chômage",-10,"chomage"],["Allocation sociale unique et autres économies sociales",-5,"minima"],["Arrêts maladie",-1.3,"tete"],["Baisses d'impôts des ménages (heures sup)",3.5,"heuressup"],["Baisses d'impôts des ménages (impôt sur le revenu)",3.5,"ir"],["Baisses d'impôts des entreprises",10,"entreprises"]]
+ melenchon:[["Smic à 1 700 € net (gain après baisse de la prime d'activité, calcul OpenFisca : 72 % du gain de salaire)",10.8,"bassal","prog","sim"],["APL +10 % et logement",8,"minima","parti","cand"],["Indexation des prestations, lutte contre la pauvreté",5,"minima","prog","sim"],["Abrogation des réformes de l'assurance chômage",3,"chomage","prog","sim"],["Point d'indice des fonctionnaires",17,"fonction","parti","cand"],["Retraite à 60 ans avec 40 annuités, indexation des pensions",22,"retraites","decl","inst"],["Allocation d'autonomie des jeunes (partielle)",6,"jeunes","prog","sim"],
+   ["ISF climatique",-10,"capital","parti","cand"],["Suppression de la flat tax",-9,"capital","parti","cand"],["Taxe Zucman (patrimoines > 100 M€)",-15,"capital","parti","cand"],["Taxe sur les héritages",-20,"capital","parti","cand"],["Rabot des niches fiscales",-22,"ir","parti","cand"],["Impôts sur les sociétés, GAFAM, transactions",-8,"entreprises","parti","sim"]],
+ lepen:[["TVA à 5,5 % sur l'énergie et les carburants",10,"conso","prog","sim"],["Suppression de taxes",5,"conso","parti","sim"],["Abrogation des 64 ans : départ entre 60 et 62 ans selon l'âge d'entrée au travail",10,"retraites","decl","inst"],["Exonération d'impôt pour les moins de 30 ans",2,"jeunes","prog","sim"],["Priorité nationale et allocation sociale unique",-5,"minima","prog","sim"]],
+ philippe:[["Retraite à 65 ans et 45 annuités (pensions versées plus tard)",-15,"retraites","prog","sim"],["Économies d'assurance chômage",-4.5,"chomage","prog","sim"],["Autres économies sociales",-5,"minima","prog","sim"],["Stabilisation des dépenses de santé (reste à charge)",-5,"tete","prog","sim"],["Heures supplémentaires exonérées",3,"heuressup","prog","sim"],["Baisse des impôts de production (nette des aides supprimées)",0,"entreprises","prog","cand"]],
+ glucksmann:[["Taxation des méga-héritages",-15,"capital","parti","cand"],["Révision de la flat tax",-5,"capital","parti","sim"],["CSG progressive jusqu'à 2 700 € net (gain après baisse de la prime d'activité, calcul OpenFisca : 75 %)",7.5,"bassal","parti","sim"],["Revalorisation des métiers essentiels",5,"fonction","parti","sim"],["Retour à 62 ans, adapté à la pénibilité",8,"retraites","parti","sim"],["Pass transport et aides aux jeunes",1,"jeunes","parti","sim"]],
+ retailleau:[["63 ans avec décote, taux plein à 65 ans",-14,"retraites","prog","cand"],["Économies d'assurance chômage",-10,"chomage","prog","cand"],["Allocation sociale unique et autres économies sociales",-5,"minima","prog","sim"],["Arrêts maladie",-1.3,"tete","prog","cand"],["Baisses d'impôts des ménages (heures sup)",3.5,"heuressup","prog","sim"],["Baisses d'impôts des ménages (impôt sur le revenu)",3.5,"ir","prog","sim"],["Baisses d'impôts des entreprises",10,"entreprises","prog","cand"]]
 };
 // recettes prélevées sur les 10 % les plus riches (Md€) et flux net sur leur patrimoine (+ = enrichissement)
 function topFlows(list){let topRev=0,topCut=0,wealthFlow=0;
@@ -772,27 +830,27 @@ function topFlows(list){let topRev=0,topCut=0,wealthFlow=0;
 
 const CANDS0=[
  {id:"statu",name:"Statu quo",color:"--c0",ageShift:0,rtt:0,housing:0,spServ:0,taxMd:0,zan:0,defense:0,A:0,c:1,parl:1,adh:1,legal:1,supply:0,longRun:0,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:0,topTax:0,botGain:0,climInv:0.2,healthSpend:0,aiCushion:0.2,aiAdopt:1,measures:[],why:"",why2:"",sources:[]},
- {id:"melenchon",name:"Mélenchon (LFI)",color:"--c1",ageShift:-4,rtt:1,housing:70,spServ:1.0,taxMd:106,zan:0,defense:-0.2,housingInv:0.4,A:0.74,c:0.6,parl:0.30,adh:0.65,legal:0.6,supply:-0.05,longRun:0.10,eu:0.7,bce:0.18,bceOk:0.2,inflImp:0.3,uStruct:0,topTax:2.1,botGain:1.0,climInv:1.0,healthSpend:0.3,aiCushion:0.5,aiAdopt:0.9,
+ {id:"melenchon",checked:"29 octobre 2026",name:"Mélenchon (LFI)",color:"--c1",ageShift:-4,rtt:1,housing:70,spServ:1.0,taxMd:106,zan:0,defense:-0.2,housingInv:0.4,A:0.74,c:0.6,parl:0.30,adh:0.65,legal:0.6,supply:-0.05,longRun:0.10,eu:0.7,bce:0.18,bceOk:0.2,inflImp:0.3,uStruct:0,topTax:2.1,botGain:1.0,climInv:1.0,healthSpend:0.3,taxRestEntr:1,aiCushion:0.5,aiAdopt:0.9,
   measures:["+106,4 Md€ de recettes : ISF climatique 10, fin de la flat tax 9, taxe Zucman 15, héritages 20, niches fiscales 22, GAFAM, taxe sur les transactions.","+81,7 Md€ de dépenses : point d'indice 17, APL +10 % 8, budgets ministériels 7, retraite à 62 ans (le programme vise 60 ans avec 40 annuités), Smic à 1 700 € net.","Solde annoncé ≈ +25 Md€ par an (≈ 0,8 pt de PIB), ramené ici à 0,6 pt pour le coût supplémentaire de la retraite à 60 ans, puis à 0,74 pt avec l'économie de prime d'activité liée à la hausse du Smic (calcul OpenFisca), déficit visé autour de 5 %.","Gel de la dette détenue par la BCE (≈ 18 %) en dette perpétuelle à taux zéro.","Planification écologique, règle verte, réduction du temps de travail."],
   why:"Crédibilité 0,6 : rendement incertain des taxes sur les très hauts patrimoines, coût de la retraite à 60 ans mal chiffré (iFRAP : 20 à 40 Md€). Juridique 0,6 : gel BCE contraire aux traités (proba 20 %). Opinion 0,65 : taxe Zucman 86 % favorables (Ifop), gel BCE 47 % (YouGov). Redistribution : ≈ 65 Md€ pris aux 10 % les plus aisés (2,1 pts), ≈ 30 Md€ pour les plus modestes (1 pt).",
   why2:"Climat 1,0 pt de PIB : la planification écologique est au cœur du programme. Santé +0,3 pt : réinvestissement dans l'hôpital. IA : amortisseur 0,5 (partage du travail, 32 heures, protection sociale), adoption 0,9 (encadrement plus strict).",
   sources:[["LCP – contre-budget LFI","https://lcp.fr/actualites/contre-budget-lfi-propose-1064-milliards-d-euros-de-recettes-supplementaires-et-817"],["AFP – obstacles juridiques","https://fr.news.yahoo.com/annuler-partie-dette-france-proposition-151328169.html"]]},
- {id:"lepen",name:"Le Pen (RN)",color:"--c2",ageShift:-2,rtt:0,housing:5,spServ:-0.1,taxMd:-30,zan:0,defense:0,defInA:1,A:3.4,c:0.3,parl:0.60,adh:0.50,legal:0.4,supply:-0.03,longRun:0,eu:0.5,bce:0,bceOk:0,inflImp:-0.2,uStruct:0,topTax:0,botGain:-0.1,climInv:0.05,healthSpend:-0.05,aiCushion:0.2,aiAdopt:0.9,
+ {id:"lepen",checked:"29 octobre 2026",name:"Le Pen (RN)",color:"--c2",extMd:-24,ageShift:-2,rtt:0,housing:5,spServ:-0.1,taxMd:-30,zan:0,defense:0,defInA:1,A:3.4,c:0.3,parl:0.60,adh:0.50,legal:0.4,supply:-0.03,longRun:0,eu:0.5,bce:0,bceOk:0,inflImp:-0.2,uStruct:0,topTax:0,botGain:-0.1,climInv:0.05,healthSpend:-0.05,aiCushion:0.2,aiAdopt:0.9,
   measures:["140 Md€ d'économies nettes en 2032 par rapport à 2026, dont la contribution à l'UE plafonnée à 5 Md€ (≈ 29 aujourd'hui).","30 Md€ de baisses d'impôts nettes ; suppression de plus de 120 taxes ; IFI transformé en impôt sur la fortune financière.","Solde net ≈ 110 Md€ (≈ 3,6 pts de PIB) ; déficit sous 3 % en 2030 annoncé.","Fin des subventions aux énergies renouvelables et moratoire sur les nouveaux projets.","Allocation sociale unique, aide au développement réduite."],
   why:"Crédibilité 0,3 : l'Institut de l'Entreprise juge environ 80 % des économies non documentées ou juridiquement fragiles (≈ 7,5 Md€ crédibles en 2031, une lecture sévère). Juridique 0,4 : plafonner seul la contribution à l'UE viole les traités. Parlement 0,6 : candidate en tête. Opinion 0,5 : pas de sondage sur les mesures budgétaires. Redistribution : restrictions de prestations pour une partie des ménages modestes (−0,1 pt).",
   why2:"Climat 0,05 pt : fin des aides aux renouvelables, priorité au nucléaire existant, peu d'adaptation chiffrée. Santé −0,05 pt : restrictions de l'aide médicale d'État. IA : amortisseur 0,2 (niveau actuel), adoption 0,9 (protection de l'emploi national).",
   sources:[["Planète Grandes Écoles – contre-budget RN","https://www.planetegrandesecoles.com/budget-marine-le-pen-2027-mesures-contre-budget-rn"],["ÉlyséeScope – robots et emploi","https://www.elyseescope.com/le-radar/eric-zemmour-robots-et-immigration"]]},
- {id:"philippe",name:"Philippe (Horizons)",color:"--c3",ageShift:1,rtt:0,housing:0,spServ:-0.4,taxMd:-3,zan:0,defense:0.6,defInA:1,A:3.0,c:0.6,parl:0.40,adh:0.40,legal:0.8,supply:0.10,longRun:0.05,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:-0.2,topTax:-0.1,botGain:-0.6,climInv:0.3,healthSpend:-0.2,aiCushion:0.3,aiAdopt:1.15,
+ {id:"philippe",compFix:{trAutres:-15.5},compNote:"La moitié de l'effort porte sur les dépenses sociales, comme annoncé : le complément est classé en autres transferts (retraites, santé).",checked:"29 octobre 2026",name:"Philippe (Horizons)",color:"--c3",ageShift:1,rtt:0,housing:0,spServ:-0.4,taxMd:-3,zan:0,defense:0.6,defInA:1,A:3.0,c:0.6,parl:0.40,adh:0.40,legal:0.8,supply:0.10,longRun:0.05,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:-0.2,topTax:-0.1,botGain:-0.6,climInv:0.3,healthSpend:-0.2,aiCushion:0.3,aiAdopt:1.15,
   measures:["Déficit ramené de plus de 5 % à 2 % du PIB en fin de mandat (≈ 3 pts d'effort), à 50 % sur les dépenses sociales.","Retraite à 65 ans et 45 ans de cotisation en moins de dix ans ; capitalisation collective.","Un départ en retraite de fonctionnaire sur trois non remplacé (plus de 250 000 postes).","50 Md€ d'impôts de production en moins, compensés par 50 Md€ d'aides supprimées ; heures supplémentaires exonérées.","Stabilisation des dépenses de santé, priorité à la prévention et à l'innovation."],
   why:"Crédibilité 0,6 : mesures identifiées mais total non chiffré publiquement. Opinion 0,4 : 67 % rejettent la retraite à 65 ans, environ la moitié jugent les effectifs publics excessifs. Juridique 0,8 : surtout des lois ordinaires. Redistribution : la moitié de l'effort porte sur les dépenses sociales (−0,6 pt pour les plus modestes). Travail : plus d'actifs (+0,1 pt de croissance).",
   why2:"Climat 0,3 pt : nucléaire et industrie, peu d'investissement d'adaptation chiffré. Santé −0,2 pt : stabilisation des dépenses alors que la population vieillit. IA : amortisseur 0,3 (formation), adoption 1,15 (soutien massif aux start-up et à l'innovation).",
   sources:[["Site de campagne – priorités","https://www.edouardphilippe.fr/priorites/pour-une-france-plus-prospere"],["Public Sénat – sondage retraite à 65 ans","https://www.publicsenat.fr/actualites/politique/sondage-67-des-francais-rejettent-le-report-a-65-ans-de-l-age-legal-de-depart-a-la"]]},
- {id:"glucksmann",name:"Glucksmann (PS-PP)",color:"--c4",ageShift:-2,rtt:0,housing:0,spServ:0.5,taxMd:20,zan:0,defense:0,A:-0.23,c:0.6,parl:0.35,adh:0.70,legal:0.7,supply:0.03,longRun:0.08,eu:0,bce:0,bceOk:0,inflImp:0.1,uStruct:0,topTax:0.8,botGain:0.5,climInv:0.8,healthSpend:0.2,aiCushion:0.4,aiAdopt:1.0,
+ {id:"glucksmann",checked:"29 octobre 2026",name:"Glucksmann (PS-PP)",color:"--c4",ageShift:-2,rtt:0,housing:0,spServ:0.5,taxMd:20,zan:0,defense:0,A:-0.23,c:0.6,parl:0.35,adh:0.70,legal:0.7,supply:0.03,longRun:0.08,eu:0,bce:0,bceOk:0,inflImp:0.1,uStruct:0,topTax:0.8,botGain:0.5,climInv:0.8,healthSpend:0.2,aiCushion:0.4,aiAdopt:1.0,
   measures:["Programme pas encore chiffré : valeurs tirées du chiffrage du projet du PS (déficit ≈ 5,7 % en 2030, dette ≈ 126 %).","Taxation des méga-héritages (objectif 15 Md€), tranche supérieure des successions à 50 %, révision de la flat tax.","Plan d'investissement dans la transition écologique, revalorisation des métiers essentiels, santé et éducation.","Mesures européennes : impôt minimum sur les sociétés, taxe sur les transactions, emprunt commun."],
   why:"Crédibilité 0,6 par défaut, faute de chiffrage propre. Opinion 0,7 : la taxation des très hauts patrimoines est très majoritaire dans les sondages. Juridique 0,7 : une partie dépend d'accords européens. Redistribution : ≈ 25 Md€ pris aux plus aisés (0,8 pt), baisse de CSG et dépenses sociales pour les modestes (0,5 pt).",
   why2:"Climat 0,8 pt : grand plan de rénovation et de renouvelables, en partie européen. Santé +0,2 pt. IA : amortisseur 0,4 (formation, régulation européenne), adoption 1,0.",
   sources:[["francebudget.fr – projet PS","https://francebudget.fr/scenarios/ps-2027"],["La Facture 2027 – volet fiscal","https://lafacture2027.fr/programme-fiscal-raphael-glucksmann-2027"]]},
- {id:"retailleau",name:"Retailleau (LR)",color:"--c5",ageShift:0.5,rtt:0,housing:30,spServ:-0.5,taxMd:-56,zan:1,defense:0,defInA:1,A:4.6,c:0.5,parl:0.35,adh:0.40,legal:0.5,supply:0.10,longRun:0.05,eu:0.15,bce:0,bceOk:0,inflImp:0,uStruct:-0.3,topTax:-0.5,botGain:-1.3,climInv:0.2,healthSpend:-0.3,aiCushion:0.15,aiAdopt:1.05,
+ {id:"retailleau",compFix:{trAutres:-30.7,trMod:-30},compNote:"Économies sociales portées à 91 Md€ comme dans le plan (retraites 42, assurance chômage 30, arrêts maladie 4, autres 15) : la microsimulation n'en retient qu'un tiers par an pour le revenu des ménages.",checked:"29 octobre 2026",name:"Retailleau (LR)",color:"--c5",ageShift:0.5,rtt:0,housing:30,spServ:-0.5,taxMd:-56,zan:1,defense:0,defInA:1,A:4.6,c:0.5,parl:0.35,adh:0.40,legal:0.5,supply:0.10,longRun:0.05,eu:0.15,bce:0,bceOk:0,inflImp:0,uStruct:-0.3,topTax:-0.5,botGain:-1.3,climInv:0.2,healthSpend:-0.3,aiCushion:0.15,aiAdopt:1.05,
   measures:["197 Md€ d'économies sur le mandat : État 96 (400 000 départs de fonctionnaires non remplacés), social 91 (retraites 42, assurance chômage 30, arrêts maladie 4), collectivités 10, immigration 10.","56 Md€ de baisses d'impôts (entreprises ≈ 30, ménages ≈ 21).","Solde net ≈ 141 Md€ (≈ 4,6 pts de PIB) ; déficit à 2,2 % en fin de mandat annoncé.","Règle d'or dans la Constitution par référendum."],
   why:"Crédibilité 0,5 : plan le plus ambitieux, une partie dépend d'un référendum constitutionnel. Opinion 0,4 : coupes sociales et non-remplacements peu populaires. Parlement 0,35 : candidat autour de 7,5 % au premier tour. Redistribution : environ la moitié des 91 Md€ d'économies sociales touche les plus modestes (−1,3 pt) ; baisses d'impôts des entreprises (−0,5 pt).",
   why2:"Climat 0,2 pt : pas de plan d'adaptation chiffré. Santé −0,3 pt : économies sur les arrêts maladie et la protection sociale. IA : amortisseur 0,15 (assurance chômage réduite), adoption 1,05.",
@@ -847,6 +905,7 @@ const RPTS={restreint:6,mixte:3,neutre:0,renforce:1};
 for(const c of CANDS0){ Object.assign(c,EXT[c.id]); c.rightsPts=c.grid?["egal","lib","cp"].reduce((s,k)=>s+RPTS[c.grid[k][0]],0):0; c.paMeasures=PA_MEASURES[c.id]; const ms=microsim(c.paMeasures); c.pa=ms.pa; c.paDec=ms.deciles; Object.assign(c,topFlows(c.paMeasures)); }
 
 let BASE=structuredClone(BASE0), CANDS=structuredClone(CANDS0), mode="credible", metric="debt";
+let encodeStateDefault=""; // état par défaut encodé, pour le lien de partage
 const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme, mais seule la part jugée crédible du chiffrage se réalise.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario."};
 const SHOCKHELP={none:"Pas de choc ponctuel.",recession:"Croissance −3 points, rebond partiel ensuite (type 2009).",financial:"Croissance −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012).",inflation:"Inflation +3 puis +1,5 point, croissance −1 point (type 2022-2023).",climat:"Canicule ou inondations majeures : croissance −1,5 point, déficit +1 point, environ 10 000 décès (type 2003).",pandemie:"Croissance −7 points puis rebond, déficit +5 puis +2 points, environ 75 000 décès sur deux ans (type 2020)."};
 const CLIMHELP={moderee:"Dommages limités : −0,03 point de croissance par an, décès liés à la chaleur +2 % par an.",forte:"Dommages notables : −0,07 point par an, décès liés à la chaleur +4 % par an.",tresforte:"Dommages lourds : −0,12 point par an, décès liés à la chaleur +6 % par an."};
@@ -878,6 +937,7 @@ const shockLine={id:"shockLine",afterDatasetsDraw(c){
   g.save();g.strokeStyle=css("--shock");g.setLineDash([4,4]);g.beginPath();g.moveTo(x,a.top);g.lineTo(x,a.bottom);g.stroke();
   g.fillStyle=css("--shock");g.font="12px 'IBM Plex Mono', monospace";g.textAlign=right?"right":"left";g.fillText("choc",x+(right?-6:6),a.top+14);g.restore();}};
 function render(skipMC){
+  if(typeof updateShareURL==="function"&&encodeStateDefault) updateShareURL();
   for(const c of CANDS){const ms=microsim(c.paMeasures,mode==="annonce"?0:BASE.leak); c.pa=ms.pa; c.paDec=ms.deciles;}
   const res=CANDS.map(p=>({p,r:simulate(p,mode,BASE)}));
   LASTRES=res;
@@ -951,7 +1011,7 @@ function render(skipMC){
   document.getElementById("aihelp").textContent=AIHELP[BASE.ai];
   document.getElementById("shockYear").disabled=BASE.shock==="none";
 }
-const GL=[["realg",v=>fmt(v)+" %"],["infl",v=>fmt(v)+" %"],["mktReal",v=>fmt(v)+" %"],["mult",v=>fmt(v)],["prem",v=>"+"+fmt(v,2)+" pt"],["redistEff",v=>fmt(v,2)],["redisDemand",v=>fmt(v,2)],["invMult",v=>fmt(v,1)],["climNeed",v=>fmt(v)+" pt"],["kDebt",v=>"+"+fmt(v,2)+" pt"],["crisisPrem",v=>fmt(v)+" pts"],["premPol",v=>"+"+fmt(v)+" pt"],["premPolDecay",v=>"−"+fmt((1-v)*100,0)+" %/an"],["leak",v=>fmt(v*100,0)+" %"],["seniorKeep",v=>fmt(v*100,0)+" %"],["tensionRights",v=>fmt(v,1)],["forcedMax",v=>fmt(v,0)+" pts"],["spRet",v=>fmt(v,2)],["invRet",v=>fmt(v,2)],["fiscalReact",v=>fmt(v,2)],["aiCost",v=>fmt(v,1)+" pt"],["rtt",v=>fmt(v*100,0)+" %"],["shockYear",v=>String(v)]];
+const GL=[["realg",v=>fmt(v)+" %"],["infl",v=>fmt(v)+" %"],["mktReal",v=>fmt(v)+" %"],["mult",v=>fmt(v)],["prem",v=>"+"+fmt(v,2)+" pt"],["redistEff",v=>fmt(v,2)],["multScale",v=>"× "+fmt(v,2)],["hyst",v=>fmt(v*100,0)+" %"],["climNeed",v=>fmt(v)+" pt"],["kDebt",v=>"+"+fmt(v,2)+" pt"],["crisisPrem",v=>fmt(v)+" pts"],["premPol",v=>"+"+fmt(v)+" pt"],["premPolDecay",v=>"−"+fmt((1-v)*100,0)+" %/an"],["leak",v=>fmt(v*100,0)+" %"],["seniorKeep",v=>fmt(v*100,0)+" %"],["tensionRights",v=>fmt(v,1)],["forcedMax",v=>fmt(v,0)+" pts"],["spRet",v=>fmt(v,2)],["invRet",v=>fmt(v,2)],["fiscalReact",v=>fmt(v,2)],["aiCost",v=>fmt(v,1)+" pt"],["rtt",v=>fmt(v*100,0)+" %"],["shockYear",v=>String(v)]];
 function syncSeg(attr,val){document.querySelectorAll(`[data-${attr}]`).forEach(b=>b.setAttribute("aria-pressed",b.dataset[attr]===val));}
 function bindGlobals(){
   for(const [k,f] of GL){const el=document.getElementById(k),o=document.getElementById("o-"+k);
@@ -959,6 +1019,14 @@ function bindGlobals(){
   syncSeg("shock",BASE.shock);syncSeg("clim",BASE.clim);syncSeg("ai",BASE.ai);
 }
 const PS=[["A","Effort annoncé (pt de PIB)",-1,6,0.1,v=>fmt(v)],["c","Crédibilité du chiffrage",0,1,0.05,v=>fmt(v,2)],["parl","Chances d'une majorité",0,1,0.05,v=>fmt(v,2)],["adh","Soutien de l'opinion",0,1,0.05,v=>fmt(v,2)],["legal","Solidité juridique",0,1,0.05,v=>fmt(v,2)],["eu","Prime de confrontation UE (pt)",0,2,0.1,v=>fmt(v)],["longRun","Croissance de long terme (pt/an)",-0.3,0.4,0.01,v=>fmt(v,2)],["climInv","Investissement climat (pt PIB/an)",0,2,0.05,v=>fmt(v,2)],["healthSpend","Dépenses de santé en plus (pt PIB)",-0.6,0.6,0.05,v=>fmt(v,2)],["aiCushion","Amortisseur IA (0-1)",0,1,0.05,v=>fmt(v,2)],["aiAdopt","Rythme d'adoption de l'IA",0.6,1.4,0.05,v=>fmt(v,2)],["co2Rate","Baisse des émissions (%/an)",0,8,0.1,v=>fmt(v)],["pensBal","Effet sur le solde des retraites (pt PIB)",-1.5,1.5,0.05,v=>fmt(v,2)],["retLiv","Effet sur le niveau de vie des retraités (pts)",-5,5,0.5,v=>fmt(v)],["ageShift","Changement de l'âge de départ (années)",-4,2,0.5,v=>(v>0?"+":"")+fmt(v)],["housing","Logements en plus par an (milliers)",-50,150,5,v=>(v>0?"+":"")+fmt(v,0)],["spServ","Services publics (pt de PIB)",-1.5,2,0.1,v=>(v>0?"+":"")+fmt(v)],["taxMd","Hausse nette des impôts (Md€ par an ; change la part impôts / dépenses, pas le déficit)",-60,150,1,v=>(v>0?"+":"")+fmt(v,0)],["defense","Défense au-delà de la loi de programmation (pt PIB)",-1,2,0.1,v=>(v>0?"+":"")+fmt(v)],["rightsPts","Tension liée aux droits et libertés (points)",0,25,1,v=>fmt(v,0)]];
+function compTable(p){ // répartition du programme par type de mesure (pt de PIB, application complète, réglages par défaut)
+  const c=fiscalComp(p,BASE0.gdpMd); const rows=Object.keys(MULT).filter(k=>Math.abs(c[k])>=0.05);
+  if(!rows.length) return "";
+  let wS=0,wL=0,tot=0; for(const k of rows){wS+=Math.abs(c[k])*MULT[k][0];wL+=Math.abs(c[k])*MULT[k][2];tot+=Math.abs(c[k]);}
+  return `<div class="tablewrap"><table class="mini"><thead><tr><th>Type de mesure</th><th>pt de PIB</th><th>Multiplicateur 1-2 ans / 10 ans</th></tr></thead><tbody>${rows.map(k=>`<tr><td>${MULTLABEL[k]}</td><td class="${c[k]>0?"better":"worse"}">${c[k]>0?"+":"−"}${fmt(Math.abs(c[k]),2)}</td><td>${fmt(MULT[k][0],1)} / ${fmt(MULT[k][2],1)}</td></tr>`).join("")}</tbody></table></div><p class="src">+ : soutient l'activité (dépense ou baisse d'impôt) ; − : la freine (économie ou hausse d'impôt). Multiplicateur moyen pondéré : ${fmt(wS/tot,2)} à court terme, ${fmt(wL/tot,2)} à dix ans. Le solde jusqu'à l'effort annoncé est classé en fonctionnement.${p.compNote?" "+p.compNote:""}</p>`;
+}
+function fillMultTable(){const el=document.getElementById("multtable"); if(!el) return;
+  el.innerHTML=`<table class="mini"><thead><tr><th>Type de mesure</th><th>1-2 ans</th><th>5 ans</th><th>10 ans</th></tr></thead><tbody>${Object.keys(MULT).map(k=>`<tr><td>${MULTLABEL[k]}</td>${MULT[k].map(v=>`<td>${fmt(v,1)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;}
 function buildCands(){
   const box=document.getElementById("cands"); box.innerHTML="";
   for(const p of CANDS){ if(p.id==="statu") continue;
@@ -967,7 +1035,7 @@ function buildCands(){
       <div class="cbody"><div style="display:grid;gap:10px;min-width:0;align-content:start"><h3>Mesures retenues</h3><ul>${p.measures.map(m=>`<li>${m}</li>`).join("")}</ul>
       <p class="src">${p.why}</p><p class="src">${p.why2}</p><p class="src">${p.why3}</p>
       <h3>Effet sur le revenu des ménages (Md€ par an, application complète)</h3>
-      <div class="tablewrap"><table class="mini"><thead><tr><th>Mesure</th><th>Md€</th><th>Qui est concerné</th></tr></thead><tbody>${p.paMeasures.map(([l,md,k])=>`<tr><td>${l}</td><td class="${md>0?"better":md<0?"worse":""}">${md>0?"+":md<0?"−":""}${fmt(Math.abs(md),1)}</td><td>${KEYLABEL[k]}</td></tr>`).join("")}</tbody></table></div><p class="src">Sources : ${p.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(" · ")}</p></div>
+      <div class="tablewrap"><table class="mini"><thead><tr><th>Mesure</th><th>Md€</th><th>Qui est concerné</th><th>Origine</th></tr></thead><tbody>${p.paMeasures.map(([l,md,k,o,ch])=>`<tr><td>${l}</td><td class="${md>0?"better":md<0?"worse":""}">${md>0?"+":md<0?"−":""}${fmt(Math.abs(md),1)}</td><td>${KEYLABEL[k]}</td><td>${ORIG[o]||"–"}<span class="rng">${CHIF[ch]||""}</span></td></tr>`).join("")}</tbody></table></div><p class="src">Chiffrage revu le ${p.checked||"–"}. Une erreur ou un oubli ? <a href="https://github.com/mysteropodes/simulateur-2027/issues/new?template=contester-un-chiffrage.yml&amp;title=${encodeURIComponent("["+p.name+"] ")}" target="_blank" rel="noopener">Contester ou compléter ce chiffrage</a>.</p><p class="src">Sources : ${p.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(" · ")}</p><h3>Répartition de l'effort et effet sur l'activité</h3>${compTable(p)}</div>
       <div class="sliders">${PS.map(([k,l,mn,mx,st])=>`<div class="sl"><label for="${p.id}-${k}">${l} <output id="o-${p.id}-${k}"></output></label><input type="range" id="${p.id}-${k}" min="${mn}" max="${mx}" step="${st}"></div>`).join("")}</div></div>`;
     box.appendChild(d);
     for(const [k,,,,,f] of PS){const el=d.querySelector(`#${p.id}-${k}`),o=d.querySelector(`#o-${p.id}-${k}`);
@@ -977,9 +1045,9 @@ function buildCands(){
 const mbox=document.getElementById("metrics");
 for(const [k,[l]] of Object.entries(METRICS)){const b=document.createElement("button");b.textContent=l;b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
   b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
-const PRESETS={keynes:{spRet:0.2,invRet:0.15,rtt:0.9,mult:1.0,redisDemand:0.6,invMult:1.4,leak:0.1,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.4},
-  central:{spRet:0.1,invRet:0.1,rtt:0.5,mult:0.7,redisDemand:0.3,invMult:0.9,leak:0.25,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.7},
-  liberal:{spRet:0.03,invRet:0.05,rtt:0.1,mult:0.4,redisDemand:0.1,invMult:0.4,leak:0.5,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:2.0}};
+const PRESETS={keynes:{spRet:0.2,invRet:0.15,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,leak:0.1,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.4},
+  central:{spRet:0.1,invRet:0.1,rtt:0.5,mult:0.7,multScale:1,hyst:0.05,leak:0.25,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.7},
+  liberal:{spRet:0.03,invRet:0.05,rtt:0.1,mult:0.4,multScale:0.7,hyst:0,leak:0.5,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:2.0}};
 const PRESETHELP={keynes:"Lecture keynésienne (proche de l'OFCE ou des Économistes atterrés) : les économies freinent fortement l'activité, la redistribution vers les modestes et l'investissement public la relancent, peu de recettes s'évaporent, les marchés sont patients.",
   central:"Hypothèses centrales : moyenne des estimations publiées.",
   liberal:"Lecture libérale (proche de l'iFRAP, de l'Institut Montaigne ou de Rexecode) : les économies coûtent peu en activité, la redistribution relance peu, une grande part des impôts sur les plus riches s'évapore, les marchés réagissent vite à la dette."};
@@ -987,7 +1055,7 @@ let preset="central";
 document.querySelectorAll("[data-preset]").forEach(b=>b.onclick=()=>{preset=b.dataset.preset;Object.assign(BASE,PRESETS[preset]);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];bindGlobals();render()});
 document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>{mode=b.dataset.mode;syncSeg("mode",mode);render()});
 for(const k of ["shock","clim","ai"]) document.querySelectorAll(`[data-${k}]`).forEach(b=>b.onclick=()=>{BASE[k]=b.dataset[k];syncSeg(k,BASE[k]);render()});
-document.getElementById("reset").onclick=()=>{BASE=structuredClone(BASE0);CANDS=structuredClone(CANDS0);bandCand="none";preset="central";syncSeg("preset","central");mode="credible";syncSeg("mode",mode);document.getElementById("presethelp").textContent=PRESETHELP.central;bindGlobals();buildCands();buildBandSel();render()};
+document.getElementById("reset").onclick=()=>{try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}BASE=structuredClone(BASE0);CANDS=structuredClone(CANDS0);bandCand="none";preset="central";syncSeg("preset","central");mode="credible";syncSeg("mode",mode);document.getElementById("presethelp").textContent=PRESETHELP.central;bindGlobals();buildCands();buildBandSel();render()};
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change",render);
 new MutationObserver(render).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
 const KEYLABEL={minima:"surtout les 30 % les plus modestes",chomage:"chômeurs, surtout modestes et moyens",bassal:"salariés modestes",fonction:"agents publics, classes moyennes",retraites:"retraités",capital:"surtout les 10 % les plus riches",ir:"contribuables, surtout les plus aisés",conso:"tous, selon la consommation",tete:"tous, à parts égales",entreprises:"actionnaires, surtout les plus aisés",heuressup:"salariés, surtout classes moyennes",jeunes:"18-29 ans"};
@@ -1073,7 +1141,7 @@ function runMC(){
   for(let n=0;n<NMC;n++){
     const b=Object.assign({},BASE);
     b.realg=Math.max(-0.5,BASE.realg+0.4*gauss()); b.mktReal=Math.max(0,BASE.mktReal+0.5*gauss()); b.infl=Math.max(0,BASE.infl+0.4*gauss());
-    b.mult=Math.max(0.2,BASE.mult+(R()-0.5)*0.6); b.kDebt=Math.max(0,BASE.kDebt*(0.5+R())); b.crisisPrem=Math.max(1.5,BASE.crisisPrem-1+2*R());
+    b.mult=Math.max(0.2,BASE.mult+(R()-0.5)*0.6); b.multScale=Math.max(0.4,BASE.multScale+(R()-0.5)*0.5); b.kDebt=Math.max(0,BASE.kDebt*(0.5+R())); b.crisisPrem=Math.max(1.5,BASE.crisisPrem-1+2*R());
     b.leak=Math.min(0.9,Math.max(0,BASE.leak+(R()-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,BASE.seniorKeep+(R()-0.5)*0.3));
     b.clim=pick(R,["moderee","forte","tresforte"],[0.3,0.5,0.2]); b.ai=pick(R,["lente","moyenne","rapide"],[0.3,0.45,0.25]);
     if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat"],[0.35,0.25,0.2,0.2]);b.shockYear=2028+Math.floor(R()*13);}
@@ -1129,13 +1197,18 @@ function buildBandSel(){
   s.value=bandCand; s.onchange=()=>{bandCand=s.value;render(true);};
 }
 buildBandSel();
-const CASES=[{"id": "c1", "label": "Personne seule au Smic, locataire", "rd": 1680, "ppa": 238, "al": 0, "smic": 166, "smicNet": 257, "apl": null, "flat": null, "csg": 108, "csgNet": 155, "rn30": null, "lr": -57, "lrH": 14, "lrCut": -71}, {"id": "c2", "label": "Parent seul, un enfant, Smic à mi-temps, locataire", "rd": 1795, "ppa": 412, "al": 427, "smic": 111, "smicNet": 128, "apl": 43, "flat": null, "csg": 78, "csgNet": 77, "rn30": null, "lr": -116, "lrH": 7, "lrCut": -124}, {"id": "c3", "label": "Couple, deux enfants, Smic et 1,5 Smic, locataire", "rd": 3893, "ppa": 134, "al": 0, "smic": 192, "smicNet": 257, "apl": null, "flat": null, "csg": 180, "csgNet": 254, "rn30": null, "lr": -4, "lrH": 36, "lrCut": -40}, {"id": "c4", "label": "Jeune de 27 ans seul, 3 200 € brut, locataire", "rd": 2385, "ppa": 0, "al": 0, "smic": null, "smicNet": null, "apl": null, "flat": null, "csg": 31, "csgNet": 36, "rn30": 148, "lr": 25, "lrH": 25, "lrCut": 0}, {"id": "c5", "label": "Couple de cadres, 6 000 € brut chacun, 30 000 € de dividendes, propriétaires", "rd": 9729, "ppa": 0, "al": 0, "smic": null, "smicNet": null, "apl": null, "flat": -395, "csg": null, "csgNet": null, "rn30": null, "lr": 95, "lrH": 95, "lrCut": 0}];
+const CASES=[{"id": "c1", "label": "Personne seule au Smic, locataire", "rd": 1680, "act": 1443, "ir": 0, "ppa": 238, "al": 0, "autres": 0, "smic": 166, "smicNet": 257, "apl": null, "flat": null, "csg": 107, "csgNet": 155, "rn30": null, "lr": -57, "lrH": 14, "lrCut": -72}, {"id": "c2", "label": "Parent seul, un enfant, Smic à mi-temps, locataire", "rd": 1795, "act": 722, "ir": 0, "ppa": 412, "al": 427, "autres": 0, "smic": 111, "smicNet": 128, "apl": 43, "flat": null, "csg": 77, "csgNet": 77, "rn30": null, "lr": -116, "lrH": 7, "lrCut": -124}, {"id": "c3", "label": "Couple, deux enfants, Smic et 1,5 Smic, locataire", "rd": 3893, "act": 3608, "ir": 0, "ppa": 134, "al": 0, "autres": 153, "smic": 192, "smicNet": 257, "apl": null, "flat": null, "csg": 177, "csgNet": 254, "rn30": null, "lr": -4, "lrH": 36, "lrCut": -40}, {"id": "c4", "label": "Jeune de 27 ans seul, 3 200 € brut, locataire", "rd": 2385, "act": 2533, "ir": 148, "ppa": 0, "al": 0, "autres": 0, "smic": null, "smicNet": null, "apl": null, "flat": null, "csg": 31, "csgNet": 36, "rn30": 148, "lr": 25, "lrH": 25, "lrCut": 0}, {"id": "c5", "label": "Couple de cadres, 6 000 € brut chacun, 30 000 € de dividendes, propriétaires", "rd": 9729, "act": 9530, "ir": 1836, "ppa": 0, "al": 0, "autres": 0, "smic": null, "smicNet": null, "apl": null, "flat": -395, "csg": null, "csgNet": null, "rn30": null, "lr": 95, "lrH": 95, "lrCut": 0}, {"id": "c6", "label": "Fonctionnaire territorial de catégorie C en début de carrière, seul, locataire", "rd": 1882, "act": 1779, "ir": 36, "ppa": 139, "al": 0, "autres": 0, "smic": null, "smicNet": null, "apl": null, "flat": null, "csg": 51, "csgNet": 113, "rn30": null, "lr": -27, "lrH": 14, "lrCut": -42}, {"id": "c7", "label": "Retraitée seule, 72 ans, pension de 1 200 € brut, locataire", "rd": 1263, "act": 1200, "ir": 0, "ppa": 0, "al": 63, "autres": 0, "smic": null, "smicNet": null, "apl": 6, "flat": null, "csg": null, "csgNet": null, "rn30": null, "lr": null, "lrH": null, "lrCut": null}, {"id": "c8", "label": "Couple de retraités, pensions de 2 800 € et 2 200 € brut, propriétaires", "rd": 4285, "act": 4545, "ir": 260, "ppa": 0, "al": 0, "autres": 0, "smic": null, "smicNet": null, "apl": null, "flat": null, "csg": null, "csgNet": null, "rn30": null, "lr": null, "lrH": null, "lrCut": null}];
 function buildCases(){
   const tb=document.querySelector("#tblcases tbody"); if(!tb) return; tb.innerHTML="";
   const c=(v,net)=>v==null?`<td class="na">–</td>`:`<td class="${v>0?"better":v<0?"worse":""}">${v>0?"+":v<0?"−":""}${fmt(Math.abs(v),0)}&nbsp;€${net!=null?`<span class="rng">sur ${fmt(net,0)}&nbsp;€ de salaire net en plus</span>`:""}</td>`;
   for(const x of CASES){const tr=document.createElement("tr");
-    tr.innerHTML=`<td class="txt">${x.label}</td><td class="sep">${fmt(x.rd,0)}&nbsp;€<span class="rng">dont prime d'activité ${fmt(x.ppa,0)}&nbsp;€, aide au logement ${fmt(x.al,0)}&nbsp;€</span></td>`+c(x.smic,x.smicNet)+c(x.apl)+c(x.flat)+`<td class="sep${x.csg>0?" better":""}">${x.csg==null?"–":"+"+fmt(x.csg,0)+"&nbsp;€"}${x.csgNet!=null?`<span class="rng">sur ${fmt(x.csgNet,0)}&nbsp;€ de CSG en moins</span>`:""}</td>`+c(x.rn30)+`<td class="sep ${x.lr>0?"better":x.lr<0?"worse":""}">${x.lr>0?"+":x.lr<0?"−":""}${fmt(Math.abs(x.lr),0)}&nbsp;€<span class="rng">aides ${x.lrCut<0?"−":""}${fmt(Math.abs(x.lrCut),0)}&nbsp;€, heures +${fmt(x.lrH,0)}&nbsp;€</span></td>`;
+    tr.innerHTML=`<td class="txt">${x.label}</td><td class="sep">${fmt(x.rd,0)}&nbsp;€<span class="rng">dont prime d'activité ${fmt(x.ppa,0)}&nbsp;€, aide au logement ${fmt(x.al,0)}&nbsp;€</span></td>`+c(x.smic,x.smicNet)+c(x.apl)+c(x.flat)+`<td class="sep${x.csg>0?" better":""}">${x.csg==null?"–":"+"+fmt(x.csg,0)+"&nbsp;€"}${x.csgNet!=null?`<span class="rng">sur ${fmt(x.csgNet,0)}&nbsp;€ de CSG en moins</span>`:""}</td>`+c(x.rn30)+(x.lr==null?`<td class="sep na">–</td>`:`<td class="sep ${x.lr>0?"better":x.lr<0?"worse":""}">${x.lr>0?"+":x.lr<0?"−":""}${fmt(Math.abs(x.lr),0)}&nbsp;€<span class="rng">aides ${x.lrCut<0?"−":""}${fmt(Math.abs(x.lrCut),0)}&nbsp;€, heures +${fmt(x.lrH,0)}&nbsp;€</span></td>`);
     tb.appendChild(tr);}
+  const td=document.querySelector("#tblcasedet tbody"); if(!td) return; td.innerHTML="";
+  const e=v=>v?`${fmt(v,0)}&nbsp;€`:"–";
+  for(const x of CASES){const tr=document.createElement("tr");
+    tr.innerHTML=`<td class="txt">${x.label}</td><td class="sep">${e(x.act)}</td><td>${x.ir>0?"−"+fmt(x.ir,0)+"&nbsp;€":x.ir<0?"+"+fmt(-x.ir,0)+"&nbsp;€":"–"}</td><td>${e(x.ppa)}</td><td>${e(x.al)}</td><td>${e(x.autres)}</td><td class="sep"><strong>${fmt(x.rd,0)}&nbsp;€</strong></td>`;
+    td.appendChild(tr);}
 }
 buildCases();
 function fillHousing(res){
@@ -1185,7 +1258,7 @@ const HOUSTXT={statu:"Tendance : 265 000 en 2025, reprise lente",melenchon:"400 
 function crisisTable(){
   const tb=document.querySelector("#tblcrisis tbody"); if(!tb) return;
   const R=rng(2046), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R());
-  const raw=[]; for(let n=0;n<NMC;n++) raw.push({g1:gauss(),g2:gauss(),g3:gauss(),u:[R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R()]});
+  const raw=[]; for(let n=0;n<NMC;n++) raw.push({g1:gauss(),g2:gauss(),g3:gauss(),u:[R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R(),R()]});
   const out={};
   for(const pk of ["keynes","central","liberal"]){
     const B0=Object.assign({},BASE,PRESETS[pk]);
@@ -1193,7 +1266,7 @@ function crisisTable(){
       const ms0=microsim(p.paMeasures,mode==="annonce"?0:B0.leak); const r0=simulate(Object.assign({},p,{pa:ms0.pa,paDec:ms0.deciles}),mode,B0); let cr=0,tp=0;
       for(const d of raw){const b=Object.assign({},B0),u=d.u;
         b.realg=Math.max(-0.5,B0.realg+0.4*d.g1); b.mktReal=Math.max(0,B0.mktReal+0.5*d.g2); b.infl=Math.max(0,B0.infl+0.4*d.g3);
-        b.mult=Math.max(0.2,B0.mult+(u[0]-0.5)*0.6); b.kDebt=Math.max(0,B0.kDebt*(0.5+u[1])); b.crisisPrem=Math.max(1.5,B0.crisisPrem-1+2*u[2]);
+        b.mult=Math.max(0.2,B0.mult+(u[0]-0.5)*0.6); b.multScale=Math.max(0.4,B0.multScale+(u[13]-0.5)*0.5); b.kDebt=Math.max(0,B0.kDebt*(0.5+u[1])); b.crisisPrem=Math.max(1.5,B0.crisisPrem-1+2*u[2]);
         b.leak=Math.min(0.9,Math.max(0,B0.leak+(u[3]-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,B0.seniorKeep+(u[4]-0.5)*0.3));
         b.bceDraw=u[11]; b.clim=u[5]<0.3?"moderee":u[5]<0.8?"forte":"tresforte"; b.ai=u[6]<0.3?"lente":u[6]<0.75?"moyenne":"rapide";
         if(BASE.shock==="none"&&u[7]<0.4){b.shock=u[8]<0.35?"recession":u[8]<0.6?"financial":u[8]<0.8?"inflation":"climat";b.shockYear=2028+Math.floor(u[9]*13);}
@@ -1219,7 +1292,42 @@ document.getElementById("tab-btn-sim").onclick=()=>showTab("sim");
 document.getElementById("tab-btn-info").onclick=()=>showTab("info");
 try{if(localStorage.getItem("simTab")==="info") setTimeout(()=>showTab("info"),0);}catch(e){}
 
-bindGlobals(); buildCands(); buildGrid(); render();
+
+// partage : tous les écarts aux réglages par défaut sont gardés dans l'adresse (#s=…)
+const SHARE_BASE_KEYS=()=>[...GL.map(([k])=>k),"shock","clim","ai"];
+function encodeState(){
+  const st={v:1,m:mode,p:preset,k:metric,b:{},c:{}};
+  for(const k of SHARE_BASE_KEYS()) if(BASE[k]!==BASE0[k]) st.b[k]=BASE[k];
+  for(const c of CANDS){const c0=CANDS0.find(x=>x.id===c.id); const d={}; for(const [k] of PS) if(c[k]!==c0[k]) d[k]=c[k]; if(Object.keys(d).length) st.c[c.id]=d;}
+  return btoa(JSON.stringify(st)).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,"");
+}
+function decodeState(h){
+  try{ const m=/[#&]s=([A-Za-z0-9_-]+)/.exec(h||""); if(!m) return false;
+    let b64=m[1].replace(/-/g,"+").replace(/_/g,"/"); while(b64.length%4) b64+="=";
+    const st=JSON.parse(atob(b64)); if(!st||st.v!==1) return false;
+    if(["annonce","credible","pondere"].includes(st.m)) mode=st.m;
+    if(PRESETS[st.p]) preset=st.p;
+    if(METRICS[st.k]) metric=st.k;
+    const keys=SHARE_BASE_KEYS();
+    for(const [k,v] of Object.entries(st.b||{})) if(keys.includes(k)&&typeof v===typeof BASE0[k]) BASE[k]=v;
+    for(const [id,d] of Object.entries(st.c||{})){const c=CANDS.find(x=>x.id===id); if(!c) continue;
+      for(const [k,v] of Object.entries(d)) if(PS.some(([kk])=>kk===k)&&typeof v==="number"&&isFinite(v)) c[k]=v;}
+    return true;
+  }catch(e){return false;}
+}
+let shareTimer=null;
+function updateShareURL(){clearTimeout(shareTimer);shareTimer=setTimeout(()=>{try{
+  const s=encodeState(), def=s===encodeStateDefault; history.replaceState(null,"",location.pathname+location.search+(def?"":"#s="+s));}catch(e){}},300);}
+document.getElementById("share").onclick=async()=>{
+  const s=encodeState(), url=location.origin+location.pathname+location.search+(s===encodeStateDefault?"":"#s="+s), msg=document.getElementById("sharemsg");
+  try{await navigator.clipboard.writeText(url);msg.textContent="Lien copié.";}
+  catch(e){msg.textContent="Copiez ce lien : "+url;}
+  setTimeout(()=>{msg.textContent="";},6000);
+};
+encodeStateDefault=encodeState();
+if(decodeState(location.hash)){syncSeg("mode",mode);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];
+  document.querySelectorAll("#metrics button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.metric===metric));}
+bindGlobals(); buildCands(); buildGrid(); fillMultTable(); render();
 </script>
 </body>
 </html>
