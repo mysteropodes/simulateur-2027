@@ -33,7 +33,9 @@ Tous les paramètres sont réglables. Trois lectures économiques sont proposée
 - **La crise de la dette est une règle du modèle.** Au-delà de certains seuils, la prime de risque s'emballe, la BCE intervient ou non, puis un ajustement forcé et des prêts d'urgence s'appliquent pendant 5 ans. Le fait qu'une crise apparaisse dans presque tous les scénarios découle en partie de cette règle et du point de départ (dette à 115,6 % du PIB). Ce n'est pas une certitude.
 - **Après 2032**, les projections sont grisées : l'incertitude devient trop forte pour les lire au premier degré.
 - **Les effets sociétaux sont traduits en paramètres**, donc simplifiés à l'extrême : tension sociale, droits, changements de modèle économique.
-- Le test sur 2015-2025 (`tests/backtest.js`) porte sur les mécanismes de chômage, d'intérêts et de dette, avec la croissance et le déficit observés ; il ne teste pas les effets des programmes sur la croissance.
+- Le test sur 2015-2025 (`tests/backtest.js`) porte sur les mécanismes de chômage, d'intérêts et de dette, avec la croissance et le déficit observés ; il ne teste pas les effets des programmes sur la croissance. Il a aussi servi à régler ces mécanismes : ce n'est pas une validation indépendante.
+- **Long terme trop optimiste pour tous** : la hausse des dépenses de santé et de dépendance, la cible OTAN de 3,5 % du PIB et la dégradation des retraites n'entrent pas dans le déficit.
+- **La crédibilité d'un chiffrage** réduit les recettes et les économies annoncées, pas les dépenses : un programme moins crédible a toujours un déficit plus élevé.
 
 ## Contester un chiffrage
 

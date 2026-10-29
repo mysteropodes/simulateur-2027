@@ -2,6 +2,20 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, nuit (3) : audit de réalisme
+
+Audit indépendant : statu quo comparé aux projections officielles (Banque de France, comité d'experts de juillet 2026, Cour des comptes, COR, FMI), règles testées sur des cas extrêmes. Le statu quo est réaliste jusqu'en 2030 (dette 131 % contre 130 %). Corrections, mêmes règles pour tous :
+
+- **Filet de la BCE (TPI)** : condition « effort ≥ 1 point » remplacée par un déficit ramené à 4 % au plus (réglable, tiré entre 3,5 et 5 % dans les fourchettes) ; retrait si le déficit dépasse de nouveau ce seuil d'un point.
+- **Crédibilité par sens** : elle réduit les recettes et les économies (sauf les impôts sur les plus aisés, déjà réduits par la fuite fiscale) ; dépenses et baisses d'impôts comptées en entier. Effort retenu : Retailleau +1,1 pt, Philippe +0,8, Le Pen −0,7, Mélenchon −1,1, Glucksmann −1,3.
+- **Après une crise** : économies imposées gardées seulement pour tenir le déficit sous 3 % ; séquelles de six ans (−0,4 pt/an).
+- **Prime de risque** : dégradations de note progressives (plus de paliers) ; déficit corrigé de l'inflation au-delà de 2 %.
+- **Smic** : effet sur l'emploi (élasticité 0,25 centrale, 0,05 keynésienne, 0,5 libérale ; 17 % des salariés au Smic ; coût net des allègements).
+- **Âge de départ** : 70 % du changement d'âge légal pour tous (réglable).
+- **Effets de niveau** : réformes de l'offre (2027-2036) et IA (jusqu'en 2040, puis extinction sur six ans) ne relèvent plus la croissance indéfiniment.
+- **Fourchettes** : correction d'un tirage de la réaction des marchés et du seuil de crise resté en commentaire.
+- **Textes** : contradiction entre test historique et Méthode corrigée ; limites de long terme ajoutées ; mise en garde sur la comparaison des dettes de 2046.
+
 ## 29 octobre 2026, nuit (2)
 
 - **Transition et indépendance énergétique** : importations fossiles évitées produites en partie en France (50 % centrale, 70 % keynésienne, 30 % libérale ; évaluation ThreeME de la SNBC, 2022) ; coût de la transition sur la productivité (0,06 point de croissance par point de PIB d'investissement climat, 2027-2035 ; 0 keynésienne, 0,12 libérale ; Pisani-Ferry et Mahfouz, 2023).
