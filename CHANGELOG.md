@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 29 octobre 2026, nuit (2)
+
+- **Transition et indépendance énergétique** : importations fossiles évitées produites en partie en France (50 % centrale, 70 % keynésienne, 30 % libérale ; évaluation ThreeME de la SNBC, 2022) ; coût de la transition sur la productivité (0,06 point de croissance par point de PIB d'investissement climat, 2027-2035 ; 0 keynésienne, 0,12 libérale ; Pisani-Ferry et Mahfouz, 2023).
+
 ## 29 octobre 2026, nuit : réalisme, énergie et géopolitique
 
 - **Test historique 2015-2025** (`tests/backtest.js`) : chômage recalé (loi d'Okun 0,3, chômage structurel 7,4 %, retour à 20 % par an, activité partielle en épidémie ; erreur moyenne de 1,6 à 0,6 point) ; environ 10 % de dette indexée sur l'inflation (erreur sur le taux apparent de 0,22 à 0,10 point) ; identité de la dette vérifiée (0,5 point d'écart hors 2020).

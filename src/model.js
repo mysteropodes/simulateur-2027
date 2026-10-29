@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:1.7,mktReal:1.7,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.5,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.25,seniorKeep:0.55,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -83,7 +83,7 @@ function simulate(p,mode,b){
   const consolid=(p.A-((p.topRev||0)-(p.topCut||0))*(mode==="annonce"?0:b.leak)/b.gdpMd*100)*real; // effort crédible : condition du filet BCE
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false; const spHist=[], invHist=[];
   const comp=fiscalComp(p,b); comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
-  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1; const billHist=[];
+  const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
   const o={brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
@@ -153,12 +153,17 @@ function simulate(p,mode,b){
     const oilLev=-b.oilGdp*pDev*fdep-b.oilCoupling*ration*100*0.39; // niveau du PIB, en % (le pétrole pèse 39 % de l'énergie finale)
     const oilGrowth=oilLev-oilLevPrev; oilLevPrev=oilLev;
     const oilInfl=b.oilPi*(pDev-pDevPrev)*fdep; pDevPrev=pDev;
+    // indépendance énergétique : les importations fossiles évitées par rapport à la tendance (−1,5 %/an) deviennent en partie de la production en France
+    const depTrend=Math.pow(1-b.co2Base/100,t-1-START), priceF=0.75*pS/69+0.25*Math.max(0.6,pS/69);
+    const subLev=b.importSub*b.energy0*priceF*(depTrend-fdep)/b.gdpMd*100, subGrowth=subLev-subLevPrev; subLevPrev=subLev;
+    // coût de la transition : des investissements qui remplacent les énergies fossiles sans accroître la capacité de production (Pisani-Ferry et Mahfouz, 2023)
+    const transCost=t>=2027&&t<=2035?b.transDrag*Math.max(0,(p.climInv||0)-0.2)*real*retreat*phase:0;
     const billBase=b.energy0*fdep, bill=billBase*(0.75*pS/69+0.25*Math.max(0.6,pS/69)), billT=billBase*(0.75*pT/69+0.25*Math.max(0.6,pT/69));
     const billRef=billHist.length?billHist.slice(-3).reduce((a,v)=>a+v,0)/Math.min(3,billHist.length):bill; billHist.push(bill);
     const shield=b.bouclier*Math.max(0,bill-Math.max(billRef,billT))/b.gdpMd*100; // aides publiques temporaires face à une hausse brutale (bouclier tarifaire) : elles s'éteignent quand les prix se stabilisent
     if(t===b.shockYear&&b.shock==="petrole") E(t,"oil","Flambée du pétrole : +45 $ le baril, puis +25 $ l'année suivante (type 2022). Facture énergétique, inflation, aides publiques.");
     const near=NEAR[t]||{g:0,pi:0}; // conjoncture : Banque de France, septembre 2026
-    const realg=b.realg+oilGrowth+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
+    const realg=b.realg+oilGrowth+subGrowth-transCost+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
     const pi=b.infl+oilInfl+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
     const pd=s-b.stab*gap+z.pd+shield-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const rating=burden>14?1.4:burden>11?0.6:burden>8?0.2:0;   // dégradations de note par paliers
