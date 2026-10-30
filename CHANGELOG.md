@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026 : conséquences concrètes
+
+- Modèle : `tensCost` 0,01 (perte d'activité de 0,01 % de PIB par point de tension au-dessus de 60, effet de niveau récupéré quand la tension retombe) ; séries `retreat` (part du programme abandonnée) et `tensGdp`.
+- Page : section « Conséquences concrètes » (tension forte, recul, activité perdue, crise de financement), recalculée à chaque réglage.
+
 ## 30 octobre 2026 : ajout de Gabriel Attal
 
 - Nouveau candidat `attal` (couleur `--c6`) : A 2,7 (équilibre en dix ans), c 0,35 (≈ 10 Md€ vérifiés sur 120 à 150), baisse des cotisations salariales 46 Md€ (hypothèse Déchiffrer 2027), économies sociales aux deux tiers, compItems IA +10, fonctionnaires −4,2, divers +1.

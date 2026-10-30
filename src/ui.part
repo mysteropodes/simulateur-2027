@@ -128,6 +128,7 @@ function render(skipMC){
   for(const c of CANDS){const ms=microsim(c.paMeasures,mode==="annonce"?0:BASE.leak); c.pa=ms.pa; c.paDec=ms.deciles;}
   const res=CANDS.map(p=>({p,r:simulate(p,mode,BASE)}));
   LASTRES=res;
+  if(typeof buildConseq==="function") buildConseq(res);
   const [mlabel,unit,dec,suf]=METRICS[metric];
   const ink=css("--muted"), line=css("--line");
   const ds=res.map(({p,r})=>{const evY=new Set(r.ev.filter(e=>EVMET[e.k]&&(EVMET[e.k]||[]).includes(metric)).map(e=>e.t));return {label:p.name,data:r[metric].map(v=>v==null?null:+v.toFixed(dec+1)),borderColor:css(p.color),backgroundColor:css(p.color),borderWidth:p.id==="statu"?2:2.5,borderDash:p.id==="statu"?[6,4]:[],pointRadius:YEARS.map(y=>evY.has(+y)?4.5:0),pointBorderColor:css("--surface"),pointBorderWidth:1.5,pointHoverRadius:4,tension:.25,spanGaps:true};});
@@ -545,3 +546,22 @@ encodeStateDefault=encodeState();
 if(decodeState(location.hash)){syncSeg("mode",mode);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];
   document.querySelectorAll("#metrics button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.metric===metric));}
 bindGlobals(); buildCands(); buildGrid(); fillMultTable(); render();
+
+// Conséquences concrètes : tension sociale forte et crise de financement, par programme (calculées à chaque changement de réglage)
+function buildConseq(res){
+  const el=document.getElementById("conseq"); if(!el) return;
+  const Y0=2025, f1=v=>fmt(v,1);
+  const rows=res.map(({p,r})=>{
+    const yrs=[]; r.tension.forEach((v,i)=>{if(i>=2&&v>60) yrs.push(Y0+i);});
+    const peakT=Math.max(...r.tension.slice(1)), ret=Math.max(...r.retreat), gdpL=Math.min(...r.tensGdp);
+    let cr="Aucune d'ici 2046";
+    if(r.crisis){const k=r.crisis-Y0, w=r.unemp.slice(k,k+5), pv=r.pov.slice(k,k+5);
+      cr=`<b>${r.crisis}</b>${r.crisisLast&&r.crisisLast!==r.crisis?" puis "+r.crisisLast:""} : chômage jusqu'à ${f1(Math.max(...w))} % (${f1(r.unemp[k-1])} % avant), pauvreté jusqu'à ${f1(Math.max(...pv))} %, ${BASE.exit==="refus"?"contrôle des capitaux et inflation":"économies imposées de 1,5 pt de PIB par an"}`;}
+    const tens=yrs.length?`<b>${yrs.length} an${yrs.length>1?"s":""}</b> au-dessus de 60, dès ${yrs[0]} (pic ${fmt(peakT,0)})`:`Jamais au-dessus de 60 (pic ${fmt(peakT,0)})`;
+    const back=p.id==="statu"?"–":ret>=1?`${fmt(ret,0)} % du programme abandonné`:"Aucun";
+    const cost=gdpL<-0.005?`−${fmt(-gdpL,2)} % de PIB au pire moment`:"Négligeable";
+    return `<tr><td class="txt"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td><td>${tens}</td><td>${back}</td><td>${cost}</td><td>${cr}</td></tr>`;}).join("");
+  el.innerHTML=`<p class="help">Selon les réglages en cours (lecture, mode, chocs). Tension sociale sur 100 : 40 en temps normal.</p>
+  <div class="tblwrap"><table class="conseq"><thead><tr><th>Programme</th><th>Tension sociale forte</th><th>Recul du gouvernement</th><th>Activité perdue (grèves, blocages)</th><th>Crise de financement</th></tr></thead><tbody>${rows}</tbody></table></div>
+  <p class="help"><b>Au-dessus de 60</b>, le simulateur suppose des mobilisations durables : le gouvernement recule sur une partie de son programme (jusqu'à 40 % à 80 de tension), les économies et les recettes prévues ne se font pas, et l'activité ralentit tant que la tension dure (0,01 % de PIB par point au-dessus de 60). Repères : plan Juppé sur les retraites retiré en 1995, CPE retiré en 2006, gilets jaunes en 2018 (taxe carbone gelée, environ 10 Md€ de mesures d'urgence, −0,1 point de PIB au 4e trimestre selon l'Insee). <b>Une crise de financement</b> (taux qui s'envolent, l'État ne trouve plus à emprunter à un prix supportable) entraîne récession, chômage, pauvreté et économies imposées en échange de prêts européens, comme en Grèce, au Portugal et en Irlande en 2010-2012 ; la tension monte alors brutalement, sans que le gouvernement l'ait choisi. Non modélisé : violences, crise politique ou institutionnelle, dissolution.</p>`;
+}

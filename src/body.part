@@ -125,6 +125,7 @@
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>30 octobre 2026 : conséquences concrètes de la tension sociale et des crises.</strong> Nouveau tableau sous le graphique : pour chaque programme, années de tension forte (au-dessus de 60), part du programme abandonnée sous la pression, activité perdue, et pour la crise de financement, chômage, pauvreté et économies imposées. Nouveau mécanisme, le même pour tous : au-dessus de 60 de tension, l'activité perd 0,01 % de PIB par point tant que la tension dure, puis la récupère (gilets jaunes : −0,1 point de PIB au 4e trimestre 2018, Insee). Effet faible sur les trajectoires (au pire −0,25 % de PIB) ; résultats de référence inchangés.</li>
       <li><strong>30 octobre 2026 : ajout de Gabriel Attal (Renaissance).</strong> Seul autre candidat déclaré dont le programme est en partie chiffré (120 à 150 Md€ d'économies sur le quinquennat, équilibre en dix ans ; Déchiffrer 2027 en chiffre 21 %). Les autres candidats déclarés (Zemmour, Ruffin, Roussel, Tondelier, Lisnard, Bertrand…) n'ont pas encore publié de chiffrage global. Mêmes règles que pour les autres : effort annoncé par la cible de déficit (2,7 pts), crédibilité 0,35, baisse des cotisations salariales retenue en entier au montant supposé par Déchiffrer 2027 (46 Md€, le candidat n'ayant pas donné de montant). Effort retenu −0,9 pt ; crise en 2039 en lecture centrale, comme Philippe et le statu quo ; pauvreté 2032 de 15,4 %.</li>
       <li><strong>30 octobre 2026, nuit (3) : vérification des chiffrages, candidat par candidat.</strong> Les mesures, montants et notes ont été vérifiés contre les dernières sources (presse, Déchiffrer 2027, sites des candidats). Corrections, avec une règle commune pour l'effort annoncé (voir la Méthode) :
         <ul>
@@ -350,6 +351,11 @@
       </div>
     </div>
   </section>
+
+   <section class="panel" aria-labelledby="h-conseq">
+    <h2 id="h-conseq">Conséquences concrètes</h2>
+    <div id="conseq"></div>
+   </section>
 
   <section class="panel" aria-labelledby="h-explain">
     <h2 id="h-explain">Pourquoi les courbes changent de pente</h2>

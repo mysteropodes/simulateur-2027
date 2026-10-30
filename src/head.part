@@ -126,5 +126,7 @@ a{color:var(--accent)}
 .cr-v{text-align:right;font-variant-numeric:tabular-nums}
 .cr-d{grid-column:3/6;font-size:.8em;opacity:.65;margin:-2px 0 4px}
 @media(max-width:520px){.cr-r{grid-template-columns:1.2em 10px 1fr 3em;row-gap:4px}.cr-name{grid-column:3/5;grid-row:1}.cr-bar{grid-column:3/4;grid-row:2}.cr-v{grid-column:4/5;grid-row:2}.cr-d{grid-column:3/5;grid-row:3}}
+table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em}table.conseq td{font-family:var(--f-body);white-space:normal;text-align:left}table.conseq td:first-child{font-weight:600;white-space:nowrap}table.conseq th,table.conseq td{padding:6px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top;text-align:left}table.conseq th{font-weight:600;opacity:.8}table.conseq .sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
+.tblwrap{overflow-x:auto;max-width:100%}#conseq{min-width:0;max-width:100%}
 </style>
 

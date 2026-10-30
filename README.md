@@ -16,6 +16,9 @@ C'est un outil de comparaison, pas une prévision : les mêmes règles s'appliqu
 - **Fiches candidats** : mesures, origine de chaque mesure et de son montant, trois niveaux de chiffrage, critiques et réponses de leurs défenseurs (« L'autre point de vue »).
 - **Fourchettes d'incertitude** (200 tirages), explication de chaque cassure de courbe, cas types OpenFisca, recoupements avec les prévisions officielles et France Budget, lien de partage qui garde tous les réglages.
 
+
+La section « Conséquences concrètes » traduit la tension sociale et les crises en effets lisibles : années de tension forte (au-dessus de 60 sur 100), part du programme abandonnée sous la pression, activité perdue (0,01 % de PIB par point au-dessus de 60, ordre de grandeur des gilets jaunes), et pour une crise de financement, pic de chômage, pic de pauvreté et économies imposées.
+
 ## Méthode de simulation
 
 ### 1. Principe
