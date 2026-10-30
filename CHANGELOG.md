@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026 : nouvelle présentation
+
+- Menu latéral (vues : vue d'ensemble, indicateurs détaillés, ménages, incertitude, fiches candidats, droits, test sur le passé, comprendre la dette, méthode et sources, journal) ; rangée d'onglets sur téléphone.
+- Vue d'ensemble : cartes par programme (crise, pauvreté, chômage, tension, dette 2046 hors crise), graphique avec indicateurs par thème, « Ce qu'il faut retenir », chiffrages, conséquences.
+- Panneau « Hypothèses » (scénario et économie) ; pastilles du scénario en cours.
+- Thème sombre, police Schibsted Grotesk ; page utilisable même si Chart.js ne charge pas.
+
 ## 30 octobre 2026 : test sur le passé
 
 - Onglet « Test sur le passé » (`src/retro.js`) : Hollande 2012, Macron 2017, Macron 2022 rejoués avec les règles de 2027 ; trois lectures (tel qu'annoncé, à l'aveugle, contexte réel), courbes réalité / simulateur pour dette, déficit, chômage, croissance, inflation ; lecture automatique des écarts.

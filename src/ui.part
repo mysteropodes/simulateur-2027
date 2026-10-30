@@ -134,7 +134,7 @@ function render(skipMC){
   const ds=res.map(({p,r})=>{const evY=new Set(r.ev.filter(e=>EVMET[e.k]&&(EVMET[e.k]||[]).includes(metric)).map(e=>e.t));return {label:p.name,data:r[metric].map(v=>v==null?null:+v.toFixed(dec+1)),borderColor:css(p.color),backgroundColor:css(p.color),borderWidth:p.id==="statu"?2:2.5,borderDash:p.id==="statu"?[6,4]:[],pointRadius:YEARS.map(y=>evY.has(+y)?4.5:0),pointBorderColor:css("--surface"),pointBorderWidth:1.5,pointHoverRadius:4,tension:.25,spanGaps:true};});
   addBand(ds);
   if(GOV[metric]){const g=GOV[metric];ds.push({label:"Trajectoire du gouvernement",isGov:true,data:YEARS.map(y=>g[+y]??null),borderColor:css("--ink"),backgroundColor:css("--ink"),borderWidth:1.5,borderDash:[2,3],pointRadius:3,pointStyle:"rectRot",spanGaps:true,tension:0});}
-  if(!chart){
+  if(typeof Chart!=="undefined"){ if(!chart){
     Chart.defaults.font.family=getComputedStyle(document.body).fontFamily;chart=new Chart(document.getElementById("chart"),{type:"line",data:{labels:YEARS,datasets:ds},plugins:[shockLine,fogZone],
       options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},interaction:{mode:"index",intersect:false},
         plugins:{legend:{position:"bottom",labels:{boxWidth:12,filter:(l,d)=>!d.datasets[l.datasetIndex].isBand}},
@@ -146,7 +146,7 @@ function render(skipMC){
   for(const a of ["x","y"]){chart.options.scales[a].ticks.color=ink;chart.options.scales[a].grid={color:line};}
   chart.options.scales.y.ticks.callback=(v,i,ticks)=>{const st=ticks.length>1?Math.abs(ticks[1].value-ticks[0].value):1;const d=st>=1?0:st>=0.1?1:st>=0.01?2:3;return fmt(v,d)+(suf==="%"?" %":"");};
   chart.options.scales.y.title.text=unit; chart.options.scales.y.title.color=ink;
-  chart.update();
+  chart.update(); }
   explain(res);
   if(skipMC!==true) scheduleMC();
   fillSenior(res);
@@ -194,7 +194,7 @@ function render(skipMC){
       <td class="sep">${fmt(p.fb.unemp)} %</td><td>${fmt(r.unemp[yi(2030)])} %</td>
       <td class="sep">${fmt(p.fb.gini,3)}</td><td>${fmt(r.gini[yi(2030)],3)}</td>
       <td class="sep">${fmt(p.fb.pa)}</td><td class="sep">${fmt(rFB(p).def[yi(2030)])} %</td><td>${fmt(rFB(p).debt[yi(2030)],0)} %</td><td class="src">${p.fb.note||""}</td>`;tbf.appendChild(tr);}
-  fillOfficial(res);
+  fillOfficial(res); buildOverview(res,nc); updateChips();
   document.getElementById("modehelp").textContent=MODEHELP[mode];
   document.getElementById("shockhelp").textContent=SHOCKHELP[BASE.shock];
   document.getElementById("climhelp").textContent=CLIMHELP[BASE.clim];
@@ -227,7 +227,7 @@ function fillMultTable(){const el=document.getElementById("multtable"); if(!el) 
 function buildCands(){
   const box=document.getElementById("cands"); box.innerHTML="";
   for(const p of CANDS){ if(p.id==="statu") continue;
-    const d=document.createElement("details"); d.className="cand";
+    const d=document.createElement("details"); d.className="cand"; d.id="fiche-"+p.id;
     d.innerHTML=`<summary><span class="sw" style="background:var(${p.color})"></span>${p.name}</summary>
       <div class="cbody"><div style="display:grid;gap:10px;min-width:0;align-content:start"><h3>Mesures retenues</h3><ul>${p.measures.map(m=>`<li>${m}</li>`).join("")}</ul>
       <p class="src">${p.why}</p><p class="src">${p.why2}</p><p class="src">${p.why3}</p>
@@ -239,9 +239,25 @@ function buildCands(){
       el.value=p[k];o.textContent=f(p[k]);el.oninput=()=>{p[k]=+el.value;o.textContent=f(+el.value);render()};}
   }
 }
-const mbox=document.getElementById("metrics");
-for(const [k,[l]] of Object.entries(METRICS)){const b=document.createElement("button");b.textContent=l;b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
-  b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
+// Indicateurs rangés par thème : un thème, puis tous ses indicateurs visibles d'un clic
+const THEMES=[["Finances publiques",["debt","def","burden","spread","po","dep","defEtat","defSecu","defLoc","nw","defense","ca"]],
+ ["Croissance et emploi",["growth","unemp","youth","emp55","infl"]],
+ ["Société",["pov","gini","ratioEl","tension","health","sp"]],
+ ["Retraites et patrimoine",["pens","retliv","w10","inh","succ"]],
+ ["Logement",["house","rent","cons"]],
+ ["Climat et énergie",["co2","heat","pm","energy","brent","artif"]],
+ ["Démographie",["icf","births","mig"]]];
+{const seen=new Set(THEMES.flatMap(t=>t[1])); const rest=Object.keys(METRICS).filter(k=>!seen.has(k)); if(rest.length) THEMES.push(["Autres",rest]);}
+const mbox=document.getElementById("metrics"), tbox=document.getElementById("themes");
+const themeOf=k=>THEMES.findIndex(t=>t[1].includes(k));
+let themeIdx=Math.max(0,themeOf(metric));
+function buildMetricButtons(){
+  tbox.innerHTML=""; THEMES.forEach(([lab],i)=>{const b=document.createElement("button");b.type="button";b.textContent=lab;b.setAttribute("role","tab");b.setAttribute("aria-selected",i===themeIdx);
+    b.onclick=()=>{themeIdx=i;if(themeOf(metric)!==i){metric=THEMES[i][1][0];render();}buildMetricButtons();};tbox.appendChild(b);});
+  mbox.innerHTML=""; for(const k of THEMES[themeIdx][1]){const b=document.createElement("button");b.type="button";b.textContent=METRICS[k][0];b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
+    b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
+}
+buildMetricButtons();
 // Classement des programmes par part chiffrée de façon indépendante (Déchiffrer 2027), tirée de la note de crédibilité : d = (c − 0,3) / 0,7
 (function(){
   const el=document.getElementById("costRank"); if(!el) return;
@@ -501,15 +517,48 @@ function crisisTable(){
       return `<td class="cr ${i===0?"sep ":""}${cls}"><b>${main}</b>crise dans ${fmt(x.cr*100,0)} % des tirages${x.tp>0?`, filet BCE dans ${fmt(x.tp*100,0)} %`:""}</td>`;}).join("");
     tb.appendChild(tr);}
 }
-function showTab(id){
-  for(const t of ["sim","info","retro"]){const on=t===id;document.getElementById("tab-"+t).hidden=!on;document.getElementById("tab-btn-"+t).setAttribute("aria-selected",on);}
-  if(id==="info"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);} else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);} else if(chart) chart.resize();
-  try{localStorage.setItem("simTab",id);}catch(e){}
+// Navigation : une vue à la fois (menu latéral, ou rangée d'onglets sur téléphone)
+function showView(id,noScroll){
+  const views=[...document.querySelectorAll(".view")]; if(!views.some(v=>v.dataset.view===id)) id="overview";
+  for(const v of views) v.hidden=v.dataset.view!==id;
+  document.querySelectorAll("[data-go]").forEach(b=>b.setAttribute("aria-current",b.dataset.go===id?"page":"false"));
+  const v=views.find(x=>x.dataset.view===id); document.getElementById("viewTitle").textContent=v.dataset.title; document.getElementById("viewSub").textContent=v.dataset.sub;
+  if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);}
+  else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);}
+  else if(id==="overview"&&chart) chart.resize();
+  const mb=document.querySelector(`.mnav [data-go="${id}"]`); if(mb) mb.scrollIntoView({block:"nearest",inline:"center"});
+  if(!noScroll) window.scrollTo({top:0});
+  try{localStorage.setItem("simView",id);}catch(e){}
 }
-document.getElementById("tab-btn-sim").onclick=()=>showTab("sim");
-document.getElementById("tab-btn-info").onclick=()=>showTab("info");
-document.getElementById("tab-btn-retro").onclick=()=>showTab("retro");
-try{const tb=localStorage.getItem("simTab"); if(tb==="info"||tb==="retro") setTimeout(()=>showTab(tb),0);}catch(e){}
+document.querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>showView(b.dataset.go));
+{let v0="overview"; try{v0=localStorage.getItem("simView")||"overview";}catch(e){} showView(v0,true);}
+// Panneau « Hypothèses »
+const drawer=document.getElementById("drawer"), scrim=document.getElementById("scrim"), openBtn=document.getElementById("openHyp");
+function openDrawer(tab){drawer.hidden=false;scrim.hidden=false;openBtn.setAttribute("aria-expanded","true");document.body.classList.add("noscroll");if(tab) setDTab(tab);drawer.querySelector(".dclose").focus();}
+function closeDrawer(){drawer.hidden=true;scrim.hidden=true;openBtn.setAttribute("aria-expanded","false");document.body.classList.remove("noscroll");openBtn.focus();}
+function setDTab(t){drawer.querySelectorAll("[data-dtab]").forEach(b=>b.setAttribute("aria-selected",b.dataset.dtab===t));drawer.querySelectorAll("[data-dpane]").forEach(p=>p.hidden=p.dataset.dpane!==t);}
+openBtn.onclick=()=>openDrawer(); document.getElementById("closeHyp").onclick=closeDrawer; scrim.onclick=closeDrawer;
+drawer.querySelectorAll("[data-dtab]").forEach(b=>b.onclick=()=>setDTab(b.dataset.dtab));
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!drawer.hidden) closeDrawer();});
+// Pastilles du scénario en cours (un clic ouvre le panneau)
+const MODELAB={annonce:"Tel qu'annoncé",credible:"Si élu, chiffrage crédible",pondere:"Pondéré par la faisabilité"};
+const PRESETLAB={keynes:"Keynésienne",central:"Centrale",liberal:"Libérale",historique:"Fondée sur l'historique"};
+function updateChips(){
+  const box=document.getElementById("scenChips"); if(!box) return;
+  const sb=document.querySelector(`[data-shock="${BASE.shock}"]`), shock=BASE.shock==="none"?"Aucun":(sb?sb.textContent:BASE.shock)+" en "+BASE.shockYear;
+  box.innerHTML=[["Application",MODELAB[mode]],["Lecture",PRESETLAB[preset]||"Personnalisée"],["Choc",shock]].map(([k,v])=>`<button type="button" class="chip"><span>${k}</span>${v}</button>`).join("");
+  box.querySelectorAll("button").forEach(b=>b.onclick=()=>openDrawer("scen"));
+}
+// Vue d'ensemble : une carte par programme
+function buildOverview(res,nc){
+  const box=document.getElementById("ovCards"); if(!box) return; const yi=y=>y-START;
+  box.innerHTML=res.map(({p,r})=>{const [nm,party]=p.id==="statu"?["Statu quo","aucune mesure nouvelle"]:[p.name.replace(/ \(.*/,""),(p.name.match(/\((.*)\)/)||[])[1]||""];
+    return `<button type="button" class="ovcard${p.id==="statu"?" ref":""}" data-id="${p.id}" style="--c:var(${p.color})">
+    <span class="ovn"><i></i>${nm}</span><span class="ovp">${party}</span>
+    <span class="ovbig">${r.crisis||"—"}</span><span class="ovlab">${r.crisis?"crise de la dette":"pas de crise d'ici 2046"}</span>
+    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette 2046*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl></button>`;}).join("");
+  box.querySelectorAll(".ovcard").forEach(b=>b.onclick=()=>{const id=b.dataset.id; if(id==="statu") return; showView("cands"); const d=document.getElementById("fiche-"+id); if(d){d.open=true;setTimeout(()=>d.scrollIntoView({block:"start"}),50);}});
+}
 
 
 // partage : tous les écarts aux réglages par défaut sont gardés dans l'adresse (#s=…)
@@ -545,7 +594,7 @@ document.getElementById("share").onclick=async()=>{
 };
 encodeStateDefault=encodeState();
 if(decodeState(location.hash)){syncSeg("mode",mode);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];
-  document.querySelectorAll("#metrics button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.metric===metric));}
+  themeIdx=Math.max(0,themeOf(metric)); buildMetricButtons();}
 bindGlobals(); buildCands(); buildGrid(); fillMultTable(); render();
 
 // Conséquences concrètes : tension sociale forte et crise de financement, par programme (calculées à chaque changement de réglage)
