@@ -15,12 +15,12 @@ head = read("head.part")
 # En-tête autonome (doctype, langue, description) à la place des métadonnées d'aperçu.
 head = head.replace('<meta name="claude:viewport-fit-sides" content="cover">\n', "")
 head = head.replace(
-    "<title>Simulateur dette 2027</title>\n",
+    "<title>Simulateur des programmes 2027</title>\n",
     '<!doctype html>\n<html lang="fr">\n<head>\n<meta charset="utf-8">\n'
     '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
-    '<meta name="description" content="Simulation pédagogique des programmes de la présidentielle 2027 : '
+    '<meta name="description" content="Simulation des programmes de la présidentielle 2027, avec les mêmes règles pour tous : '
     'dette, emploi, inégalités, climat, services publics, avec sources Insee et instituts.">\n'
-    "<title>Simulateur dette 2027</title>\n",
+    "<title>Simulateur des programmes 2027</title>\n",
     1,
 )
 
