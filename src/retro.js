@@ -35,19 +35,26 @@ function buildRetro(){
     rows.map(([lab,fn,o])=>`<tr><td class="txt">${lab}</td><td><strong>${f1(o)}</strong></td><td class="sep">${f1(fn(N))}${err(fn(N),o)}</td><td>${f1(fn(A))}${err(fn(A),o)}</td><td>${f1(fn(C))}${err(fn(C),o)}</td></tr>`).join("")+
     `</tbody></table></div>
     <p class="help"><b>Programme retenu :</b> ${E.progTxt}</p><p class="help"><b>Contexte réel imposé :</b> ${E.ctxTxt}</p><p class="help"><b>Lecture :</b> ${E.verdict}</p>
-    <div class="retroch"><canvas id="rc-${E.id}" height="220"></canvas></div></article>`;
+    <div class="seg" role="group" aria-label="Indicateur">${Object.entries(RMET).map(([k,v],i)=>`<button data-rmet="${k}" data-rid="${E.id}" aria-pressed="${i===0}">${v[0]}</button>`).join("")}</div>
+    <div class="retroch"><canvas id="rc-${E.id}"></canvas></div></article>`;
   }
   el.innerHTML=html;
   if(typeof Chart==="undefined") return;
-  for(const E of RETRO){
-    const A=retroRun(E,false,"credible"), C=retroRun(E,true,"credible");
-    const ys=[]; for(let y=E.year-1;y<=E.year+5;y++) ys.push(y);
-    const ser=R=>ys.map(y=>R.r.debt[y-E.year+1]);
-    new Chart(document.getElementById("rc-"+E.id),{type:"line",data:{labels:ys,datasets:[
-      {label:"Dette observée",data:ys.map(y=>E.obs.debt[y]??null),borderColor:css("--ink"),backgroundColor:css("--ink"),borderWidth:2.5,spanGaps:false},
-      {label:"Simulateur, à l'aveugle",data:ser(A),borderColor:css("--c2"),backgroundColor:css("--c2"),borderDash:[5,4],borderWidth:2},
-      {label:"Simulateur, contexte réel",data:ser(C),borderColor:css("--c3"),backgroundColor:css("--c3"),borderWidth:2}]},
-      options:{responsive:true,maintainAspectRatio:false,animation:false,plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label} : ${fmt(c.parsed.y,1)} %`}}},
-        scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:"Dette, % du PIB",color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
-  }
+  for(const E of RETRO) drawRetro(E,"debt");
+  document.querySelectorAll("[data-rmet]").forEach(bt=>bt.onclick=()=>{const E=RETRO.find(x=>x.id===bt.dataset.rid);
+    document.querySelectorAll(`[data-rid="${E.id}"]`).forEach(x=>x.setAttribute("aria-pressed",x===bt)); drawRetro(E,bt.dataset.rmet);});
+}
+const RMET={debt:["Dette publique","% du PIB","debt","debt"],def:["Déficit public","% du PIB","def","def"],unemp:["Chômage","%","unemp","u"],growth:["Croissance du PIB","%","growth","g"],infl:["Inflation","%","infl","pi"]};
+const RCH={};
+function drawRetro(E,m){
+  const [lab,unit,key,okey]=RMET[m], A=retroRun(E,false,"credible"), C=retroRun(E,true,"credible");
+  const ys=[]; for(let y=E.year-1;y<=E.year+5;y++) ys.push(y);
+  const ser=R=>ys.map(y=>{const v=R.r[key][y-E.year+1];return v==null?null:+v.toFixed(2);});
+  if(RCH[E.id]) RCH[E.id].destroy();
+  RCH[E.id]=new Chart(document.getElementById("rc-"+E.id),{type:"line",data:{labels:ys,datasets:[
+    {label:"Réalité (Insee)",data:ys.map(y=>E.obs[okey][y]??null),borderColor:css("--ink"),backgroundColor:css("--ink"),borderWidth:3,pointRadius:3},
+    {label:"Simulateur, à l'aveugle (infos du jour de l'élection)",data:ser(A),borderColor:css("--c2"),backgroundColor:css("--c2"),borderDash:[6,4],borderWidth:2,pointRadius:2},
+    {label:"Simulateur, avec les chocs réels du mandat",data:ser(C),borderColor:css("--c3"),backgroundColor:css("--c3"),borderWidth:2,pointRadius:2}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label} : ${fmt(c.parsed.y,1)} ${unit==="%"?"%":"% du PIB"}`}}},
+      scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:lab+" ("+unit+")",color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
 }
