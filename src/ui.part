@@ -228,6 +228,15 @@ function buildCands(){
 const mbox=document.getElementById("metrics");
 for(const [k,[l]] of Object.entries(METRICS)){const b=document.createElement("button");b.textContent=l;b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
   b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
+// Classement des programmes par part chiffrée de façon indépendante (Déchiffrer 2027), tirée de la note de crédibilité : d = (c − 0,3) / 0,7
+(function(){
+  const el=document.getElementById("costRank"); if(!el) return;
+  const det={melenchon:"≈ 31 Md€ vérifiés sur ≈ 52",retailleau:"≈ 38 sur 197 (cumulés)",philippe:"≈ 23 sur ≈ 170",lepen:"≈ 16 sur 140",glucksmann:"pas encore de programme chiffré"};
+  const rows=CANDS0.filter(p=>p.id!=="statu").map(p=>({p,d:Math.max(0,(p.c-0.3)/0.7)})).sort((a,b)=>b.d-a.d);
+  el.innerHTML='<div class="cr-h">Programmes les mieux chiffrés <span>part des recettes et économies annoncées (hors impôts sur les plus aisés) que Déchiffrer 2027 a pu vérifier, au 30 octobre 2026</span></div>'+
+    rows.map((r,i)=>'<div class="cr-r"><span class="cr-n">'+(i+1)+'</span><span class="cr-c" style="background:var('+r.p.color+')"></span><span class="cr-name">'+r.p.name+'</span><span class="cr-bar"><i style="width:'+Math.round(r.d*100)+'%;background:var('+r.p.color+')"></i></span><span class="cr-v">'+Math.round(r.d*100)+' %</span><span class="cr-d">'+(det[r.p.id]||"")+'</span></div>').join("")+
+    '<p class="help">Ce n\'est pas une note de sérieux du programme : un candidat peut chiffrer peu mais juste. Dans le simulateur, la part non vérifiée n\'est retenue qu\'à 30 % (note de crédibilité c = 0,3 + 0,7 × cette part), les dépenses et baisses d\'impôts étant retenues en entier.</p>';
+})();
 const PRESETS={keynes:{crowd:0,povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.15,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.2},
   central:{crowd:0.02,povSave:1.35,smicEl:0.35,spRet:0.1,invRet:0,rtt:0.5,mult:0.7,multScale:1,hyst:0.05,ineqGrowth:0.06,importSub:0.5,transDrag:0.06,leak:0.4,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.5},
   liberal:{crowd:0.04,povSave:0,smicEl:0.5,spRet:0.03,invRet:0,rtt:0.1,mult:0.4,multScale:0.7,hyst:0,ineqGrowth:0,importSub:0.3,transDrag:0.12,leak:0.6,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:1.8}};

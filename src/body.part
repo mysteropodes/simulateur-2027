@@ -298,7 +298,8 @@
     <div class="grid2">
       <div class="chartcol"><div class="bandrow"><label for="bandSel">Fourchette d'incertitude (10-90 %) sur le graphique</label><select id="bandSel"></select></div>
       <div class="chartbox"><canvas id="chart" aria-label="Graphique de l'indicateur choisi par candidat"></canvas></div>
-      <p class="help">Les points sur les courbes marquent un événement (crise, recul, filet BCE, réforme achevée…). Survolez-les pour l'explication.</p></div>
+      <p class="help">Les points sur les courbes marquent un événement (crise, recul, filet BCE, réforme achevée…). Survolez-les pour l'explication.</p>
+      <div id="costRank" class="costrank"></div></div>
       <div class="sliders" aria-label="Paramètres économiques communs">
         <div class="eyebrow">Économie commune à tous</div>
         <div class="sl"><label for="realg">Croissance réelle de base <output id="o-realg"></output></label><input type="range" id="realg" min="0" max="2.5" step="0.1"><small>Avant climat, IA, mesures et chocs.</small></div>
