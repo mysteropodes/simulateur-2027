@@ -2,6 +2,15 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026, nuit (3) : vérification des chiffrages
+
+- Règle commune pour l'effort annoncé : solde publié en Md€ de l'année visée (`gdpRef` 3 100 pour un contre-budget 2027), sinon déficit 2026 (5,4 %) moins la cible du candidat.
+- Retailleau A 3,03 → 2,59 (197 Md€ cumulés : cible 2,2 % moins 0,61 d'opérations financières), famMd 10 → 0, baisses d'impôts 51 Md€.
+- Philippe A 3,0 → 3,4, compItems entr +50 / −50 (baisse en entier, suppressions d'aides × c), c 0,45 → 0,39.
+- Mélenchon gdpRef 3 100, A 0,61 → 0,48, c 0,67 → 0,71, spendOver 29,3 → 38,2, smicCost 18 → 9, curseurs recalés en pts du PIB 2027.
+- Le Pen A 2,74 → 2,67, contribution UE −8,9 Md€.
+- Glucksmann gdpRef 3 100, A −0,8 → −1,23, flat tax −1,1, électricité 4,2, chèque énergie 4, assurance chômage 2,3.
+
 ## 30 octobre 2026, nuit (2) : courbes lissées
 
 - Règle de réaction : montée sur 2031-2040 (au lieu de 2031-2034), qui créait un creux puis un rebond de croissance.

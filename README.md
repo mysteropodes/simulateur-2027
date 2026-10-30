@@ -39,7 +39,7 @@ L'approche reprend celle des institutions qui chiffrent les programmes électora
 
 1. **Annoncé.** Le solde annoncé par le candidat. Les montants en milliards de fin de mandat sont rapportés au PIB nominal de fin de mandat (environ 3 600 Md€), pas à celui de 2025.
 2. **Après comportements et crédibilité.** Même règle pour tous :
-   - **Recettes et économies annoncées** : multipliées par la note de crédibilité du chiffrage, fixée par une règle commune : c = 0,3 + 0,7 × d, où d est la part de ces montants que Déchiffrer 2027 a pu chiffrer de façon indépendante. Les montants non documentés sont donc retenus à 30 %, comme les économies non détaillées chez le CPB. Notes : Mélenchon 0,67, Philippe 0,45, Retailleau 0,43, Le Pen 0,38, Glucksmann 0,3.
+   - **Recettes et économies annoncées** : multipliées par la note de crédibilité du chiffrage, fixée par une règle commune : c = 0,3 + 0,7 × d, où d est la part de ces montants que Déchiffrer 2027 a pu chiffrer de façon indépendante. Les montants non documentés sont donc retenus à 30 %, comme les économies non détaillées chez le CPB. Notes : Mélenchon 0,71, Retailleau 0,43, Philippe 0,39, Le Pen 0,38, Glucksmann 0,3.
    - **Impôts visant les 10 % les plus aisés** (capital, patrimoines, héritages, part de l'impôt sur le revenu payée par eux) : réduits par les « recettes perdues » au lieu de la crédibilité. Elles valent 40 % en lecture centrale, 15 % keynésienne, 60 % libérale, 54 % historique (CAE 2025 ; CPB : 50 % pour les taux supérieurs de l'impôt sur le revenu).
    - **Dépenses et baisses d'impôts** : comptées en entier. Un programme moins crédible a donc toujours un déficit plus élevé.
    - **Chiffrage indépendant** : quand il estime les dépenses au-dessus de l'annonce, il est retenu hors du mode « tel qu'annoncé ». Exemple : Mélenchon, 111 Md€ selon Déchiffrer 2027 au lieu de 81,7.
@@ -50,13 +50,13 @@ Chaque fiche candidat affiche ces trois niveaux. En lecture centrale, l'effort r
 
 | Programme | Effort retenu (pt de PIB) |
 |---|---|
-| Philippe | +0,6 |
-| Retailleau | −0,2 |
 | Le Pen | −0,3 |
-| Mélenchon | −1,3 |
-| Glucksmann | −1,4 |
+| Philippe | −0,3 |
+| Retailleau | −0,4 |
+| Glucksmann | −1,9 |
+| Mélenchon | −1,9 |
 
-Ces efforts sont proches des soldes obtenus avec les seules lignes que Déchiffrer 2027 a pu chiffrer (Mélenchon ≈ −42 Md€, Le Pen ≈ −38, Retailleau ≈ −7, Philippe ≈ +13).
+L'effort annoncé suit une règle commune : le solde net publié par le candidat, en milliards de l'année visée (2027 pour un contre-budget annuel) ; à défaut, ou si sa lecture est incertaine, l'écart entre le déficit de 2026 (5,4 %) et la cible du candidat (Philippe 2 %, Retailleau 2,2 %). Repère, avec les seules lignes chiffrées par Déchiffrer 2027, qui ne couvrent qu'une partie des programmes : Mélenchon ≈ −60 Md€, Le Pen ≈ −38, Retailleau ≈ −7, Philippe ≈ +13.
 
 Le signe − signifie un déficit en hausse.
 
@@ -141,7 +141,7 @@ Le signe − signifie un déficit en hausse.
 ## Limites à garder en tête
 
 - **Modèle simplifié.** Ce n'est pas un modèle complet de l'économie : le commerce extérieur n'est qu'un indicateur, il n'y a ni taux de change ni secteurs, et la BCE ne réagit pas à la France seule. Les comparaisons entre programmes sont plus fiables que les niveaux.
-- **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2035 et 2041, en lecture keynésienne aucun. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
+- **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2035 et 2039, en lecture keynésienne aucun. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
 - **Programmes interprétés.** Ils sont traduits à partir de documents publics parfois incomplets, et Glucksmann n'a pas encore publié de programme chiffré. Chaque fiche dit d'où vient chaque chiffre.
 - **Pas de relecture extérieure.** Aucun économiste extérieur n'a encore relu le simulateur.
 

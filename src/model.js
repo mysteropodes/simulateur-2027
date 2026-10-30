@@ -45,7 +45,7 @@ function multAt(c,h){const m=MULT[c];return h<=2?m[0]:h<=5?m[0]+(m[1]-m[0])*(h-2
 // défense quand elle est comprise dans l'effort annoncé, reste des impôts annoncés ; le solde jusqu'à l'effort A est « non détaillé »
 // et classé en dépenses de fonctionnement.
 function fiscalCompDetail(p,b){
-  const c={},cP={},cN={}; for(const k in MULT){c[k]=0;cP[k]=0;cN[k]=0;} const pt=md=>md/(b.gdpProg||b.gdpMd)*100; let taxList=0; // Md€ de fin de mandat rapportés au PIB nominal de fin de mandat
+  const c={},cP={},cN={}; for(const k in MULT){c[k]=0;cP[k]=0;cN[k]=0;} const pt=md=>md/(p.gdpRef||b.gdpProg||b.gdpMd)*100; let taxList=0; // Md€ de fin de mandat rapportés au PIB nominal de fin de mandat
   const put=(cat,v)=>{c[cat]+=v; if(v>=0) cP[cat]+=v; else cN[cat]+=v;}; // cP : dépenses et baisses d'impôts ; cN : recettes et économies
   const add=(cat,md)=>{put(cat,pt(md)); if(TAXCAT[cat]) taxList+=-md;};
   for(const [,md,key,,,cat] of (p.paMeasures||[])){
@@ -85,7 +85,8 @@ function simulate(p,mode,b){
   const euW= mode==="pondere"?f:1;
   const C=CLIM[b.clim], I=AI[b.ai];
   let uSenLast=0, ageRealLast=0, empPrev=0, ratingPrev=0, retreatSaid=false; const ev=[]; const E=(t,k,txt)=>ev.push({t,k,txt});
-  const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/(b.gdpProg||b.gdpMd)*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
+  const GP=p.gdpRef||b.gdpProg||b.gdpMd; // PIB de l'année à laquelle se rapportent les montants du programme (fin de mandat, ou 2027 pour un contre-budget annuel)
+  const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/GP*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
   let d=b.d0, ieff=(b.ieff0-b.idxShare*(b.idxReal+b.infl))/(1-b.idxShare), sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, crisisN=0, crisisFirst=null, rf=0, rMortPrev=null, dRprev=0, hpI=100, rentI=100, hpGprev=0, povS=0, crowdPrev=0, cumProg=0, uLevPrev=0, smicUprev=0, uProgPrev=0, tpiFirst=null; const spHist=[], invHist=[];
   const CD=fiscalCompDetail(p,b), comp=CD.c; comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
@@ -93,14 +94,14 @@ function simulate(p,mode,b){
   // (déjà réduits par la fuite fiscale) ; dépenses et baisses d'impôts réalisées en entier
   const compEff={}; let progFull=0; for(const k in comp){compEff[k]=CD.cP[k]*realSp+CD.cN[k]*(k==="taxAis"?realSp:real)+(k==="taxAis"?topLeak*realSp:0); progFull-=compEff[k];}
   // dépenses chiffrées au-dessus de l'annonce par un chiffrage indépendant : retenues hors du mode « tel qu'annoncé » (même règle pour tous)
-  const over=mode==="annonce"?0:(p.spendOver||0)/(b.gdpProg||b.gdpMd)*100*realSp; compEff.fonct+=over; comp.fonct+=mode==="annonce"?0:(p.spendOver||0)/(b.gdpProg||b.gdpMd)*100; progFull-=over;
+  const over=mode==="annonce"?0:(p.spendOver||0)/GP*100*realSp; compEff.fonct+=over; comp.fonct+=mode==="annonce"?0:(p.spendOver||0)/GP*100; progFull-=over;
   // revenus des ménages : gains (dépenses, baisses d'impôts) en entier, pertes sur les plus aisés réduites par la fuite seulement, autres pertes × crédibilité ; Md€ de fin de mandat rapportés aux revenus de fin de mandat
-  const uS=(b.gdpMd/(b.gdpProg||b.gdpMd)); let paEff=null, decEff=null;
+  const uS=(b.gdpMd/GP); let paEff=null, decEff=null;
   if(p.paMeasures&&typeof microsimSplit==="function"){const S=microsimSplit(p.paMeasures,leakM); paEff={}; for(const g in S.pos.pa) paEff[g]=uS*(S.pos.pa[g]*realSp+S.top.pa[g]*realSp+S.neg.pa[g]*real); decEff=S.pos.deciles.map((v,i)=>uS*(v*realSp+S.top.deciles[i]*realSp+S.neg.deciles[i]*real));}
   else {paEff={}; for(const [g] of GROUPS) paEff[g]=(p.pa?p.pa[g]:0)*real; decEff=(p.paDec||Array(10).fill(0)).map(v=>v*real);}
   // économies non détaillées : la moitié retombe sur les ménages (prestations, services payants), répartie à parts égales par personne, l'autre moitié sur les services publics
   const inhMd=(p.paMeasures||[]).filter(m=>/h[ée]ritage|succession/i.test(m[0])&&m[1]<0).reduce((a,m)=>a-m[1],0); // Md€ de hausse des droits sur les héritages
-  const ndSav=Math.max(0,-(CD.resid||0)); if(ndSav>0&&typeof microsim==="function"){const M=microsim([["nd",-ndSav*0.5*(b.gdpProg||b.gdpMd)/100,"tete"]],0); for(const g in paEff) paEff[g]+=uS*M.pa[g]*real; decEff=decEff.map((v,i)=>v+uS*M.deciles[i]*real);}
+  const ndSav=Math.max(0,-(CD.resid||0)); if(ndSav>0&&typeof microsim==="function"){const M=microsim([["nd",-ndSav*0.5*GP/100,"tete"]],0); for(const g in paEff) paEff[g]+=uS*M.pa[g]*real; decEff=decEff.map((v,i)=>v+uS*M.deciles[i]*real);}
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
   const o={house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
@@ -278,7 +279,7 @@ function simulate(p,mode,b){
     const ik=IK.map(v=>v*sp/b.sp0);
     o.cons.push(cons);o.nw.push(b.nw0-(d-b.d0)+KI);o.react.push(react);
     // croissance, inflation, chômage des jeunes (2,6 fois le taux global), prélèvements et dépense publique, facture énergétique, artificialisation
-    const tmd=p.taxMd||0, topR=Math.min(Math.max(0,tmd),p.topRev||0), taxEff=(tmd<0?tmd*realSp:(tmd-topR)*real+topR*realSp-((p.topRev||0)-(p.topCut||0))*leakM*realSp)/(b.gdpProg||b.gdpMd)*100*retreat*phase; // hausses × crédibilité (sauf sur les plus aisés : fuite), baisses en entier
+    const tmd=p.taxMd||0, topR=Math.min(Math.max(0,tmd),p.topRev||0), taxEff=(tmd<0?tmd*realSp:(tmd-topR)*real+topR*realSp-((p.topRev||0)-(p.topCut||0))*leakM*realSp)/GP*100*retreat*phase; // hausses × crédibilité (sauf sur les plus aisés : fuite), baisses en entier
     const po=b.po0+taxEff+0.3*forcedCum; const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
     const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*pol*retreat*phase:zBase;
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
@@ -292,7 +293,7 @@ function simulate(p,mode,b){
     const intD=interest-2.2, dSecu=0.2+ageing+b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev)+0.5*(povCost-climBud-b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev))+0.1*intD+pA-0.3*react-0.3*forcedCum, dLoc=0.5+0.4*climBud+0.05*intD+pL-0.1*react-0.1*forcedCum;
     o.defSecu.push(dSecu); o.defLoc.push(dLoc); o.defEtat.push(lastDef-dSecu-dLoc);
     // héritages et donations : ≈ 300 Md€ par an, 15 % du revenu national (CAE, 2021), en hausse avec le vieillissement ; droits de succession ≈ 0,5 % du PIB, plus les mesures des programmes sur les héritages
-    const succProg=inhMd*(1-leakM)*realSp/(b.gdpProg||b.gdpMd)*100*retreat*phase; o.inh.push(10+0.08*(t-START)); o.succ.push(0.5+succProg);
+    const succProg=inhMd*(1-leakM)*realSp/GP*100*retreat*phase; o.inh.push(10+0.08*(t-START)); o.succ.push(0.5+succProg);
     o.mig.push(migW);o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
     sPrev=s;
   }
