@@ -13,7 +13,7 @@
   <nav class="mnav" aria-label="Sections"><button class="navbtn" data-go="overview">Vue d'ensemble</button><button class="navbtn" data-go="tables">Indicateurs détaillés</button><button class="navbtn" data-go="menages">Ménages et revenus</button><button class="navbtn" data-go="incert">Incertitude</button><button class="navbtn" data-go="cands">Fiches candidats</button><button class="navbtn" data-go="droits">Droits et libertés</button><button class="navbtn" data-go="retro">Test sur le passé</button><button class="navbtn" data-go="dette">Comprendre la dette</button><button class="navbtn" data-go="methode">Méthode et sources</button><button class="navbtn" data-go="journal">Journal des corrections</button></nav>
   <div class="view" data-view="overview" data-title="Vue d'ensemble" data-sub="Que deviendrait la France avec chaque programme, jusqu'en 2046" hidden>
   <div class="ovcards" id="ovCards" aria-label="Résumé par programme"></div>
-  <p class="help ovnote">Valeurs en 2032 selon vos réglages. « Dette 2046* » : dette en 2046 si aucune crise ne survenait, pour comparer à règles égales. Cliquez sur une carte pour voir le programme.</p>
+  <p class="help ovnote">Valeurs en 2032 selon vos réglages. « Dette* » : dette en 2046 si aucune crise ne survenait, pour comparer à règles égales. Cliquez sur une carte pour voir le programme.</p>
   <div class="ovgrid">
   <section class="panel chartpanel" aria-labelledby="h-chart">
     <div class="chart-head"><h2 id="h-chart">Trajectoires</h2><p class="help">Choisissez un thème, puis un indicateur. Après 2032 : tendances, pas prévisions.</p></div>

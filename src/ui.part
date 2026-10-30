@@ -573,7 +573,7 @@ function buildOverview(res,nc){
     return `<button type="button" class="ovcard${p.id==="statu"?" ref":""}" data-id="${p.id}" style="--c:var(${p.color})">
     <span class="ovn"><i></i>${nm}</span><span class="ovp">${party}</span>
     <span class="ovbig">${r.crisis||"—"}</span><span class="ovlab">${r.crisis?"crise de la dette":"pas de crise d'ici 2046"}</span>
-    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette 2046*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl></button>`;}).join("");
+    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl></button>`;}).join("");
   box.querySelectorAll(".ovcard").forEach(b=>b.onclick=()=>{const id=b.dataset.id; if(id==="statu") return; showView("cands"); const d=document.getElementById("fiche-"+id); if(d){d.open=true;setTimeout(()=>d.scrollIntoView({block:"start"}),50);}});
 }
 

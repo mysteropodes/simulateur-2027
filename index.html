@@ -258,6 +258,7 @@ footer{margin:12px 0 0!important}
 .metricrow button[aria-pressed="true"]{background:transparent;border-color:var(--accent);color:var(--ink);font-weight:600}
 .metricrow button[aria-pressed="true"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px}
 .ovcard dl{gap:3px 6px;font-size:12px}.ovcard{padding:13px 12px 11px}
+.panel,.chartcol,.view,.main{grid-template-columns:minmax(0,1fr)}.chartbox{width:100%;min-width:0}.chartbox canvas{max-width:100%}
 </style>
 
 </head>
@@ -277,7 +278,7 @@ footer{margin:12px 0 0!important}
   <nav class="mnav" aria-label="Sections"><button class="navbtn" data-go="overview">Vue d'ensemble</button><button class="navbtn" data-go="tables">Indicateurs détaillés</button><button class="navbtn" data-go="menages">Ménages et revenus</button><button class="navbtn" data-go="incert">Incertitude</button><button class="navbtn" data-go="cands">Fiches candidats</button><button class="navbtn" data-go="droits">Droits et libertés</button><button class="navbtn" data-go="retro">Test sur le passé</button><button class="navbtn" data-go="dette">Comprendre la dette</button><button class="navbtn" data-go="methode">Méthode et sources</button><button class="navbtn" data-go="journal">Journal des corrections</button></nav>
   <div class="view" data-view="overview" data-title="Vue d'ensemble" data-sub="Que deviendrait la France avec chaque programme, jusqu'en 2046" hidden>
   <div class="ovcards" id="ovCards" aria-label="Résumé par programme"></div>
-  <p class="help ovnote">Valeurs en 2032 selon vos réglages. « Dette 2046* » : dette en 2046 si aucune crise ne survenait, pour comparer à règles égales. Cliquez sur une carte pour voir le programme.</p>
+  <p class="help ovnote">Valeurs en 2032 selon vos réglages. « Dette* » : dette en 2046 si aucune crise ne survenait, pour comparer à règles égales. Cliquez sur une carte pour voir le programme.</p>
   <div class="ovgrid">
   <section class="panel chartpanel" aria-labelledby="h-chart">
     <div class="chart-head"><h2 id="h-chart">Trajectoires</h2><p class="help">Choisissez un thème, puis un indicateur. Après 2032 : tendances, pas prévisions.</p></div>
@@ -1883,7 +1884,7 @@ function buildOverview(res,nc){
     return `<button type="button" class="ovcard${p.id==="statu"?" ref":""}" data-id="${p.id}" style="--c:var(${p.color})">
     <span class="ovn"><i></i>${nm}</span><span class="ovp">${party}</span>
     <span class="ovbig">${r.crisis||"—"}</span><span class="ovlab">${r.crisis?"crise de la dette":"pas de crise d'ici 2046"}</span>
-    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette 2046*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl></button>`;}).join("");
+    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl></button>`;}).join("");
   box.querySelectorAll(".ovcard").forEach(b=>b.onclick=()=>{const id=b.dataset.id; if(id==="statu") return; showView("cands"); const d=document.getElementById("fiche-"+id); if(d){d.open=true;setTimeout(()=>d.scrollIntoView({block:"start"}),50);}});
 }
 
