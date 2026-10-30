@@ -4,6 +4,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 
 ## 30 octobre 2026, fin de soirée : derniers chiffres de l'Insee
 
+- Nouvelle section « Méthodes de calcul » dans l'onglet Informations : les 16 blocs d'équations avec leurs valeurs et sources.
 - Insee du 30 octobre : PIB T3 −0,1 % (acquis 0,2 %), inflation d'octobre 3,4 % (IPCH 3,8 %) ; chômage T2 8,3 % ; dette fin juin 119,0 %.
 - NEAR : croissance 0,3 / 0,8 / 1,1 ; inflation 2,6 / 2,3 / 1,8 ; ajustement stocks-flux +1 pt en 2026 (PLF 2027 : 119,3 %).
 
