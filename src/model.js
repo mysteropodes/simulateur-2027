@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,tpiDef:4,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.25,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.4,seniorKeep:0.55,tpiDef:4,crowd:0.05,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -31,7 +31,8 @@ const IK=[13400,12000,11300,10900,10600,10400,10300,10200,9400,7900]; // transfe
 // valeurs centrales de la synthèse de Déchiffrer 2027 (Mésange, OFCE, HCFP, FMI, Commission européenne, octobre 2026).
 // Investissement public plafonné à 0,9 à 10 ans : son effet d'offre passe déjà par le rendement du capital public (invRet).
 // « ext » (versements hors de France, ex. contribution à l'UE) : hypothèse propre au simulateur, 0,1.
-const MULT={inv:[1.3,0.9,0.9],log:[1.3,0.9,0.8],fonct:[0.9,0.9,0.6],trMod:[0.8,0.8,0.6],trAutres:[0.6,0.6,0.6],taxMod:[0.8,0.8,0.9],taxLarge:[0.5,0.9,0.9],taxAis:[0.3,0.3,0.3],entr:[0.3,0.8,1.0],ext:[0.1,0.1,0.1],fin:[0,0,0]};
+const MULT={inv:[1.3,0.9,0.9],log:[1.3,0.9,0.8],fonct:[0.9,0.8,0.5],trMod:[0.8,0.7,0.5],trAutres:[0.6,0.6,0.5],taxMod:[0.8,0.8,0.6],taxLarge:[0.5,0.8,0.6],taxAis:[0.3,0.3,0.3],entr:[0.3,0.7,0.7],ext:[0.1,0.1,0.1],fin:[0,0,0]};
+// effets à dix ans ramenés entre la synthèse de Déchiffrer 2027 (effets durables) et la pratique de l'OBR britannique (effets de demande qui s'éteignent en cinq ans) : le test sur 2010-2016 montrait des effets durables trop forts
 const MULTLABEL={inv:"Investissement public",log:"Aides à l'investissement logement",fonct:"Dépenses de fonctionnement (salaires publics, achats, services) et économies non détaillées",trMod:"Transferts aux ménages modestes",trAutres:"Autres transferts (retraites, santé, famille)",taxMod:"Baisses d'impôts ciblées sur les modestes",taxLarge:"Impôts larges sur les ménages (TVA, CSG, IR)",taxAis:"Impôts sur les ménages aisés (capital, patrimoine, héritages)",entr:"Prélèvements sur les entreprises",ext:"Versements hors de France (contribution à l'UE)",fin:"Opérations financières (placement des réserves, capitalisation)"};
 const KEYCAT={minima:"trMod",chomage:"trMod",jeunes:"trMod",fonction:"fonct",retraites:"trAutres",tete:"trAutres",capital:"taxAis",conso:"taxLarge",heuressup:"taxLarge",entreprises:"entr",bassal:"taxMod"};
 const TAXCAT={taxAis:1,taxLarge:1,taxMod:1,entr:1};
@@ -83,7 +84,7 @@ function simulate(p,mode,b){
   let uSenLast=0, ageRealLast=0, empPrev=0, ratingPrev=0, retreatSaid=false; const ev=[]; const E=(t,k,txt)=>ev.push({t,k,txt});
   const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/(b.gdpProg||b.gdpMd)*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
   let d=b.d0, ieff=(b.ieff0-b.idxShare*(b.idxReal+b.infl))/(1-b.idxShare), sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
-  let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, povS=0, tpiFirst=null; const spHist=[], invHist=[];
+  let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, povS=0, crowdPrev=0, cumProg=0, tpiFirst=null; const spHist=[], invHist=[];
   const CD=fiscalCompDetail(p,b), comp=CD.c; comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
   // crédibilité appliquée par sens : recettes et économies réduites par la crédibilité du chiffrage, sauf les impôts sur les plus aisés
   // (déjà réduits par la fuite fiscale) ; dépenses et baisses d'impôts réalisées en entier
@@ -181,7 +182,8 @@ function simulate(p,mode,b){
     const shield=b.bouclier*Math.max(0,bill-Math.max(billRef,billT))/b.gdpMd*100; // aides publiques temporaires face à une hausse brutale (bouclier tarifaire) : elles s'éteignent quand les prix se stabilisent
     if(t===b.shockYear&&b.shock==="petrole") E(t,"oil","Flambée du pétrole : +45 $ le baril, puis +25 $ l'année suivante (type 2022). Facture énergétique, inflation, aides publiques.");
     const near=NEAR[t]||{g:0,pi:0}; // conjoncture : Banque de France, septembre 2026
-    const realg=b.realg+oilGrowth+subGrowth-transCost+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
+    cumProg+=progBal; const crowdLev=b.crowd*cumProg, crowdG=crowdLev-crowdPrev; crowdPrev=crowdLev; // éviction : la dette publique ajoutée (ou retirée) par le programme détourne (ou libère) une partie de l'épargne pour l'investissement privé (CBO : 0,33 € par € de déficit, part du capital 0,35 ; zone euro ouverte : moitié) ; effet de niveau sur le PIB, la tendance de référence comprenant déjà le statu quo
+    const realg=b.realg+crowdG+oilGrowth+subGrowth-transCost+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
     const kc=crisis===null?-1:t-crisis, exitInfl=refus&&kc>=1&&kc<=3?[0,6,3,1][kc]:0; // refus : dévaluation de la nouvelle monnaie ou financement monétaire (Argentine 2002, Islande 2008 : 15 à 25 % d'inflation ; ici plus modéré)
     const pi=b.infl+oilInfl+exitInfl+(t>=2029?b.phil*(b.uStar-u):0)+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
     // pauvreté et dépenses publiques : surcoûts de santé, d'éducation et de justice liés à la pauvreté (39 Md€ pour environ 9,8 millions de personnes, Collectif Alerte et Oliver Wyman, 2024),

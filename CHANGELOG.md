@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026, suite : méthodes étrangères
+
+- Trois niveaux de chiffrage dans chaque fiche (CPB, OBR) : annoncé, après comportements et crédibilité, effet sur le déficit 2032.
+- Fuite fiscale sur les plus aisés : 40 % centrale (15 keynésienne, 60 libérale, 54 historique).
+- Multiplicateurs à dix ans abaissés (fonctionnement 0,5, transferts 0,5, impôts larges 0,6, entreprises 0,7) ; test 2010-2016 : 0,53 → 0,50.
+- Éviction de l'investissement privé : `crowd` 0,05 % de PIB par point de dette ajoutée par le programme (0 / 0,05 / 0,1).
+- Smic : élasticité centrale 0,35.
+
 ## 30 octobre 2026 : audit élargi
 
 - Montants en Md€ rapportés au PIB nominal de fin de mandat (`gdpProg` = 3 600 Md€) ; efforts en euros recalés (Le Pen 2,74 pts, Retailleau 3,03, Mélenchon 0,61).
