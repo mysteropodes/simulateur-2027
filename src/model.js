@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.4,seniorKeep:0.55,tpiDef:4,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.4,seniorKeep:0.55,tpiDef:4,demog:1,ecb:0.25,climCost:1,shock2:"none",shockYear2:2035,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -18,10 +18,11 @@ function shockAt(type,Y,t){
   if(type==="petrole"){ if(k===0) z.tension=6; if(k===1) z.tension=3; } // prix et facture : module énergie
   if(type==="commerce"){ if(k===0){z.real=-0.2;z.infl=0.1;z.tension=3;} if(k===1) z.real=-0.15; if(k===2) z.real=-0.05; } // guerre commerciale : −0,4 pt de PIB cumulé (Banque de France, droits de douane américains 2025)
   if(type==="taiwan"){ if(k===0){z.real=-3;z.infl=1.5;z.spread=0.5;z.tension=8;} if(k===1){z.real=1;z.infl=0.5;} if(k===2) z.real=0.5; } // blocus de Taïwan : semi-conducteurs, commerce mondial (−5 % de PIB mondial selon Chatham House ; très incertain)
+  if(type==="guerre"){ if(k===0){z.real=-1.0;z.infl=1.0;z.spread=0.3;z.pd=0.5;z.tension=6;} if(k===1){z.real=-0.3;z.pd=0.8;} if(k>=2&&k<=4) z.pd=0.8; } // guerre en Europe : énergie, confiance, effort de défense de près d'un point de PIB pendant cinq ans (ordre de grandeur de 2022 et des engagements de l'OTAN)
   if(type==="pandemie"){ if(k===0){z.real=-7;z.pd=5;z.deaths=60000;z.tension=12;} if(k===1){z.real=5;z.pd=2;z.deaths=15000;z.tension=6;} if(k===2) z.real=1.5; }
   return z;
 }
-const SHOCKTXT={recession:"Récession mondiale : −3 points de croissance cette année-là.",financial:"Crise financière : récession et hausse des taux pour tous, plus forte pour les pays en conflit avec l'UE.",inflation:"Choc d'inflation : +3 points, les taux montent.",climat:"Catastrophe climatique : pertes économiques, décès, dépenses de reconstruction.",pandemie:"Épidémie : −7 points de croissance, dépenses publiques massives, décès.",petrole:"Flambée du pétrole : +45 $ le baril pendant un an, +25 $ l'année suivante.",commerce:"Guerre commerciale : droits de douane, −0,4 point de PIB sur trois ans.",taiwan:"Blocus de Taïwan : pénurie de semi-conducteurs et choc sur le commerce mondial."};
+const SHOCKTXT={guerre:"Guerre en Europe : choc d'énergie et de confiance, effort de défense supplémentaire de près d'un point de PIB pendant cinq ans.",recession:"Récession mondiale : −3 points de croissance cette année-là.",financial:"Crise financière : récession et hausse des taux pour tous, plus forte pour les pays en conflit avec l'UE.",inflation:"Choc d'inflation : +3 points, les taux montent.",climat:"Catastrophe climatique : pertes économiques, décès, dépenses de reconstruction.",pandemie:"Épidémie : −7 points de croissance, dépenses publiques massives, décès.",petrole:"Flambée du pétrole : +45 $ le baril pendant un an, +25 $ l'année suivante.",commerce:"Guerre commerciale : droits de douane, −0,4 point de PIB sur trois ans.",taiwan:"Blocus de Taïwan : pénurie de semi-conducteurs et choc sur le commerce mondial."};
 const LEV=[9960,15890,19400,22430,25310,28290,31670,36040,43010,76970]; // niveau de vie moyen par décile, Insee 2024
 const SU_D=[2,1.5,1.2,1,0.8,0.7,0.6,0.5,0.4,0.2], SF_D=[2.2,2,1.8,1.4,1.2,1.1,1,0.9,0.7,0.6]; // sensibilité au chômage et à l'ajustement imposé
 function giniDec(x){let s=0,mu=0;for(const a of x){mu+=a;for(const b of x)s+=Math.abs(a-b);}mu/=x.length;return s/(2*x.length*x.length*mu);}
@@ -61,6 +62,8 @@ function fiscalCompDetail(p,b){
   return {c,cP,cN,resid,def};
 }
 function fiscalComp(p,b){return fiscalCompDetail(p,b).c;}
+// population active (Insee, projections 2022, scénario central) : +20 000 par an jusqu'en 2040, puis −50 000 par an ; croissance annuelle, en %, au-delà de l'effet de la réforme de 2023 sur les seniors
+const LF={2026:0.15,2030:0.07,2039:0.05,2041:-0.16,2046:-0.16};
 const NEAR={2026:{g:-0.8,pi:0.6,du:0.2,prem:-1.0,sf:1.0},2027:{g:-0.28,pi:0.3,du:0.15},2028:{g:0,pi:-0.2},2029:{g:0,pi:-0.2}}; // Banque de France (septembre 2026 : PIB 0,4 % ; 0,9 % ; 1,2 % — IPCH 2,3 % ; 1,9 % ; 1,6 %), mise à jour avec l'Insee du 30 octobre 2026 : PIB du 3e trimestre −0,1 %, acquis de croissance 0,2 % pour 2026 ; inflation d'octobre 3,4 % (IPCH 3,8 %). Retenu : PIB 0,3 % ; 0,8 % ; 1,1 % — inflation 2,6 % ; 2,3 % ; 1,8 % (estimation du simulateur, en attendant la projection de décembre). Dette 2026 : +1 point d'ajustement de trésorerie (dette de 119,0 % fin juin selon l'Insee ; 119,3 % prévus fin 2026 dans le projet de loi de finances)
 // Énergie : prix du Brent ($ constants) selon le scénario. « tendance » : EIA (octobre 2026) puis retour vers 75 $ (AIE : surplus de l'offre) ;
 // « tensions » : perturbations au Moyen-Orient durables ; « contrainte » : baisse de l'offre de pétrole disponible pour l'Europe (The Shift Project, 2021).
@@ -84,7 +87,7 @@ function simulate(p,mode,b){
   let uSenLast=0, ageRealLast=0, empPrev=0, ratingPrev=0, retreatSaid=false; const ev=[]; const E=(t,k,txt)=>ev.push({t,k,txt});
   const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/(b.gdpProg||b.gdpMd)*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
   let d=b.d0, ieff=(b.ieff0-b.idxShare*(b.idxReal+b.infl))/(1-b.idxShare), sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
-  let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, povS=0, crowdPrev=0, cumProg=0, uLevPrev=0, smicUprev=0, uProgPrev=0, tpiFirst=null; const spHist=[], invHist=[];
+  let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, crisisN=0, crisisFirst=null, rf=0, rMortPrev=null, dRprev=0, hpI=100, rentI=100, hpGprev=0, povS=0, crowdPrev=0, cumProg=0, uLevPrev=0, smicUprev=0, uProgPrev=0, tpiFirst=null; const spHist=[], invHist=[];
   const CD=fiscalCompDetail(p,b), comp=CD.c; comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
   // crédibilité appliquée par sens : recettes et économies réduites par la crédibilité du chiffrage, sauf les impôts sur les plus aisés
   // (déjà réduits par la fuite fiscale) ; dépenses et baisses d'impôts réalisées en entier
@@ -96,16 +99,18 @@ function simulate(p,mode,b){
   if(p.paMeasures&&typeof microsimSplit==="function"){const S=microsimSplit(p.paMeasures,leakM); paEff={}; for(const g in S.pos.pa) paEff[g]=uS*(S.pos.pa[g]*realSp+S.top.pa[g]*realSp+S.neg.pa[g]*real); decEff=S.pos.deciles.map((v,i)=>uS*(v*realSp+S.top.deciles[i]*realSp+S.neg.deciles[i]*real));}
   else {paEff={}; for(const [g] of GROUPS) paEff[g]=(p.pa?p.pa[g]:0)*real; decEff=(p.paDec||Array(10).fill(0)).map(v=>v*real);}
   // économies non détaillées : la moitié retombe sur les ménages (prestations, services payants), répartie à parts égales par personne, l'autre moitié sur les services publics
+  const inhMd=(p.paMeasures||[]).filter(m=>/h[ée]ritage|succession/i.test(m[0])&&m[1]<0).reduce((a,m)=>a-m[1],0); // Md€ de hausse des droits sur les héritages
   const ndSav=Math.max(0,-(CD.resid||0)); if(ndSav>0&&typeof microsim==="function"){const M=microsim([["nd",-ndSav*0.5*(b.gdpProg||b.gdpMd)/100,"tete"]],0); for(const g in paEff) paEff[g]+=uS*M.pa[g]*real; decEff=decEff.map((v,i)=>v+uS*M.deciles[i]*real);}
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
-  const o={brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const o={house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
-    const z=shockAt(b.shock,b.shockYear,t);
+    const SH=[[b.shock,b.shockYear],[b.shock2||"none",b.shockYear2||0]], hasS=(ty,k)=>SH.some(([x,Y])=>x===ty&&t-Y===k), z={real:0,infl:0,spread:0,euMult:1,pd:0,deaths:0,tension:0}; let deathsClim=0, deathsEpid=0;
+    for(const [ty,Y] of SH){ if(ty==="none") continue; const q=shockAt(ty,Y,t); for(const kk of ["real","infl","spread","pd","tension"]) z[kk]+=q[kk]; z.euMult=Math.max(z.euMult,q.euMult); if(ty==="climat") deathsClim+=q.deaths; if(ty==="pandemie") deathsEpid+=q.deaths; } // deux chocs possibles sur vingt ans
     if(mode!=="annonce"){ const tgt=1-0.4*Math.max(0,Math.min(1,(tension-60)/20)); retreat=tgt<retreat?Math.max(tgt,retreat-0.1):Math.min(tgt,retreat+0.03); } // recul progressif au-delà de 60 de tension (jusqu'à 40 % du programme à 80), et retour lent quand la tension retombe
     if(mode!=="annonce" && retreat<0.97){ if(!retreatSaid&&p.id!=="statu"){retreatSaid=true;E(t,"retreat","Tension sociale au-dessus de 60 : le gouvernement recule progressivement sur une partie du programme (jusqu'à 40 % quand la tension atteint 80).");} } // recul face à la contestation
     if(t===2027&&p.id!=="statu") E(t,"start","Entrée en vigueur du programme, montée en charge sur cinq ans.");
-    if(t===b.shockYear&&b.shock!=="none") E(t,"shock",SHOCKTXT[b.shock]);
+    for(const [ty,Y] of SH) if(t===Y&&ty!=="none") E(t,"shock",SHOCKTXT[ty]);
     if(t===2027&&p.bce>0) E(t,"bce",bceOn?"Gel de la dette détenue par la BCE accepté : charge d'intérêts allégée.":"Gel de la dette détenue par la BCE refusé (probabilité d'acceptation retenue : "+Math.round(bceProb*100)+" %) : pas d'allègement des intérêts.");
     const phase=t<2027?0:Math.min((t-2026)/5,1);
     // seniors : report ou avancée de l'âge de départ
@@ -168,7 +173,7 @@ function simulate(p,mode,b){
     const hystLoss=(crisis!==null&&t-crisis>=1&&t-crisis<=6)?0:b.hyst*Math.max(0,-gapOPrev); // séquelles durables des récessions et ajustements hors programme (les effets durables des mesures sont déjà dans les multiplicateurs ; en crise, ils sont comptés à part)
     gap=gapO+cyc;
     // énergie et pétrole : écart au scénario « tendance » (déjà compris dans la conjoncture 2026-2028) ; l'exposition suit la consommation d'énergies fossiles du programme
-    const EN=ENERGY[b.energy]||ENERGY.tendance, pT=interpYear(ENERGY.tendance.p,t), pS=interpYear(EN.p,t)+(b.shock==="petrole"&&(t===b.shockYear||t===b.shockYear+1)?(t===b.shockYear?45:25):0);
+    const EN=ENERGY[b.energy]||ENERGY.tendance, pT=interpYear(ENERGY.tendance.p,t), pS=interpYear(EN.p,t)+(hasS("petrole",0)?45:hasS("petrole",1)?25:0);
     const fdep=depPrev, pDev=pS-pT; // exposition : consommation fossile de l'année précédente (indice 2025 = 1)
     let ration=0; if(EN.supply){const sup=interpYear(EN.supply,t); ration=Math.max(0,fdep-sup);} // pétrole demandé au-delà de l'offre disponible
     const oilLev=-b.oilGdp*pDev*fdep-b.oilCoupling*ration*100*0.39; // niveau du PIB, en % (le pétrole pèse 39 % de l'énergie finale)
@@ -182,17 +187,19 @@ function simulate(p,mode,b){
     const billBase=b.energy0*fdep, bill=billBase*(0.75*pS/69+0.25*Math.max(0.6,pS/69)), billT=billBase*(0.75*pT/69+0.25*Math.max(0.6,pT/69));
     const billRef=billHist.length?billHist.slice(-3).reduce((a,v)=>a+v,0)/Math.min(3,billHist.length):bill; billHist.push(bill);
     const shield=b.bouclier*Math.max(0,bill-Math.max(billRef,billT))/b.gdpMd*100; // aides publiques temporaires face à une hausse brutale (bouclier tarifaire) : elles s'éteignent quand les prix se stabilisent
-    if(t===b.shockYear&&b.shock==="petrole") E(t,"oil","Flambée du pétrole : +45 $ le baril, puis +25 $ l'année suivante (type 2022). Facture énergétique, inflation, aides publiques.");
+    if(hasS("petrole",0)) E(t,"oil","Flambée du pétrole : +45 $ le baril, puis +25 $ l'année suivante (type 2022). Facture énergétique, inflation, aides publiques.");
     const near=NEAR[t]||{g:0,pi:0}; // conjoncture : Banque de France, septembre 2026
     const uProg=(t>=2027?p.uStruct*pol:0)+smicUprev; const uLev=-b.uGdp*uProg, uG=uLev-uLevPrev; uLevPrev=uLev; // chômage structurel changé par le programme (assurance chômage, Smic) : moins d'actifs occupés, donc moins de PIB
     cumProg+=progBal; const crowdLev=b.crowd*cumProg, crowdG=crowdLev-crowdPrev; crowdPrev=crowdLev; // éviction : la dette publique ajoutée (ou retirée) par le programme détourne (ou libère) une partie de l'épargne pour l'investissement privé (CBO : 0,33 € par € de déficit, part du capital 0,35 ; zone euro ouverte : moitié) ; effet de niveau sur le PIB, la tendance de référence comprenant déjà le statu quo
-    const realg=b.realg+crowdG+uG+oilGrowth+subGrowth-transCost+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
+    const lfG=b.demog?interpYear(LF,t)-LF[2026]:0; // ralentissement puis baisse de la population active
+    const realg=b.realg+lfG+crowdG+uG+oilGrowth+subGrowth-transCost+supply+(gap-gapPrev)+(struct-structPrev)-hystLoss+(b.calib?near.g:0);
     const kc=crisis===null?-1:t-crisis, exitInfl=refus&&kc>=1&&kc<=3?[0,6,3,1][kc]:0; // refus : dévaluation de la nouvelle monnaie ou financement monétaire (Argentine 2002, Islande 2008 : 15 à 25 % d'inflation ; ici plus modéré)
     const crisisDisinfl=(!refus&&kc>=1&&kc<=3)?[0,-1.0,-0.7,-0.3][kc]:0; // crise avec programme : désinflation (Espagne, Portugal, Italie 2012-2014)
     const pi=b.infl+oilInfl+exitInfl+crisisDisinfl+(t>=2029?b.phil*(b.uStar-u):0)+(b.calib?near.pi:0)+z.infl+(t===2027||t===2028?p.inflImp*real:0);
     // pauvreté et dépenses publiques : surcoûts de santé, d'éducation et de justice liés à la pauvreté (39 Md€ pour environ 9,8 millions de personnes, Collectif Alerte et Oliver Wyman, 2024),
     // en Md€ par point de taux de pauvreté au-dessus ou au-dessous de 2025, avec un effet qui s'installe sur plusieurs années (les personnes concernées sont proches du seuil : effet partiel)
-    const povCost=b.povSave*povS/b.gdpMd*100+b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev); // + allocations chômage et recettes perdues quand le chômage structurel change
+    const climF={moderee:0.8,forte:1,tresforte:1.3}[b.clim]||1, climBud=b.climCost*(0.13*(1+ramp(t,2025,2050))*climF*(1-0.4*adapt)-0.13); // intempéries : catastrophes naturelles (part publique de la CCR), calamités agricoles, réparations publiques ; ≈ 0,13 % du PIB en 2025, doublement d'ici 2050 (France Assureurs), réduit par l'adaptation
+    const povCost=climBud+b.povSave*povS/b.gdpMd*100+b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev); // + allocations chômage et recettes perdues quand le chômage structurel change
     const pd=s+povCost-b.stab*gap+z.pd+shield-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const sm=(x,th)=>Math.max(0,Math.min(1,(x-th+1)/2)), notch=(burden>8?1:0)+(burden>11?1:0)+(burden>14?1:0);
     const rating=b.ratingW*(0.2*sm(burden,8)+0.4*sm(burden,11)+0.8*sm(burden,14)); // dégradations de note : vers 8, 11 et 14 % des recettes, sans saut brutal
@@ -200,8 +207,9 @@ function simulate(p,mode,b){
     const piPrev=o.infl[o.infl.length-1], defAdj=lastDef-Math.max(0,piPrev-2)*d/100; // déficit corrigé de l'érosion de la dette par l'inflation au-delà de 2 %
     let prem=b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*euW*z.euMult*(t<=2031?1:Math.pow(0.8,t-2031)):0)+z.spread; // conflit avec l'UE : prime pleine pendant le mandat, puis elle s'estompe (accord, alternance ou habitude des marchés)
     if(tpi!==null&&crisis===null&&lastDef>b.tpiDef+1){tpi=null;E(t,"tpioff","Le déficit dérive de nouveau au-delà de "+(b.tpiDef+1).toFixed(0)+" % du PIB : la BCE retire son filet.");}
+    if(crisis!==null && t-crisis>=8 && tpi===null && prem>b.crisisPrem){ crisis=t; crisisN++; forcedCum=0; E(t,"crisis","Nouvelle crise de financement : la prime de risque dépasse de nouveau le seuil, huit ans ou plus après la précédente."); } // une seconde crise reste possible
     if(t>=2027 && crisis===null && tpi===null && prem>b.crisisPrem){
-      if(p.eu*euW<0.2 && lastDef<=b.tpiDef){tpi=t; if(tpiFirst===null) tpiFirst=t;} else crisis=t; // filet de la BCE (TPI) : seulement si le déficit est sur une trajectoire conforme aux règles européennes
+      if(p.eu*euW<0.2 && lastDef<=b.tpiDef){tpi=t; if(tpiFirst===null) tpiFirst=t;} else {crisis=t; crisisFirst=t;} // filet de la BCE (TPI) : seulement si le déficit est sur une trajectoire conforme aux règles européennes
     }
     if(tpi===t) E(t,"tpi","Primes de risque au-delà du seuil, mais le déficit est ramené sous "+b.tpiDef.toFixed(0)+" % et les règles européennes respectées : la BCE active son filet (TPI) et plafonne les taux.");
     if(crisis===t&&refus) E(t,"crisis","Crise de financement, programme européen refusé : contrôle des capitaux, banques et épargne contraintes de financer l'État, sortie de fait de l'euro (hypothèse très incertaine). Récession plus forte, inflation, ajustement budgétaire de 0,75 pt de PIB par an.");
@@ -210,7 +218,7 @@ function simulate(p,mode,b){
     if(tpi!==null) prem=Math.min(prem,1.0);
     if(premRef===null) premRef=prem;
     const premMkt=prem; if(crisis!==null&&t-crisis<5) prem=refus?Math.min(prem,1.5):prem*0.5; // prêts d'urgence à taux réduit pendant cinq ans ; en cas de refus, banques et épargnants contraints de financer l'État à taux plafonné (répression financière)
-    const wNew=Math.min(0.5,b.roll+Math.max(0,lastDef)/Math.max(d,1)); ieff+=(b.mktReal+pi+prem-ieff)*wNew; // dette à taux fixe : un huitième renouvelé chaque année au taux de marché, plus la dette nouvelle qui finance le déficit
+    const wNew=Math.min(0.5,b.roll+Math.max(0,lastDef)/Math.max(d,1)); const ecbAdj=b.ecb*((b.calib?near.pi:0)+oilInfl+z.infl); rf=b.mktReal+ecbAdj; ieff+=(rf+pi+prem-ieff)*wNew; // la BCE réagit à l'inflation de la zone euro (composantes communes : énergie, chocs, conjoncture), pas aux mesures françaises // dette à taux fixe : un huitième renouvelé chaque année au taux de marché, plus la dette nouvelle qui finance le déficit
     const i=((1-b.idxShare)*ieff+b.idxShare*(b.idxReal+pi))*(1-(t>=2027?p.bce*bceOn:0)); // environ 10 % de titres indexés sur l'inflation : leur coût suit l'inflation tout de suite (comme en 2022-2023)
     const ng=(1+realg/100)*(1+pi/100)-1;
     const interest=d*i/100/(1+ng); // intérêts rapportés au PIB de l'année
@@ -218,7 +226,7 @@ function simulate(p,mode,b){
     const sf=(b.calib&&near.sf)?near.sf:0; // ajustements stocks-flux (trésorerie de l'État)
     const dOld=d; d=Math.max(0,d*(1+i/100)/(1+ng)+pd+bank+sf); o.snow.push(d-dOld-pd); o.prim.push(pd);
     lastDef=pd+interest; burden=interest/b.rev*100;
-    const okunEff=b.shock==="pandemie"&&(t===b.shockYear||t===b.shockYear+1)?0.15:1; // activité partielle : en 2020-2021, l'emploi a été protégé malgré la chute du PIB
+    const okunEff=(hasS("pandemie",0)||hasS("pandemie",1))?0.15:1; // activité partielle : en 2020-2021, l'emploi a été protégé malgré la chute du PIB
     const smicU=b.smicEl*(p.smicCost||0)*0.17*ramp(t,2026,2029)*pol*retreat; smicUprev=smicU; // hausse du Smic : emplois au Smic (17 % des salariés) sensibles au coût du travail
     u=u+(b.calib&&near.du?near.du:0)+b.uSpeed*(b.uStar+(t>=2027?p.uStruct*pol:0)+smicU+aiDisp+uSen-1.1*b.rtt*rttPh-u)-b.okun*okunEff*(gap-gapPrev);
     // CO2 : tendance actuelle (−1,5 %/an) remplacée par le rythme du programme, l'activité module à la marge
@@ -234,8 +242,14 @@ function simulate(p,mode,b){
     const retliv=b.retLiv0-0.21*(t-2023)+p.retLiv*(p.retLiv>0?realSp:real)*retreat*phase-1.5*forcedCum;
     // pouvoir d'achat : croissance commune + mesures du programme + chômage + ajustement imposé + chocs d'inflation
     gdp*=1+realg/100; inflCum+=Math.max(0,z.infl)+exitInfl;
+    // logement : prix et loyers réels. Taux immobilier ≈ taux à 10 ans + 1 ; +1 point de taux = −7 % sur les prix en deux ans (BCE, Banque de France) ; +1 % de logements en plus = −1,5 % sur les prix ; loyers : 30 % de la variation des prix, moins l'effet de l'offre
+    const rMort=rf+pi+premMkt+1, dR=rMort-(rMortPrev===null?rMort:rMortPrev); rMortPrev=rMort;
+    const consNow=Math.max(120,b.cons0*Math.pow(1.01,t-START)*Math.max(0.6,1-b.rateSens*(premMkt-premRef))*(1+0.03*gap)+(p.housing||0)*realSp*retreat*phase), extraStock=(consNow-b.cons0*Math.pow(1.01,t-START))/38000*100;
+    const hpG=0.5-3.5*dR-3.5*dRprev+0.5*(realg-1)-1.5*extraStock; dRprev=dR; hpI*=1+hpG/100; const rentG=0.3*hpGprev-0.5*extraStock; hpGprev=hpG; rentI*=1+rentG/100;
+    o.house.push(hpI); o.rent.push(rentI);
+    const rentHit={mod:0.125,jeu:0.21,moy:0.05}; // part des locataires × poids du loyer dans le revenu
     for(const [g,,su,sf,si] of GROUPS){
-      o.pa[g].push(100*gdp*(1+paEff[g]*b.redistEff*retreat*phase/100)*(1-su*(u-b.u0)/100)*(1-sf*forcedCum/100)*(1-si*inflCum/100));
+      o.pa[g].push(100*gdp*(1+paEff[g]*b.redistEff*retreat*phase/100)*(1-su*(u-b.u0)/100)*(1-sf*forcedCum/100)*(1-si*inflCum/100)*(1-(rentHit[g]||0)*(rentI-100)/100));
     }
     // revenus par décile : effet direct des mesures (microsimulation), chômage, ajustement imposé
     const k=b.redistEff*retreat*phase;
@@ -245,8 +259,8 @@ function simulate(p,mode,b){
     const rel=0.4*chg[0]+0.6*chg[1]-chg[4]; // gain des ménages autour du seuil de pauvreté, relatif au revenu médian
     const pov=Math.max(5,b.pov0-b.povElast*rel); povS=0.8*povS+0.2*(pov-b.pov0); // le chômage agit déjà via les revenus des déciles
     const hs=p.healthSpend*(p.healthSpend>0?realSp:real)*retreat*phase;
-    const heat=b.heatBase*Math.pow(1+C.heat,t-START)*(1-0.4*adapt)+(b.shock==="climat"?z.deaths*(1-0.4*adapt):0);
-    const epid=b.shock==="pandemie"?z.deaths*(1-0.5*hs):0;
+    const heat=b.heatBase*Math.pow(1+C.heat,t-START)*(1-0.4*adapt)+deathsClim*(1-0.4*adapt);
+    const epid=deathsEpid*(1-0.5*hs);
     const health=-0.6*(u-b.u0)-0.8*(pov-b.pov0)+6*hs*ramp(t,2027,2036)-epid/20000; // mois d'espérance de vie
     const unpop=Math.max(0.15,Math.min(1,Math.abs(p.A)/3));
     const rightsReal=mode==="pondere"?f:1; // la mobilisation répond à la tentative, même si une mesure est ensuite censurée
@@ -270,9 +284,18 @@ function simulate(p,mode,b){
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
     o.growth.push(realg);o.infl.push(pi);o.youth.push(b.youth0*u/b.u0);o.po.push(po);o.dep.push(dep);o.energy.push(bill);o.brent.push(pS);depPrev=co2/b.co2_0;o.artif.push(artif);o.sp.push(sp);o.ratioEl.push((inc[9]+ik[9])/(inc[0]+ik[0]));o.ratioMon.push(inc[9]/inc[0]);
     o.spread.push(premMkt);o.rating.push(notch+(crisis!==null?2:0)+(tpi!==null?1:0));o.defense.push(defSp+natoX);
+    // solde extérieur courant (indicateur, sans rétroaction sur le PIB : les multiplicateurs comprennent déjà les importations) : −0,4 % du PIB en 2025 (Banque de France) ; importations = 30 % de la demande en plus ; facture énergétique ; compétitivité-coût (coût du travail : Smic, baisses de cotisations ; élasticité-prix des exportations 0,6, transmission 0,5)
+    const ulc=0.1*(p.smicCost||0)*ramp(t,2026,2029)*pol*retreat-0.5*Math.max(0,compEff.entr||0)*retreat*phase/0.52; // en % du coût du travail
+    o.ca.push(-0.4-0.3*(cyc+struct+gapO)-(bill-b.energy0)/b.gdpMd*100-0.1*ulc);
+    // déficit par administration (avant transferts de compensation entre administrations) : 2025 État 4,4, Sécurité sociale 0,2, collectivités 0,5 (Insee)
+    const shA={trAutres:0.8,trMod:0.5,taxLarge:0.4,taxMod:0.6,entr:0.3,fonct:0.1}, shL={inv:0.5,log:0.2,fonct:0.15}; let pA=0,pL=0; for(const k in compEff){pA+=(shA[k]||0)*compEff[k]*retreat*phase; pL+=(shL[k]||0)*compEff[k]*retreat*phase;}
+    const intD=interest-2.2, dSecu=0.2+ageing+b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev)+0.5*(povCost-climBud-b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev))+0.1*intD+pA-0.3*react-0.3*forcedCum, dLoc=0.5+0.4*climBud+0.05*intD+pL-0.1*react-0.1*forcedCum;
+    o.defSecu.push(dSecu); o.defLoc.push(dLoc); o.defEtat.push(lastDef-dSecu-dLoc);
+    // héritages et donations : ≈ 300 Md€ par an, 15 % du revenu national (CAE, 2021), en hausse avec le vieillissement ; droits de succession ≈ 0,5 % du PIB, plus les mesures des programmes sur les héritages
+    const succProg=inhMd*(1-leakM)*realSp/(b.gdpProg||b.gdpMd)*100*retreat*phase; o.inh.push(10+0.08*(t-START)); o.succ.push(0.5+succProg);
     o.mig.push(migW);o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
     sPrev=s;
   }
-  o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.realSp=realSp;o.compEff=compEff;o.progFull=progFull;o.f=f;o.crisis=crisis;o.tpi=tpiFirst;return o;
+  o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.real=real;o.realSp=realSp;o.compEff=compEff;o.progFull=progFull;o.f=f;o.crisis=crisisFirst;o.crisisLast=crisis;o.crisisN=crisisN+(crisisFirst!==null?1:0);o.tpi=tpiFirst;return o;
 }
 if(typeof module!=="undefined") module.exports={ENERGY,ENERGYTXT,BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,fiscalCompDetail,multAt};

@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026, nuit : huit compléments
+
+- Population active (Insee 2022) : `LF`, `demog`.
+- Solde extérieur courant (`ca`), déficit par administration (`defEtat`, `defSecu`, `defLoc`), prix des logements et loyers (`house`, `rent`, effet sur le pouvoir d'achat), héritages et droits de succession (`inh`, `succ`).
+- BCE : `ecb` 0,25 sur l'inflation commune ; intempéries : `climCost` (0,13 % du PIB en 2025, doublé en 2050).
+- Chocs : `guerre`, second choc (`shock2`, `shockYear2`), seconde crise possible (`crisisN`, `crisisLast`).
+- Retailleau : 5 Md€ d'économies sur les collectivités classés en investissement.
+
 ## 30 octobre 2026, fin de soirée : derniers chiffres de l'Insee
 
 - Nouvelle section « Méthodes de calcul » dans l'onglet Informations : les 16 blocs d'équations avec leurs valeurs et sources.

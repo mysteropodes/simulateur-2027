@@ -75,6 +75,9 @@ Le signe − signifie un déficit en hausse.
 - **Séquelles des récessions** (hystérésis) : 5 % de l'écart de production en lecture centrale.
 - **Énergie.** Trois scénarios pétroliers (EIA, AIE, The Shift Project). Le prix du pétrole agit sur le PIB et l'inflation (Insee). La dépendance aux énergies fossiles suit le rythme de décarbonation de chaque programme, et une partie des importations évitées devient de la production en France.
 
+- **Population active.** Elle ralentit puis baisse après 2040 (Insee, projections 2022) : la croissance potentielle passe de 1 % à environ 0,7 % après 2040, comme chez le COR et la Commission.
+- **Intempéries.** Leur coût budgétaire (catastrophes naturelles, calamités agricoles, réparations) part de 0,13 % du PIB en 2025 et double d'ici 2050 (France Assureurs, I4CE), selon le scénario de réchauffement et l'adaptation.
+
 ### 4. Emploi, prix, salaires
 
 - **Chômage.** Retour vers un chômage structurel de 7,4 % à 20 % par an, loi d'Okun 0,3, activité partielle en cas d'épidémie. Le tout est recalé sur 2015-2025.
@@ -99,6 +102,9 @@ Le signe − signifie un déficit en hausse.
   - **Sinon, une crise.** Prêts d'urgence à taux réduit pendant cinq ans, contre 1,5 pt de PIB d'économies par an tant que le déficit dépasse 3 %. S'y ajoutent une récession, une désinflation, un soutien aux banques de 3 % du PIB et des séquelles. Comme au Portugal, en Espagne, en Irlande et en Grèce en 2010-2014, la dette monte d'abord, de 10 à 17 points de plus que sans crise sur trois ans. Ensuite, les économies ne sont gardées que pour tenir le déficit sous 3 %.
   - **Variante « refus du programme »**, réglable : contrôle des capitaux, financement national à taux plafonné et inflation.
 - **Après 2031.** Les gouvernements suivants corrigent une partie du déficit selon la dette (règle de réaction : 0,04 pt par point de dette).
+- **BCE.** Le taux sans risque réagit à l'inflation commune de la zone euro (0,25 point par point), pas aux mesures françaises.
+- **Chocs.** Les fourchettes tirent jusqu'à deux chocs sur vingt ans (récession, crise financière, inflation, intempéries, pétrole, guerre commerciale, guerre en Europe), et une seconde crise de financement reste possible huit ans après la première.
+- **Déficit par administration.** État, Sécurité sociale et collectivités (Insee 2025), avant compensations entre elles. Les économies demandées aux collectivités portent en partie sur l'investissement local.
 - **Lire la dette après une crise.** Une crise impose des économies, ce qui fausse la comparaison des dettes après coup. Le tableau affiche donc aussi la dette 2046 « sans crise ».
 
 ### 6. Revenus, pauvreté, inégalités
@@ -108,6 +114,10 @@ Le signe − signifie un déficit en hausse.
 - **Pauvreté et Gini.** Ils sont calculés à partir des revenus par décile (Insee 2024 : pauvreté 15,4 %, Gini 0,302). Ils tiennent compte du chômage et d'un éventuel ajustement imposé.
 - **Pouvoir d'achat par catégorie.** Il est exprimé par rapport au statu quo.
 - **Cas types.** Huit ménages types sont calculés avec OpenFisca France (dossier `openfisca/`).
+
+- **Logement.** Prix et loyers réels réagissent aux taux (−7 % par point de taux immobilier) et à la construction ; la hausse des loyers réduit le pouvoir d'achat des modestes et des jeunes, selon la part de locataires.
+- **Héritages.** Flux d'héritages et donations (≈ 10 % du PIB, en hausse ; CAE) et droits de succession, avec les mesures des programmes.
+- **Solde extérieur courant.** Importations liées à la demande, facture énergétique et coût du travail (Banque de France 2025 : −0,4 % du PIB) ; indicateur sans effet en retour sur la croissance, déjà compris dans les multiplicateurs.
 
 ### 7. Indicateurs plus fragiles
 
@@ -130,7 +140,7 @@ Le signe − signifie un déficit en hausse.
 
 ## Limites à garder en tête
 
-- **Modèle simplifié.** Ce n'est pas un modèle complet de l'économie : pas de commerce extérieur, de taux de change ni de secteurs, et la BCE ne réagit pas à la France seule. Les comparaisons entre programmes sont plus fiables que les niveaux.
+- **Modèle simplifié.** Ce n'est pas un modèle complet de l'économie : le commerce extérieur n'est qu'un indicateur, il n'y a ni taux de change ni secteurs, et la BCE ne réagit pas à la France seule. Les comparaisons entre programmes sont plus fiables que les niveaux.
 - **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2036 et 2043, en lecture keynésienne aucun. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
 - **Programmes interprétés.** Ils sont traduits à partir de documents publics parfois incomplets, et Glucksmann n'a pas encore publié de programme chiffré. Chaque fiche dit d'où vient chaque chiffre.
 - **Pas de relecture extérieure.** Aucun économiste extérieur n'a encore relu le simulateur.
