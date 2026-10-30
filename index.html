@@ -127,6 +127,7 @@ a{color:var(--accent)}
 .cr-r{display:grid;grid-template-columns:1.2em 10px minmax(8em,11em) 1fr 3em;gap:8px;align-items:center;font-size:.92em;margin:4px 0}
 .cr-n{opacity:.6;text-align:right}.cr-c{width:10px;height:10px;border-radius:50%}
 .cr-bar{height:8px;background:rgba(128,128,128,.18);border-radius:4px;overflow:hidden}.cr-bar i{display:block;height:100%;border-radius:4px}
+.cr-x{font-style:italic}.cr-x b{font-style:normal;font-weight:600}
 .cr-v{text-align:right;font-variant-numeric:tabular-nums}
 .cr-d{grid-column:3/6;font-size:.8em;opacity:.65;margin:-2px 0 4px}
 @media(max-width:520px){.cr-r{grid-template-columns:1.2em 10px 1fr 3em;row-gap:4px}.cr-name{grid-column:3/5;grid-row:1}.cr-bar{grid-column:3/4;grid-row:2}.cr-v{grid-column:4/5;grid-row:2}.cr-d{grid-column:3/5;grid-row:3}}
@@ -1378,9 +1379,15 @@ for(const [k,[l]] of Object.entries(METRICS)){const b=document.createElement("bu
 (function(){
   const el=document.getElementById("costRank"); if(!el) return;
   const det={melenchon:"≈ 31 Md€ vérifiés sur ≈ 52",retailleau:"≈ 38 sur 197 (cumulés)",philippe:"≈ 23 sur ≈ 170",lepen:"≈ 16 sur 140",glucksmann:"pas encore de programme chiffré"};
+  // Prochaines étapes annoncées (vérifié le 30 octobre 2026)
+  const nxt={melenchon:"<b>Annoncé :</b> programme le 6 novembre, convention au Bourget le 7 novembre, chiffrage complet début 2027",
+    retailleau:"Aucune date annoncée pour un chiffrage complet",
+    philippe:"Aucune date annoncée pour un chiffrage global (ordonnances prévues en juillet 2027)",
+    lepen:"Aucune date annoncée pour un chiffrage complet",
+    glucksmann:"Désigné le 11 octobre (primaire) ; aucune date annoncée pour son programme chiffré"};
   const rows=CANDS0.filter(p=>p.id!=="statu").map(p=>({p,d:Math.max(0,(p.c-0.3)/0.7)})).sort((a,b)=>b.d-a.d);
-  el.innerHTML='<div class="cr-h">Programmes les mieux chiffrés <span>part des recettes et économies annoncées (hors impôts sur les plus aisés) que Déchiffrer 2027 a pu vérifier, au 30 octobre 2026</span></div>'+
-    rows.map((r,i)=>'<div class="cr-r"><span class="cr-n">'+(i+1)+'</span><span class="cr-c" style="background:var('+r.p.color+')"></span><span class="cr-name">'+r.p.name+'</span><span class="cr-bar"><i style="width:'+Math.round(r.d*100)+'%;background:var('+r.p.color+')"></i></span><span class="cr-v">'+Math.round(r.d*100)+' %</span><span class="cr-d">'+(det[r.p.id]||"")+'</span></div>').join("")+
+  el.innerHTML='<div class="cr-h">Programmes les mieux chiffrés <span>part des recettes et économies annoncées (hors impôts sur les plus aisés) que Déchiffrer 2027 a pu vérifier, et prochains chiffrages annoncés, au 30 octobre 2026</span></div>'+
+    rows.map((r,i)=>'<div class="cr-r"><span class="cr-n">'+(i+1)+'</span><span class="cr-c" style="background:var('+r.p.color+')"></span><span class="cr-name">'+r.p.name+'</span><span class="cr-bar"><i style="width:'+Math.round(r.d*100)+'%;background:var('+r.p.color+')"></i></span><span class="cr-v">'+Math.round(r.d*100)+' %</span><span class="cr-d">'+(det[r.p.id]||"")+(nxt[r.p.id]?'<br><span class="cr-x">'+nxt[r.p.id]+'</span>':'')+'</span></div>').join("")+
     '<p class="help">Ce n\'est pas une note de sérieux du programme : un candidat peut chiffrer peu mais juste. Dans le simulateur, la part non vérifiée n\'est retenue qu\'à 30 % (note de crédibilité c = 0,3 + 0,7 × cette part), les dépenses et baisses d\'impôts étant retenues en entier.</p>';
 })();
 const PRESETS={keynes:{crowd:0,povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.15,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.2},
