@@ -150,9 +150,9 @@ a{color:var(--accent)}
     </table></div>
     <p class="help">Dans chaque case : ce qui se passe dans le scénario de base, puis la part des 200 tirages au hasard des hypothèses où survient une crise de financement d'ici 2046 (et celle où la BCE active son filet).</p>
 
-    <p class="notice"><strong>Attention à l'effet de la règle du modèle.</strong> Une dette qui monte n'entraîne pas forcément une crise : dans ce simulateur, c'est le seuil de prime de risque (3 points par défaut, réglable) qui décide si et quand elle survient. Dans la réalité, tout dépendrait de la confiance des marchés et de l'attitude de la BCE, que personne ne peut prévoir. Les années de crise affichées sont des signaux de fragilité, pas des prévisions. Une crise imposant des économies, un programme dont la crise arrive tôt peut finir 2046 avec une dette plus basse qu'un autre : pour comparer, la dette au pic (et son année) est plus juste que la dette de 2046.</p>
+    <p class="notice"><strong>Attention à l'effet de la règle du modèle.</strong> Une dette qui monte n'entraîne pas forcément une crise : dans ce simulateur, c'est le seuil de prime de risque (3 points par défaut, réglable) qui décide si et quand elle survient. Dans la réalité, tout dépendrait de la confiance des marchés et de l'attitude de la BCE, que personne ne peut prévoir. Les années de crise affichées sont des signaux de fragilité, pas des prévisions. Une crise imposant des économies, un programme dont la crise arrive tôt peut finir 2046 avec une dette plus basse qu'un autre (ou atteindre un pic plus bas) : pour comparer, regardez la date de la crise et la colonne « dette 2046 sans crise », qui montre où mènerait chaque programme si les marchés le finançaient sans broncher.</p>
     <h3>Pourquoi la crise revient si souvent</h3>
-    <p>Le point de départ est lourd : un déficit hors intérêts d'environ 2,9 % du PIB (Insee, 2025), avec des taux d'intérêt un peu supérieurs à la croissance. Sans effort, la dette monte donc mécaniquement chaque année, et sur vingt ans elle finit par franchir le seuil fixé dans le modèle. Seuls les programmes qui réduisent nettement ce déficit, ceux de Philippe et de Retailleau, l'évitent dans la lecture centrale. Les programmes de gauche l'évitent si les recettes nouvelles rentrent vraiment et si la relance fonctionne, ce qui correspond à la lecture keynésienne.</p>
+    <p>Le point de départ est lourd : un déficit hors intérêts d'environ 2,9 % du PIB (Insee, 2025), avec des taux d'intérêt un peu supérieurs à la croissance. Sans effort, la dette monte donc mécaniquement chaque année, et sur vingt ans elle finit par franchir le seuil fixé dans le modèle. Dans la lecture centrale, tous les programmes finissent par le franchir, entre 2037 et 2043 : ceux qui réduisent le plus le déficit (Philippe, Retailleau) le retardent, sans l'éviter. Dans la lecture keynésienne, aucun ne le franchit.</p>
 
     <h3>Ce qui rend ce résultat trop mécanique</h3>
     <ul>
@@ -160,8 +160,8 @@ a{color:var(--accent)}
       <li><strong>Les services publics et l'investissement rapportent</strong> : une partie de la dépense supplémentaire d'éducation, de santé et d'investissement public revient en croissance après quelques années, donc en recettes. Ce rendement est élevé en lecture keynésienne, faible en lecture libérale, car il dépend de l'efficacité de la dépense : la France a déjà la dépense publique la plus élevée de l'Union européenne.</li>
       <li><strong>Une « crise » est ici une règle</strong> : une prime de risque au-delà de 3 points. Dans la réalité, c'est un emballement de confiance que personne ne sait dater. Le Japon vit avec plus de 200 % de dette sans crise, parce qu'il emprunte surtout auprès de ses propres épargnants et dans sa propre monnaie. L'Italie a frôlé la crise en 2011-2012 avec une dette bien plus basse.</li>
       <li><strong>La BCE change la donne</strong> : depuis 2022, son instrument de protection (TPI) lui permet d'acheter la dette d'un pays attaqué par les marchés, à condition qu'il respecte les règles européennes, y compris la procédure pour déficit excessif où se trouve la France. Le modèle ne l'active donc que si le déficit est ramené à 4 % du PIB au plus (réglable) au moment où la prime dépasse le seuil, sans conflit avec l'Union européenne, et le retire si le déficit dérive de nouveau. Avec les déficits actuels (5 à 8 %), aucun programme n'y a accès dans le scénario de base.</li>
-      <li><strong>Comparer les dettes de 2046 avec prudence</strong> : une crise impose des économies que les scénarios sans crise n'ont pas encore faites. Un programme qui provoque une crise tôt peut donc finir 2046 avec une dette plus basse qu'un autre dont la crise arrive plus tard ou pas du tout. Pour comparer, regardez plutôt 2032 et la date de la crise.</li>
-      <li><strong>Le seuil est réglable</strong> dans l'onglet Simulateur (« Seuil de crise de financement ») : à 4 points, les crises reculent de deux à trois ans dans la lecture centrale, et Philippe et Retailleau n'en connaissent plus d'ici 2046.</li>
+      <li><strong>Comparer les dettes de 2046 avec prudence</strong> : une crise impose des économies que les scénarios sans crise n'ont pas encore faites. Un programme qui provoque une crise tôt peut donc finir 2046 avec une dette plus basse qu'un autre dont la crise arrive plus tard ou pas du tout. Pour comparer, regardez plutôt 2032, la date de la crise et la dette 2046 « sans crise » du tableau des finances publiques.</li>
+      <li><strong>Le seuil est réglable</strong> dans l'onglet Simulateur (« Seuil de crise de financement ») : à 4 points, les crises reculent de trois à quatre ans dans la lecture centrale, et Philippe n'en connaît plus d'ici 2046.</li>
     </ul>
 
     <h3>Ce qu'il faut en retenir</h3>
@@ -220,6 +220,19 @@ a{color:var(--accent)}
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>30 octobre 2026 : audit élargi.</strong> Relecture indépendante du code et comparaison avec les standards internationaux (Commission européenne, FMI, CBO, HCFP). Mêmes règles pour tous :
+        <ul>
+          <li>Montants en milliards rapportés au PIB de fin de mandat (et non de 2025) : les efforts chiffrés en euros étaient surévalués d'environ 18 % (Le Pen 3,3 → 2,74 pts, Retailleau, Mélenchon).</li>
+          <li>Retailleau : 22 Md€ d'opérations financières sur les retraites retirés de l'effort (ils ne réduisent pas le déficit au sens européen). Effort retenu : +1,1 → +0,5 pt.</li>
+          <li>Recettes perdues sur les plus riches limitées aux impôts sur le capital, les patrimoines et le revenu : les baisses d'impôts des entreprises ne « s'autofinancent » plus en partie.</li>
+          <li>Crédibilité par sens étendue aux revenus des ménages, aux retraites et aux prélèvements : gains en entier, pertes réduites.</li>
+          <li>Mélenchon : dépenses du chiffrage indépendant (111 Md€) hors mode « tel qu'annoncé », et suppression d'économies fictives créées par le calage.</li>
+          <li>Intérêts : la dette nouvelle qui finance le déficit est empruntée au taux du marché ; inflation de long terme 2 % et taux sans risque proche du Bund (conventions de la Commission) ; effet des dégradations de note divisé par deux. Repères : dette 2030 131 % (comité d'experts 130 %), intérêts 2027 95 Md€ (91 annoncés).</li>
+          <li>Prime de conflit avec l'Union européenne : pleine pendant le mandat, puis elle s'estompe.</li>
+          <li>Recul face à la contestation progressif au-delà de 60 de tension, et réversible.</li>
+          <li>Nouvelle colonne « dette 2046 sans crise ».</li>
+        </ul>
+        Effet en lecture centrale : crises entre 2037 (Mélenchon) et 2043 (Philippe) ; dette 2046 sans crise de 194 % (Philippe) à 248 % (Glucksmann) ; pauvreté 2032 de 13,5 % (Mélenchon) à 16,7 % (Retailleau).</li>
       <li><strong>29 octobre 2026, soir (5) : affinages.</strong> (1) Premier test du bloc croissance sur le passé, sans réglage : la consolidation de 2010-2016 est moins bien reproduite qu'en supposant aucun effet des mesures, surtout après 2013 ; ce test plaide pour des effets durables plus faibles (lecture libérale) mais ne suffit pas à changer les valeurs centrales (voir le test historique ci-dessus). (2) Nouvelle colonne « dette au pic (année) » dans le tableau des finances publiques, plus juste que la dette de 2046 pour comparer des crises à des dates différentes. (3) Nouvelle option de sortie de crise, commune à tous : refus du programme européen (contrôle des capitaux, financement national, sortie de fait de l'euro, inflation), hypothèse très incertaine.</li>
       <li><strong>29 octobre 2026, fin d'après-midi.</strong> Nouvel effet, réglable : la pauvreté coûte aux finances publiques (santé, éducation, justice), d'après l'étude du Collectif Alerte et d'Oliver Wyman (2024) : 1,35 Md€ par point de taux de pauvreté en lecture centrale, 2,7 en keynésienne, 0 en libérale. Effet faible, du même ordre pour tous dans un sens ou dans l'autre : en 2032, déficit plus bas de 0,03 point pour Mélenchon et 0,07 en lecture keynésienne, plus élevé de 0,04 à 0,08 point pour Retailleau ; aucune date de crise ne change.</li>
       <li><strong>29 octobre 2026, après-midi : suite de l'audit.</strong> Le long terme était trop optimiste pour tous ; il comprend désormais, à partir de 2030 : santé et dépendance (+0,8 point de PIB en 2046, Commission européenne), dégradation des retraites du COR (jusqu'à −0,9 point), moitié de l'engagement OTAN de 3,5 % du PIB en 2035 (+0,45 point, sauf pour Mélenchon qui rejette l'objectif ; les renforts propres aux programmes en tiennent lieu). Courbe de Phillips (0,15) à partir de 2029. Conjoncture 2026 : chômage à 8,3 % et taux plus bas en début d'année (charge d'intérêts 80 Md€, contre 77 à 78 pour la Cour des comptes et le comité d'experts). Fourchettes : la vitesse à laquelle la prime politique actuelle se résorbe varie désormais. Effet : la dette 2046 du statu quo passe de 189 à 206 % ; en lecture centrale, les dates de crise bougent d'un an au plus (crise dans 81 % des tirages pour Philippe, 88 % pour Retailleau, 98 à 100 % pour les autres) ; dette 2032 inchangée à 1 point près.</li>
@@ -410,7 +423,7 @@ a{color:var(--accent)}
     <div class="tablewrap"><table id="tbl">
       <thead><tr>
         <th>Programme</th><th>Crédi-<br>bilité</th><th>Faisa-<br>bilité</th>
-        <th class="sep">Déficit<br>2031</th><th>Dette<br>2036</th><th>Dette<br>2046</th><th title="Dette la plus élevée atteinte d'ici 2046, et l'année : plus juste que la dette de 2046 pour comparer des scénarios dont la crise arrive à des dates différentes">Dette au pic<br>(année)</th><th>Charge<br>d'intérêts 2036</th><th>Solde des<br>retraites 2032</th>
+        <th class="sep">Déficit<br>2031</th><th>Dette<br>2036</th><th>Dette<br>2046</th><th title="Dette de 2046 dans le même scénario, si aucune crise de financement ne survenait : une crise impose des économies qui font baisser la dette, ce qui fausse la comparaison des dettes après une crise. Trajectoire hypothétique, pour comparer les programmes à règles égales">Dette 2046<br>sans crise</th><th>Charge<br>d'intérêts 2036</th><th>Solde des<br>retraites 2032</th>
         <th class="sep">Accès au<br>financement</th>
       </tr></thead>
       <tbody></tbody>
@@ -563,7 +576,7 @@ a{color:var(--accent)}
       <li>Conflit avec l'Union européenne : prime de risque de 0,7 point pour Mélenchon (désobéissance aux traités, gel de la dette BCE), 0,5 pour Le Pen (primauté du droit national, contribution européenne plafonnée), 0,15 pour Retailleau (primauté du droit national, mais budget conforme aux règles européennes), 0 pour Philippe et Glucksmann.</li>
       <li>Recettes perdues : appliquées aux hausses d'impôts visant les plus riches et, symétriquement, une partie des baisses d'impôts qui leur profitent revient par plus d'activité déclarée ; aucune perte en mode « tel qu'annoncé ».</li>
       <li>Après une crise, l'ajustement imposé, l'effet récessif renforcé et les prêts d'urgence durent cinq ans ; ensuite, les économies imposées ne restent que dans la mesure nécessaire pour tenir le déficit sous 3 %. Le modèle ne simule pas de seconde crise.</li>
-      <li>Crédibilité du chiffrage, appliquée par sens : elle réduit les recettes et les économies annoncées (c'est là que les chiffrages sont le plus souvent optimistes), sauf les impôts visant les plus riches, déjà réduits par les recettes perdues ; les dépenses et les baisses d'impôts sont comptées en entier. Un programme moins crédible a donc toujours un déficit plus élevé. Effort réellement pris en compte, en points de PIB à pleine application : Retailleau +1,1, Philippe +0,8, Le Pen −0,7, Mélenchon −1,1, Glucksmann −1,3 (signe − : déficit en hausse). Ordres de grandeur proches des chiffrages indépendants (Déchiffrer 2027 : ≈ −1,3 pt pour Mélenchon et −1,4 pt pour Glucksmann, 25 Md€ d'économies documentées pour Retailleau ; France Budget : déficit de 6,8 % en 2030 pour Retailleau).</li>
+      <li>Crédibilité du chiffrage, appliquée par sens : elle réduit les recettes et les économies annoncées (c'est là que les chiffrages sont le plus souvent optimistes), sauf les impôts visant les plus riches, déjà réduits par les recettes perdues ; les dépenses et les baisses d'impôts sont comptées en entier. Un programme moins crédible a donc toujours un déficit plus élevé. Les montants en milliards sont rapportés au PIB nominal de fin de mandat (environ 3 600 Md€), pas à celui de 2025. Les opérations financières (placement de réserves, capitalisation) ne réduisent pas le déficit public au sens européen et ne sont pas comptées. Quand un chiffrage indépendant estime les dépenses au-dessus de l'annonce, il est retenu hors du mode « tel qu'annoncé » (Mélenchon : 111 Md€ selon Déchiffrer 2027, au lieu de 81,7). La même règle par sens s'applique aux revenus des ménages : leurs gains sont comptés en entier, leurs pertes réduites comme les économies. Effort réellement pris en compte, en points de PIB à pleine application : Philippe +0,8, Retailleau +0,5, Le Pen −0,7, Mélenchon −1,2, Glucksmann −1,2 (signe − : déficit en hausse). Ordres de grandeur proches des chiffrages indépendants (Déchiffrer 2027 : ≈ −1,3 pt pour Mélenchon et −1,4 pt pour Glucksmann, 25 Md€ d'économies documentées pour Retailleau ; France Budget : déficit de 6,8 % en 2030 pour Retailleau).</li>
       <li>Sortie de crise (réglage commun à tous) : par défaut, programme européen (prêts d'urgence contre 1,5 point de PIB d'économies par an). Variante « refus » : contrôle des capitaux, banques et épargnants contraints de financer l'État à un taux plafonné (prime de 1,5 point au plus pendant cinq ans), sortie de fait de l'euro ; récession de −5 points au lieu de −2 l'année suivante, inflation de 6, 3 puis 1 point de plus (Argentine 2002 et Islande 2008 ont connu 15 à 25 % : la variante est volontairement modérée), économies imposées de 0,75 point par an au lieu de 1,5, tension sociale plus forte. Résultat en lecture centrale : la dette baisse d'abord grâce à l'inflation, puis monte plus vite faute d'économies (Mélenchon : 224 % en 2046 au lieu de 198 %) ; la pauvreté est un peu plus basse, le pouvoir d'achat chute davantage la première année. Le modèle ne simule ni second choc, ni la renégociation qui suivrait sans doute.</li>
       <li>Pauvreté et finances publiques : chaque point de pauvreté en plus ou en moins par rapport à 2025 change les dépenses de santé, d'éducation et de justice de 1,35 Md€ par an en lecture centrale (moitié des surcoûts chiffrés par le Collectif Alerte et Oliver Wyman en 2024 : 39 Md€ pour 9,8 millions de personnes), avec un effet qui s'installe sur cinq ans. Les prestations et les impôts n'y sont pas comptés, car ils le sont déjà par la microsimulation et la croissance. L'effet de la pauvreté des enfants sur leur avenir professionnel passe par le lien entre inégalités et croissance ; il joue surtout après 2046.</li>
       <li>Hausse du Smic : les emplois au Smic (17 % des salariés) baissent avec le coût du travail à ce niveau, net des allègements annoncés (Mélenchon +18 %, Glucksmann ≈ +5 % une fois déduits 4,6 Md€ d'allègements). Élasticité de 0,25 en lecture centrale, 0,05 keynésienne, 0,5 libérale : le chômage de Mélenchon monte d'environ 0,8 point de ce fait, celui de Glucksmann de 0,2.</li>
@@ -683,9 +696,9 @@ a{color:var(--accent)}
 
 <script>
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
-const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:1.7,mktReal:1.7,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.5,
+const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.25,seniorKeep:0.55,tpiDef:4,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.25,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.1,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.25,seniorKeep:0.55,tpiDef:4,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.25,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0.1,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -727,7 +740,7 @@ function multAt(c,h){const m=MULT[c];return h<=2?m[0]:h<=5?m[0]+(m[1]-m[0])*(h-2
 // défense quand elle est comprise dans l'effort annoncé, reste des impôts annoncés ; le solde jusqu'à l'effort A est « non détaillé »
 // et classé en dépenses de fonctionnement.
 function fiscalCompDetail(p,b){
-  const c={},cP={},cN={}; for(const k in MULT){c[k]=0;cP[k]=0;cN[k]=0;} const pt=md=>md/b.gdpMd*100; let taxList=0;
+  const c={},cP={},cN={}; for(const k in MULT){c[k]=0;cP[k]=0;cN[k]=0;} const pt=md=>md/(b.gdpProg||b.gdpMd)*100; let taxList=0; // Md€ de fin de mandat rapportés au PIB nominal de fin de mandat
   const put=(cat,v)=>{c[cat]+=v; if(v>=0) cP[cat]+=v; else cN[cat]+=v;}; // cP : dépenses et baisses d'impôts ; cN : recettes et économies
   const add=(cat,md)=>{put(cat,pt(md)); if(TAXCAT[cat]) taxList+=-md;};
   for(const [,md,key,,,cat] of (p.paMeasures||[])){
@@ -739,11 +752,12 @@ function fiscalCompDetail(p,b){
   const def=p.defInA?(b.lpm+(p.defense||0)):0; put("fonct",def); // défense comprise dans l'effort annoncé
   const rest=(p.taxMd||0)-taxList, sh=p.taxRestEntr==null?0.5:p.taxRestEntr; // impôts annoncés non détaillés : moitié entreprises, moitié ménages par défaut
   put("entr",-pt(rest)*sh); put("taxLarge",-pt(rest)*(1-sh));
-  let sum=0; for(const k in c) sum+=c[k]; const resid=-(p.A||0)-sum; put("fonct",resid);
+  let sum=0; for(const k in c) sum+=c[k]; const resid=-(p.A||0)-sum;
+  if(p.itemized){c.fonct+=resid; cP.fonct+=resid;} else put("fonct",resid); // programme entièrement chiffré (recettes et dépenses) : l'écart avec la somme des postes du simulateur est un rapprochement comptable, pas une promesse d'économies, donc sans décote
   return {c,cP,cN,resid,def};
 }
 function fiscalComp(p,b){return fiscalCompDetail(p,b).c;}
-const NEAR={2026:{g:-0.7,pi:0.6,du:0.2,prem:-1.0},2027:{g:-0.18,pi:0.2,du:0.15},2028:{g:0,pi:-0.1}}; // Banque de France, projections de septembre 2026 (PIB 0,4 % ; 0,9 % ; 1,2 % — IPCH 2,3 % ; 1,9 % ; 1,6 %), choc d'Ormuz compris
+const NEAR={2026:{g:-0.7,pi:0.3,du:0.2,prem:-1.0},2027:{g:-0.18,pi:-0.1,du:0.15},2028:{g:0,pi:-0.4},2029:{g:0,pi:-0.2}}; // Banque de France, projections de septembre 2026 (PIB 0,4 % ; 0,9 % ; 1,2 % — IPCH 2,3 % ; 1,9 % ; 1,6 %), choc d'Ormuz compris
 // Énergie : prix du Brent ($ constants) selon le scénario. « tendance » : EIA (octobre 2026) puis retour vers 75 $ (AIE : surplus de l'offre) ;
 // « tensions » : perturbations au Moyen-Orient durables ; « contrainte » : baisse de l'offre de pétrole disponible pour l'Europe (The Shift Project, 2021).
 const ENERGY={
@@ -764,19 +778,26 @@ function simulate(p,mode,b){
   const euW= mode==="pondere"?f:1;
   const C=CLIM[b.clim], I=AI[b.ai];
   let uSenLast=0, ageRealLast=0, empPrev=0, ratingPrev=0, retreatSaid=false; const ev=[]; const E=(t,k,txt)=>ev.push({t,k,txt});
-  const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/b.gdpMd*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
+  const leakM=mode==="annonce"?0:b.leak; const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/(b.gdpProg||b.gdpMd)*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
   let d=b.d0, ieff=(b.ieff0-b.idxShare*(b.idxReal+b.infl))/(1-b.idxShare), sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
   let emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, povS=0, tpiFirst=null; const spHist=[], invHist=[];
   const CD=fiscalCompDetail(p,b), comp=CD.c; comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
   // crédibilité appliquée par sens : recettes et économies réduites par la crédibilité du chiffrage, sauf les impôts sur les plus aisés
   // (déjà réduits par la fuite fiscale) ; dépenses et baisses d'impôts réalisées en entier
   const compEff={}; let progFull=0; for(const k in comp){compEff[k]=CD.cP[k]*realSp+CD.cN[k]*(k==="taxAis"?realSp:real)+(k==="taxAis"?topLeak*realSp:0); progFull-=compEff[k];}
+  // dépenses chiffrées au-dessus de l'annonce par un chiffrage indépendant : retenues hors du mode « tel qu'annoncé » (même règle pour tous)
+  const over=mode==="annonce"?0:(p.spendOver||0)/(b.gdpProg||b.gdpMd)*100*realSp; compEff.fonct+=over; comp.fonct+=mode==="annonce"?0:(p.spendOver||0)/(b.gdpProg||b.gdpMd)*100; progFull-=over;
+  // revenus des ménages : gains (dépenses, baisses d'impôts) en entier, pertes sur les plus aisés réduites par la fuite seulement, autres pertes × crédibilité ; Md€ de fin de mandat rapportés aux revenus de fin de mandat
+  const uS=(b.gdpMd/(b.gdpProg||b.gdpMd)); let paEff=null, decEff=null;
+  if(p.paMeasures&&typeof microsimSplit==="function"){const S=microsimSplit(p.paMeasures,leakM); paEff={}; for(const g in S.pos.pa) paEff[g]=uS*(S.pos.pa[g]*realSp+S.top.pa[g]*realSp+S.neg.pa[g]*real); decEff=S.pos.deciles.map((v,i)=>uS*(v*realSp+S.top.deciles[i]*realSp+S.neg.deciles[i]*real));}
+  else {paEff={}; for(const [g] of GROUPS) paEff[g]=(p.pa?p.pa[g]:0)*real; decEff=(p.paDec||Array(10).fill(0)).map(v=>v*real);}
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; let gapO=0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
   const o={brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
     const z=shockAt(b.shock,b.shockYear,t);
-    if(mode!=="annonce" && tension>65){ retreat=Math.max(0.6,retreat-0.1); if(!retreatSaid&&p.id!=="statu"){retreatSaid=true;E(t,"retreat","Tension sociale au-dessus de 65 : le gouvernement recule sur une partie du programme (jusqu'à 40 %).");} } // recul face à la contestation
+    if(mode!=="annonce"){ const tgt=1-0.4*Math.max(0,Math.min(1,(tension-60)/20)); retreat=tgt<retreat?Math.max(tgt,retreat-0.1):Math.min(tgt,retreat+0.03); } // recul progressif au-delà de 60 de tension (jusqu'à 40 % du programme à 80), et retour lent quand la tension retombe
+    if(mode!=="annonce" && retreat<0.97){ if(!retreatSaid&&p.id!=="statu"){retreatSaid=true;E(t,"retreat","Tension sociale au-dessus de 60 : le gouvernement recule progressivement sur une partie du programme (jusqu'à 40 % quand la tension atteint 80).");} } // recul face à la contestation
     if(t===2027&&p.id!=="statu") E(t,"start","Entrée en vigueur du programme, montée en charge sur cinq ans.");
     if(t===b.shockYear&&b.shock!=="none") E(t,"shock",SHOCKTXT[b.shock]);
     if(t===2027&&p.bce>0) E(t,"bce",bceOn?"Gel de la dette détenue par la BCE accepté : charge d'intérêts allégée.":"Gel de la dette détenue par la BCE refusé (probabilité d'acceptation retenue : "+Math.round(bceProb*100)+" %) : pas d'allègement des intérêts.");
@@ -787,7 +808,7 @@ function simulate(p,mode,b){
     uSenLast=sh>0?sh*0.3*(1-keep):sh*0.05; ageRealLast=sh;
     const empEff=sh*10*0.35*keep, uSen=sh>0?sh*0.3*(1-keep):sh*0.05, benefitCost=sh>0?sh*(1-keep)*0.12:0;
     if(sh0!==0&&agePh>=1&&ramp(t-1,2026,sh0>0?2027+4*sh0:2027+1.5*Math.abs(sh0))<1) E(t,"age","Changement d'âge de départ achevé : effet complet sur l'emploi des seniors et sur les retraites.");
-    const defSp=b.def0+b.lpm*ramp(t,2025,2030)+(p.defense||0)*real*retreat*ramp(t,2027,2035); // défense : loi de programmation militaire pour tous, plus l'écart propre au programme
+    const defSp=b.def0+b.lpm*ramp(t,2025,2030)+(p.defense||0)*(p.defense>0?realSp:real)*retreat*ramp(t,2027,2035); // défense : loi de programmation militaire pour tous, plus l'écart propre au programme
     // vieillissement hors retraites (santé, dépendance) et dégradation des retraites selon le COR, après 2030 (jusqu'en 2030, la tendance du comité d'experts les comprend déjà)
     const icfE=b.icf0+(b.icfRef-b.icf0)*ramp(t,2025,2028)+b.famElast*(p.famMd||0)*real*retreat*ramp(t,2027,2032);
     const ageing=b.ageCost*ramp(t,2030,2046)+b.pensDef*(0.7*ramp(t,2030,2045)-(icfE-1.45)/0.25*ramp(t,2045,2070));
@@ -806,7 +827,7 @@ function simulate(p,mode,b){
     const adapt=Math.min(1,Math.max(0,p.climInv*realSp)/b.climNeed)*ramp(t,2027,2035);
     const climDrag=t>=2027?C.dmg*(1-0.5*adapt):0;
     // IA
-    const cushion=Math.min(1,0.2+(p.aiCushion-0.2)*real), adopt=1+(p.aiAdopt-1)*real;
+    const cushion=Math.min(1,0.2+(p.aiCushion-0.2)*(p.aiCushion>0.2?realSp:real)), adopt=1+(p.aiAdopt-1)*real;
     const aiRamp=ramp(t,2026,2032), aiProd=I.prod*adopt*aiRamp*(t<=b.aiFade?1:Math.max(0,1-(t-b.aiFade)/6)); // gain de productivité de l'IA : effet de niveau étalé sur une quinzaine d'années, puis la croissance revient à sa tendance
     const hump=t<=2034?ramp(t,2026,2032):Math.pow(0.85,t-2034);
     const aiDisp=I.disp*hump*(1-cushion);
@@ -827,7 +848,7 @@ function simulate(p,mode,b){
     const supply=migGrowth+(t>=2027&&t<=2036?p.supply*pol:0)+lr+aiProd-climDrag-scar+0.17*(empEff-empPrev)+rttSupply+pubRet-ineqDrag; empPrev=empEff;
     if(t===2032&&Math.abs(p.longRun*pol)>=0.03) E(t,"lr",(p.longRun>0?"Les réformes commencent à relever":"Les réformes commencent à freiner")+" la croissance de long terme ("+(p.longRun>0?"+":"")+(p.longRun*pol).toFixed(2)+" pt par an à terme).");
     const gapPrev=gap, structPrev=struct;
-    const dec0=p.paDec||[0,0,0,0,0,0,0,0,0,0];
+    const dec0=decEff;
     // effet des mesures du programme sur l'activité : multiplicateur propre à chaque type de mesure, selon le temps écoulé
     const progBal=progFull*retreat*phase, dx={}; let dxAny=false;
     const defOut=(p.defInA?0:defSp-b.def0)+natoX; // défense hors effort annoncé (loi de programmation pour tous) : traitée comme une dépense de fonctionnement
@@ -865,10 +886,10 @@ function simulate(p,mode,b){
     const povCost=b.povSave*povS/b.gdpMd*100;
     const pd=s+povCost-b.stab*gap+z.pd+shield-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const sm=(x,th)=>Math.max(0,Math.min(1,(x-th+1)/2)), notch=(burden>8?1:0)+(burden>11?1:0)+(burden>14?1:0);
-    const rating=0.2*sm(burden,8)+0.4*sm(burden,11)+0.8*sm(burden,14); // dégradations de note : vers 8, 11 et 14 % des recettes, sans saut brutal
+    const rating=b.ratingW*(0.2*sm(burden,8)+0.4*sm(burden,11)+0.8*sm(burden,14)); // dégradations de note : vers 8, 11 et 14 % des recettes, sans saut brutal
     const polPrem=b.premPol*(t<=2027?1:Math.pow(b.premPolDecay,t-2027)); // prime d'instabilité politique actuelle, qui se résorbe après l'élection
     const piPrev=o.infl[o.infl.length-1], defAdj=lastDef-Math.max(0,piPrev-2)*d/100; // déficit corrigé de l'érosion de la dette par l'inflation au-delà de 2 %
-    let prem=b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*euW*z.euMult:0)+z.spread;
+    let prem=b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*euW*z.euMult*(t<=2031?1:Math.pow(0.8,t-2031)):0)+z.spread; // conflit avec l'UE : prime pleine pendant le mandat, puis elle s'estompe (accord, alternance ou habitude des marchés)
     if(tpi!==null&&crisis===null&&lastDef>b.tpiDef+1){tpi=null;E(t,"tpioff","Le déficit dérive de nouveau au-delà de "+(b.tpiDef+1).toFixed(0)+" % du PIB : la BCE retire son filet.");}
     if(t>=2027 && crisis===null && tpi===null && prem>b.crisisPrem){
       if(p.eu*euW<0.2 && lastDef<=b.tpiDef){tpi=t; if(tpiFirst===null) tpiFirst=t;} else crisis=t; // filet de la BCE (TPI) : seulement si le déficit est sur une trajectoire conforme aux règles européennes
@@ -880,7 +901,7 @@ function simulate(p,mode,b){
     if(tpi!==null) prem=Math.min(prem,1.0);
     if(premRef===null) premRef=prem;
     const premMkt=prem; if(crisis!==null&&t-crisis<5) prem=refus?Math.min(prem,1.5):prem*0.5; // prêts d'urgence à taux réduit pendant cinq ans ; en cas de refus, banques et épargnants contraints de financer l'État à taux plafonné (répression financière)
-    ieff+=(b.mktReal+pi+prem-ieff)/8; // dette à taux fixe : renouvelée par huitièmes au taux de marché
+    const wNew=Math.min(0.5,b.roll+Math.max(0,lastDef)/Math.max(d,1)); ieff+=(b.mktReal+pi+prem-ieff)*wNew; // dette à taux fixe : un huitième renouvelé chaque année au taux de marché, plus la dette nouvelle qui finance le déficit
     const i=((1-b.idxShare)*ieff+b.idxShare*(b.idxReal+pi))*(1-(t>=2027?p.bce*bceOn:0)); // environ 10 % de titres indexés sur l'inflation : leur coût suit l'inflation tout de suite (comme en 2022-2023)
     const ng=(1+realg/100)*(1+pi/100)-1;
     const interest=d*i/100;
@@ -898,15 +919,15 @@ function simulate(p,mode,b){
     // natalité : fécondité de référence du COR (1,45 enfant par femme dès 2028, Insee 1,56 en 2025), plus l'effet de la politique familiale du programme (avec un an de décalage) ; les naissances n'entrent sur le marché du travail qu'après 2046, l'effet sur les retraites suit le COR (±1 pt de PIB en 2070 pour ±0,25 enfant), à partir de 2045
     const icf=b.icf0+(b.icfRef-b.icf0)*ramp(t,2025,2028)+b.famElast*(p.famMd||0)*real*retreat*ramp(t,2027,2032);
     const births=b.births0*icf/b.icf0; o.icf.push(icf); o.births.push(births);
-    const pens=(icf-1.45)/0.25*ramp(t,2045,2070)+(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*real*retreat*phase-0.15*Math.max(0,u-b.u0)+14*migW/b.emp0*Math.max(0,1-(t-2027)/30); // cotisations des actifs en plus ou en moins, effet qui s'estompe quand ils partent à la retraite (COR)
-    const retliv=b.retLiv0-0.21*(t-2023)+p.retLiv*real*retreat*phase-1.5*forcedCum;
+    const pens=(icf-1.45)/0.25*ramp(t,2045,2070)+(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*(p.pensBal<0?realSp:real)*retreat*phase-0.15*Math.max(0,u-b.u0)+14*migW/b.emp0*Math.max(0,1-(t-2027)/30); // cotisations des actifs en plus ou en moins, effet qui s'estompe quand ils partent à la retraite (COR)
+    const retliv=b.retLiv0-0.21*(t-2023)+p.retLiv*(p.retLiv>0?realSp:real)*retreat*phase-1.5*forcedCum;
     // pouvoir d'achat : croissance commune + mesures du programme + chômage + ajustement imposé + chocs d'inflation
     gdp*=1+realg/100; inflCum+=Math.max(0,z.infl)+exitInfl;
     for(const [g,,su,sf,si] of GROUPS){
-      o.pa[g].push(100*gdp*(1+(p.pa?p.pa[g]:0)*b.redistEff*real*retreat*phase/100)*(1-su*(u-b.u0)/100)*(1-sf*forcedCum/100)*(1-si*inflCum/100));
+      o.pa[g].push(100*gdp*(1+paEff[g]*b.redistEff*retreat*phase/100)*(1-su*(u-b.u0)/100)*(1-sf*forcedCum/100)*(1-si*inflCum/100));
     }
     // revenus par décile : effet direct des mesures (microsimulation), chômage, ajustement imposé
-    const k=b.redistEff*real*retreat*phase;
+    const k=b.redistEff*retreat*phase;
     const inc=LEV.map((L,i)=>L*(1+dec0[i]/100*k)*(1-SU_D[i]*(u-b.u0)/100)*(1-SF_D[i]*forcedCum/100));
     const chg=inc.map((v,i)=>100*(v/LEV[i]-1));
     const gini=b.gini0+(giniDec(inc)-G_DEC0)+I.gini*aiRamp*(1-0.5*cushion);
@@ -932,7 +953,7 @@ function simulate(p,mode,b){
     const ik=IK.map(v=>v*sp/b.sp0);
     o.cons.push(cons);o.nw.push(b.nw0-(d-b.d0)+KI);o.react.push(react);
     // croissance, inflation, chômage des jeunes (2,6 fois le taux global), prélèvements et dépense publique, facture énergétique, artificialisation
-    const taxEff=((p.taxMd||0)-((p.topRev||0)-(p.topCut||0))*leakM)/b.gdpMd*100*real*retreat*phase;
+    const tmd=p.taxMd||0, topR=Math.min(Math.max(0,tmd),p.topRev||0), taxEff=(tmd<0?tmd*realSp:(tmd-topR)*real+topR*realSp-((p.topRev||0)-(p.topCut||0))*leakM*realSp)/(b.gdpProg||b.gdpMd)*100*retreat*phase; // hausses × crédibilité (sauf sur les plus aisés : fuite), baisses en entier
     const po=b.po0+taxEff+0.3*forcedCum; const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
     const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*pol*retreat*phase:zBase;
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
@@ -964,7 +985,7 @@ const KEYS={ // part de la mesure reçue ou payée par chaque décile (somme = 1
 const RET_INC=420, JEU_INC=160; // revenus des retraités et des 18-29 ans, Md€ (ordres de grandeur)
 const RET_SHARE={retraites:1,conso:0.25,tete:0.25,ir:0.2,capital:0.25,minima:0.1};
 const JEU_SHARE={chomage:0.3,bassal:0.3,minima:0.2,conso:0.12,tete:0.15,fonction:0.1,heuressup:0.15,jeunes:1};
-const TOPKEYS={capital:1,ir:1,entreprises:1};
+const TOPKEYS={capital:1,ir:1}; // recettes perdues (CAE 2025) : impôts sur le capital, les patrimoines et le revenu des plus aisés, pas l'impôt des entreprises
 function microsim(list,leak=0){
   const dec=Array(10).fill(0); let ret=0, jeu=0;
   for(const [label,md0,key] of list){
@@ -992,19 +1013,25 @@ const PA_MEASURES={
 };
 // recettes prélevées sur les 10 % les plus riches (Md€) et flux net sur leur patrimoine (+ = enrichissement)
 function topFlows(list){let topRev=0,topCut=0,wealthFlow=0;
-  for(const [,md,key] of list){ if(!TOPKEYS[key]) continue; const sh=KEYS[key][9]/100;
-    if(md<0) topRev+=-md*sh; else topCut+=md*sh; if(key!=="ir") wealthFlow+=md*sh; }
+  for(const [,md,key] of list){ if(!TOPKEYS[key]&&key!=="entreprises") continue; const sh=KEYS[key][9]/100;
+    if(key!=="ir") wealthFlow+=md*sh; if(!TOPKEYS[key]) continue;
+    if(md<0) topRev+=-md*sh; else topCut+=md*sh; }
   return {topRev,topCut,wealthFlow};}
+// gains et pertes séparés, pour appliquer la crédibilité par sens : gains (dépenses, baisses d'impôts), pertes sur les plus aisés (déjà réduites par la fuite), autres pertes (économies, hausses d'impôts)
+function microsimSplit(list,leak=0){
+  const P=list.filter(m=>m[1]>0), T=list.filter(m=>m[1]<0&&TOPKEYS[m[2]]), N=list.filter(m=>m[1]<0&&!TOPKEYS[m[2]]);
+  return {pos:microsim(P,leak),top:microsim(T,leak),neg:microsim(N,leak)};
+}
 
 const CANDS0=[
  {id:"statu",famMd:0,migDelta:0,name:"Statu quo",color:"--c0",ageShift:0,rtt:0,housing:0,spServ:0,taxMd:0,zan:0,defense:0,A:0,c:1,parl:1,adh:1,legal:1,supply:0,longRun:0,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:0,topTax:0,botGain:0,climInv:0.2,healthSpend:0,aiCushion:0.2,aiAdopt:1,measures:[],why:"",why2:"",sources:[]},
- {id:"melenchon",nato:0,smicCost:18,famMd:0,migDelta:20,checked:"29 octobre 2026",name:"Mélenchon (LFI)",color:"--c1",ageShift:-4,rtt:1,housing:70,spServ:1.0,taxMd:106,zan:0,defense:-0.2,housingInv:0.4,A:0.74,c:0.5,parl:0.30,adh:0.65,legal:0.6,supply:0,longRun:0,eu:0.7,bce:0.18,bceOk:0.2,inflImp:0.3,uStruct:0,topTax:2.1,botGain:1.0,climInv:0.8,healthSpend:0.1,taxRestEntr:1,compItems:[["trMod",-4]],compNote:"Économie de prime d'activité liée à la hausse du Smic (≈ 4 Md€, calcul OpenFisca), comprise dans l'effort annoncé. Impôts non détaillés (GAFAM, transactions financières) classés sur les entreprises, comme dans le contre-budget.",aiCushion:0.5,aiAdopt:0.9,
-  measures:["+106,4 Md€ de recettes : ISF climatique 10, fin de la flat tax 9, taxe Zucman 15, héritages 20, niches fiscales 22, GAFAM, taxe sur les transactions.","+81,7 Md€ de dépenses : point d'indice 17, APL +10 % 8, budgets ministériels 7, retraite à 62 ans (le programme vise 60 ans avec 40 annuités), Smic à 1 700 € net.","Solde annoncé ≈ +25 Md€ par an (≈ 0,8 pt de PIB), ramené ici à 0,6 pt pour le coût supplémentaire de la retraite à 60 ans, puis à 0,74 pt avec l'économie de prime d'activité liée à la hausse du Smic (calcul OpenFisca), déficit visé autour de 5 %.","Gel de la dette détenue par la BCE (≈ 18 %) en dette perpétuelle à taux zéro.","Planification écologique, règle verte, réduction du temps de travail."],
+ {id:"melenchon",nato:0,spendOver:29.3,itemized:1,smicCost:18,famMd:0,migDelta:20,checked:"29 octobre 2026",name:"Mélenchon (LFI)",color:"--c1",ageShift:-4,rtt:1,housing:70,spServ:1.0,taxMd:106,zan:0,defense:-0.2,housingInv:0.4,A:0.61,c:0.5,parl:0.30,adh:0.65,legal:0.6,supply:0,longRun:0,eu:0.7,bce:0.18,bceOk:0.2,inflImp:0.3,uStruct:0,topTax:2.1,botGain:1.0,climInv:0.8,healthSpend:0.1,taxRestEntr:1,compItems:[["trMod",-4]],compNote:"Économie de prime d'activité liée à la hausse du Smic (≈ 4 Md€, calcul OpenFisca), comprise dans l'effort annoncé. Impôts non détaillés (GAFAM, transactions financières) classés sur les entreprises, comme dans le contre-budget.",aiCushion:0.5,aiAdopt:0.9,
+  measures:["+106,4 Md€ de recettes : ISF climatique 10, fin de la flat tax 9, taxe Zucman 15, héritages 20, niches fiscales 22, GAFAM, taxe sur les transactions.","+81,7 Md€ de dépenses : point d'indice 17, APL +10 % 8, budgets ministériels 7, retraite à 62 ans (le programme vise 60 ans avec 40 annuités), Smic à 1 700 € net.","Solde annoncé ≈ +25 Md€ par an, corrigé du coût supplémentaire de la retraite à 60 ans et de l'économie de prime d'activité liée à la hausse du Smic (calcul OpenFisca) : ≈ 22 Md€, soit 0,61 pt du PIB de fin de mandat. Hors mode « tel qu'annoncé », les dépenses retenues sont celles de Déchiffrer 2027 (≈ 111 Md€ au lieu de 81,7, soit 29 Md€ de plus).","Gel de la dette détenue par la BCE (≈ 18 %) en dette perpétuelle à taux zéro.","Planification écologique, règle verte, réduction du temps de travail."],
   why:"Crédibilité 0,5 : les dépenses chiffrées par Déchiffrer 2027 (≈ 111 Md€) dépassent celles annoncées (81,7 Md€), et pour l'économiste de l'OFCE Mathieu Plane, « les 100 milliards ne seraient pas du tout 100 milliards » (AFP, 14 octobre 2026) ; l'évaporation des recettes sur les plus riches est comptée à part. Juridique 0,6 : gel BCE contraire aux traités (proba 20 %). Opinion 0,65 : taxe Zucman 86 % favorables (Ifop), gel BCE 47 % (YouGov). Redistribution : ≈ 65 Md€ pris aux 10 % les plus aisés (2,1 pts), ≈ 30 Md€ pour les plus modestes (1 pt).",
   why2:"Immigration : régularisation des sans-papiers et accueil élargi, soit +20 000 actifs par an en équivalent (hypothèse du simulateur). Climat 0,8 pt de PIB : lignes chiffrées du contre-budget (adaptation 10 Md€, rénovation 7,3 Md€) en plus de la tendance. Santé +0,1 pt : ≈ 3 Md€ chiffrés pour l'hôpital. IA : amortisseur 0,5 (partage du travail, 32 heures, protection sociale), adoption 0,9 (encadrement plus strict).",
   sources:[["AFP via La Gazette – économistes sur le contre-budget LFI","https://www.lagazettefrance.fr/article/des-economistes-jugent-peu-detaille-et-optimiste-le-contre-budget-de-lfi"],["LCP – contre-budget LFI","https://lcp.fr/actualites/contre-budget-lfi-propose-1064-milliards-d-euros-de-recettes-supplementaires-et-817"],["AFP – obstacles juridiques","https://fr.news.yahoo.com/annuler-partie-dette-france-proposition-151328169.html"]]},
- {id:"lepen",famMd:0,migDelta:-100,checked:"29 octobre 2026",name:"Le Pen (RN)",color:"--c2",compItems:[["ext",-10],["trAutres",-14]],compNote:"Contribution à l'UE plafonnée à 5 Md€ (≈ 29 aujourd'hui) : les 10 Md€ de contribution nette sortent de l'économie française (multiplicateur 0,1, hypothèse du simulateur) ; les 14 Md€ qui reviennent en France (aides agricoles, fonds régionaux) sont traités comme des transferts.",ageShift:-2,rtt:0,housing:5,spServ:-0.3,taxMd:-30,zan:0,defense:0.4,defInA:1,A:3.3,c:0.3,parl:0.60,adh:0.55,legal:0.4,supply:0,longRun:0,eu:0.5,bce:0,bceOk:0,inflImp:-0.2,uStruct:0,topTax:0,botGain:-0.1,climInv:0.1,healthSpend:-0.05,aiCushion:0.2,aiAdopt:0.9,
-  measures:["140 Md€ d'économies nettes en 2032 par rapport à 2026, dont la contribution à l'UE plafonnée à 5 Md€ (≈ 29 aujourd'hui).","30 Md€ de baisses d'impôts nettes ; suppression de plus de 120 taxes ; IFI transformé en impôt sur la fortune financière.","Solde net ≈ 110 Md€ (≈ 3,6 pts de PIB) ; déficit sous 3 % en 2030 annoncé.","Fin des subventions aux énergies renouvelables et moratoire sur les nouveaux projets.","Allocation sociale unique, aide au développement réduite."],
+ {id:"lepen",famMd:0,migDelta:-100,checked:"29 octobre 2026",name:"Le Pen (RN)",color:"--c2",compItems:[["ext",-10],["trAutres",-14]],compNote:"Contribution à l'UE plafonnée à 5 Md€ (≈ 29 aujourd'hui) : les 10 Md€ de contribution nette sortent de l'économie française (multiplicateur 0,1, hypothèse du simulateur) ; les 14 Md€ qui reviennent en France (aides agricoles, fonds régionaux) sont traités comme des transferts.",ageShift:-2,rtt:0,housing:5,spServ:-0.3,taxMd:-30,zan:0,defense:0.4,defInA:1,A:2.74,c:0.3,parl:0.60,adh:0.55,legal:0.4,supply:0,longRun:0,eu:0.5,bce:0,bceOk:0,inflImp:-0.2,uStruct:0,topTax:0,botGain:-0.1,climInv:0.1,healthSpend:-0.05,aiCushion:0.2,aiAdopt:0.9,
+  measures:["140 Md€ d'économies nettes en 2032 par rapport à 2026, dont la contribution à l'UE plafonnée à 5 Md€ (≈ 29 aujourd'hui).","30 Md€ de baisses d'impôts nettes ; suppression de plus de 120 taxes ; IFI transformé en impôt sur la fortune financière.","Solde net ≈ 110 Md€ ; déficit sous 3 % en 2030 annoncé. Retenu ici : ≈ 99 Md€, soit 2,74 pts du PIB de fin de mandat.","Fin des subventions aux énergies renouvelables et moratoire sur les nouveaux projets.","Allocation sociale unique, aide au développement réduite."],
   why:"Crédibilité 0,3 : l'Institut de l'Entreprise juge environ 80 % des économies non documentées ou juridiquement fragiles (≈ 7,5 Md€ crédibles en 2031, une lecture sévère). Juridique 0,4 : plafonner seul la contribution à l'UE viole les traités. Parlement 0,6 : candidate en tête. Opinion 0,55 : 61 % des Français pour un retour à 62 ans (Ifop, avril 2025), pas de sondage sur ses économies. Redistribution : restrictions de prestations pour une partie des ménages modestes (−0,1 pt).",
   why2:"Climat 0,1 pt : fin des aides aux renouvelables, priorité au nucléaire existant, plan d'adaptation de 2 Md€. Santé −0,05 pt : restrictions de l'aide médicale d'État. Défense +0,4 pt : 3 % du PIB visés en 2030 (≈ 18 Md€ selon Déchiffrer 2027), compris dans l'effort annoncé. Services publics −0,3 pt : non-remplacement de départs, suppression de la plupart des agences, réduction des effectifs locaux (Acteurs publics, 6 octobre 2026). Immigration : solde migratoire réduit de 100 000 par an par rapport à la tendance (fin du regroupement familial et du droit du sol, priorité nationale), hypothèse du simulateur faute de chiffrage ; l'effet passe par le nombre d'actifs. IA : amortisseur 0,2 (niveau actuel), adoption 0,9 (protection de l'emploi national).",
   sources:[["Acteurs publics – réforme de l'État du RN","https://acteurspublics.fr/articles/la-reforme-de-letat-et-des-collectivites-au-coeur-des-economies-programmees-par-le-rn/"],["Planète Grandes Écoles – contre-budget RN","https://www.planetegrandesecoles.com/budget-marine-le-pen-2027-mesures-contre-budget-rn"]]},
@@ -1018,8 +1045,8 @@ const CANDS0=[
   why:"Pas de programme publié : effort tiré du projet du PS (déficit ≈ 5,7 % en 2030) corrigé de ses propres annonces chiffrées par Déchiffrer 2027 (baisse de CSG 14 Md€, Smic à 1 600 € net, rémunération des fonctionnaires 14 Md€, retraite à 62 ans 10 Md€), soit ≈ 0,6 pt de PIB de dépenses en plus. Crédibilité 0,5 : 11 % de ses positions sont chiffrées. Opinion 0,7 : la taxation des très hauts patrimoines est très majoritaire dans les sondages. Juridique 0,7 : une partie dépend d'accords européens. Redistribution : ≈ 25 Md€ pris aux plus aisés (0,8 pt), baisse de CSG et dépenses sociales pour les modestes (0,5 pt).",
   why2:"Climat 0,5 pt : plan de 50 Md€ sur cinq ans, non chiffré en détail. Santé +0,2 pt. IA : amortisseur 0,4 (formation, régulation européenne), adoption 1,1 (« projet Manhattan » de l'IA).",
   sources:[["Déchiffrer 2027 – chiffrage Glucksmann","https://dechiffrer2027.fr/en/chiffrage/glucksmann"],["francebudget.fr – projet PS","https://francebudget.fr/scenarios/ps-2027"],["La Facture 2027 – volet fiscal","https://lafacture2027.fr/programme-fiscal-raphael-glucksmann-2027"]]},
- {id:"retailleau",famMd:10,migDelta:-70,compItems:[["fin",-22]],compNote:"Retraites : sur 42 Md€, environ 22 Md€ viennent de la capitalisation partielle et du placement des réserves, des opérations financières sans effet direct sur l'activité (multiplicateur 0).",checked:"29 octobre 2026",name:"Retailleau (LR)",color:"--c5",ageShift:0.5,rtt:0,housing:30,spServ:-0.5,taxMd:-43,zan:1,defense:0,defInA:1,A:4.3,c:0.55,parl:0.35,adh:0.5,legal:0.5,supply:0.10,longRun:0,eu:0.15,bce:0,bceOk:0,inflImp:0,uStruct:-0.3,topTax:-0.5,botGain:-1.3,climInv:0.1,healthSpend:-0.05,aiCushion:0.2,aiAdopt:1.05,
-  measures:["197 Md€ d'économies sur le mandat : État 96 (400 000 départs de fonctionnaires non remplacés), social 91 (retraites 42, assurance chômage 30, arrêts maladie 4), collectivités 10, immigration 10.","56 Md€ de baisses d'impôts (entreprises ≈ 30, ménages ≈ 21).","Solde net ≈ 141 Md€ (≈ 4,6 pts de PIB) ; déficit à 2,2 % en fin de mandat annoncé. Ramené ici à 4,3 pts : allocations familiales dès le premier enfant (23 Md€) moins suppression du quotient familial (13 Md€), chiffrées par Déchiffrer 2027 et absentes de ce total.","Règle d'or dans la Constitution par référendum."],
+ {id:"retailleau",famMd:10,migDelta:-70,compNote:"Retraites : sur 42 Md€, environ 22 Md€ viennent de la capitalisation partielle et du placement des réserves. Ce sont des opérations financières qui ne réduisent pas le déficit public au sens européen (SEC 2010) : elles sont retirées de l'effort.",checked:"29 octobre 2026",name:"Retailleau (LR)",color:"--c5",ageShift:0.5,rtt:0,housing:30,spServ:-0.5,taxMd:-43,zan:1,defense:0,defInA:1,A:3.03,c:0.55,parl:0.35,adh:0.5,legal:0.5,supply:0.10,longRun:0,eu:0.15,bce:0,bceOk:0,inflImp:0,uStruct:-0.3,topTax:-0.5,botGain:-1.3,climInv:0.1,healthSpend:-0.05,aiCushion:0.2,aiAdopt:1.05,
+  measures:["197 Md€ d'économies sur le mandat : État 96 (400 000 départs de fonctionnaires non remplacés), social 91 (retraites 42, assurance chômage 30, arrêts maladie 4), collectivités 10, immigration 10.","56 Md€ de baisses d'impôts (entreprises ≈ 30, ménages ≈ 21).","Solde net ≈ 141 Md€ ; déficit à 2,2 % en fin de mandat annoncé. Retenu ici : 109 Md€, soit 3,03 pts du PIB de fin de mandat, après les allocations familiales dès le premier enfant (23 Md€) moins la suppression du quotient familial (13 Md€), chiffrées par Déchiffrer 2027, et sans les 22 Md€ d'opérations financières sur les retraites, qui ne réduisent pas le déficit public.","Règle d'or dans la Constitution par référendum."],
   why:"Crédibilité 0,55 : plan le plus détaillé, chiffré en partie de façon indépendante (Déchiffrer 2027) ; ce qui dépend d'un référendum constitutionnel est compté dans la solidité juridique. Opinion 0,5 : ses mesures phares sont soutenues (non-remplacement de fonctionnaires 63 %, plafonnement des aides sociales 77 %, dégressivité des allocations chômage 66 %, Odoxa pour l'iFRAP, septembre 2025), mais la baisse de 30 % des aides et les économies de retraites le sont moins. Parlement 0,35 : candidat autour de 6 % au premier tour (4 à 8 % fin octobre), mais au centre d'une majorité de droite possible. Redistribution : environ la moitié des 91 Md€ d'économies sociales touche les plus modestes (−1,3 pt) ; baisses d'impôts des entreprises (−0,5 pt).",
   why2:"Famille : allocations de 240 € par mois dès le premier enfant (23 Md€) moins suppression du quotient familial (13 Md€), soit 10 Md€ nets de soutien aux familles. Immigration : solde migratoire réduit de 70 000 par an (référendum, durcissement du regroupement familial, fin du droit du sol), hypothèse du simulateur faute de chiffrage. Climat 0,1 pt : fin des appels d'offres renouvelables, baisse des aides à la rénovation. Santé −0,05 pt : les économies sur les arrêts maladie sont des prestations en espèces, comptées dans les transferts. IA : amortisseur 0,2 (niveau actuel), adoption 1,05. Travail : fin des 35 heures, plus d'heures travaillées (+0,1 pt de croissance) ; assurance chômage plus stricte (chômage structurel −0,3 pt) : hypothèses du simulateur.",
   sources:[["Déchiffrer 2027 – chiffrage Retailleau","https://dechiffrer2027.fr/en/chiffrage/retailleau"],["Sondage Odoxa pour l'iFRAP","https://www.ifrap.org/budget-et-fiscalite/grand-sondage-odoxa-pour-la-fondation-ifrap-les-francais-les-finances-publiques-et-les-reformes"],["Public Sénat – plan Retailleau","https://www.publicsenat.fr/actualites/economie/presidentielle-2027-bruno-retailleau-sengage-sur-un-plan-deconomies-de-pres-de-200-milliards-deuros-sil-est-elu"]]}
@@ -1144,12 +1171,13 @@ function render(skipMC){
   const nameCell=p=>`<td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td>`;
   const signed=(v,d=1)=>(v>0?"+":v<0?"−":"")+fmt(Math.abs(v),d);
   const fill=(id,rowFn)=>{const tb=document.querySelector(`#${id} tbody`);tb.innerHTML="";for(const x of res){const tr=document.createElement("tr");tr.innerHTML=rowFn(x);tb.appendChild(tr);}};
+  const ncCache={}, sq0=res[0].p, nc=pp=>ncCache[pp.id]||(ncCache[pp.id]=simulate(pp,mode,Object.assign({},BASE,{crisisPrem:1e9}))); // même scénario sans crise de financement
   fill("tbl",({p,r})=>{const q=p.id==="statu", c=(v,ref,lb,eps)=>q?"":cls(v,ref,lb,eps);
     return nameCell(p)+`<td>${q?"–":fmt(p.c,2)}</td><td>${q?"–":fmt(r.f,2)}</td>
       <td class="sep ${c(r.def[yi(2031)],sq.def[yi(2031)])}">${fmt(r.def[yi(2031)])} %</td>
       <td class="${c(r.debt[yi(2036)],sq.debt[yi(2036)],true,0.5)}">${fmt(r.debt[yi(2036)])} %</td>
       <td class="${c(r.debt[yi(2046)],sq.debt[yi(2046)],true,0.5)}">${fmt(r.debt[yi(2046)])} %</td>
-      <td class="${c(Math.max(...r.debt),Math.max(...sq.debt),true,0.5)}">${fmt(Math.max(...r.debt),0)} % <small>(${START+r.debt.indexOf(Math.max(...r.debt))})</small></td>
+      <td class="${c(nc(p).debt[yi(2046)],nc(sq0).debt[yi(2046)],true,0.5)}">${fmt(nc(p).debt[yi(2046)],0)} %</td>
       <td class="${c(r.burden[yi(2036)],sq.burden[yi(2036)],true,0.2)}">${fmt(r.burden[yi(2036)])} %</td>
       <td class="${c(r.pens[yi(2032)],sq.pens[yi(2032)],false,0.05)}">${signed(r.pens[yi(2032)],2)} %</td>
       <td class="sep">${r.crisis!==null?`<span class="chip bad">crise ${r.crisis}</span>`:r.tpi!==null?`<span class="chip mid">filet BCE ${r.tpi}</span>`:`<span class="chip ok">accès normal</span>`}</td>`;});
@@ -1222,9 +1250,9 @@ function buildCands(){
 const mbox=document.getElementById("metrics");
 for(const [k,[l]] of Object.entries(METRICS)){const b=document.createElement("button");b.textContent=l;b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
   b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
-const PRESETS={keynes:{povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0.15,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.1,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.4},
-  central:{povSave:1.35,smicEl:0.25,spRet:0.1,invRet:0.1,rtt:0.5,mult:0.7,multScale:1,hyst:0.05,ineqGrowth:0.06,importSub:0.5,transDrag:0.06,leak:0.25,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.7},
-  liberal:{povSave:0,smicEl:0.5,spRet:0.03,invRet:0.05,rtt:0.1,mult:0.4,multScale:0.7,hyst:0,ineqGrowth:0,importSub:0.3,transDrag:0.12,leak:0.5,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:2.0}};
+const PRESETS={keynes:{povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0.15,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.1,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.2},
+  central:{povSave:1.35,smicEl:0.25,spRet:0.1,invRet:0.1,rtt:0.5,mult:0.7,multScale:1,hyst:0.05,ineqGrowth:0.06,importSub:0.5,transDrag:0.06,leak:0.25,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.5},
+  liberal:{povSave:0,smicEl:0.5,spRet:0.03,invRet:0.05,rtt:0.1,mult:0.4,multScale:0.7,hyst:0,ineqGrowth:0,importSub:0.3,transDrag:0.12,leak:0.5,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:1.8}};
 // lecture fondée sur les études faites après coup : valeurs centrales, sauf là où l'histoire tranche
 PRESETS.historique=Object.assign({},PRESETS.central,{leak:0.54,seniorKeep:0.65});
 const PRESETHELP={historique:"Lecture fondée sur l'historique : pour chaque hypothèse, la valeur la mieux étayée par les études faites après coup. Recettes perdues sur les plus riches : 54 % (Conseil d'analyse économique, 2025). Seniors restant en emploi quand l'âge de départ recule : 65 % (Insee, réforme de 2010 : 63 % des hommes, 73 % des femmes). Effets sur l'activité : valeurs centrales des études, plus fortes en crise (FMI, Blanchard et Leigh, 2013, déjà appliqué). Le reste, où l'histoire ne tranche pas (35 heures, réaction des marchés, inégalités et croissance), garde les valeurs centrales.",keynes:"Lecture keynésienne (proche de l'OFCE ou des Économistes atterrés) : les économies freinent fortement l'activité, la redistribution vers les modestes et l'investissement public la relancent, peu de recettes s'évaporent, les marchés sont patients.",
@@ -1325,7 +1353,7 @@ function runMC(){
     b.leak=Math.min(0.9,Math.max(0,BASE.leak+(R()-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,BASE.seniorKeep+(R()-0.5)*0.3));
     b.clim=pick(R,["moderee","forte","tresforte"],[0.3,0.5,0.2]); b.ai=pick(R,["lente","moyenne","rapide"],[0.3,0.45,0.25]); if(BASE.energy==="tendance") b.energy=pick(R,["tendance","tensions","contrainte"],[0.6,0.3,0.1]);
     if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat","petrole","commerce"],[0.25,0.2,0.15,0.15,0.15,0.1]);b.shockYear=2028+Math.floor(R()*13);}
-    b.bceDraw=R(); b.tpiDef=BASE.tpiDef-0.5+1.5*R(); b.premPolDecay=0.6+0.35*R(); b.povSave=Math.max(0,BASE.povSave*(0.3+1.4*R())); b.smicEl=Math.max(0,BASE.smicEl+(R()-0.5)*0.4); // filet BCE et effet du Smic : incertains
+    b.bceDraw=R(); b.tpiDef=BASE.tpiDef-0.75+1.5*R(); b.premPolDecay=0.6+0.35*R(); b.povSave=Math.max(0,BASE.povSave*(0.3+1.4*R())); b.smicEl=Math.max(0,BASE.smicEl+(R()-0.5)*0.4); // filet BCE et effet du Smic : incertains
     draws.push({b,cj:(R()-0.5)*0.3,ej:0.5+R()});
   }
   const q=(arr,x)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.min(s.length-1,Math.floor(x*s.length))];};
@@ -1448,7 +1476,7 @@ function crisisTable(){
         b.realg=Math.max(-0.5,B0.realg+0.4*d.g1); b.mktReal=Math.max(0,B0.mktReal+0.5*d.g2); b.infl=Math.max(0,B0.infl+0.4*d.g3);
         b.mult=Math.max(0.2,B0.mult+(u[0]-0.5)*0.6); b.multScale=Math.max(0.4,B0.multScale+(u[0]-0.5)*0.5); b.hyst=Math.max(0,B0.hyst+(u[0]-0.5)*0.1); b.ineqGrowth=Math.max(0,B0.ineqGrowth+(u[0]-0.5)*0.1); b.kDebt=Math.max(0,B0.kDebt*(0.5+u[1])); b.crisisPrem=Math.max(1.5,B0.crisisPrem-1+2*u[2]);
         b.leak=Math.min(0.9,Math.max(0,B0.leak+(u[3]-0.5)*0.4)); b.seniorKeep=Math.min(0.9,Math.max(0.2,B0.seniorKeep+(u[4]-0.5)*0.3));
-        b.bceDraw=u[11]; b.tpiDef=B0.tpiDef-0.5+1.5*u[14]; b.premPolDecay=0.6+0.35*u[16]; b.povSave=Math.max(0,B0.povSave*(0.3+1.4*u[17])); b.smicEl=Math.max(0,B0.smicEl+(u[15]-0.5)*0.4); b.clim=u[5]<0.3?"moderee":u[5]<0.8?"forte":"tresforte"; b.ai=u[6]<0.3?"lente":u[6]<0.75?"moyenne":"rapide"; if(BASE.energy==="tendance") b.energy=u[13]<0.6?"tendance":u[13]<0.9?"tensions":"contrainte";
+        b.bceDraw=u[11]; b.tpiDef=B0.tpiDef-0.75+1.5*u[14]; b.premPolDecay=0.6+0.35*u[16]; b.povSave=Math.max(0,B0.povSave*(0.3+1.4*u[17])); b.smicEl=Math.max(0,B0.smicEl+(u[15]-0.5)*0.4); b.clim=u[5]<0.3?"moderee":u[5]<0.8?"forte":"tresforte"; b.ai=u[6]<0.3?"lente":u[6]<0.75?"moyenne":"rapide"; if(BASE.energy==="tendance") b.energy=u[13]<0.6?"tendance":u[13]<0.9?"tensions":"contrainte";
         if(BASE.shock==="none"&&u[7]<0.4){b.shock=u[8]<0.25?"recession":u[8]<0.45?"financial":u[8]<0.6?"inflation":u[8]<0.75?"climat":u[8]<0.9?"petrole":"commerce";b.shockYear=2028+Math.floor(u[9]*13);}
         const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{eu:p.eu*(0.5+u[12]),c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:(u[10]-0.5)*0.3))),pa:ms.pa,paDec:ms.deciles});
         const r=simulate(pp,mode,b); if(r.crisis!==null) cr++; else if(r.tpi!==null) tp++;}

@@ -2,6 +2,17 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026 : audit élargi
+
+- Montants en Md€ rapportés au PIB nominal de fin de mandat (`gdpProg` = 3 600 Md€) ; efforts en euros recalés (Le Pen 2,74 pts, Retailleau 3,03, Mélenchon 0,61).
+- Retailleau : 22 Md€ d'opérations financières retirés de l'effort (SEC 2010).
+- Fuite fiscale limitée aux clés `capital` et `ir` (plus aux impôts des entreprises).
+- Crédibilité par sens étendue aux revenus des ménages (`microsimSplit`), retraites, prélèvements, défense, amortisseur IA.
+- Mélenchon : `spendOver` 29,3 Md€ (Déchiffrer 2027) hors mode annoncé ; solde « non détaillé » sans décote pour un programme entièrement chiffré (`itemized`).
+- Taux apparent : renouvellement de 9 % du stock par an plus le financement du déficit ; inflation de long terme 2 % ; taux réel sans risque 1,5 % (1,2 keynésien, 1,8 libéral) ; prime politique 1,3 ; dégradations de note × 0,5 ; stabilisateurs 0,6.
+- Prime UE estompée après 2031 ; recul face à la tension progressif (60 → 80) et réversible.
+- Colonne « dette 2046 sans crise » ; tirage du seuil TPI recentré.
+
 ## 29 octobre 2026, soir (5) : affinages
 
 - **Test du bloc croissance** (`tests/backtest-growth.js`, sans réglage) : consolidation de 2010-2016 rejouée avec les multiplicateurs du modèle, la crise de la zone euro et le CICE. Erreur moyenne 0,53 point en lecture centrale, contre 0,42 sans effet des mesures et 0,42 en lecture libérale : les effets durables des hausses d'impôts semblent trop forts dans la lecture centrale. Valeurs centrales gardées (un seul épisode, nombreux facteurs), résultat publié.

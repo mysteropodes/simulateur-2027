@@ -19,7 +19,7 @@ const KEYS={ // part de la mesure reçue ou payée par chaque décile (somme = 1
 const RET_INC=420, JEU_INC=160; // revenus des retraités et des 18-29 ans, Md€ (ordres de grandeur)
 const RET_SHARE={retraites:1,conso:0.25,tete:0.25,ir:0.2,capital:0.25,minima:0.1};
 const JEU_SHARE={chomage:0.3,bassal:0.3,minima:0.2,conso:0.12,tete:0.15,fonction:0.1,heuressup:0.15,jeunes:1};
-const TOPKEYS={capital:1,ir:1,entreprises:1};
+const TOPKEYS={capital:1,ir:1}; // recettes perdues (CAE 2025) : impôts sur le capital, les patrimoines et le revenu des plus aisés, pas l'impôt des entreprises
 function microsim(list,leak=0){
   const dec=Array(10).fill(0); let ret=0, jeu=0;
   for(const [label,md0,key] of list){
@@ -47,7 +47,13 @@ const PA_MEASURES={
 };
 // recettes prélevées sur les 10 % les plus riches (Md€) et flux net sur leur patrimoine (+ = enrichissement)
 function topFlows(list){let topRev=0,topCut=0,wealthFlow=0;
-  for(const [,md,key] of list){ if(!TOPKEYS[key]) continue; const sh=KEYS[key][9]/100;
-    if(md<0) topRev+=-md*sh; else topCut+=md*sh; if(key!=="ir") wealthFlow+=md*sh; }
+  for(const [,md,key] of list){ if(!TOPKEYS[key]&&key!=="entreprises") continue; const sh=KEYS[key][9]/100;
+    if(key!=="ir") wealthFlow+=md*sh; if(!TOPKEYS[key]) continue;
+    if(md<0) topRev+=-md*sh; else topCut+=md*sh; }
   return {topRev,topCut,wealthFlow};}
-if(typeof module!=="undefined") module.exports={topFlows,microsim,PA_MEASURES,DEC_INC};
+// gains et pertes séparés, pour appliquer la crédibilité par sens : gains (dépenses, baisses d'impôts), pertes sur les plus aisés (déjà réduites par la fuite), autres pertes (économies, hausses d'impôts)
+function microsimSplit(list,leak=0){
+  const P=list.filter(m=>m[1]>0), T=list.filter(m=>m[1]<0&&TOPKEYS[m[2]]), N=list.filter(m=>m[1]<0&&!TOPKEYS[m[2]]);
+  return {pos:microsim(P,leak),top:microsim(T,leak),neg:microsim(N,leak)};
+}
+if(typeof module!=="undefined") module.exports={topFlows,microsim,microsimSplit,PA_MEASURES,DEC_INC};
