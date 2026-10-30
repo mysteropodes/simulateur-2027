@@ -39,7 +39,7 @@ L'approche reprend celle des institutions qui chiffrent les programmes électora
 
 1. **Annoncé.** Le solde annoncé par le candidat. Les montants en milliards de fin de mandat sont rapportés au PIB nominal de fin de mandat (environ 3 600 Md€), pas à celui de 2025.
 2. **Après comportements et crédibilité.** Même règle pour tous :
-   - **Recettes et économies annoncées** : multipliées par la note de crédibilité du chiffrage (0,3 à 0,55 selon les programmes, justifiée dans chaque fiche). C'est là que les chiffrages sont le plus souvent optimistes.
+   - **Recettes et économies annoncées** : multipliées par la note de crédibilité du chiffrage, fixée par une règle commune : c = 0,3 + 0,7 × d, où d est la part de ces montants que Déchiffrer 2027 a pu chiffrer de façon indépendante. Les montants non documentés sont donc retenus à 30 %, comme les économies non détaillées chez le CPB. Notes : Mélenchon 0,67, Philippe 0,45, Retailleau 0,43, Le Pen 0,38, Glucksmann 0,3.
    - **Impôts visant les 10 % les plus aisés** (capital, patrimoines, héritages, part de l'impôt sur le revenu payée par eux) : réduits par les « recettes perdues » au lieu de la crédibilité. Elles valent 40 % en lecture centrale, 15 % keynésienne, 60 % libérale, 54 % historique (CAE 2025 ; CPB : 50 % pour les taux supérieurs de l'impôt sur le revenu).
    - **Dépenses et baisses d'impôts** : comptées en entier. Un programme moins crédible a donc toujours un déficit plus élevé.
    - **Chiffrage indépendant** : quand il estime les dépenses au-dessus de l'annonce, il est retenu hors du mode « tel qu'annoncé ». Exemple : Mélenchon, 111 Md€ selon Déchiffrer 2027 au lieu de 81,7.
@@ -50,11 +50,13 @@ Chaque fiche candidat affiche ces trois niveaux. En lecture centrale, l'effort r
 
 | Programme | Effort retenu (pt de PIB) |
 |---|---|
-| Philippe | +0,8 |
-| Retailleau | +0,4 |
-| Le Pen | −0,7 |
-| Glucksmann | −1,3 |
-| Mélenchon | −1,5 |
+| Philippe | +0,6 |
+| Retailleau | −0,2 |
+| Le Pen | −0,3 |
+| Mélenchon | −1,3 |
+| Glucksmann | −1,4 |
+
+Ces efforts sont proches des soldes obtenus avec les seules lignes que Déchiffrer 2027 a pu chiffrer (Mélenchon ≈ −42 Md€, Le Pen ≈ −38, Retailleau ≈ −7, Philippe ≈ +13).
 
 Le signe − signifie un déficit en hausse.
 
@@ -69,7 +71,7 @@ Le signe − signifie un déficit en hausse.
   - immigration (nombre d'actifs) ;
   - rendement de l'investissement public et des services publics ;
   - inégalités et croissance (OCDE, réglable, nul en lecture libérale).
-- **Éviction.** La dette ajoutée par un programme évince une partie de l'investissement privé (CBO) : 0,05 % de PIB par point de dette en lecture centrale.
+- **Éviction.** La dette ajoutée par un programme évince une partie de l'investissement privé (CBO) : 0,02 % de PIB par point de dette en lecture centrale (capital d'environ trois ans de PIB, part du capital 0,35, économie ouverte).
 - **Séquelles des récessions** (hystérésis) : 5 % de l'écart de production en lecture centrale.
 - **Énergie.** Trois scénarios pétroliers (EIA, AIE, The Shift Project). Le prix du pétrole agit sur le PIB et l'inflation (Insee). La dépendance aux énergies fossiles suit le rythme de décarbonation de chaque programme, et une partie des importations évitées devient de la production en France.
 
@@ -77,6 +79,7 @@ Le signe − signifie un déficit en hausse.
 
 - **Chômage.** Retour vers un chômage structurel de 7,4 % à 20 % par an, loi d'Okun 0,3, activité partielle en cas d'épidémie. Le tout est recalé sur 2015-2025.
 - **Hausse du Smic.** Les emplois au Smic (17 % des salariés) baissent avec le coût du travail net des allègements : environ 18 000 emplois par point de Smic en lecture centrale, dans la fourchette de 15 000 à 25 000 des études françaises.
+- **Chômage structurel et budget.** Quand un programme change le chômage structurel (assurance chômage, Smic), le PIB perd 0,5 % par point de chômage en plus et le déficit augmente de 0,2 point. La règle vaut dans les deux sens : durcir l'assurance chômage le baisse (Philippe, Retailleau), revenir sur les réformes de 2019-2023 le monte (Mélenchon).
 - **Inflation.** 2 % à long terme (convention de la Commission), courbe de Phillips de pente 0,15 à partir de 2029, chocs pétroliers.
 
 ### 5. Finances publiques et dette
@@ -84,7 +87,7 @@ Le signe − signifie un déficit en hausse.
 - **Solde public.** Il part du déficit hors intérêts de 2025 (Insee). S'y ajoutent l'effort du programme, les stabilisateurs automatiques (0,6), la loi de programmation militaire et la moitié de l'engagement OTAN (sauf pour le programme qui le rejette). À partir de 2030 s'ajoutent aussi le vieillissement (santé et dépendance : +0,8 pt de PIB en 2046) et la dégradation des retraites du COR.
 - **Pauvreté.** Chaque point de pauvreté en plus ou en moins change les dépenses de santé, d'éducation et de justice de 1,35 Md€ en lecture centrale (Collectif Alerte, 2024 ; nul en lecture libérale).
 - **Charge d'intérêts.** Environ 9 % de la dette est renouvelée chaque année au taux de marché, plus la dette nouvelle qui finance le déficit. 10 % des titres sont indexés sur l'inflation.
-- **Taux de marché.** Il est égal au taux réel sans risque (1,5 %, proche du taux allemand), plus l'inflation, plus une prime de risque. La prime augmente avec :
+- **Taux de marché.** Il est égal à un taux sans risque (1,5 % réel plus 2 % d'inflation, soit environ 3,5 %, le niveau du taux allemand à 10 ans en octobre 2026), plus une prime de risque. La prime augmente avec :
   - le déficit au-delà de 3 % (corrigé de l'inflation) ;
   - la dette au-delà de 120 % ;
   - la charge d'intérêts rapportée aux recettes (dégradations de note progressives) ;
@@ -93,7 +96,7 @@ Le signe − signifie un déficit en hausse.
 - **Calage 2026-2028.** Il suit la Banque de France (septembre 2026). Repères obtenus : dette 2030 de 131 % (comité d'experts : 130 %), intérêts 2027 de 95 Md€ (91 annoncés par le gouvernement), OAT 10 ans à 5 % en 2027.
 - **Crise de financement.** C'est une règle du modèle : quand la prime dépasse 3 points (réglable), il y a deux issues.
   - **Filet de la BCE (TPI).** La BCE plafonne la prime, à condition que le déficit soit ramené à 4 % au plus et sans conflit avec l'Union européenne. Elle retire ce filet si le déficit dérive de nouveau.
-  - **Sinon, une crise.** Prêts d'urgence à taux réduit pendant cinq ans, contre 1,5 pt de PIB d'économies par an tant que le déficit dépasse 3 %. S'y ajoutent une récession et des séquelles. Ensuite, les économies ne sont gardées que pour tenir le déficit sous 3 %.
+  - **Sinon, une crise.** Prêts d'urgence à taux réduit pendant cinq ans, contre 1,5 pt de PIB d'économies par an tant que le déficit dépasse 3 %. S'y ajoutent une récession, une désinflation, un soutien aux banques de 3 % du PIB et des séquelles. Comme au Portugal, en Espagne, en Irlande et en Grèce en 2010-2014, la dette monte d'abord, de 10 à 17 points de plus que sans crise sur trois ans. Ensuite, les économies ne sont gardées que pour tenir le déficit sous 3 %.
   - **Variante « refus du programme »**, réglable : contrôle des capitaux, financement national à taux plafonné et inflation.
 - **Après 2031.** Les gouvernements suivants corrigent une partie du déficit selon la dette (règle de réaction : 0,04 pt par point de dette).
 - **Lire la dette après une crise.** Une crise impose des économies, ce qui fausse la comparaison des dettes après coup. Le tableau affiche donc aussi la dette 2046 « sans crise ».
@@ -101,6 +104,7 @@ Le signe − signifie un déficit en hausse.
 ### 6. Revenus, pauvreté, inégalités
 
 - **Microsimulation simplifiée.** Chaque mesure en milliards est répartie entre les déciles par une clé d'incidence (Insee, Drees, IPP), puis rapportée au revenu de chaque décile. Les gains des ménages sont comptés en entier, leurs pertes réduites comme les économies. Le taux de non-recours et la diffusion sont résumés par une efficacité de 0,85.
+- **Économies non détaillées.** La moitié retombe sur les ménages, à parts égales par personne, et l'autre moitié sur les services publics.
 - **Pauvreté et Gini.** Ils sont calculés à partir des revenus par décile (Insee 2024 : pauvreté 15,4 %, Gini 0,302). Ils tiennent compte du chômage et d'un éventuel ajustement imposé.
 - **Pouvoir d'achat par catégorie.** Il est exprimé par rapport au statu quo.
 - **Cas types.** Huit ménages types sont calculés avec OpenFisca France (dossier `openfisca/`).
@@ -120,12 +124,14 @@ Le signe − signifie un déficit en hausse.
 
 - **Test 2015-2025** (`tests/backtest.js`). Il couvre le chômage (erreur moyenne de 0,6 point), le taux apparent de la dette (0,10 point) et l'identité de la dette (0,5 point hors 2020). Ces mécanismes ont aussi été réglés sur cette période : ce n'est pas une validation indépendante.
 - **Test des effets des mesures sur la croissance** (`tests/backtest-growth.js`, consolidation 2010-2016). Erreur moyenne de 0,50 point en lecture centrale et de 0,41 en lecture libérale, contre 0,42 en supposant les mesures sans effet. Un seul épisode, mêlé à la crise de la zone euro, ne permet pas de trancher.
+- **Test de non-régression** (`tests/regression.js`) : 24 contrôles automatiques. Il vérifie les repères de calage, les efforts publiés, les conclusions robustes de l'analyse de sensibilité et les règles de méthode : une crédibilité plus basse ne réduit jamais la dette, plus de recettes perdues ne l'améliore jamais, plus d'inflation baisse le ratio de dette, une crise fait d'abord monter la dette.
+- **Analyse de sensibilité** (1 500 tirages sur 65 hypothèses). Conclusions solides : Philippe a la dette 2046 sans crise la plus basse et la crise la plus tardive ; Mélenchon la pauvreté la plus basse, Retailleau la plus haute. Conclusions fragiles : qui a la dette la plus haute ; le chômage, trop proche entre programmes pour les classer. Hypothèses décisives : seuil de crise, réaction des marchés, prime politique de 2027, crédibilité, recettes perdues, multiplicateurs.
 - **Audits.** Plusieurs audits indépendants du code et de la méthode ont été menés (octobre 2026). Leurs corrections sont datées dans l'onglet « Informations » et dans [CHANGELOG.md](CHANGELOG.md).
 
 ## Limites à garder en tête
 
 - **Modèle simplifié.** Ce n'est pas un modèle complet de l'économie : pas de commerce extérieur, de taux de change ni de secteurs, et la BCE ne réagit pas à la France seule. Les comparaisons entre programmes sont plus fiables que les niveaux.
-- **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2036 et 2044, en lecture keynésienne aucun.
+- **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2036 et 2043, en lecture keynésienne aucun. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
 - **Programmes interprétés.** Ils sont traduits à partir de documents publics parfois incomplets, et Glucksmann n'a pas encore publié de programme chiffré. Chaque fiche dit d'où vient chaque chiffre.
 - **Pas de relecture extérieure.** Aucun économiste extérieur n'a encore relu le simulateur.
 
@@ -150,6 +156,7 @@ CHANGELOG.md              journal des modifications
 tests/smoke.js            test de fumée dans un navigateur sans interface
 tests/backtest.js         test historique 2015-2025 (données dans tests/backtest-data.js)
 tests/backtest-growth.js  test des effets des mesures sur la croissance (consolidation 2010-2016)
+tests/regression.js       test de non-régression : chiffres publiés et règles de méthode
 ```
 
 ## Modifier et reconstruire
@@ -160,6 +167,7 @@ npm i -D playwright && npx playwright install chromium
 node tests/smoke.js         # vérifie que la page charge et que chaque candidat donne une trajectoire finie
 node tests/backtest.js      # test historique 2015-2025
 node tests/backtest-growth.js
+node tests/regression.js    # 24 contrôles, échoue si un chiffre publié ou une règle n'est plus respecté
 ```
 
 La page ne dépend que de Chart.js (cdnjs) et de polices Google Fonts. Elle s'ouvre directement dans un navigateur.

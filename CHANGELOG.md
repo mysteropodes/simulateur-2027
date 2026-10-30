@@ -2,6 +2,21 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026, soir : audit de rigueur et sensibilité
+
+- Crédibilité par règle publique : c = 0,3 + 0,7 × part chiffrée par Déchiffrer 2027 (Mélenchon 0,67, Philippe 0,45, Retailleau 0,43, Le Pen 0,38, Glucksmann 0,3).
+- Mélenchon : curseurs calés sur les dépenses annoncées (spServ 0,2, climInv 0,68, housingInv 0), drapeau `itemized` supprimé, uStruct +0,2.
+- Retailleau : supply 0,10 → 0.
+- Économies non détaillées : moitié sur les ménages (clé « tete ») et moitié sur les services publics.
+- Chômage structurel du programme : −0,5 % de PIB et +0,2 pt de déficit par point (`uGdp`, `uDef`).
+- Inégalités et croissance : montée en puissance sur 20 ans.
+- `invRet` = 0 (déjà dans le multiplicateur) ; `crowd` 0,02 (0 / 0,04).
+- Tension « droits » non pondérée par la solidité juridique en mode crédible.
+- Crise : désinflation (−1 / −0,7 / −0,3) et soutien aux banques 3 % du PIB (`bankCrisis`).
+- Intérêts rapportés au PIB de l'année ; dépenses de santé, services et famille selon la règle par sens.
+- Tests : `tests/regression.js` (24 contrôles) ; contrôles et règle d'intérêt du modèle ajoutés à `tests/backtest.js`.
+- Textes mis en accord avec le code (stabilisateurs, renouvellement de la dette, notation, seuil de tension, éviction, Smic, inégalités, crises).
+
 ## 30 octobre 2026, suite : méthodes étrangères
 
 - Trois niveaux de chiffrage dans chaque fiche (CPB, OBR) : annoncé, après comportements et crédibilité, effet sur le déficit 2032.

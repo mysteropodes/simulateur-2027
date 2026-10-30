@@ -28,12 +28,22 @@ for(let k=1;k<D.years.length;k++){
 console.log("Écart moyen hors 2020 (points) :", rmse(e2.filter((_,i)=>D.years[i+1]!==2020)).toFixed(2));
 
 // 3. Intérêts : part fixe renouvelée par huitièmes au taux de marché, ~10 % indexés sur l'inflation
+let res;
 if(D.oat){
   const app=k=>D.intMd[k]/(D.debt[k-1]/100*D.gdpMd[k-1])*100;
-  for(const [lab,share] of [["sans titres indexés",0],["avec 10 % indexés",0.1]]){
+  res={};
+  for(const [lab,share,rule] of [["sans titres indexés, renouvellement 1/8",0,"8"],["avec 10 % indexés, renouvellement 1/8",0.1,"8"],["avec 10 % indexés, règle du modèle (9 % + déficit / dette)",0.1,"m"]]){
     let k0=2, ieff=(app(k0)-share*(0.5+D.cpi[k0]))/(1-share); const err=[],path=[];
-    for(let k=k0+1;k<D.years.length;k++){ ieff+=(D.oat[k]-ieff)/8; const i=(1-share)*ieff+share*(0.5+D.cpi[k]); path.push(i); err.push(i-app(k)); }
+    for(let k=k0+1;k<D.years.length;k++){ const w=rule==="8"?1/8:Math.min(0.5,0.09+D.def[k-1]/D.debt[k-1]); ieff+=(D.oat[k]-ieff)*w; const i=(1-share)*ieff+share*(0.5+D.cpi[k]); path.push(i); err.push(i-app(k)); }
+    res[lab]=rmse(err);
     console.log("\nTaux apparent (%), "+lab+" : erreur moyenne", rmse(err).toFixed(2));
     for(let k=k0+1;k<D.years.length;k++) console.log(D.years[k], app(k).toFixed(2).padStart(8), path[k-k0-1].toFixed(2).padStart(8));
   }
 }
+
+// Contrôles : le test échoue si les mécanismes s'écartent nettement de l'histoire
+const fail=[];
+if(apres.err>0.8) fail.push("chômage : erreur "+apres.err.toFixed(2)+" > 0,8");
+if(rmse(e2.filter((_,i)=>D.years[i+1]!==2020))>0.8) fail.push("identité de la dette : écart > 0,8");
+if(res){const m=res["avec 10 % indexés, règle du modèle (9 % + déficit / dette)"]; if(m>0.2) fail.push("taux apparent : erreur "+m.toFixed(2)+" > 0,2");}
+if(fail.length){console.error("ÉCHEC :",fail.join(" ; "));process.exit(1);} else console.log("\nContrôles OK");
