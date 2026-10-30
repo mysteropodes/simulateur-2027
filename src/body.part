@@ -366,10 +366,11 @@
   <section class="panel" aria-labelledby="h-mc">
     <h2 id="h-mc">Fourchettes d'incertitude</h2>
     <div class="tablewrap"><table id="tblmc">
-      <thead><tr><th>Programme</th><th class="sep">Dette 2036<br>médiane et 10-90 %</th><th>Chômage pic<br>2027-2036</th><th>Pauvreté<br>2032</th><th class="sep">Crise de financement<br>d'ici 2046</th><th>Filet BCE<br>d'ici 2046</th></tr></thead>
+      <thead><tr><th>Programme</th><th class="sep">Dette 2036<br>médiane et 10-90 %</th><th>Chômage pic<br>2027-2036</th><th>Pauvreté<br>2032</th><th class="sep">Crise de financement<br>d'ici 2046</th><th>Filet BCE<br>d'ici 2046</th><th class="sep">Le gouvernement<br>perd la main</th><th>La crise<br>s'emballe</th></tr></thead>
       <tbody></tbody>
     </table></div>
     <p class="help">200 tirages au hasard des hypothèses incertaines, identiques pour tous les candidats : croissance (±0,4 pt), taux réel (±0,5 pt), inflation, effets des mesures sur l'activité (multiplicateurs de ±25 %, séquelles durables de ±5 points, tirés ensemble autour de votre réglage), réaction des marchés à la dette (de la moitié à une fois et demie), seuil de crise (±1 pt), recettes perdues sur les plus riches (±20 points), seniors restant en emploi (±15 points), vitesse du réchauffement et de l'IA, crédibilité du chiffrage (±0,15), conflit avec l'UE, et un choc dans 40 % des cas si vous n'en avez pas choisi. Le chiffre principal est la médiane, l'intervalle contient 80 % des tirages. Le reste des réglages (mode d'application, choc choisi) est repris tel quel.</p>
+      <p class="help"><b>Le gouvernement perd la main</b> l'année où la prime de risque dépasse le seuil de crise sans que le filet de la BCE puisse jouer : l'État ne trouve plus à emprunter à un coût supportable et doit accepter des prêts européens en échange d'économies imposées (1,5 point de PIB par an pendant cinq ans). Les choix budgétaires ne sont plus les siens. Valeur médiane parmi les tirages où la crise survient, fourchette de 10 à 90 %, et part des tirages où elle arrive avant 2037, c'est-à-dire pendant le mandat élu ou le suivant. <b>La crise s'emballe</b> quand, après la première crise, survient une seconde crise de financement ou que la tension sociale atteint 80 sur 100 (recul massif du gouvernement, mobilisations de type 1995 ou gilets jaunes, au-delà) : part des 200 tirages.</p>
   </section>
 
   <section class="panel" aria-labelledby="h-table">

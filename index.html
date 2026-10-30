@@ -505,10 +505,11 @@ table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em
   <section class="panel" aria-labelledby="h-mc">
     <h2 id="h-mc">Fourchettes d'incertitude</h2>
     <div class="tablewrap"><table id="tblmc">
-      <thead><tr><th>Programme</th><th class="sep">Dette 2036<br>médiane et 10-90 %</th><th>Chômage pic<br>2027-2036</th><th>Pauvreté<br>2032</th><th class="sep">Crise de financement<br>d'ici 2046</th><th>Filet BCE<br>d'ici 2046</th></tr></thead>
+      <thead><tr><th>Programme</th><th class="sep">Dette 2036<br>médiane et 10-90 %</th><th>Chômage pic<br>2027-2036</th><th>Pauvreté<br>2032</th><th class="sep">Crise de financement<br>d'ici 2046</th><th>Filet BCE<br>d'ici 2046</th><th class="sep">Le gouvernement<br>perd la main</th><th>La crise<br>s'emballe</th></tr></thead>
       <tbody></tbody>
     </table></div>
     <p class="help">200 tirages au hasard des hypothèses incertaines, identiques pour tous les candidats : croissance (±0,4 pt), taux réel (±0,5 pt), inflation, effets des mesures sur l'activité (multiplicateurs de ±25 %, séquelles durables de ±5 points, tirés ensemble autour de votre réglage), réaction des marchés à la dette (de la moitié à une fois et demie), seuil de crise (±1 pt), recettes perdues sur les plus riches (±20 points), seniors restant en emploi (±15 points), vitesse du réchauffement et de l'IA, crédibilité du chiffrage (±0,15), conflit avec l'UE, et un choc dans 40 % des cas si vous n'en avez pas choisi. Le chiffre principal est la médiane, l'intervalle contient 80 % des tirages. Le reste des réglages (mode d'application, choc choisi) est repris tel quel.</p>
+      <p class="help"><b>Le gouvernement perd la main</b> l'année où la prime de risque dépasse le seuil de crise sans que le filet de la BCE puisse jouer : l'État ne trouve plus à emprunter à un coût supportable et doit accepter des prêts européens en échange d'économies imposées (1,5 point de PIB par an pendant cinq ans). Les choix budgétaires ne sont plus les siens. Valeur médiane parmi les tirages où la crise survient, fourchette de 10 à 90 %, et part des tirages où elle arrive avant 2037, c'est-à-dire pendant le mandat élu ou le suivant. <b>La crise s'emballe</b> quand, après la première crise, survient une seconde crise de financement ou que la tension sociale atteint 80 sur 100 (recul massif du gouvernement, mobilisations de type 1995 ou gilets jaunes, au-delà) : part des 200 tirages.</p>
   </section>
 
   <section class="panel" aria-labelledby="h-table">
@@ -1528,22 +1529,22 @@ function runMC(){
   const q=(arr,x)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.min(s.length-1,Math.floor(x*s.length))];};
   MC={metric,rows:[],series:{}};
   for(const p of CANDS){
-    const debt=[],up=[],pov=[],ser=[];let cr=0,tp=0;
+    const debt=[],up=[],pov=[],ser=[],cy=[];let cr=0,tp=0,emb=0,cr37=0;
     for(const {b,cj,ej} of draws){
       const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:cj))),eu:p.eu*ej,pa:ms.pa,paDec:ms.deciles});
       const r=simulate(pp,mode,b);
       debt.push(r.debt[yi(2036)]); up.push(Math.max(...r.unemp.slice(yi(2027),yi(2036)+1))); pov.push(r.pov[yi(2032)]);
-      if(r.crisis!==null) cr++; else if(r.tpi!==null) tp++;
+      if(r.crisis!==null){cr++; cy.push(r.crisis); if(r.crisis<=2037) cr37++; if(r.crisisN>=2||Math.max(...r.tension.slice(r.crisis-2025))>=80) emb++;} else if(r.tpi!==null) tp++;
       ser.push(r[metric]);
     }
     const band=YEARS.map((_,k)=>{const col=ser.map(s=>s[k]).filter(v=>v!=null);return col.length?[q(col,0.1),q(col,0.5),q(col,0.9)]:[null,null,null];});
     MC.series[p.id]=band;
-    MC.rows.push({p,debt:[q(debt,0.1),q(debt,0.5),q(debt,0.9)],up:[q(up,0.1),q(up,0.5),q(up,0.9)],pov:[q(pov,0.1),q(pov,0.5),q(pov,0.9)],cr:cr/NMC,tp:tp/NMC});
+    MC.rows.push({p,debt:[q(debt,0.1),q(debt,0.5),q(debt,0.9)],up:[q(up,0.1),q(up,0.5),q(up,0.9)],pov:[q(pov,0.1),q(pov,0.5),q(pov,0.9)],cr:cr/NMC,tp:tp/NMC,cy:cy.length?[q(cy,0.1),q(cy,0.5),q(cy,0.9)]:null,cr37:cr37/NMC,emb:emb/NMC});
   }
   const tb=document.querySelector("#tblmc tbody"); if(tb){tb.innerHTML="";
     const rg=(a,d=0,s="")=>`${fmt(a[1],d)}${s} <span class="rng">${fmt(a[0],d)} – ${fmt(a[2],d)}</span>`;
     for(const x of MC.rows){const tr=document.createElement("tr");
-      tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${x.p.color})"></span>${x.p.name}</td><td class="sep">${rg(x.debt,0," %")}</td><td>${rg(x.up,1," %")}</td><td>${rg(x.pov,1," %")}</td><td class="sep ${x.cr>=0.25?"worse":x.cr<=0.05?"better":""}">${fmt(x.cr*100,0)} %</td><td>${fmt(x.tp*100,0)} %</td>`;
+      tr.innerHTML=`<td class="name"><span class="sw" style="background:var(${x.p.color})"></span>${x.p.name}</td><td class="sep">${rg(x.debt,0," %")}</td><td>${rg(x.up,1," %")}</td><td>${rg(x.pov,1," %")}</td><td class="sep ${x.cr>=0.25?"worse":x.cr<=0.05?"better":""}">${fmt(x.cr*100,0)} %</td><td>${fmt(x.tp*100,0)} %</td><td class="sep">${x.cy?`<strong>${x.cy[1]}</strong> <span class="rng">${x.cy[0]} – ${x.cy[2]}${x.cy[0]===x.cy[2]?"":""}</span><span class="rng">${fmt(x.cr37*100,0)} % de risque avant 2037</span>`:"Pas de crise"}</td><td class="${x.emb>=0.25?"worse":x.emb<=0.05?"better":""}">${fmt(x.emb*100,0)} %</td>`;
       tb.appendChild(tr);}}
   if(bandCand!=="none") render(true);
 }
