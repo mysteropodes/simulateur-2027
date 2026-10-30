@@ -502,13 +502,14 @@ function crisisTable(){
     tb.appendChild(tr);}
 }
 function showTab(id){
-  for(const t of ["sim","info"]){const on=t===id;document.getElementById("tab-"+t).hidden=!on;document.getElementById("tab-btn-"+t).setAttribute("aria-selected",on);}
-  if(id==="info"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);} else if(chart) chart.resize();
+  for(const t of ["sim","info","retro"]){const on=t===id;document.getElementById("tab-"+t).hidden=!on;document.getElementById("tab-btn-"+t).setAttribute("aria-selected",on);}
+  if(id==="info"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);} else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);} else if(chart) chart.resize();
   try{localStorage.setItem("simTab",id);}catch(e){}
 }
 document.getElementById("tab-btn-sim").onclick=()=>showTab("sim");
 document.getElementById("tab-btn-info").onclick=()=>showTab("info");
-try{if(localStorage.getItem("simTab")==="info") setTimeout(()=>showTab("info"),0);}catch(e){}
+document.getElementById("tab-btn-retro").onclick=()=>showTab("retro");
+try{const tb=localStorage.getItem("simTab"); if(tb==="info"||tb==="retro") setTimeout(()=>showTab(tb),0);}catch(e){}
 
 
 // partage : tous les écarts aux réglages par défaut sont gardés dans l'adresse (#s=…)

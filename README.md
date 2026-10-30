@@ -17,6 +17,8 @@ C'est un outil de comparaison, pas une prévision : les mêmes règles s'appliqu
 - **Fourchettes d'incertitude** (200 tirages), explication de chaque cassure de courbe, cas types OpenFisca, recoupements avec les prévisions officielles et France Budget, lien de partage qui garde tous les réglages.
 
 
+L'onglet « Test sur le passé » rejoue les programmes de Hollande 2012, Macron 2017 et Macron 2022 avec les mêmes règles, depuis la situation de l'année précédant l'élection, et compare à la réalité (Insee) : à l'aveugle (ce que le simulateur aurait prédit le jour de l'élection) et avec les chocs réels imposés (crise de la zone euro, Covid, énergie). Écart moyen en fin de période : dette 5 points à l'aveugle (surtout le Covid), 2,5 avec le contexte ; déficit 1,6 et 0,5 point ; chômage 0,7 et 0,6 point.
+
 La section « Conséquences concrètes » traduit la tension sociale et les crises en effets lisibles : années de tension forte (au-dessus de 60 sur 100), part du programme abandonnée sous la pression, activité perdue (0,01 % de PIB par point au-dessus de 60, ordre de grandeur des gilets jaunes), et pour une crise de financement, pic de chômage, pic de pauvreté et économies imposées.
 
 ## Méthode de simulation

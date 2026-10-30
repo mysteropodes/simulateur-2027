@@ -42,6 +42,8 @@ header{display:grid;gap:10px}
 .tabs button{font:600 .95rem var(--f-body);padding:10px 16px;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap}
 .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:520px){.tabs button{padding:10px 9px;font-size:.85rem}}
+.tabpane,.tabs{min-width:0;max-width:100%}
 .tabpane{display:grid;gap:22px}
 .tabpane[hidden]{display:none}
 .info p,.info li{max-width:72ch;line-height:1.6}
@@ -133,6 +135,7 @@ a{color:var(--accent)}
 @media(max-width:520px){.cr-r{grid-template-columns:1.2em 10px 1fr 3em;row-gap:4px}.cr-name{grid-column:3/5;grid-row:1}.cr-bar{grid-column:3/4;grid-row:2}.cr-v{grid-column:4/5;grid-row:2}.cr-d{grid-column:3/5;grid-row:3}}
 table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em}table.conseq td{font-family:var(--f-body);white-space:normal;text-align:left}table.conseq td:first-child{font-weight:600;white-space:nowrap}table.conseq th,table.conseq td{padding:6px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top;text-align:left}table.conseq th{font-weight:600;opacity:.8}table.conseq .sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
 .tblwrap{overflow-x:auto;max-width:100%}#conseq{min-width:0;max-width:100%}
+#retroBody,#retroBody>*{min-width:0}.retro .seg{flex-wrap:wrap}.retro{margin:28px 0;padding-top:18px;border-top:1px solid var(--line)}.retro h3{margin:0 0 6px}.retroch{position:relative;height:300px;margin-top:10px}.retrot td,.retrot th{white-space:normal}.retrosum{background:rgba(128,128,128,.08);border-radius:8px;padding:10px 14px;margin:14px 0}.retrosum ul{margin:6px 0 0 18px;padding:0}
 </style>
 
 </head>
@@ -148,8 +151,23 @@ table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" id="tab-btn-sim" aria-selected="true" aria-controls="tab-sim">Simulateur</button>
+    <button role="tab" id="tab-btn-retro" aria-selected="false" aria-controls="tab-retro">Test sur le passé</button>
     <button role="tab" id="tab-btn-info" aria-selected="false" aria-controls="tab-info">Informations</button>
   </nav>
+
+  <div id="tab-retro" role="tabpanel" aria-labelledby="tab-btn-retro" class="tabpane" hidden>
+  <section class="panel info" aria-labelledby="h-retro">
+    <h2 id="h-retro">Le simulateur face aux trois derniers mandats</h2>
+    <p class="help">Le simulateur rejoue les programmes des trois derniers élus avec exactement les mêmes règles que pour 2027 (effort annoncé, règle de crédibilité, multiplicateurs, marchés, chômage), en partant de la situation réelle de l'année précédant l'élection. On compare ensuite à ce qui s'est passé (Insee, comptes en base 2020 ; dette 2011-2018 : FMI, cohérente avec cette base).</p>
+    <ul class="help">
+      <li><b>À l'aveugle</b> : ce que le simulateur aurait prédit le jour de l'élection, sans rien savoir de la suite. C'est le vrai test de sa capacité de prévision.</li>
+      <li><b>Avec le contexte réel</b> : on impose au modèle les chocs survenus pendant le mandat (crise de la zone euro, Covid, énergie, taux et inflation observés). Cela sépare les erreurs du modèle de ce que personne ne pouvait prévoir.</li>
+      <li><b>Tel qu'annoncé</b> : le programme appliqué à 100 %, pour voir où la réalité se situe entre la promesse et la version décotée.</li>
+    </ul>
+    <p class="help">Neutralisés pour ce test, car propres à 2027 : loi de programmation militaire et engagement OTAN, vieillissement après 2030, prime d'instabilité politique actuelle, IA, dégâts climatiques, conjoncture 2026-2029, réaction de la BCE (les taux observés sont imposés). Limites : l'inflation imposée est celle des prix à la consommation, pas celle du PIB, ce qui grossit un peu la dette sur 2012-2017 ; les programmes ne sont pas microsimulés ménage par ménage, la pauvreté n'est donc pas comparée.</p>
+    <div id="retroBody"><p class="help">Calcul en cours…</p></div>
+  </section>
+  </div>
 
   <div id="tab-info" role="tabpanel" aria-labelledby="tab-btn-info" class="tabpane" hidden>
   <section class="panel info" aria-labelledby="h-crisis">
@@ -264,6 +282,7 @@ table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>30 octobre 2026 : test sur le passé.</strong> Nouvel onglet : le simulateur rejoue les programmes de Hollande 2012, Macron 2017 et Macron 2022 avec les règles de 2027, depuis la situation de l'année précédant l'élection, et se compare à la réalité (Insee), à l'aveugle et avec les chocs réels imposés. Écart moyen en fin de période : dette 5,0 points à l'aveugle (dont 14 pour 2017-2022, à cause du Covid), 2,5 avec le contexte réel ; déficit 1,6 et 0,5 point ; chômage 0,7 et 0,6 point. Ce test a conduit à recaler le choc « Épidémie » : il gonflait le déficit (+5 points de mesures en plus des stabilisateurs automatiques, contre ≈ 3 en 2020) et le rebond (+9 % au lieu de +6,9 %). Le modèle accepte désormais un contexte imposé année par année et un écart de production de départ (sans effet sur la simulation 2027).</li>
       <li><strong>30 octobre 2026 : conséquences concrètes de la tension sociale et des crises.</strong> Nouveau tableau sous le graphique : pour chaque programme, années de tension forte (au-dessus de 60), part du programme abandonnée sous la pression, activité perdue, et pour la crise de financement, chômage, pauvreté et économies imposées. Nouveau mécanisme, le même pour tous : au-dessus de 60 de tension, l'activité perd 0,01 % de PIB par point tant que la tension dure, puis la récupère (gilets jaunes : −0,1 point de PIB au 4e trimestre 2018, Insee). Effet faible sur les trajectoires (au pire −0,25 % de PIB) ; résultats de référence inchangés.</li>
       <li><strong>30 octobre 2026 : ajout de Gabriel Attal (Renaissance).</strong> Seul autre candidat déclaré dont le programme est en partie chiffré (120 à 150 Md€ d'économies sur le quinquennat, équilibre en dix ans ; Déchiffrer 2027 en chiffre 21 %). Les autres candidats déclarés (Zemmour, Ruffin, Roussel, Tondelier, Lisnard, Bertrand…) n'ont pas encore publié de chiffrage global. Mêmes règles que pour les autres : effort annoncé par la cible de déficit (2,7 pts), crédibilité 0,35, baisse des cotisations salariales retenue en entier au montant supposé par Déchiffrer 2027 (46 Md€, le candidat n'ayant pas donné de montant). Effort retenu −0,9 pt ; crise en 2039 en lecture centrale, comme Philippe et le statu quo ; pauvreté 2032 de 15,4 %.</li>
       <li><strong>30 octobre 2026, nuit (3) : vérification des chiffrages, candidat par candidat.</strong> Les mesures, montants et notes ont été vérifiés contre les dernières sources (presse, Déchiffrer 2027, sites des candidats). Corrections, avec une règle commune pour l'effort annoncé (voir la Méthode) :
@@ -700,7 +719,7 @@ table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em
     <ul>
       <li>Récession mondiale : −3 points de croissance, rebond partiel (type 2009). Crise financière : −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012). Choc d'inflation : +3 puis +1,5 point d'inflation (type 2022-2023).</li>
       <li>Catastrophe climatique : canicule ou inondations majeures, −1,5 point de croissance, +1 point de déficit (reconstruction, aides), +1 point d'inflation (énergie, alimentation), environ 10 000 décès en excès comme lors de la canicule de 2003 (moins avec l'adaptation).</li>
-      <li>Épidémie : −7 points de croissance puis rebond, +5 puis +2 points de déficit, environ 75 000 décès en excès sur deux ans (ordre de grandeur de 2020), modulés par les moyens du système de santé (type 2020-2021).</li>
+      <li>Épidémie : croissance d'environ −7 % puis rebond de +6 à +7 % (calé sur 2020-2021 grâce au test sur le passé), mesures d'urgence de +3 puis +2 points de déficit, en plus des stabilisateurs automatiques, environ 75 000 décès en excès sur deux ans (ordre de grandeur de 2020), modulés par les moyens du système de santé (type 2020-2021).</li>
     </ul>
     <h3>Climat</h3>
     <ul>
@@ -818,10 +837,10 @@ function shockAt(type,Y,t){
   if(type==="commerce"){ if(k===0){z.real=-0.2;z.infl=0.1;z.tension=3;} if(k===1) z.real=-0.15; if(k===2) z.real=-0.05; } // guerre commerciale : −0,4 pt de PIB cumulé (Banque de France, droits de douane américains 2025)
   if(type==="taiwan"){ if(k===0){z.real=-3;z.infl=1.5;z.spread=0.5;z.tension=8;} if(k===1){z.real=1;z.infl=0.5;} if(k===2) z.real=0.5; } // blocus de Taïwan : semi-conducteurs, commerce mondial (−5 % de PIB mondial selon Chatham House ; très incertain)
   if(type==="guerre"){ if(k===0){z.real=-1.0;z.infl=1.0;z.spread=0.3;z.pd=0.5;z.tension=6;} if(k===1){z.real=-0.3;z.pd=0.8;} if(k>=2&&k<=4) z.pd=0.8; } // guerre en Europe : énergie, confiance, effort de défense de près d'un point de PIB pendant cinq ans (ordre de grandeur de 2022 et des engagements de l'OTAN)
-  if(type==="pandemie"){ if(k===0){z.real=-7;z.pd=5;z.deaths=60000;z.tension=12;} if(k===1){z.real=5;z.pd=2;z.deaths=15000;z.tension=6;} if(k===2) z.real=1.5; }
+  if(type==="pandemie"){ if(k===0){z.real=-8.5;z.pd=3;z.deaths=60000;z.tension=12;} if(k===1){z.real=1.5;z.pd=2;z.deaths=15000;z.tension=6;} if(k===2) z.real=0.5; } // calé sur 2020-2022 (test sur le mandat 2017-2022) : PIB −7,4 % puis +6,9 % (l'écart de production se referme aussi de lui-même) ; mesures d'urgence ≈ 3 points de PIB, le reste du déficit vient des stabilisateurs automatiques
   return z;
 }
-const SHOCKTXT={guerre:"Guerre en Europe : choc d'énergie et de confiance, effort de défense supplémentaire de près d'un point de PIB pendant cinq ans.",recession:"Récession mondiale : −3 points de croissance cette année-là.",financial:"Crise financière : récession et hausse des taux pour tous, plus forte pour les pays en conflit avec l'UE.",inflation:"Choc d'inflation : +3 points, les taux montent.",climat:"Catastrophe climatique : pertes économiques, décès, dépenses de reconstruction.",pandemie:"Épidémie : −7 points de croissance, dépenses publiques massives, décès.",petrole:"Flambée du pétrole : +45 $ le baril pendant un an, +25 $ l'année suivante.",commerce:"Guerre commerciale : droits de douane, −0,4 point de PIB sur trois ans.",taiwan:"Blocus de Taïwan : pénurie de semi-conducteurs et choc sur le commerce mondial."};
+const SHOCKTXT={guerre:"Guerre en Europe : choc d'énergie et de confiance, effort de défense supplémentaire de près d'un point de PIB pendant cinq ans.",recession:"Récession mondiale : −3 points de croissance cette année-là.",financial:"Crise financière : récession et hausse des taux pour tous, plus forte pour les pays en conflit avec l'UE.",inflation:"Choc d'inflation : +3 points, les taux montent.",climat:"Catastrophe climatique : pertes économiques, décès, dépenses de reconstruction.",pandemie:"Épidémie : récession d'environ 7 %, rebond l'année suivante, mesures d'urgence massives, décès (type 2020).",petrole:"Flambée du pétrole : +45 $ le baril pendant un an, +25 $ l'année suivante.",commerce:"Guerre commerciale : droits de douane, −0,4 point de PIB sur trois ans.",taiwan:"Blocus de Taïwan : pénurie de semi-conducteurs et choc sur le commerce mondial."};
 const LEV=[9960,15890,19400,22430,25310,28290,31670,36040,43010,76970]; // niveau de vie moyen par décile, Insee 2024
 const SU_D=[2,1.5,1.2,1,0.8,0.7,0.6,0.5,0.4,0.2], SF_D=[2.2,2,1.8,1.4,1.2,1.1,1,0.9,0.7,0.6]; // sensibilité au chômage et à l'ajustement imposé
 function giniDec(x){let s=0,mu=0;for(const a of x){mu+=a;for(const b of x)s+=Math.abs(a-b);}mu/=x.length;return s/(2*x.length*x.length*mu);}
@@ -1663,13 +1682,14 @@ function crisisTable(){
     tb.appendChild(tr);}
 }
 function showTab(id){
-  for(const t of ["sim","info"]){const on=t===id;document.getElementById("tab-"+t).hidden=!on;document.getElementById("tab-btn-"+t).setAttribute("aria-selected",on);}
-  if(id==="info"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);} else if(chart) chart.resize();
+  for(const t of ["sim","info","retro"]){const on=t===id;document.getElementById("tab-"+t).hidden=!on;document.getElementById("tab-btn-"+t).setAttribute("aria-selected",on);}
+  if(id==="info"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);} else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);} else if(chart) chart.resize();
   try{localStorage.setItem("simTab",id);}catch(e){}
 }
 document.getElementById("tab-btn-sim").onclick=()=>showTab("sim");
 document.getElementById("tab-btn-info").onclick=()=>showTab("info");
-try{if(localStorage.getItem("simTab")==="info") setTimeout(()=>showTab("info"),0);}catch(e){}
+document.getElementById("tab-btn-retro").onclick=()=>showTab("retro");
+try{const tb=localStorage.getItem("simTab"); if(tb==="info"||tb==="retro") setTimeout(()=>showTab(tb),0);}catch(e){}
 
 
 // partage : tous les écarts aux réglages par défaut sont gardés dans l'adresse (#s=…)
@@ -1725,6 +1745,89 @@ function buildConseq(res){
   el.innerHTML=`<p class="help">Selon les réglages en cours (lecture, mode, chocs). Tension sociale sur 100 : 40 en temps normal.</p>
   <div class="tblwrap"><table class="conseq"><thead><tr><th>Programme</th><th>Tension sociale forte</th><th>Recul du gouvernement</th><th>Activité perdue (grèves, blocages)</th><th>Crise de financement</th></tr></thead><tbody>${rows}</tbody></table></div>
   <p class="help"><b>Au-dessus de 60</b>, le simulateur suppose des mobilisations durables : le gouvernement recule sur une partie de son programme (jusqu'à 40 % à 80 de tension), les économies et les recettes prévues ne se font pas, et l'activité ralentit tant que la tension dure (0,01 % de PIB par point au-dessus de 60). Repères : plan Juppé sur les retraites retiré en 1995, CPE retiré en 2006, gilets jaunes en 2018 (taxe carbone gelée, environ 10 Md€ de mesures d'urgence, −0,1 point de PIB au 4e trimestre selon l'Insee). <b>Une crise de financement</b> (taux qui s'envolent, l'État ne trouve plus à emprunter à un prix supportable) entraîne récession, chômage, pauvreté et économies imposées en échange de prêts européens, comme en Grèce, au Portugal et en Irlande en 2010-2012 ; la tension monte alors brutalement, sans que le gouvernement l'ait choisi. Non modélisé : violences, crise politique ou institutionnelle, dissolution.</p>`;
+}
+// --- Test sur les mandats passés : le simulateur rejoue les programmes des trois derniers élus avec les mêmes règles qu'en 2027,
+// en partant de la situation de l'année précédant l'élection, et on compare à ce qui s'est passé.
+// L'année d'élection devient « 2026 » pour le modèle, le premier budget du mandat « 2027 ». Les modules propres à 2027
+// (défense de la loi de programmation, OTAN, vieillissement après 2030, prime d'instabilité actuelle, IA, climat, conjoncture 2026-2029) sont neutralisés.
+// Deux lectures : « à l'aveugle » (ce qu'on savait le jour de l'élection) et « avec le contexte réel » (chocs survenus pendant le mandat, imposés au modèle).
+const RETRO=[{"id": "h12", "year": 2012, "obsLast": 2025, "title": "François Hollande, 2012-2017", "intro": "Point de départ, fin 2011 : dette 88,7 % du PIB, déficit 5,3 %, chômage 9,2 %. Programme « Le changement c'est maintenant » (chiffrage du 26 janvier 2012).", "base": {"d0": 88.7, "pd0": 2.5, "ieff0": 3.5, "mktReal": 1.2, "infl": 1.75, "u0": 9.2, "uStar": 9.0, "realg": 1.2, "gap0": -1.0, "gdpMd": 2100, "ecb": 0}, "prog": {"name": "Hollande 2012", "gdpRef": 2300, "A": 5.3, "c": 0.52, "taxMd": 29, "compItems": [["entr", -20], ["taxLarge", -9], ["fonct", 20]], "spServ": 0.3, "uStruct": -0.2, "parl": 0.7, "adh": 0.55}, "progTxt": "retour à l'équilibre en 2017, depuis 5,3 % de déficit : effort annoncé de 5,3 points (règle commune : écart à la cible). ≈ 29 Md€ de hausses d'impôts pour réduire le déficit (dont ≈ 20 sur les entreprises), ≈ 20 Md€ de dépenses nouvelles (60 000 postes dans l'éducation, emplois d'avenir), ≈ 50 Md€ d'économies par une dépense contenue à +1,1 % par an, non détaillées. Crédibilité 0,52 (règle commune) : les recettes sont documentées (l'Institut Montaigne en retrouve 38,7 Md€ sur 44,5), les économies ne le sont pas. Emplois d'avenir : chômage structurel −0,2 pt (hypothèse).", "ctxTxt": "récession de la zone euro en 2012-2013 (demande des partenaires : −0,35 puis −0,26 point de croissance, même règle que le test de 2010-2016), taux et inflation observés (baisse des taux grâce à la BCE, inflation proche de zéro en 2015-2016).", "ext": {"pi": {"2012": 0.25, "2013": -0.85, "2014": -1.25, "2015": -1.75, "2016": -1.55, "2017": -0.75}, "r": {"2012": -1.03, "2013": -0.27, "2014": -0.4, "2015": -0.73, "2016": -1.3, "2017": -1.76}, "g": {"2012": -0.35, "2013": -0.26, "2014": -0.02, "2015": 0.1, "2016": 0.06}}, "shocks": [], "obs": {"debt": {"2011": 88.7, "2012": 91.7, "2013": 94.5, "2014": 96.1, "2015": 96.9, "2016": 98.1, "2017": 98.7, "2018": 98.5, "2019": 97.9, "2020": 114.9, "2021": 112.8, "2022": 111.4, "2023": 109.5, "2024": 112.6, "2025": 115.7}, "def": {"2011": 5.3, "2012": 5.2, "2013": 4.9, "2014": 4.6, "2015": 3.9, "2016": 3.8, "2017": 3.4, "2018": 2.3, "2019": 2.4, "2020": 8.9, "2021": 6.6, "2022": 4.7, "2023": 5.4, "2024": 5.8, "2025": 5.1}, "g": {"2011": 2.4, "2012": 0.2, "2013": 0.8, "2014": 1.0, "2015": 1.1, "2016": 0.9, "2017": 2.1, "2018": 1.6, "2019": 2.0, "2020": -7.4, "2021": 6.9, "2022": 2.7, "2023": 1.6, "2024": 1.5, "2025": 0.8}, "u": {"2011": 9.2, "2012": 9.8, "2013": 10.3, "2014": 10.3, "2015": 10.4, "2016": 10.1, "2017": 9.4, "2018": 9.1, "2019": 8.5, "2020": 8.1, "2021": 7.9, "2022": 7.3, "2023": 7.4, "2024": 7.4, "2025": 7.7}, "pi": {"2011": 2.1, "2012": 2.0, "2013": 0.9, "2014": 0.5, "2015": 0.0, "2016": 0.2, "2017": 1.0, "2018": 1.9, "2019": 1.1, "2020": 0.5, "2021": 1.6, "2022": 5.2, "2023": 4.9, "2024": 2.0, "2025": 0.9}, "oat": {"2011": 3.32, "2012": 2.54, "2013": 2.2, "2014": 1.67, "2015": 0.84, "2016": 0.47, "2017": 0.81, "2018": 0.78, "2019": 0.13, "2020": -0.14, "2021": 0.01, "2022": 1.7, "2023": 2.99, "2024": 2.98, "2025": 3.37}}}, {"id": "m17", "year": 2017, "obsLast": 2025, "title": "Emmanuel Macron, 2017-2022", "intro": "Point de départ, fin 2016 : dette 98,1 % du PIB, déficit 3,8 % (3,4 % selon les comptes de l'époque), chômage 10,1 %. Programme du 2 mars 2017 (cadrage du 24 février).", "base": {"d0": 98.1, "pd0": 2.0, "ieff0": 1.9, "mktReal": -0.9, "infl": 1.25, "u0": 10.1, "uStar": 8.8, "realg": 1.25, "gap0": -1.5, "gdpMd": 2230, "ecb": 0}, "prog": {"name": "Macron 2017", "gdpRef": 2400, "A": 2.0, "c": 0.71, "taxMd": -20, "compItems": [["taxLarge", 10], ["entr", 10], ["inv", 10], ["trAutres", -15], ["trMod", -10], ["fonct", -35]], "uStruct": -0.3, "parl": 0.6, "adh": 0.5}, "progTxt": "60 Md€ d'économies (santé 15, assurance chômage 10, collectivités 10, État 25, 120 000 postes), plan d'investissement de 50 Md€ sur le mandat (≈ 10 Md€ par an), 20 Md€ de baisses nettes de prélèvements (taxe d'habitation, impôt sur les sociétés, ISF transformé en impôt sur la fortune immobilière) : effort annoncé de 2 points (dépense −3 points, prélèvements −1 point ; pas de cible de déficit chiffrée pendant la campagne). Crédibilité 0,71 : l'Institut Montaigne documente 35,5 Md€ d'économies sur 60. Réformes du marché du travail : chômage structurel −0,3 pt (hypothèse).", "ctxTxt": "gilets jaunes (≈ 17 Md€ de mesures à partir de 2019, tension sociale), Covid (choc « épidémie » du simulateur en 2020, plan de relance en 2021-2022), début du choc de l'énergie en 2022 (boucliers), taux et inflation observés.", "ext": {"pi": {"2017": -0.25, "2018": 0.65, "2019": -0.15, "2020": -0.75, "2021": 0.35, "2022": 3.95}, "r": {"2017": 0.59, "2018": -0.34, "2019": -0.19, "2020": 0.14, "2021": -0.81, "2022": -2.72}, "pd": {"2019": 0.5, "2021": 1.0, "2022": 1.1}, "ten": {"2018": 10, "2019": 8}}, "shocks": [["pandemie", 2020]], "obs": {"debt": {"2016": 98.1, "2017": 98.7, "2018": 98.5, "2019": 97.9, "2020": 114.9, "2021": 112.8, "2022": 111.4, "2023": 109.5, "2024": 112.6, "2025": 115.7}, "def": {"2016": 3.8, "2017": 3.4, "2018": 2.3, "2019": 2.4, "2020": 8.9, "2021": 6.6, "2022": 4.7, "2023": 5.4, "2024": 5.8, "2025": 5.1}, "g": {"2016": 0.9, "2017": 2.1, "2018": 1.6, "2019": 2.0, "2020": -7.4, "2021": 6.9, "2022": 2.7, "2023": 1.6, "2024": 1.5, "2025": 0.8}, "u": {"2016": 10.1, "2017": 9.4, "2018": 9.1, "2019": 8.5, "2020": 8.1, "2021": 7.9, "2022": 7.3, "2023": 7.4, "2024": 7.4, "2025": 7.7}, "pi": {"2016": 0.2, "2017": 1.0, "2018": 1.9, "2019": 1.1, "2020": 0.5, "2021": 1.6, "2022": 5.2, "2023": 4.9, "2024": 2.0, "2025": 0.9}, "oat": {"2016": 0.47, "2017": 0.81, "2018": 0.78, "2019": 0.13, "2020": -0.14, "2021": 0.01, "2022": 1.7, "2023": 2.99, "2024": 2.98, "2025": 3.37}}}, {"id": "m22", "year": 2022, "obsLast": 2025, "title": "Emmanuel Macron, 2022-2027 (mandat en cours)", "intro": "Point de départ, fin 2021 : dette 112,8 % du PIB, déficit 6,6 % (5 % attendus pour 2022, une fois les aides Covid arrêtées : c'est la base retenue), chômage 7,9 %. Programme du 17 mars 2022. Comparaison possible jusqu'en 2025 seulement.", "base": {"d0": 112.8, "pd0": 3.5, "ieff0": 1.4, "mktReal": -1.8, "infl": 1.5, "u0": 7.9, "uStar": 7.5, "realg": 1.35, "gap0": -1.0, "gdpMd": 2500, "ecb": 0}, "prog": {"name": "Macron 2022", "gdpRef": 2900, "A": 2.3, "c": 0.49, "taxMd": -15, "compItems": [["entr", 7], ["taxLarge", 8], ["fonct", 12], ["inv", 10], ["trAutres", 13], ["trAutres", -15], ["fonct", -35]], "ageShift": 3, "uStruct": -0.3, "parl": 0.5, "adh": 0.4}, "progTxt": "50 Md€ par an de mesures nouvelles en 2027 (15 de baisses d'impôts dont la CVAE, 12 éducation, 10 transition, 8 santé, 5 famille), financées selon le candidat par 50 Md€ (retraites et assurance chômage 15, efficacité 15, État et collectivités 20) ; déficit de 2,7 % visé en 2027 : effort annoncé de 2,3 points depuis 5 %. Retraite à 65 ans (64 votés en 2023). Crédibilité 0,49 : l'Institut Montaigne ne retrouve que 12,7 Md€ d'économies et de recettes sur ≈ 47 annoncées. Plein emploi : chômage structurel −0,3 pt (hypothèse).", "ctxTxt": "choc de l'énergie et de l'inflation (inflation observée, boucliers tarifaires : coût net de 36 Md€ en 2021-2024 selon la Cour des comptes), remontée des taux de 2022-2023 et après la dissolution de 2024, mobilisation contre la réforme des retraites en 2023.", "ext": {"pi": {"2022": 3.7, "2023": 3.4, "2024": 0.5, "2025": -0.6}, "r": {"2022": -2.01, "2023": -0.42, "2024": 2.47, "2025": 3.96}, "pd": {"2022": 0.6, "2023": 0.5, "2024": 0.2}, "ten": {"2023": 8}}, "shocks": [], "obs": {"debt": {"2021": 112.8, "2022": 111.4, "2023": 109.5, "2024": 112.6, "2025": 115.7}, "def": {"2021": 6.6, "2022": 4.7, "2023": 5.4, "2024": 5.8, "2025": 5.1}, "g": {"2021": 6.9, "2022": 2.7, "2023": 1.6, "2024": 1.5, "2025": 0.8}, "u": {"2021": 7.9, "2022": 7.3, "2023": 7.4, "2024": 7.4, "2025": 7.7}, "pi": {"2021": 1.6, "2022": 5.2, "2023": 4.9, "2024": 2.0, "2025": 0.9}, "oat": {"2021": 0.01, "2022": 1.7, "2023": 2.99, "2024": 2.98, "2025": 3.37}}}];
+function retroRun(E,ctx,mode){
+  const off=2026-E.year;
+  const b=Object.assign({},BASE0,PRESETS.central,{calib:0,demog:0,lpm:0,natoGap:0,ageCost:0,pensDef:0,climCost:0,premPol:0,clim:"aucun",ai:"aucune",energy:"tendance",shock:"none",shock2:"none",bceDraw:1},E.base);
+  b.pd0=E.base.pd0+b.stab*(E.base.gap0||0); // déficit primaire hors effet de la conjoncture : le modèle ajoute lui-même l'effet de l'écart de production
+  if(ctx){const ext={}; for(const k in E.ext){ext[k]={}; for(const y in E.ext[k]) ext[k][+y+off]=E.ext[k][y];} b.ext=ext;
+    E.shocks.forEach(([ty,y],i)=>{ if(i===0){b.shock=ty;b.shockYear=y+off;} else {b.shock2=ty;b.shockYear2=y+off;} });}
+  const zero={mod:0,moy:0,ais:0,top:0,ret:0,jeu:0};
+  const p=Object.assign({id:"retro",nato:0,famMd:0,migDelta:0,ageShift:0,rtt:0,housing:0,spServ:0,taxMd:0,zan:0,defense:0,A:0,c:1,parl:0.6,adh:0.5,legal:0.8,supply:0,longRun:0,eu:0,bce:0,bceOk:0,inflImp:0,uStruct:0,topTax:0,botGain:0,climInv:0.2,healthSpend:0,aiCushion:0.2,aiAdopt:1,co2Rate:1.5,pensBal:0,retLiv:0,pa:zero,paDec:Array(10).fill(0),rightsPts:0},E.prog);
+  const r=simulate(p,mode||"credible",b);
+  const yr=i=>E.year-1+i; // indice 0 : année précédant l'élection
+  return {r,yr,p};
+}
+function buildRetro(){
+  const el=document.getElementById("retroBody"); if(!el||el.dataset.done) return; el.dataset.done="1";
+  const f1=v=>v==null||!isFinite(v)?"–":fmt(v,1);
+  let html="", sumA=[], sumC=[];
+  for(const E of RETRO){ const last=Math.min(E.year+5,E.obsLast), A=retroRun(E,false,"credible"), C=retroRun(E,true,"credible"), k=last-E.year+1;
+    for(const [key,ok] of [["debt","debt"],["def","def"],["unemp","u"]]){ sumA.push([key,Math.abs(A.r[key][k]-E.obs[ok][last])]); sumC.push([key,Math.abs(C.r[key][k]-E.obs[ok][last])]); } }
+  const mean=(arr,key)=>{const v=arr.filter(x=>x[0]===key).map(x=>x[1]);return v.reduce((s,x)=>s+x,0)/v.length;};
+  html+=`<div class="retrosum"><p><b>En moyenne sur les trois mandats, écart en fin de période</b> (fin de mandat, ou 2025 pour le mandat en cours) :</p><ul>
+   <li>dette : ${fmt(mean(sumA,"debt"),1)} point de PIB à l'aveugle, ${fmt(mean(sumC,"debt"),1)} avec le contexte réel ;</li>
+   <li>déficit : ${fmt(mean(sumA,"def"),1)} point à l'aveugle, ${fmt(mean(sumC,"def"),1)} avec le contexte réel ;</li>
+   <li>chômage : ${fmt(mean(sumA,"unemp"),1)} point à l'aveugle, ${fmt(mean(sumC,"unemp"),1)} avec le contexte réel.</li></ul></div>`;
+  for(const E of RETRO){
+    const A=retroRun(E,false,"credible"), C=retroRun(E,true,"credible"), N=retroRun(E,false,"annonce");
+    const last=Math.min(E.year+5,E.obsLast), yrs=[]; for(let y=E.year+1;y<=last;y++) yrs.push(y);
+    const at=(R,k,y)=>R.r[k][y-E.year+1];
+    const avg=(R,k)=>yrs.reduce((s,y)=>s+at(R,k,y),0)/yrs.length, oAvg=k=>yrs.reduce((s,y)=>s+E.obs[k][y],0)/yrs.length;
+    const rows=[["Dette publique fin "+last+" (% du PIB)",R=>at(R,"debt",last),E.obs.debt[last]],
+      ["Déficit public "+last+" (% du PIB)",R=>at(R,"def",last),E.obs.def[last]],
+      ["Croissance moyenne "+yrs[0]+"-"+last+" (%)",R=>avg(R,"growth"),oAvg("g")],
+      ["Chômage "+last+" (%)",R=>at(R,"unemp",last),E.obs.u[last]],
+      ["Inflation moyenne "+yrs[0]+"-"+last+" (%)",R=>avg(R,"infl"),oAvg("pi")]];
+    const err=(v,o)=>{const d=v-o;return `<span class="rng">${d>=0?"+":"−"}${fmt(Math.abs(d),1)}</span>`;};
+    html+=`<article class="retro"><h3>${E.title}</h3><p class="help">${E.intro}</p>
+    <div class="tablewrap"><table class="mini retrot"><thead><tr><th class="txt">Fin ${last}${last<E.year+5?" (mandat en cours)":""}</th><th>Observé</th><th class="sep">Programme tel qu'annoncé</th><th>Simulateur, à l'aveugle</th><th>Simulateur, contexte réel</th></tr></thead><tbody>`+
+    rows.map(([lab,fn,o])=>`<tr><td class="txt">${lab}</td><td><strong>${f1(o)}</strong></td><td class="sep">${f1(fn(N))}${err(fn(N),o)}</td><td>${f1(fn(A))}${err(fn(A),o)}</td><td>${f1(fn(C))}${err(fn(C),o)}</td></tr>`).join("")+
+    `</tbody></table></div>
+    <p class="help"><b>Programme retenu :</b> ${E.progTxt}</p><p class="help"><b>Contexte réel imposé :</b> ${E.ctxTxt}</p><p class="help"><b>Lecture :</b> ${retroVerdict(E,A,C,N,last)}</p>
+    <div class="seg" role="group" aria-label="Indicateur">${Object.entries(RMET).map(([k,v],i)=>`<button data-rmet="${k}" data-rid="${E.id}" aria-pressed="${i===0}">${v[0]}</button>`).join("")}</div>
+    <div class="retroch"><canvas id="rc-${E.id}"></canvas></div></article>`;
+  }
+  el.innerHTML=html;
+  if(typeof Chart==="undefined") return;
+  for(const E of RETRO) drawRetro(E,"debt");
+  document.querySelectorAll("[data-rmet]").forEach(bt=>bt.onclick=()=>{const E=RETRO.find(x=>x.id===bt.dataset.rid);
+    document.querySelectorAll(`[data-rid="${E.id}"]`).forEach(x=>x.setAttribute("aria-pressed",x===bt)); drawRetro(E,bt.dataset.rmet);});
+}
+const RMET={debt:["Dette publique","% du PIB","debt","debt"],def:["Déficit public","% du PIB","def","def"],unemp:["Chômage","%","unemp","u"],growth:["Croissance du PIB","%","growth","g"],infl:["Inflation","%","infl","pi"]};
+const RCH={};
+function drawRetro(E,m){
+  const [lab,unit,key,okey]=RMET[m], A=retroRun(E,false,"credible"), C=retroRun(E,true,"credible");
+  const ys=[]; for(let y=E.year-1;y<=E.year+5;y++) ys.push(y);
+  const ser=R=>ys.map(y=>{const v=R.r[key][y-E.year+1];return v==null?null:+v.toFixed(2);});
+  if(RCH[E.id]) RCH[E.id].destroy();
+  RCH[E.id]=new Chart(document.getElementById("rc-"+E.id),{type:"line",data:{labels:ys,datasets:[
+    {label:"Réalité (Insee)",data:ys.map(y=>E.obs[okey][y]??null),borderColor:css("--ink"),backgroundColor:css("--ink"),borderWidth:3,pointRadius:3},
+    {label:"Simulateur, à l'aveugle (infos du jour de l'élection)",data:ser(A),borderColor:css("--c2"),backgroundColor:css("--c2"),borderDash:[6,4],borderWidth:2,pointRadius:2},
+    {label:"Simulateur, avec les chocs réels du mandat",data:ser(C),borderColor:css("--c3"),backgroundColor:css("--c3"),borderWidth:2,pointRadius:2}]},
+    options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}},tooltip:{callbacks:{label:c=>`${c.dataset.label} : ${fmt(c.parsed.y,1)} ${unit==="%"?"%":"% du PIB"}`}}},
+      scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:lab+" ("+unit+")",color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
+}
+
+function retroVerdict(E,A,C,N,last){
+  const k=last-E.year+1, o=E.obs, t=[], pts=v=>fmt(Math.abs(v),1)+" point"+(Math.abs(v)>=2?"s":""), sg=v=>v>=0?"+":"−";
+  const NC=retroRun(E,true,"annonce");
+  const dA=A.r.debt[k]-o.debt[last], dC=C.r.debt[k]-o.debt[last];
+  t.push(`dette : à l'aveugle, le simulateur ${Math.abs(dA)<2?"tombe presque juste":dA>0?"la surestime":"la sous-estime"} (${sg(dA)}${pts(dA)}) ; avec les chocs réels, l'écart est de ${sg(dC)}${pts(dC)}`);
+  const defO=o.def[last], defC=C.r.def[k], defNC=NC.r.def[k];
+  if(Math.abs(defO-defC)<=0.3) t.push(`déficit : une fois les chocs pris en compte, le réel (${fmt(defO,1)} %) est proche de la version décotée du programme (${fmt(defC,1)} %, contre ${fmt(defNC,1)} % s'il avait été tenu) : la règle de crédibilité tombe juste`);
+  else if(defO>defC+0.3) t.push(`déficit : même en tenant compte des chocs, le réel (${fmt(defO,1)} %) est pire que la version décotée du programme (${fmt(defC,1)} %) : le redressement promis a été encore moins tenu que ne le prévoit la règle de crédibilité`);
+  else if(defO<defNC-0.3) t.push(`déficit : le réel (${fmt(defO,1)} %) est meilleur que le programme tel qu'annoncé, une fois les chocs pris en compte (${fmt(defNC,1)} %)`);
+  else t.push(`déficit : une fois les chocs pris en compte, le réel (${fmt(defO,1)} %) se situe entre le programme tel qu'annoncé (${fmt(defNC,1)} %) et sa version décotée (${fmt(defC,1)} %), comme le prévoit la règle de crédibilité`);
+  const uC=C.r.unemp[k]-o.u[last]; if(Math.abs(uC)>0.7) t.push(`chômage ${uC>0?"surestimé":"sous-estimé"} de ${pts(uC)} : ${uC>0?"l'emploi a fait mieux que ce que le modèle attribue aux réformes et à la croissance (apprentissage, créations d'emplois peu productifs)":"le modèle ne voit pas toute la dégradation de l'emploi"}`);
+  else if(E.id==="h12") t.push(`chômage juste en fin de mandat, mais le modèle ne voit pas la montée à plus de 10 % de 2013-2015`);
+  return t.join(" ; ")+".";
 }
 </script>
 </body>

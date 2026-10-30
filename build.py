@@ -32,7 +32,7 @@ if 'id="h-src"' not in body:
 def strip_node_export(code):
     return code.split("if(typeof module")[0]
 
-js = strip_node_export(read("model.js")) + strip_node_export(read("microsim.js")) + read("ui.part")
+js = strip_node_export(read("model.js")) + strip_node_export(read("microsim.js")) + read("ui.part") + read("retro.js")
 
 if shutil.which("node"):
     r = subprocess.run(["node", "--check", "-"], input=js, capture_output=True, text=True)

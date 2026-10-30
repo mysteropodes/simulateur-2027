@@ -9,8 +9,23 @@
 
   <nav class="tabs" role="tablist" aria-label="Sections">
     <button role="tab" id="tab-btn-sim" aria-selected="true" aria-controls="tab-sim">Simulateur</button>
+    <button role="tab" id="tab-btn-retro" aria-selected="false" aria-controls="tab-retro">Test sur le passé</button>
     <button role="tab" id="tab-btn-info" aria-selected="false" aria-controls="tab-info">Informations</button>
   </nav>
+
+  <div id="tab-retro" role="tabpanel" aria-labelledby="tab-btn-retro" class="tabpane" hidden>
+  <section class="panel info" aria-labelledby="h-retro">
+    <h2 id="h-retro">Le simulateur face aux trois derniers mandats</h2>
+    <p class="help">Le simulateur rejoue les programmes des trois derniers élus avec exactement les mêmes règles que pour 2027 (effort annoncé, règle de crédibilité, multiplicateurs, marchés, chômage), en partant de la situation réelle de l'année précédant l'élection. On compare ensuite à ce qui s'est passé (Insee, comptes en base 2020 ; dette 2011-2018 : FMI, cohérente avec cette base).</p>
+    <ul class="help">
+      <li><b>À l'aveugle</b> : ce que le simulateur aurait prédit le jour de l'élection, sans rien savoir de la suite. C'est le vrai test de sa capacité de prévision.</li>
+      <li><b>Avec le contexte réel</b> : on impose au modèle les chocs survenus pendant le mandat (crise de la zone euro, Covid, énergie, taux et inflation observés). Cela sépare les erreurs du modèle de ce que personne ne pouvait prévoir.</li>
+      <li><b>Tel qu'annoncé</b> : le programme appliqué à 100 %, pour voir où la réalité se situe entre la promesse et la version décotée.</li>
+    </ul>
+    <p class="help">Neutralisés pour ce test, car propres à 2027 : loi de programmation militaire et engagement OTAN, vieillissement après 2030, prime d'instabilité politique actuelle, IA, dégâts climatiques, conjoncture 2026-2029, réaction de la BCE (les taux observés sont imposés). Limites : l'inflation imposée est celle des prix à la consommation, pas celle du PIB, ce qui grossit un peu la dette sur 2012-2017 ; les programmes ne sont pas microsimulés ménage par ménage, la pauvreté n'est donc pas comparée.</p>
+    <div id="retroBody"><p class="help">Calcul en cours…</p></div>
+  </section>
+  </div>
 
   <div id="tab-info" role="tabpanel" aria-labelledby="tab-btn-info" class="tabpane" hidden>
   <section class="panel info" aria-labelledby="h-crisis">
@@ -125,6 +140,7 @@
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>30 octobre 2026 : test sur le passé.</strong> Nouvel onglet : le simulateur rejoue les programmes de Hollande 2012, Macron 2017 et Macron 2022 avec les règles de 2027, depuis la situation de l'année précédant l'élection, et se compare à la réalité (Insee), à l'aveugle et avec les chocs réels imposés. Écart moyen en fin de période : dette 5,0 points à l'aveugle (dont 14 pour 2017-2022, à cause du Covid), 2,5 avec le contexte réel ; déficit 1,6 et 0,5 point ; chômage 0,7 et 0,6 point. Ce test a conduit à recaler le choc « Épidémie » : il gonflait le déficit (+5 points de mesures en plus des stabilisateurs automatiques, contre ≈ 3 en 2020) et le rebond (+9 % au lieu de +6,9 %). Le modèle accepte désormais un contexte imposé année par année et un écart de production de départ (sans effet sur la simulation 2027).</li>
       <li><strong>30 octobre 2026 : conséquences concrètes de la tension sociale et des crises.</strong> Nouveau tableau sous le graphique : pour chaque programme, années de tension forte (au-dessus de 60), part du programme abandonnée sous la pression, activité perdue, et pour la crise de financement, chômage, pauvreté et économies imposées. Nouveau mécanisme, le même pour tous : au-dessus de 60 de tension, l'activité perd 0,01 % de PIB par point tant que la tension dure, puis la récupère (gilets jaunes : −0,1 point de PIB au 4e trimestre 2018, Insee). Effet faible sur les trajectoires (au pire −0,25 % de PIB) ; résultats de référence inchangés.</li>
       <li><strong>30 octobre 2026 : ajout de Gabriel Attal (Renaissance).</strong> Seul autre candidat déclaré dont le programme est en partie chiffré (120 à 150 Md€ d'économies sur le quinquennat, équilibre en dix ans ; Déchiffrer 2027 en chiffre 21 %). Les autres candidats déclarés (Zemmour, Ruffin, Roussel, Tondelier, Lisnard, Bertrand…) n'ont pas encore publié de chiffrage global. Mêmes règles que pour les autres : effort annoncé par la cible de déficit (2,7 pts), crédibilité 0,35, baisse des cotisations salariales retenue en entier au montant supposé par Déchiffrer 2027 (46 Md€, le candidat n'ayant pas donné de montant). Effort retenu −0,9 pt ; crise en 2039 en lecture centrale, comme Philippe et le statu quo ; pauvreté 2032 de 15,4 %.</li>
       <li><strong>30 octobre 2026, nuit (3) : vérification des chiffrages, candidat par candidat.</strong> Les mesures, montants et notes ont été vérifiés contre les dernières sources (presse, Déchiffrer 2027, sites des candidats). Corrections, avec une règle commune pour l'effort annoncé (voir la Méthode) :
@@ -561,7 +577,7 @@
     <ul>
       <li>Récession mondiale : −3 points de croissance, rebond partiel (type 2009). Crise financière : −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012). Choc d'inflation : +3 puis +1,5 point d'inflation (type 2022-2023).</li>
       <li>Catastrophe climatique : canicule ou inondations majeures, −1,5 point de croissance, +1 point de déficit (reconstruction, aides), +1 point d'inflation (énergie, alimentation), environ 10 000 décès en excès comme lors de la canicule de 2003 (moins avec l'adaptation).</li>
-      <li>Épidémie : −7 points de croissance puis rebond, +5 puis +2 points de déficit, environ 75 000 décès en excès sur deux ans (ordre de grandeur de 2020), modulés par les moyens du système de santé (type 2020-2021).</li>
+      <li>Épidémie : croissance d'environ −7 % puis rebond de +6 à +7 % (calé sur 2020-2021 grâce au test sur le passé), mesures d'urgence de +3 puis +2 points de déficit, en plus des stabilisateurs automatiques, environ 75 000 décès en excès sur deux ans (ordre de grandeur de 2020), modulés par les moyens du système de santé (type 2020-2021).</li>
     </ul>
     <h3>Climat</h3>
     <ul>

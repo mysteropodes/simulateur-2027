@@ -37,6 +37,8 @@ header{display:grid;gap:10px}
 .tabs button{font:600 .95rem var(--f-body);padding:10px 16px;border:0;border-bottom:3px solid transparent;background:none;color:var(--muted);cursor:pointer;white-space:nowrap}
 .tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent)}
 .tabs button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(max-width:520px){.tabs button{padding:10px 9px;font-size:.85rem}}
+.tabpane,.tabs{min-width:0;max-width:100%}
 .tabpane{display:grid;gap:22px}
 .tabpane[hidden]{display:none}
 .info p,.info li{max-width:72ch;line-height:1.6}
@@ -128,5 +130,6 @@ a{color:var(--accent)}
 @media(max-width:520px){.cr-r{grid-template-columns:1.2em 10px 1fr 3em;row-gap:4px}.cr-name{grid-column:3/5;grid-row:1}.cr-bar{grid-column:3/4;grid-row:2}.cr-v{grid-column:4/5;grid-row:2}.cr-d{grid-column:3/5;grid-row:3}}
 table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em}table.conseq td{font-family:var(--f-body);white-space:normal;text-align:left}table.conseq td:first-child{font-weight:600;white-space:nowrap}table.conseq th,table.conseq td{padding:6px 8px;border-bottom:1px solid rgba(128,128,128,.2);vertical-align:top;text-align:left}table.conseq th{font-weight:600;opacity:.8}table.conseq .sw{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px}
 .tblwrap{overflow-x:auto;max-width:100%}#conseq{min-width:0;max-width:100%}
+#retroBody,#retroBody>*{min-width:0}.retro .seg{flex-wrap:wrap}.retro{margin:28px 0;padding-top:18px;border-top:1px solid var(--line)}.retro h3{margin:0 0 6px}.retroch{position:relative;height:300px;margin-top:10px}.retrot td,.retrot th{white-space:normal}.retrosum{background:rgba(128,128,128,.08);border-radius:8px;padding:10px 14px;margin:14px 0}.retrosum ul{margin:6px 0 0 18px;padding:0}
 </style>
 

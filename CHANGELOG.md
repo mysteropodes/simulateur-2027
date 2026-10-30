@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026 : test sur le passé
+
+- Onglet « Test sur le passé » (`src/retro.js`) : Hollande 2012, Macron 2017, Macron 2022 rejoués avec les règles de 2027 ; trois lectures (tel qu'annoncé, à l'aveugle, contexte réel), courbes réalité / simulateur pour dette, déficit, chômage, croissance, inflation ; lecture automatique des écarts.
+- Modèle : `b.ext` (contexte imposé par année : croissance, inflation, taux, déficit, tension), `gap0` (écart de production de départ), climat « aucun » et IA « aucune » pour neutraliser ces modules.
+- Choc « pandemie » recalé sur 2020-2022 : PIB −8,5 pt d'écart puis +1,5 et +0,5 (au lieu de −7, +5, +1,5), déficit +3 puis +2 (au lieu de +5 puis +2).
+- Écarts moyens en fin de période : dette 5,0 pts (aveugle) / 2,5 (contexte) ; déficit 1,6 / 0,5 ; chômage 0,7 / 0,6.
+
 ## 30 octobre 2026 : conséquences concrètes
 
 - Modèle : `tensCost` 0,01 (perte d'activité de 0,01 % de PIB par point de tension au-dessus de 60, effet de niveau récupéré quand la tension retombe) ; séries `retreat` (part du programme abandonnée) et `tensGdp`.
