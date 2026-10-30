@@ -226,6 +226,25 @@ footer{margin:12px 0 0!important}
 .xpd:not([open]){gap:0}
 .ovcard dt{white-space:nowrap}
 .cr-h{font-size:1.12rem}
+.scenlab{font-size:12.5px;color:var(--soft);align-self:center;margin-right:2px}
+.dd{position:relative}
+.chip{display:flex;align-items:center;gap:6px}
+.chip svg{width:12px;height:12px;fill:none;stroke:var(--muted);stroke-width:1.6}
+.chip.changed{border-color:#4a5a9a;background:var(--accent-soft)}
+.chip.changed::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent);margin-right:2px}
+.chip.flash{box-shadow:0 0 0 3px rgba(157,176,255,.45);transition:box-shadow .2s}
+.ddmenu{position:absolute;top:calc(100% + 6px);left:0;z-index:15;min-width:250px;background:var(--surface2);border:1px solid #3a4358;border-radius:12px;padding:6px;box-shadow:0 14px 40px rgba(0,0,0,.45);display:grid;gap:2px}
+.ddmenu button{display:flex;align-items:center;gap:8px;text-align:left;border:0;background:none;color:var(--ink);font:500 13.5px var(--f-body);padding:8px 10px;border-radius:8px;cursor:pointer}
+.ddmenu button:hover,.ddmenu button:focus-visible{background:rgba(255,255,255,.06);outline:none}
+.ddmenu button[aria-selected="true"]{background:var(--accent-soft)}
+.ddmenu i{width:14px;font-style:normal;color:var(--accent);font-weight:700}
+.ddmenu em{margin-left:auto;font-style:normal;font-size:11.5px;color:var(--soft)}
+.chipreset{border:0;background:none;color:var(--accent);font:500 12.5px var(--f-body);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:4px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);background:#2b3fa8;color:#fff;padding:10px 16px;border-radius:10px;font:500 13.5px var(--f-body);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:30;max-width:calc(100vw - 32px);box-shadow:0 10px 30px rgba(0,0,0,.4)}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+@media (max-width:860px){.ddmenu{position:fixed;left:16px;right:16px;top:auto;min-width:0}}
+@media (prefers-reduced-motion:reduce){.toast{transition:none}}
+.ovcard dl{grid-template-columns:minmax(0,1fr) auto}.ovcard dd{white-space:nowrap}.ovcard dt{overflow:hidden;text-overflow:ellipsis}
 </style>
 
 </head>
@@ -692,6 +711,7 @@ footer{margin:12px 0 0!important}
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>30 octobre 2026 : barre du scénario.</strong> Application, lecture et choc se choisissent directement dans des menus en haut de page ; le choix en cours est coché, les réglages différents du défaut sont signalés, un message confirme l'application et un lien ramène au scénario par défaut.</li>
       <li><strong>30 octobre 2026 : nouvelle présentation.</strong> Menu latéral par sections (Comparer, Programmes, Vérifier), vue d'ensemble avec une carte par programme, indicateurs du graphique rangés par thème, réglages du scénario et hypothèses économiques regroupés dans un panneau « Hypothèses ». Aucun calcul modifié.</li>
       <li><strong>30 octobre 2026 : test sur le passé.</strong> Nouvel onglet : le simulateur rejoue les programmes de Hollande 2012, Macron 2017 et Macron 2022 avec les règles de 2027, depuis la situation de l'année précédant l'élection, et se compare à la réalité (Insee), à l'aveugle et avec les chocs réels imposés. Écart moyen en fin de période : dette 5,0 points à l'aveugle (dont 14 pour 2017-2022, à cause du Covid), 2,5 avec le contexte réel ; déficit 1,6 et 0,5 point ; chômage 0,7 et 0,6 point. Ce test a conduit à recaler le choc « Épidémie » : il gonflait le déficit (+5 points de mesures en plus des stabilisateurs automatiques, contre ≈ 3 en 2020) et le rebond (+9 % au lieu de +6,9 %). Le modèle accepte désormais un contexte imposé année par année et un écart de production de départ (sans effet sur la simulation 2027).</li>
       <li><strong>30 octobre 2026 : conséquences concrètes de la tension sociale et des crises.</strong> Nouveau tableau sous le graphique : pour chaque programme, années de tension forte (au-dessus de 60), part du programme abandonnée sous la pression, activité perdue, et pour la crise de financement, chômage, pauvreté et économies imposées. Nouveau mécanisme, le même pour tous : au-dessus de 60 de tension, l'activité perd 0,01 % de PIB par point tant que la tension dure, puis la récupère (gilets jaunes : −0,1 point de PIB au 4e trimestre 2018, Insee). Effet faible sur les trajectoires (au pire −0,25 % de PIB) ; résultats de référence inchangés.</li>
@@ -1820,12 +1840,28 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!drawer.hidden) clo
 // Pastilles du scénario en cours (un clic ouvre le panneau)
 const MODELAB={annonce:"Tel qu'annoncé",credible:"Si élu, chiffrage crédible",pondere:"Pondéré par la faisabilité"};
 const PRESETLAB={keynes:"Keynésienne",central:"Centrale",liberal:"Libérale",historique:"Fondée sur l'historique"};
+// Scénario en cours : trois menus déroulants dans la barre du haut ; le choix s'applique tout de suite, avec un message de confirmation
+const SCEN=[["mode","Application",()=>mode,"credible",MODELAB],["preset","Lecture",()=>preset,"central",PRESETLAB],["shock","Choc",()=>BASE.shock,"none",null]];
+let scenOpen=null, toastT=null;
+function scenOpts(attr){return [...document.querySelectorAll(`.drawer [data-${attr}]`)].map(b=>[b.dataset[attr],b.textContent.trim()]);}
 function updateChips(){
   const box=document.getElementById("scenChips"); if(!box) return;
-  const sb=document.querySelector(`[data-shock="${BASE.shock}"]`), shock=BASE.shock==="none"?"Aucun":(sb?sb.textContent:BASE.shock)+" en "+BASE.shockYear;
-  box.innerHTML=[["Application",MODELAB[mode]],["Lecture",PRESETLAB[preset]||"Personnalisée"],["Choc",shock]].map(([k,v])=>`<button type="button" class="chip"><span>${k}</span>${v}</button>`).join("");
-  box.querySelectorAll("button").forEach(b=>b.onclick=()=>openDrawer("scen"));
+  const changed=SCEN.some(([a,,get,def])=>get()!==def);
+  box.innerHTML=`<span class="scenlab">Scénario</span>`+SCEN.map(([a,lab,get,def])=>{const v=get(), o=scenOpts(a).find(x=>x[0]===v), txt=(o?o[1]:v)+(a==="shock"&&v!=="none"?" en "+BASE.shockYear:"");
+    return `<div class="dd"><button type="button" class="chip${v!==def?" changed":""}" data-chip="${a}" aria-haspopup="listbox" aria-expanded="${scenOpen===a}"><span>${lab}</span>${txt}<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button>${scenOpen===a?`<div class="ddmenu" role="listbox" aria-label="${lab}">${scenOpts(a).map(([k,t])=>`<button type="button" role="option" aria-selected="${k===v}" data-opt="${k}"><i>${k===v?"✓":""}</i>${t}${k===def?'<em>par défaut</em>':""}</button>`).join("")}</div>`:""}</div>`;}).join("")+(changed?`<button type="button" class="chipreset" id="scenReset">Revenir au scénario par défaut</button>`:"");
+  box.querySelectorAll("[data-chip]").forEach(b=>b.onclick=e=>{e.stopPropagation();scenOpen=scenOpen===b.dataset.chip?null:b.dataset.chip;updateChips();const m=box.querySelector(".ddmenu [aria-selected=true]");if(m)m.focus();});
+  box.querySelectorAll(".ddmenu [data-opt]").forEach(o=>o.onclick=e=>{e.stopPropagation();const a=o.closest(".dd").querySelector("[data-chip]").dataset.chip, k=o.dataset.opt;scenOpen=null;applyScen(a,k);});
+  const r=document.getElementById("scenReset"); if(r) r.onclick=()=>{scenOpen=null;for(const [a,,get,def] of SCEN) if(get()!==def){const b=document.querySelector(`.drawer [data-${a}="${def}"]`); if(b) b.click();} toast("Scénario par défaut rétabli : chiffrage crédible, lecture centrale, aucun choc.");};
 }
+function applyScen(a,k){
+  const b=document.querySelector(`.drawer [data-${a}="${k}"]`); if(b) b.click(); else updateChips();
+  const lab=SCEN.find(x=>x[0]===a)[1], t=(scenOpts(a).find(x=>x[0]===k)||[k,k])[1];
+  toast(`${lab} : « ${t} » appliqué. Les courbes et les tableaux sont recalculés.`);
+  const c=document.querySelector(`[data-chip="${a}"]`); if(c){c.classList.add("flash");setTimeout(()=>c.classList.remove("flash"),900);}
+}
+function toast(msg){let t=document.getElementById("toast"); if(!t){t=document.createElement("div");t.id="toast";t.className="toast";t.setAttribute("role","status");t.setAttribute("aria-live","polite");document.body.appendChild(t);} t.textContent=msg; t.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("on"),3200);}
+document.addEventListener("click",()=>{if(scenOpen){scenOpen=null;updateChips();}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&scenOpen){scenOpen=null;updateChips();}});
 // Vue d'ensemble : une carte par programme
 function buildOverview(res,nc){
   const box=document.getElementById("ovCards"); if(!box) return; const yi=y=>y-START;

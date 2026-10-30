@@ -543,12 +543,28 @@ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!drawer.hidden) clo
 // Pastilles du scénario en cours (un clic ouvre le panneau)
 const MODELAB={annonce:"Tel qu'annoncé",credible:"Si élu, chiffrage crédible",pondere:"Pondéré par la faisabilité"};
 const PRESETLAB={keynes:"Keynésienne",central:"Centrale",liberal:"Libérale",historique:"Fondée sur l'historique"};
+// Scénario en cours : trois menus déroulants dans la barre du haut ; le choix s'applique tout de suite, avec un message de confirmation
+const SCEN=[["mode","Application",()=>mode,"credible",MODELAB],["preset","Lecture",()=>preset,"central",PRESETLAB],["shock","Choc",()=>BASE.shock,"none",null]];
+let scenOpen=null, toastT=null;
+function scenOpts(attr){return [...document.querySelectorAll(`.drawer [data-${attr}]`)].map(b=>[b.dataset[attr],b.textContent.trim()]);}
 function updateChips(){
   const box=document.getElementById("scenChips"); if(!box) return;
-  const sb=document.querySelector(`[data-shock="${BASE.shock}"]`), shock=BASE.shock==="none"?"Aucun":(sb?sb.textContent:BASE.shock)+" en "+BASE.shockYear;
-  box.innerHTML=[["Application",MODELAB[mode]],["Lecture",PRESETLAB[preset]||"Personnalisée"],["Choc",shock]].map(([k,v])=>`<button type="button" class="chip"><span>${k}</span>${v}</button>`).join("");
-  box.querySelectorAll("button").forEach(b=>b.onclick=()=>openDrawer("scen"));
+  const changed=SCEN.some(([a,,get,def])=>get()!==def);
+  box.innerHTML=`<span class="scenlab">Scénario</span>`+SCEN.map(([a,lab,get,def])=>{const v=get(), o=scenOpts(a).find(x=>x[0]===v), txt=(o?o[1]:v)+(a==="shock"&&v!=="none"?" en "+BASE.shockYear:"");
+    return `<div class="dd"><button type="button" class="chip${v!==def?" changed":""}" data-chip="${a}" aria-haspopup="listbox" aria-expanded="${scenOpen===a}"><span>${lab}</span>${txt}<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3"/></svg></button>${scenOpen===a?`<div class="ddmenu" role="listbox" aria-label="${lab}">${scenOpts(a).map(([k,t])=>`<button type="button" role="option" aria-selected="${k===v}" data-opt="${k}"><i>${k===v?"✓":""}</i>${t}${k===def?'<em>par défaut</em>':""}</button>`).join("")}</div>`:""}</div>`;}).join("")+(changed?`<button type="button" class="chipreset" id="scenReset">Revenir au scénario par défaut</button>`:"");
+  box.querySelectorAll("[data-chip]").forEach(b=>b.onclick=e=>{e.stopPropagation();scenOpen=scenOpen===b.dataset.chip?null:b.dataset.chip;updateChips();const m=box.querySelector(".ddmenu [aria-selected=true]");if(m)m.focus();});
+  box.querySelectorAll(".ddmenu [data-opt]").forEach(o=>o.onclick=e=>{e.stopPropagation();const a=o.closest(".dd").querySelector("[data-chip]").dataset.chip, k=o.dataset.opt;scenOpen=null;applyScen(a,k);});
+  const r=document.getElementById("scenReset"); if(r) r.onclick=()=>{scenOpen=null;for(const [a,,get,def] of SCEN) if(get()!==def){const b=document.querySelector(`.drawer [data-${a}="${def}"]`); if(b) b.click();} toast("Scénario par défaut rétabli : chiffrage crédible, lecture centrale, aucun choc.");};
 }
+function applyScen(a,k){
+  const b=document.querySelector(`.drawer [data-${a}="${k}"]`); if(b) b.click(); else updateChips();
+  const lab=SCEN.find(x=>x[0]===a)[1], t=(scenOpts(a).find(x=>x[0]===k)||[k,k])[1];
+  toast(`${lab} : « ${t} » appliqué. Les courbes et les tableaux sont recalculés.`);
+  const c=document.querySelector(`[data-chip="${a}"]`); if(c){c.classList.add("flash");setTimeout(()=>c.classList.remove("flash"),900);}
+}
+function toast(msg){let t=document.getElementById("toast"); if(!t){t=document.createElement("div");t.id="toast";t.className="toast";t.setAttribute("role","status");t.setAttribute("aria-live","polite");document.body.appendChild(t);} t.textContent=msg; t.classList.add("on"); clearTimeout(toastT); toastT=setTimeout(()=>t.classList.remove("on"),3200);}
+document.addEventListener("click",()=>{if(scenOpen){scenOpen=null;updateChips();}});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&scenOpen){scenOpen=null;updateChips();}});
 // Vue d'ensemble : une carte par programme
 function buildOverview(res,nc){
   const box=document.getElementById("ovCards"); if(!box) return; const yi=y=>y-START;
