@@ -141,7 +141,7 @@ Le signe − signifie un déficit en hausse.
 ## Limites à garder en tête
 
 - **Modèle simplifié.** Ce n'est pas un modèle complet de l'économie : le commerce extérieur n'est qu'un indicateur, il n'y a ni taux de change ni secteurs, et la BCE ne réagit pas à la France seule. Les comparaisons entre programmes sont plus fiables que les niveaux.
-- **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2036 et 2043, en lecture keynésienne aucun. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
+- **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : en lecture centrale, tous les programmes la franchissent entre 2035 et 2041, en lecture keynésienne aucun. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
 - **Programmes interprétés.** Ils sont traduits à partir de documents publics parfois incomplets, et Glucksmann n'a pas encore publié de programme chiffré. Chaque fiche dit d'où vient chaque chiffre.
 - **Pas de relecture extérieure.** Aucun économiste extérieur n'a encore relu le simulateur.
 

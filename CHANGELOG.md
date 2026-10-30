@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026, nuit (2) : courbes lissées
+
+- Règle de réaction : montée sur 2031-2040 (au lieu de 2031-2034), qui créait un creux puis un rebond de croissance.
+- Seconde crise : les économies imposées ne sont plus remises à zéro.
+- Prix des logements : taux immobilier réel au lieu de nominal.
+
 ## 30 octobre 2026, nuit : huit compléments
 
 - Population active (Insee 2022) : `LF`, `demog`.

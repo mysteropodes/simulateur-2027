@@ -128,7 +128,7 @@ function simulate(p,mode,b){
     let s=b.pd0-progFull*retreat*phase+benefitCost+(p.defInA?0:defSp-b.def0)+ageing+natoX; // défense déjà financée dans l'objectif de déficit des programmes construits à partir d'une cible
     // règle de réaction des gouvernements suivants (après le mandat 2027-2032) : ils corrigent le déficit quand la dette continue de monter
     if(t===2032) dRef=b.d0; // référence : la dette de 2025
-    const react=t>=2032&&dRef!==null?Math.min(b.reactMax,b.fiscalReact*Math.max(0,d-dRef))*ramp(t,2031,2034):0;
+    const react=t>=2032&&dRef!==null?Math.min(b.reactMax,b.fiscalReact*Math.max(0,d-dRef))*ramp(t,2031,2040):0; // montée progressive sur huit ans, pour éviter un à-coup de croissance
     s-=react;
     if(react>0.3&&!reactSaid){reactSaid=true;E(t,"react","Après 2031, les gouvernements suivants corrigent une partie du déficit en fonction du niveau de la dette (règle de réaction budgétaire).");}
     const refus=b.exit==="refus"; // sortie de crise : programme européen (prêts contre économies) ou refus (contrôle des capitaux, financement national, sortie de fait de l'euro)
@@ -207,7 +207,7 @@ function simulate(p,mode,b){
     const piPrev=o.infl[o.infl.length-1], defAdj=lastDef-Math.max(0,piPrev-2)*d/100; // déficit corrigé de l'érosion de la dette par l'inflation au-delà de 2 %
     let prem=b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*euW*z.euMult*(t<=2031?1:Math.pow(0.8,t-2031)):0)+z.spread; // conflit avec l'UE : prime pleine pendant le mandat, puis elle s'estompe (accord, alternance ou habitude des marchés)
     if(tpi!==null&&crisis===null&&lastDef>b.tpiDef+1){tpi=null;E(t,"tpioff","Le déficit dérive de nouveau au-delà de "+(b.tpiDef+1).toFixed(0)+" % du PIB : la BCE retire son filet.");}
-    if(crisis!==null && t-crisis>=8 && tpi===null && prem>b.crisisPrem){ crisis=t; crisisN++; forcedCum=0; E(t,"crisis","Nouvelle crise de financement : la prime de risque dépasse de nouveau le seuil, huit ans ou plus après la précédente."); } // une seconde crise reste possible
+    if(crisis!==null && t-crisis>=8 && tpi===null && prem>b.crisisPrem){ crisis=t; crisisN++; E(t,"crisis","Nouvelle crise de financement : la prime de risque dépasse de nouveau le seuil, huit ans ou plus après la précédente."); } // une seconde crise reste possible
     if(t>=2027 && crisis===null && tpi===null && prem>b.crisisPrem){
       if(p.eu*euW<0.2 && lastDef<=b.tpiDef){tpi=t; if(tpiFirst===null) tpiFirst=t;} else {crisis=t; crisisFirst=t;} // filet de la BCE (TPI) : seulement si le déficit est sur une trajectoire conforme aux règles européennes
     }
@@ -243,7 +243,7 @@ function simulate(p,mode,b){
     // pouvoir d'achat : croissance commune + mesures du programme + chômage + ajustement imposé + chocs d'inflation
     gdp*=1+realg/100; inflCum+=Math.max(0,z.infl)+exitInfl;
     // logement : prix et loyers réels. Taux immobilier ≈ taux à 10 ans + 1 ; +1 point de taux = −7 % sur les prix en deux ans (BCE, Banque de France) ; +1 % de logements en plus = −1,5 % sur les prix ; loyers : 30 % de la variation des prix, moins l'effet de l'offre
-    const rMort=rf+pi+premMkt+1, dR=rMort-(rMortPrev===null?rMort:rMortPrev); rMortPrev=rMort;
+    const rMort=rf+premMkt+1, dR=rMort-(rMortPrev===null?rMort:rMortPrev); rMortPrev=rMort;
     const consNow=Math.max(120,b.cons0*Math.pow(1.01,t-START)*Math.max(0.6,1-b.rateSens*(premMkt-premRef))*(1+0.03*gap)+(p.housing||0)*realSp*retreat*phase), extraStock=(consNow-b.cons0*Math.pow(1.01,t-START))/38000*100;
     const hpG=0.5-3.5*dR-3.5*dRprev+0.5*(realg-1)-1.5*extraStock; dRprev=dR; hpI*=1+hpG/100; const rentG=0.3*hpGprev-0.5*extraStock; hpGprev=hpG; rentI*=1+rentG/100;
     o.house.push(hpI); o.rent.push(rentI);
