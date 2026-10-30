@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026, fin de soirée : derniers chiffres de l'Insee
+
+- Insee du 30 octobre : PIB T3 −0,1 % (acquis 0,2 %), inflation d'octobre 3,4 % (IPCH 3,8 %) ; chômage T2 8,3 % ; dette fin juin 119,0 %.
+- NEAR : croissance 0,3 / 0,8 / 1,1 ; inflation 2,6 / 2,3 / 1,8 ; ajustement stocks-flux +1 pt en 2026 (PLF 2027 : 119,3 %).
+
 ## 30 octobre 2026, soir : audit de rigueur et sensibilité
 
 - Crédibilité par règle publique : c = 0,3 + 0,7 × part chiffrée par Déchiffrer 2027 (Mélenchon 0,67, Philippe 0,45, Retailleau 0,43, Le Pen 0,38, Glucksmann 0,3).

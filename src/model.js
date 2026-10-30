@@ -61,7 +61,7 @@ function fiscalCompDetail(p,b){
   return {c,cP,cN,resid,def};
 }
 function fiscalComp(p,b){return fiscalCompDetail(p,b).c;}
-const NEAR={2026:{g:-0.7,pi:0.3,du:0.2,prem:-1.0},2027:{g:-0.18,pi:-0.1,du:0.15},2028:{g:0,pi:-0.4},2029:{g:0,pi:-0.2}}; // Banque de France, projections de septembre 2026 (PIB 0,4 % ; 0,9 % ; 1,2 % — IPCH 2,3 % ; 1,9 % ; 1,6 %), choc d'Ormuz compris
+const NEAR={2026:{g:-0.8,pi:0.6,du:0.2,prem:-1.0,sf:1.0},2027:{g:-0.28,pi:0.3,du:0.15},2028:{g:0,pi:-0.2},2029:{g:0,pi:-0.2}}; // Banque de France (septembre 2026 : PIB 0,4 % ; 0,9 % ; 1,2 % — IPCH 2,3 % ; 1,9 % ; 1,6 %), mise à jour avec l'Insee du 30 octobre 2026 : PIB du 3e trimestre −0,1 %, acquis de croissance 0,2 % pour 2026 ; inflation d'octobre 3,4 % (IPCH 3,8 %). Retenu : PIB 0,3 % ; 0,8 % ; 1,1 % — inflation 2,6 % ; 2,3 % ; 1,8 % (estimation du simulateur, en attendant la projection de décembre). Dette 2026 : +1 point d'ajustement de trésorerie (dette de 119,0 % fin juin selon l'Insee ; 119,3 % prévus fin 2026 dans le projet de loi de finances)
 // Énergie : prix du Brent ($ constants) selon le scénario. « tendance » : EIA (octobre 2026) puis retour vers 75 $ (AIE : surplus de l'offre) ;
 // « tensions » : perturbations au Moyen-Orient durables ; « contrainte » : baisse de l'offre de pétrole disponible pour l'Europe (The Shift Project, 2021).
 const ENERGY={
@@ -215,7 +215,8 @@ function simulate(p,mode,b){
     const ng=(1+realg/100)*(1+pi/100)-1;
     const interest=d*i/100/(1+ng); // intérêts rapportés au PIB de l'année
     const bank=(crisis!==null&&t===crisis+1&&!refus)?b.bankCrisis:0; // soutien aux banques pendant la crise (Espagne 2012 : ≈ 4 % du PIB ; Portugal ≈ 3 %), compté dans la dette, pas dans le déficit
-    const dOld=d; d=Math.max(0,d*(1+i/100)/(1+ng)+pd+bank); o.snow.push(d-dOld-pd); o.prim.push(pd);
+    const sf=(b.calib&&near.sf)?near.sf:0; // ajustements stocks-flux (trésorerie de l'État)
+    const dOld=d; d=Math.max(0,d*(1+i/100)/(1+ng)+pd+bank+sf); o.snow.push(d-dOld-pd); o.prim.push(pd);
     lastDef=pd+interest; burden=interest/b.rev*100;
     const okunEff=b.shock==="pandemie"&&(t===b.shockYear||t===b.shockYear+1)?0.15:1; // activité partielle : en 2020-2021, l'emploi a été protégé malgré la chute du PIB
     const smicU=b.smicEl*(p.smicCost||0)*0.17*ramp(t,2026,2029)*pol*retreat; smicUprev=smicU; // hausse du Smic : emplois au Smic (17 % des salariés) sensibles au coût du travail
