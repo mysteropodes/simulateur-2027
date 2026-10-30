@@ -18,7 +18,7 @@
   <section class="panel chartpanel" aria-labelledby="h-chart">
     <div class="chart-head"><h2 id="h-chart">Trajectoires</h2><p class="help">Choisissez un thème, puis un indicateur. Après 2032 : tendances, pas prévisions.</p></div>
     <div class="themes" role="tablist" aria-label="Thèmes d'indicateurs" id="themes"></div>
-    <div class="seg metricrow" role="group" aria-label="Indicateur affiché" id="metrics"></div>
+    <div class="metrictray"><span class="trayl" id="trayl"></span><div class="seg metricrow" role="group" aria-label="Indicateur affiché" id="metrics"></div></div>
     <div class="chartcol"><div class="bandrow"><label for="bandSel">Fourchette d'incertitude (10-90 %) sur le graphique</label><select id="bandSel"></select></div>
       <div class="chartbox"><canvas id="chart" aria-label="Graphique de l'indicateur choisi par candidat"></canvas></div>
       <p class="help">Les points sur les courbes marquent un événement (crise, recul, filet BCE, réforme achevée…). Survolez-les pour l'explication.</p>

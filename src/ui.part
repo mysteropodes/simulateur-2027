@@ -254,6 +254,7 @@ let themeIdx=Math.max(0,themeOf(metric));
 function buildMetricButtons(){
   tbox.innerHTML=""; THEMES.forEach(([lab],i)=>{const b=document.createElement("button");b.type="button";b.textContent=lab;b.setAttribute("role","tab");b.setAttribute("aria-selected",i===themeIdx);
     b.onclick=()=>{themeIdx=i;if(themeOf(metric)!==i){metric=THEMES[i][1][0];render();}buildMetricButtons();};tbox.appendChild(b);});
+  const tl=document.getElementById("trayl"); if(tl) tl.innerHTML=`Indicateurs du thème <b>${THEMES[themeIdx][0]}</b>`;
   mbox.innerHTML=""; for(const k of THEMES[themeIdx][1]){const b=document.createElement("button");b.type="button";b.textContent=METRICS[k][0];b.dataset.metric=k;b.setAttribute("aria-pressed",k===metric);
     b.onclick=()=>{metric=k;mbox.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));render()};mbox.appendChild(b);}
 }

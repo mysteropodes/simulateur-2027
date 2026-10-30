@@ -126,7 +126,8 @@ table.conseq{width:100%;min-width:760px;border-collapse:collapse;font-size:.88em
 #retroBody,#retroBody>*{min-width:0}.retro .seg{flex-wrap:wrap}.retro{margin:28px 0;padding-top:18px;border-top:1px solid var(--line)}.retro h3{margin:0 0 6px}.retroch{position:relative;height:300px;margin-top:10px}.retrot td,.retrot th{white-space:normal}.retrosum{background:rgba(128,128,128,.08);border-radius:8px;padding:10px 14px;margin:14px 0}.retrosum ul{margin:6px 0 0 18px;padding:0}
 
 /* ---- Mise en page : menu latéral, vues, panneau d'hypothèses ---- */
-body{margin:0;font-size:14.5px;font-variant-numeric:tabular-nums}
+body{margin:0;font-size:14.5px;font-variant-numeric:normal}
+td,dd,output,.ovbig,.rob,.cr-v{font-variant-numeric:tabular-nums}
 body.noscroll{overflow:hidden}
 .panel{border-radius:14px;padding:18px 20px}
 h1,h2,h3{font-stretch:normal;letter-spacing:-.01em}
@@ -240,5 +241,16 @@ footer{margin:12px 0 0!important}
 @media (max-width:860px){.ddmenu{position:fixed;left:16px;right:16px;top:auto;min-width:0}}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 .ovcard dl{grid-template-columns:minmax(0,1fr) auto}.ovcard dd{white-space:nowrap}.ovcard dt{overflow:hidden;text-overflow:ellipsis}
+/* thèmes (niveau 1) et indicateurs (niveau 2) bien distincts */
+.themes{border:0;background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:4px;gap:4px}
+.themes button{border:0;margin:0;border-radius:9px;padding:8px 13px;font:650 13.5px var(--f-body);color:var(--muted)}
+.themes button:hover{color:var(--ink);background:rgba(255,255,255,.04)}
+.themes button[aria-selected="true"]{background:var(--accent);color:var(--accent-ink)}
+.metrictray{border-left:3px solid var(--accent);background:rgba(157,176,255,.06);border-radius:0 10px 10px 0;padding:10px 12px;display:grid;gap:8px;margin-top:-2px}
+.metrictray .trayl{font-size:12px;color:var(--muted)}.metrictray .trayl b{color:var(--ink);font-weight:600}
+.metricrow button{font-size:12.5px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:#b3bacb}
+.metricrow button:hover{color:var(--ink);border-color:#3a4358}
+.metricrow button[aria-pressed="true"]{background:transparent;border-color:var(--accent);color:var(--ink);font-weight:600}
+.metricrow button[aria-pressed="true"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px}
 </style>
 
