@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 30 octobre 2026 : ajout de Gabriel Attal
+
+- Nouveau candidat `attal` (couleur `--c6`) : A 2,7 (équilibre en dix ans), c 0,35 (≈ 10 Md€ vérifiés sur 120 à 150), baisse des cotisations salariales 46 Md€ (hypothèse Déchiffrer 2027), économies sociales aux deux tiers, compItems IA +10, fonctionnaires −4,2, divers +1.
+- Effort retenu −0,9 ; test de régression mis à jour.
+- Classement des chiffrages : ligne Attal.
+
 ## 30 octobre 2026, nuit (3) : vérification des chiffrages
 
 - Règle commune pour l'effort annoncé : solde publié en Md€ de l'année visée (`gdpRef` 3 100 pour un contre-budget 2027), sinon déficit 2026 (5,4 %) moins la cible du candidat.
