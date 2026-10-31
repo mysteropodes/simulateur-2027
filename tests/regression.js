@@ -17,11 +17,11 @@ const path=require('path');
     const ok=(lab,c)=>checks.push([lab,"",!!c,"vrai"]);
     // repères du statu quo (calage)
     near("Dette 2030 statu quo (comité d'experts ≈ 130)",sq.debt[y(2030)],126,135);
-    near("Dette 2036 statu quo (Commission 144-156, taux plus hauts depuis)",sq.debt[y(2036)],144,162);
+    near("Dette 2036 statu quo (stabilité du calage ; Commission 144-156 aux taux de 2024, plus hauts depuis)",sq.debt[y(2036)],156,168);
     near("OAT 10 ans 2027",BASE0.mktReal+sq.infl[y(2027)]+sq.spread[y(2027)],4.6,5.4);
     near("Croissance 2026-2028 (Banque de France 0,4/0,9/1,2)",(sq.growth[1]+sq.growth[2]+sq.growth[3])/3,0.7,1.0);
     // efforts retenus publiés (README et Méthode)
-    const eff={melenchon:-1.9,lepen:-0.3,philippe:-0.3,glucksmann:-1.9,retailleau:-0.4,attal:-0.9};
+    const eff={melenchon:-1.9,lepen:0.3,philippe:-0.3,glucksmann:-1.9,retailleau:-0.1,attal:-0.9};
     for(const id in eff) near("Effort retenu "+id,r[id].progFull,eff[id]-0.1,eff[id]+0.1);
     // conclusions robustes (analyse de sensibilité)
     const pov=ids.filter(i=>i!=="statu").map(i=>[i,r[i].pov[y(2032)]]).sort((a,b)=>a[1]-b[1]);

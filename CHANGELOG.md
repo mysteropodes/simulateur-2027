@@ -2,6 +2,21 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : audit, seconde partie
+
+Relecture indépendante du modèle (rapport dans le scratch `audit5/RAPPORT.md`, probes `audit5me/`) : arithmétique juste (identité de la dette, déficit = primaire + intérêts, sous-secteurs, indices, unités, règle de crédibilité, fuite comptée une fois, 665 + 189 cas limites sans valeur non finie). Corrections, toutes communes :
+
+- Modèle, régime de crise : pendant le programme d'aide, `prem` plafonnée à 1,0 (1,5 en `refus`) au lieu de suivre la dette ; programme de 5 ans, prolongé jusqu'à 10 si `lastDef > tpiDef` (4 %) ; OMT (`tpi`) à la sortie si déficit ≤ 4 ; rechute (`crisisN`, `progEnds`) si `k ≥ 8`, programme terminé, pas d'OMT et `prem > crisisPrem`. Événements `progext`, `progend`, un seul événement de première crise.
+- Modèle, crédibilité par sens : `compPos` / `compNeg` ; `taxAis` via la fuite une seule fois ; `unpop = clamp(grossNeg / 3)` (économies et hausses brutes, plus aisés pour moitié) au lieu du solde net ; recul sous tension (`retreat`) appliqué aux seules pertes (`progAt`, `paNeg`, `decNeg`), gains maintenus.
+- Modèle, réaction budgétaire : `react` passe par les impulsions (`imp`) et le multiplicateur, plafonnée à 4 points.
+- Modèle, leviers réels : `co2Rate`, `aiAdopt`, `rtt` dépendent de `pol` (solidité politique et juridique), pas de `realSp` ; Phillips sur `uStar + uProg + aiDisp` ; `premRef` fixée en 2027 ; marche LPM 2026 retirée du double compte ; `defInA` retiré pour Le Pen (solde publié, pas cible).
+- Microsim : clé `jeunes` ; clé composite `social` (retraites 56 % × (1 − m), par tête 44 % × (1 − m), minima m = 20 %) via `setSocialKey`, utilisée pour les économies sociales non détaillées (Philippe, Attal, `ndSav` de tous) ; `m` tiré entre 0,10 et 0,35 dans `runMC`.
+- UI : Retailleau `c` 0,48 (38 sur ≈ 144 annuels impliqués par sa cible, et non sur 197 cumulés) ; `runMC` tire `tensionRights` et `socialMin` ; colonne « s'emballe » = rechute ou tension ≥ 80 ; durée du programme dans « Conséquences concrètes ».
+- Test sur le passé : repère « sans programme » (`retroRun(E, ctx, mode, noProg)`) dans chaque lecture ; réserves (gap0, chômage structurel, Covid recalé) écrites dans l'onglet.
+- Tests : efforts attendus Le Pen +0,3, Retailleau −0,1 ; borne dette 2036 statu quo 156-168 (contrôle de stabilité, Commission 144-156 aux taux de 2024).
+- Effet en lecture centrale : efforts Mélenchon −1,9, Glucksmann −1,9, Attal −0,9, Philippe −0,3, Retailleau −0,1, Le Pen +0,3 ; crises statu quo 2038, Mélenchon 2035 (programme jusqu'en 2045, rechute 2046), Le Pen 2036, Glucksmann 2036, Philippe 2039, Retailleau 2038, Attal 2038 ; dette 2046 après crise plus basse de 12 à 19 points pour Mélenchon, Glucksmann et Le Pen ; pauvreté 2032 Mélenchon 12,8, Glucksmann 14,3, statu quo 15,3, Le Pen 15,9, Attal 16,0, Philippe 16,3, Retailleau 16,8. Robustesse (400 tirages) : pauvreté la plus basse Mélenchon 86 %, crise la plus précoce Mélenchon 91 %, tension la plus forte Retailleau ou Le Pen 100 %, pauvreté la plus haute Retailleau 74 %, dette hors crise la plus basse Philippe 54 %, crise pour tous 77 %.
+- Reste discutable, documenté sans changement : multiplicateurs permanents à dix ans, seuil de crise à 3 points et prime linéaire jusqu'à 250 % de dette, fuite de 40 % sur les niches de l'IR, dépassement de dépenses pour le seul Mélenchon, métrique « dette 2046 sans crise », statu quo plus pessimiste que la Commission, variante `refus` (retour au marché après cinq ans, sans défaut ni renégociation).
+
 ## 31 octobre 2026 : audit, première partie
 
 - Modèle : après une crise avec programme européen, `prem` revient de 0,5 × à 1 × entre la 5e et la 10e année (au lieu d'un retour brutal) ; `inflCum` se résorbe de 30 % par an (perte de pouvoir d'achat d'un choc de prix rattrapée aux deux tiers en deux ans).
