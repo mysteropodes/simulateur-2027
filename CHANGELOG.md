@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : réaction extérieure (marchés, exil fiscal, concurrence) et candidat fictif v3
+
+- `BASE0` : `extScale` 1 (curseur « Réaction extérieure », `GL`, panneau Hypothèses, tiré 0,3-1,8 dans `runMC`), `leakStack` 0,1, `ulcGdp` 0,12, `premAnn` 0,5 ; `PRESETS` : `extScale` 0,5 / 1 / 1,6.
+- `simulate` : fuite effective `leakM = min(0,85, leak + extScale × leakStack × max(0, topRev − topCut − 20)/20)` ; coût du travail `ulcX` (Smic × 0,2, 32 h × 2,5, moitié des prélèvements sur les entreprises, `entrMd`, reste non détaillé compris) → effet de niveau `compLev = −ulcGdp × extScale × ulcX` dans `supply`, et dans la balance courante ; prime d'annonce `annPrem = premAnn × extScale × max(0, progPos + progNeg) × (0,5 + 0,5 × phase) × 0,6^(t−2027)` ajoutée à `prem`. Sorties `o.annD`, `o.leakM`.
+- Effets (lecture centrale) : Mélenchon crise 2034 (2035), dette 2036 204 (193), effort retenu −2,3 (−1,9) ; Glucksmann dette 176 (174) ; Attal 162 (161) ; autres inchangés ; lecture libérale : Mélenchon et Glucksmann en crise dès 2027.
+- `CANDS0.ia` recalculé avec le nouveau modèle (scratch `opt/feas2.js`, `opt/feasNP.js`) : `taxMd` 80,5, `A` +0,74, `adh` 0,65, `parl` 0,57, `climInv` 0,65, `uStruct` −0,16 ; baisse de la CSG retirée, allocations familiales dès le premier enfant 3 Md€ (Retailleau, au huitième), ISF 9, niches 21, chômage −6, jeunes 5, solidarité à la source 4,5 ; pauvreté 2032 12,9 % (12,6), CO2 285 Mt (274), dette 2036 158 %, crise 2039. Fiche, `why`/`why2`/`why3`, Méthode, journal mis à jour.
+- Tests : `eff.melenchon` −2,3 ; trois contrôles « Réaction extérieure » (statu quo inchangé, dette et croissance de Mélenchon dans le sens attendu). Conclusions robustes recalculées (`audit5me/rob2.js` tire `extScale`).
+
 ## 31 octobre 2026 : candidat fictif, deuxième version (mesures hors programmes)
 
 - Menu de l'optimiseur (scratch `opt/feas2.js`) élargi de 26 à 33 : `MENU2` (solidarité à la source +5, clé `minima` ; allègements dès 2,5 Smic −4, `entreprises`, +0,08 pt de chômage structurel ; niches climat −3 ; apprentissage −2 ; CIR −1,5) et `COMP2` (petite enfance 3 et accompagnement 1,5 en `fonct`, −0,05 pt de chômage structurel chacun). Soutien 0,5 par défaut sans sondage direct. Mêmes pénalités, même objectif, 21 500 évaluations × 3 lectures.

@@ -21,7 +21,7 @@ const path=require('path');
     near("OAT 10 ans 2027",BASE0.mktReal+sq.infl[y(2027)]+sq.spread[y(2027)],4.6,5.4);
     near("Croissance 2026-2028 (Banque de France 0,4/0,9/1,2)",(sq.growth[1]+sq.growth[2]+sq.growth[3])/3,0.7,1.0);
     // efforts retenus publiés (README et Méthode)
-    const eff={melenchon:-1.9,lepen:0.3,philippe:-0.3,glucksmann:-1.9,retailleau:-0.1,attal:-0.9};
+    const eff={melenchon:-2.3,lepen:0.3,philippe:-0.3,glucksmann:-1.9,retailleau:-0.1,attal:-0.9};
     for(const id in eff) near("Effort retenu "+id,r[id].progFull,eff[id]-0.1,eff[id]+0.1);
     // conclusions robustes (analyse de sensibilité)
     const pov=ids.filter(i=>i!=="statu").map(i=>[i,r[i].pov[y(2032)]]).sort((a,b)=>a[1]-b[1]);
@@ -41,6 +41,11 @@ const path=require('path');
     // candidat fictif : règles de construction (solde annoncé >= 0, pas de crise avant le statu quo, pauvreté sous le statu quo, tension < 61)
     const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); near("Candidat IA : tension maximale",Math.max(...ri.tension),0,61);}
     ok("Les recettes perdues n'améliorent pas Retailleau",lr(0.9)>=lr(0.1)-0.05);
+    // réaction extérieure (marchés, exil fiscal, concurrence) : sans effet sur le statu quo, défavorable à un programme qui empile les impôts sur le capital et relève le coût du travail
+    const ex=(id,v)=>simulate(CANDS0.find(p=>p.id===id),"credible",B({extScale:v}));
+    ok("Réaction extérieure : statu quo inchangé",Math.abs(ex("statu",0).debt[y(2036)]-ex("statu",1.6).debt[y(2036)])<0.05);
+    ok("Réaction extérieure : dette 2036 de Mélenchon plus haute à ×1,6 qu'à ×0",ex("melenchon",1.6).debt[y(2036)]>ex("melenchon",0).debt[y(2036)]-0.01||(ex("melenchon",1.6).crisis||2047)<(ex("melenchon",0).crisis||2047));
+    ok("Réaction extérieure : croissance 2027-2032 de Mélenchon plus basse à ×1,6 qu'à ×0",ex("melenchon",1.6).growth.slice(2,8).reduce((a,v)=>a+v,0)<ex("melenchon",0).growth.slice(2,8).reduce((a,v)=>a+v,0));
     const ic=x=>sim("statu",{infl:x,crisisPrem:1e9}).debt[y(2032)];
     ok("Plus d'inflation baisse le ratio de dette 2032 (sans crise)",ic(2.5)<ic(1.5));
     // une crise fait d'abord monter la dette (Portugal, Espagne, Irlande, Grèce)
