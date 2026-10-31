@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 1er novembre 2026 : crises européennes
+
+- `shockAt` : `eurobce` (k0 : réel −2,5, spread +3, pd +1, tension +10 ; k1 : réel −0,5, inflation +1,5, spread +0,5 ; k2 : inflation +1 ; `euMult` 2 et plafond de prime `cap` 2,5 de k0 à k2) et `eurofract` (k0 : réel −5, inflation +6, spread +4, pd +2, tension +25 ; k1 : réel −2, inflation +4, spread +2, tension +15 ; k2 : réel +1, inflation +2, spread +1, tension +8 ; k3 : réel +1 ; `euMult` 3).
+- Plafond `z.cap` appliqué à la prime des programmes sans conflit avec l'UE (`p.eu` = 0), comme le TPI.
+- Boutons dans « Choc ponctuel », textes `SHOCKTXT`.
+
 ## 31 octobre 2026 : nationalisation de TotalEnergies, candidat IA v4
 
 - `natio` (Md€, curseur dans « Construire un programme ») : achat financé par emprunt en `natioYear` (2028), ajouté à la dette par l'ajustement stocks-flux ; dividendes `natio/(1+natioPrem)×natioYield×max(0,3 ; 1+natioOil×(Brent−69)/69)` retranchés du déficit primaire à partir de l'année suivante ; sortie `natDiv`. `BASE0` : `natioPrem` 0,15, `natioYield` 0,044, `natioOil` 1, `natioYear` 2028.
