@@ -49,6 +49,7 @@ const path=require('path');
     // nationalisation : la dette monte l'année de l'achat, les dividendes réduisent ensuite le déficit primaire
     { const st=CANDS0.find(p=>p.id==="statu"), n0=simulate(st,"credible",B()), n1=simulate(Object.assign({},st,{natio:70}),"credible",B());
       ok("Nationalisation : dette 2028 plus haute",n1.debt[y(2028)]>n0.debt[y(2028)]+1.5); ok("Nationalisation : dividendes à partir de 2029",n1.natDiv[y(2029)]>0&&n1.natDiv[y(2028)]===0); ok("Nationalisation : déficit primaire 2032 plus bas",n1.prim[y(2032)]<n0.prim[y(2032)]); }
+    { const ml=CANDS0.find(p=>p.id==="melenchon"); ok("Exit tax : moins de recettes perdues",simulate(Object.assign({},ml,{exitTax:1}),"credible",B()).leakM<simulate(Object.assign({},ml,{exitTax:0}),"credible",B()).leakM); }
     const ic=x=>sim("statu",{infl:x,crisisPrem:1e9}).debt[y(2032)];
     ok("Plus d'inflation baisse le ratio de dette 2032 (sans crise)",ic(2.5)<ic(1.5));
     // une crise fait d'abord monter la dette (Portugal, Espagne, Irlande, Grèce)
