@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : candidat fictif, deuxième version (mesures hors programmes)
+
+- Menu de l'optimiseur (scratch `opt/feas2.js`) élargi de 26 à 33 : `MENU2` (solidarité à la source +5, clé `minima` ; allègements dès 2,5 Smic −4, `entreprises`, +0,08 pt de chômage structurel ; niches climat −3 ; apprentissage −2 ; CIR −1,5) et `COMP2` (petite enfance 3 et accompagnement 1,5 en `fonct`, −0,05 pt de chômage structurel chacun). Soutien 0,5 par défaut sans sondage direct. Mêmes pénalités, même objectif, 21 500 évaluations × 3 lectures.
+- `CANDS0.ia` : `taxMd` 67,5, `A` +0,29, `adh` 0,66, `parl` 0,59, `uStruct` −0,17, `climInv` 0,8, `compItems` [fonct 3, fonct 1,5, log 3] ; `PA_MEASURES.ia` : 15 mesures (4 nouvelles, origine `institut`) ; `ORIG.institut` ajouté ; fiche, `why`/`why2`/`why3` et sources mises à jour (Institut Montaigne, Public Sénat / Bozio-Wasmer, I4CE, Cour des comptes, Elabe juin 2025 et novembre 2023).
+- Résultat central : pauvreté 2032 12,6 % (13,1 en v1 ; Mélenchon 12,8), seuil figé 10,1 % (Mélenchon 9,5), chômage 7,5 %, tension max 59, dette 2036 159 %, crise 2039, CO2 274 Mt. Robustesse (400 tirages) : pauvreté la plus basse 78 %, ≤ Mélenchon 89 %, tension la plus basse 99 %, chômage le plus bas 71 %, dette 2036 la plus basse 48 %.
+- Tests de régression : les 4 contrôles du candidat fictif passent toujours ; bornes inchangées.
+
 ## 31 octobre 2026 : candidat fictif construit par le simulateur
 
 - `CANDS0` : entrée `ia` (`fictif:1`, `itemized:1`, `c` 0,86, `adh` 0,68, `parl` 0,61, `A` +0,4), mesures dans `PA_MEASURES.ia` (origine `emprunt`), `EXT.ia` ; couleur `--c7`, courbe en pointillés, badge « candidat fictif ».
