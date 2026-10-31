@@ -6,6 +6,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 
 - `CANDS0` : entrée `ia` (`fictif:1`, `itemized:1`, `c` 0,86, `adh` 0,68, `parl` 0,61, `A` +0,4), mesures dans `PA_MEASURES.ia` (origine `emprunt`), `EXT.ia` ; couleur `--c7`, courbe en pointillés, badge « candidat fictif ».
 - Construction (scratch `opt/feas.js`) : menu de 17 mesures + 9 leviers, algorithme évolutionnaire 500 + 60 × 350, trois lectures par évaluation, pénalités de faisabilité (solde ≥ 0, soutien min 40 % / moyen 60 %, tension < 60, pauvreté ≤ statu quo ×3, retraités ≥ statu quo, crise ≥ statu quo en central et libéral), objectif minimax sur 9 indicateurs + 0,1 × somme.
+- Corrections à la main : `rentCtrl` 0, `housing` 30 (`compItems` log 3, `A` 0,32), `sec` {places 78 000, mag 1,3, pen −0,03} ; fiche détaillée par thème.
 - Exclu de `costRank`, des conclusions robustes (`rob2.js`, `adv.js` filtrent `fictif`) et de la grille des droits ; tests de régression : 4 contrôles sur ses règles.
 
 ## 31 octobre 2026 : justice et sécurité
