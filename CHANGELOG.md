@@ -7,6 +7,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 - Scratch `analog/analog.py`, `valid.py`, `final.py` : univers des années-pays 1950-2020 avec `v2x_regime` ≥ 2 et issue à cinq ans connue ; distance euclidienne pondérée et standardisée sur 12 variables (`v2x_libdem` ×2, sa variation à cinq ans, `v2x_civlib`, `v2xlg_legcon`, `v2x_jucon`, `v2cacamps` ×2, sa variation ×1,5, pic de `v2cagenmob` sur trois ans ×1,5, `v2caviol`, `v2caautmob`, log PIB par habitant et croissance à cinq ans) ; 25 analogues, huit ans d'écart minimum pour un même pays, France exclue, noyau gaussien ; issues : rupture (`v2x_regime` ≤ 1), érosion (minimum de `v2x_libdem` −0,10), recul (−0,05 à cinq ans), stable, renforcement.
 - Résultat France 2025 : érosion forte 25 %, recul 17 %, stable 57 %, rupture 0 ; neuf variantes 13-34 % ; bootstrap 14-37 % ; scénarios (polarisation de 2018 : 12 %).
 - Validation hors pays (1 062 situations, 30 événements) : AUC 0,83, Brier 0,0248 contre 0,0275.
+- Horizon dix ans ajouté (`ld_min10`, `reg_min10`, `out10`, observé jusqu'en 2025 pour les cas récents) : érosion forte ou rupture 48 % (neuf variantes 33-52 %, bootstrap 35-61 %), taux de base 6 % ; validation hors pays 1960-2015 : 961 situations, 56 événements, AUC 0,80, Brier −15 %.
 - `src/analog_data.js` (`ANALOG`), `buildAnalog()` dans `atlas.js`, section `h-atlas-proj`, style `.anbig`.
 
 ## 31 octobre 2026 : onglet « Changer les règles du jeu »
