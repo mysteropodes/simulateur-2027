@@ -169,6 +169,7 @@ h2{font-size:1.12rem;font-weight:650}
 .ovcard.ref{cursor:default;opacity:.7}
 .ovn{font-weight:650;font-size:13.5px;display:flex;align-items:center;gap:7px}.ovn i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
 .ovp{color:var(--muted);font-size:12px;margin-left:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ovtag{align-self:flex-start;margin:8px 0 0;font-size:11px;font-weight:600;color:var(--muted);border:1px dashed currentColor;border-radius:6px;padding:1px 6px}
 .ovbig{font-size:29px;font-weight:750;letter-spacing:-.02em;margin-top:10px;line-height:1.1}
 .ovlab{color:var(--muted);font-size:12px}
 .ovcard dl{display:grid;grid-template-columns:1fr auto;gap:3px 8px;margin:12px 0 0;font-size:12.5px}
@@ -725,6 +726,7 @@ footer{margin:12px 0 0!important}
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>31 octobre 2026 : Glucksmann signalé comme « programme reconstitué ».</strong> Son programme n'est pas encore publié : il est reconstitué à partir de ses déclarations et du chiffrage partiel de Déchiffrer 2027, avec la note de crédibilité minimale. Il est désormais signalé sur sa carte de la vue d'ensemble et sorti du classement « Programmes les mieux chiffrés », où un 0 % laissait croire à un programme mal chiffré plutôt que non publié. Aucun calcul modifié.</li>
       <li><strong>31 octobre 2026 : audit (seconde partie).</strong> Relecture indépendante du modèle (arithmétique, cohérence des règles, lecture des programmes) ; ce qui est juste n'est pas listé ici, voir le README. Corrections, toutes communes à tous les programmes :
         <ul>
           <li><b>Crise de la dette</b> : pendant un programme d'aide, l'État emprunte aux prêteurs officiels, la prime de marché est plafonnée (1 point) au lieu de continuer à monter avec la dette ; programme de cinq à dix ans selon le déficit atteint, relais de la BCE à la sortie si le déficit est sous 4 %, rechute possible après huit ans. Avant, un programme déficitaire payait une prime de marché pendant son sauvetage, ce qui gonflait les dettes de 2046 de 12 à 19 points (Mélenchon : 222 % en 2046 au lieu de 241, Glucksmann 232 au lieu de 250, Le Pen 209 au lieu de 221).</li>
@@ -1615,7 +1617,8 @@ buildMetricButtons();
     attal:"Aucune date annoncée pour un chiffrage complet"};
   const rows=CANDS0.filter(p=>p.id!=="statu").map(p=>({p,d:Math.max(0,(p.c-0.3)/0.7)})).sort((a,b)=>b.d-a.d);
   el.innerHTML='<div class="cr-h">Programmes les mieux chiffrés <span>part des recettes et économies annoncées (hors impôts sur les plus aisés) que Déchiffrer 2027 a pu vérifier, et prochains chiffrages annoncés, au 31 octobre 2026</span></div>'+
-    rows.map((r,i)=>'<div class="cr-r"><span class="cr-n">'+(i+1)+'</span><span class="cr-c" style="background:var('+r.p.color+')"></span><span class="cr-name">'+r.p.name+'</span><span class="cr-bar"><i style="width:'+Math.round(r.d*100)+'%;background:var('+r.p.color+')"></i></span><span class="cr-v">'+Math.round(r.d*100)+' %</span><span class="cr-d">'+(det[r.p.id]||"")+(nxt[r.p.id]?'<br><span class="cr-x">'+nxt[r.p.id]+'</span>':'')+'</span></div>').join("")+
+    rows.filter(r=>r.p.id!=="glucksmann").map((r,i)=>'<div class="cr-r"><span class="cr-n">'+(i+1)+'</span><span class="cr-c" style="background:var('+r.p.color+')"></span><span class="cr-name">'+r.p.name+'</span><span class="cr-bar"><i style="width:'+Math.round(r.d*100)+'%;background:var('+r.p.color+')"></i></span><span class="cr-v">'+Math.round(r.d*100)+' %</span><span class="cr-d">'+(det[r.p.id]||"")+(nxt[r.p.id]?'<br><span class="cr-x">'+nxt[r.p.id]+'</span>':'')+'</span></div>').join("")+
+    '<div class="cr-r"><span class="cr-n">–</span><span class="cr-c" style="background:var('+CANDS0.find(p=>p.id==="glucksmann").color+')"></span><span class="cr-name">Glucksmann (PS-PP)</span><span></span><span class="cr-v">–</span><span class="cr-d">Programme pas encore publié : pas de classement possible. Le simulateur reconstitue son programme à partir de ses déclarations, avec la note de crédibilité minimale.<br><span class="cr-x">'+nxt.glucksmann+'</span></span></div>'+
     '<p class="help">Ce n\'est pas une note de sérieux du programme : un candidat peut chiffrer peu mais juste. Dans le simulateur, la part non vérifiée n\'est retenue qu\'à 30 % (note de crédibilité c = 0,3 + 0,7 × cette part), les dépenses et baisses d\'impôts étant retenues en entier.</p>';
 })();
 const PRESETS={keynes:{crowd:0,povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.15,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.2},
@@ -1918,7 +1921,7 @@ function buildOverview(res,nc){
     return `<button type="button" class="ovcard${p.id==="statu"?" ref":""}" data-id="${p.id}" style="--c:var(${p.color})">
     <span class="ovn"><i></i>${nm}</span><span class="ovp">${party}</span>
     <span class="ovbig">${r.crisis||"—"}</span><span class="ovlab">${r.crisis?"crise de la dette":"pas de crise d'ici 2046"}</span>
-    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl></button>`;}).join("");
+    <dl><dt>Pauvreté</dt><dd>${fmt(r.pov[yi(2032)],1)} %</dd><dt>Chômage</dt><dd>${fmt(r.unemp[yi(2032)],1)} %</dd><dt>Tension</dt><dd>${fmt(r.tension[yi(2032)],0)}</dd><dt>Dette*</dt><dd>${fmt(nc(p).debt[yi(2046)],0)} %</dd></dl>${p.id==="glucksmann"?'<span class="ovtag" title="Programme pas encore publié : reconstitué à partir de ses déclarations et du chiffrage partiel de Déchiffrer 2027">programme reconstitué</span>':""}</button>`;}).join("");
   box.querySelectorAll(".ovcard").forEach(b=>b.onclick=()=>{const id=b.dataset.id; if(id==="statu") return; showView("cands"); const d=document.getElementById("fiche-"+id); if(d){d.open=true;setTimeout(()=>d.scrollIntoView({block:"start"}),50);}});
 }
 

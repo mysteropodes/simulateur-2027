@@ -164,6 +164,7 @@ h2{font-size:1.12rem;font-weight:650}
 .ovcard.ref{cursor:default;opacity:.7}
 .ovn{font-weight:650;font-size:13.5px;display:flex;align-items:center;gap:7px}.ovn i{width:9px;height:9px;border-radius:50%;background:var(--c);flex:none}
 .ovp{color:var(--muted);font-size:12px;margin-left:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ovtag{align-self:flex-start;margin:8px 0 0;font-size:11px;font-weight:600;color:var(--muted);border:1px dashed currentColor;border-radius:6px;padding:1px 6px}
 .ovbig{font-size:29px;font-weight:750;letter-spacing:-.02em;margin-top:10px;line-height:1.1}
 .ovlab{color:var(--muted);font-size:12px}
 .ovcard dl{display:grid;grid-template-columns:1fr auto;gap:3px 8px;margin:12px 0 0;font-size:12.5px}
