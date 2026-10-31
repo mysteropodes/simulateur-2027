@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : audit, première partie
+
+- Modèle : après une crise avec programme européen, `prem` revient de 0,5 × à 1 × entre la 5e et la 10e année (au lieu d'un retour brutal) ; `inflCum` se résorbe de 30 % par an (perte de pouvoir d'achat d'un choc de prix rattrapée aux deux tiers en deux ans).
+- Fourchettes d'incertitude : `tensionRights` tiré entre 0,3 et 1,3 × le réglage.
+- Microsim : libellé de la mesure retraites de Mélenchon (62 ans dans le contre-budget 2027 ; 60 ans compté dans l'effort annoncé).
+- Tests de cohérence (scratch audit5me) : 665 simulations en cas limites, aucune valeur non finie ; sous-secteurs = déficit total ; monotonie en crédibilité et en fuite vérifiée ; statu quo identique dans les trois modes ; robustesse des conclusions inchangée (pauvreté la plus basse Mélenchon 84 %, tension la plus forte Retailleau ou Le Pen 100 %, crise la plus précoce Mélenchon 88 %).
+
 ## 30 octobre 2026 : nouvelle présentation
 
 - Menu latéral (vues : vue d'ensemble, indicateurs détaillés, ménages, incertitude, fiches candidats, droits, test sur le passé, comprendre la dette, méthode et sources, journal) ; rangée d'onglets sur téléphone.

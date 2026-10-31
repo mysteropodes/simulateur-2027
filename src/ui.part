@@ -379,7 +379,7 @@ function runMC(){
     b.clim=pick(R,["moderee","forte","tresforte"],[0.3,0.5,0.2]); b.ai=pick(R,["lente","moyenne","rapide"],[0.3,0.45,0.25]); if(BASE.energy==="tendance") b.energy=pick(R,["tendance","tensions","contrainte"],[0.6,0.3,0.1]);
     if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat","petrole","commerce","guerre"],[0.22,0.18,0.13,0.15,0.13,0.1,0.09]);b.shockYear=2028+Math.floor(R()*13);}
     if(R()<0.25){b.shock2=pick(R,["recession","financial","climat","petrole","guerre"],[0.3,0.2,0.25,0.15,0.1]);b.shockYear2=2033+Math.floor(R()*13);} // un second choc sur vingt ans
-    b.bceDraw=R(); b.tpiDef=BASE.tpiDef-0.75+1.5*R(); b.premPolDecay=0.6+0.35*R(); b.povSave=Math.max(0,BASE.povSave*(0.3+1.4*R())); b.smicEl=Math.max(0,BASE.smicEl+(R()-0.5)*0.4); // filet BCE et effet du Smic : incertains
+    b.bceDraw=R(); b.tensionRights=BASE.tensionRights*(0.3+R()); b.tpiDef=BASE.tpiDef-0.75+1.5*R(); b.premPolDecay=0.6+0.35*R(); b.povSave=Math.max(0,BASE.povSave*(0.3+1.4*R())); b.smicEl=Math.max(0,BASE.smicEl+(R()-0.5)*0.4); // filet BCE et effet du Smic : incertains
     draws.push({b,cj:(R()-0.5)*0.3,ej:0.5+R()});
   }
   const q=(arr,x)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.min(s.length-1,Math.floor(x*s.length))];};

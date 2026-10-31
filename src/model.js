@@ -220,7 +220,7 @@ function simulate(p,mode,b){
     if(notch>ratingPrev&&t>=2027) E(t,"rating","La charge d'intérêts dépasse "+(notch>2?14:notch>1?11:8)+" % des recettes : dégradation de la note, les taux montent."); ratingPrev=notch;
     if(tpi!==null) prem=Math.min(prem,1.0);
     if(premRef===null) premRef=prem;
-    const premMkt=prem; if(crisis!==null&&t-crisis<5) prem=refus?Math.min(prem,1.5):prem*0.5; // prêts d'urgence à taux réduit pendant cinq ans ; en cas de refus, banques et épargnants contraints de financer l'État à taux plafonné (répression financière)
+    const premMkt=prem; if(crisis!==null&&t-crisis<5) prem=refus?Math.min(prem,1.5):prem*0.5; else if(crisis!==null&&!refus&&t-crisis<10) prem*=0.5+0.5*(t-crisis-5)/5; // après le programme, la prime revient progressivement (Portugal : écart de taux encore en baisse cinq ans après la sortie de 2014), pas d'un coup // prêts d'urgence à taux réduit pendant cinq ans ; en cas de refus, banques et épargnants contraints de financer l'État à taux plafonné (répression financière)
     const wNew=Math.min(0.5,b.roll+Math.max(0,lastDef)/Math.max(d,1)); const ecbAdj=b.ecb*((b.calib?near.pi:0)+oilInfl+z.infl); rf=b.mktReal+ecbAdj+exAt("r"); ieff+=(rf+pi+prem-ieff)*wNew; // la BCE réagit à l'inflation de la zone euro (composantes communes : énergie, chocs, conjoncture), pas aux mesures françaises // dette à taux fixe : un huitième renouvelé chaque année au taux de marché, plus la dette nouvelle qui finance le déficit
     const i=((1-b.idxShare)*ieff+b.idxShare*(b.idxReal+pi))*(1-(t>=2027?p.bce*bceOn:0)); // environ 10 % de titres indexés sur l'inflation : leur coût suit l'inflation tout de suite (comme en 2022-2023)
     const ng=(1+realg/100)*(1+pi/100)-1;
@@ -244,7 +244,7 @@ function simulate(p,mode,b){
     const pens=(icf-1.45)/0.25*ramp(t,2045,2070)+(t<=2030?-0.2:-0.2-0.7*(t-2030)/15)+p.pensBal*(p.pensBal<0?realSp:real)*retreat*phase-0.15*Math.max(0,u-b.u0)+14*migW/b.emp0*Math.max(0,1-(t-2027)/30); // cotisations des actifs en plus ou en moins, effet qui s'estompe quand ils partent à la retraite (COR)
     const retliv=b.retLiv0-0.21*(t-2023)+p.retLiv*(p.retLiv>0?realSp:real)*retreat*phase-1.5*forcedCum;
     // pouvoir d'achat : croissance commune + mesures du programme + chômage + ajustement imposé + chocs d'inflation
-    gdp*=1+realg/100; inflCum+=Math.max(0,z.infl)+exitInfl;
+    gdp*=1+realg/100; inflCum=inflCum*0.7+Math.max(0,z.infl)+exitInfl; // perte de pouvoir d'achat d'un choc de prix, rattrapée aux deux tiers en deux ans (Smic, minima et pensions indexés ; pouvoir d'achat par unité de consommation revenu à son niveau de 2021 dès 2024, Insee)
     // logement : prix et loyers réels. Taux immobilier ≈ taux à 10 ans + 1 ; +1 point de taux = −7 % sur les prix en deux ans (BCE, Banque de France) ; +1 % de logements en plus = −1,5 % sur les prix ; loyers : 30 % de la variation des prix, moins l'effet de l'offre
     const rMort=rf+premMkt+1, dR=rMort-(rMortPrev===null?rMort:rMortPrev); rMortPrev=rMort;
     const consNow=Math.max(120,b.cons0*Math.pow(1.01,t-START)*Math.max(0.6,1-b.rateSens*(premMkt-premRef))*(1+0.03*gap)+(p.housing||0)*realSp*retreat*phase), extraStock=(consNow-b.cons0*Math.pow(1.01,t-START))/38000*100;
