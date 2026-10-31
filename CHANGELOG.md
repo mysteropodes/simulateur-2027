@@ -8,7 +8,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 - Statu quo, lecture centrale : 70 Md€ → dette 2036 +1,6 pt, crise inchangée (2038), avancée d'un an en lecture libérale ; 230 Md€ → +5,3 pts, crise 2037. Taxe sur les superprofits (2,8 Md€) : dette 2036 −0,5 pt.
 - Candidat IA v4 : baisse de la durée d'indemnisation chômage retirée ; pensions > 3 000 € (−5,7, `retHaut`), bonus-malus (−0,9), droits type intermittents (+1), enseignants +10 % (4, sur l'enveloppe des services) ; police de proximité dans la fiche, sans chiffrage.
 - Trois contrôles de régression sur la nationalisation.
-- Candidat IA : contrôle fiscal (+0,2 `fonction`, −0,7 `capital`, −0,7 `entreprises`), `housing` 30 → 33 (bureaux vides de l'État), `taxMd` 82,8, `A` 0,823 ; puis justice financière (+0,05 `fonction`, −0,25 `capital`, −0,25 `entreprises`), `taxMd` 83,3, `A` 0,835 ; puis Dutreil (−1,3 `capital`), santé (`compItems` ["ext",−2], ["fonct",−1]), `taxMd` 84,6, `A` 0,954.
+- Candidat IA : contrôle fiscal (+0,2 `fonction`, −0,7 `capital`, −0,7 `entreprises`), `housing` 30 → 33 (bureaux vides de l'État), `taxMd` 82,8, `A` 0,823 ; puis justice financière (+0,05 `fonction`, −0,25 `capital`, −0,25 `entreprises`), `taxMd` 83,3, `A` 0,835 ; puis Dutreil (−1,3 `capital`), santé (`compItems` ["ext",−2], ["fonct",−1]), `taxMd` 84,6, `A` 0,954 ; puis héritages > 10 M€ (−3 `capital`), `taxMd` 87,6, `A` 1,037.
 
 ## 31 octobre 2026 : canal des libertés, indice de Turchin, grille d'Attal
 
