@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : nationalisation de TotalEnergies, candidat IA v4
+
+- `natio` (Md€, curseur dans « Construire un programme ») : achat financé par emprunt en `natioYear` (2028), ajouté à la dette par l'ajustement stocks-flux ; dividendes `natio/(1+natioPrem)×natioYield×max(0,3 ; 1+natioOil×(Brent−69)/69)` retranchés du déficit primaire à partir de l'année suivante ; sortie `natDiv`. `BASE0` : `natioPrem` 0,15, `natioYield` 0,044, `natioOil` 1, `natioYear` 2028.
+- Statu quo, lecture centrale : 70 Md€ → dette 2036 +1,6 pt, crise inchangée (2038), avancée d'un an en lecture libérale ; 230 Md€ → +5,3 pts, crise 2037. Taxe sur les superprofits (2,8 Md€) : dette 2036 −0,5 pt.
+- Candidat IA v4 : baisse de la durée d'indemnisation chômage retirée ; pensions > 3 000 € (−5,7, `retHaut`), bonus-malus (−0,9), droits type intermittents (+1), enseignants +10 % (4, sur l'enveloppe des services) ; police de proximité dans la fiche, sans chiffrage.
+- Trois contrôles de régression sur la nationalisation.
+
 ## 31 octobre 2026 : canal des libertés, indice de Turchin, grille d'Attal
 
 - Scratch `analog/rights.py` : conversion de la grille (`cp` restreint : `v2x_jucon` −0,18, `v2xlg_legcon` −0,10 ; `lib` : `v2x_civlib` −0,06 ; `egal` : −0,03 ; mixte ×0,5, renforce ×−0,25 ; Δ`v2x_libdem` = 0,5 × somme), projection refaite sur le profil modifié, seuil de −0,10 appliqué au recul total ; `ANALOG.rights`.
