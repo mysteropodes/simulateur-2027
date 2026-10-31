@@ -47,5 +47,20 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw();
+  atDraw(); buildAnalog();
+}
+
+// Projection par analogies historiques
+const AN_OUT={rupture:["Rupture (bascule en autocratie)","worse"],erosion:["Érosion forte (indice −0,10 ou plus)","worse"],recul:["Recul modéré (−0,05 à −0,10)",""],stable:["Démocratie stable",""],renforcement:["Renforcement (+0,05 ou plus)","better"]};
+const AN_PROF=[["v2x_libdem","Démocratie libérale (0-1)",2],["v2cacamps","Polarisation politique",2],["pol5","… dont hausse en cinq ans",2],["mob3","Mobilisation de masse (pic sur trois ans)",2],["v2caviol","Violence politique",2],["v2x_civlib","Libertés civiles (0-1)",2],["v2xlg_legcon","Contrôle du Parlement sur l'exécutif (0-1)",2],["v2x_jucon","Contrôle des juges sur l'exécutif (0-1)",2]];
+let anBuilt=false;
+function buildAnalog(){
+  if(anBuilt) return; anBuilt=true; const R=ANALOG, pc=v=>fmt(v*100,0)+" %";
+  const bad=R.dist.erosion+R.dist.rupture, sv=Object.values(R.sens), lo=Math.min(...sv), hi=Math.max(...sv);
+  document.getElementById("anHead").innerHTML=`<div class="anbig"><b>${fmt(bad*100,0)} %</b><span>de risque d'érosion forte de la démocratie française d'ici 2030, d'après les 25 situations historiques les plus proches. Fourchette selon les choix de méthode : ${fmt(lo,0)} à ${fmt(hi,0)} % ; par rééchantillonnage : ${pc(R.boot.erosion["0.1"])} à ${pc(R.boot.erosion["0.9"])}. Pour une démocratie établie prise au hasard : ${fmt(R.valid.base*100,0)} % en cinq ans. Rupture vers l'autocratie : aucun des 25 cas.</span></div>`;
+  document.getElementById("anDist").innerHTML=Object.entries(AN_OUT).map(([k,[l,c]])=>`<tr><td>${l}</td><td class="${c}">${pc(R.dist[k])}</td></tr>`).join("");
+  document.getElementById("anProf").innerHTML=AN_PROF.map(([k,l,d])=>`<tr><td>${l}</td><td>${fmt(R.profil[k],d)}</td></tr>`).join("");
+  document.getElementById("anList").innerHTML=R.analogs.map(a=>`<tr><td><b>${a.n} ${a.year}</b><span class="rng">${a.note}</span></td><td>${fmt(a.w*100,1)} %</td><td class="${AN_OUT[a.out][1]}">${AN_OUT[a.out][0].split(" (")[0]}</td><td>${a.ld_min5<0?"−":"+"}${fmt(Math.abs(a.ld_min5),2)}</td></tr>`).join("");
+  document.getElementById("anScen").innerHTML=Object.entries(R.scen).map(([k,[v]])=>`<tr><td>${k}</td><td>${fmt(v,0)} %</td></tr>`).join("");
+  document.getElementById("anValid").innerHTML=R.valid.cal.map(([b,n,p,o])=>`<tr><td>${b}</td><td>${n}</td><td>${pc(p)}</td><td>${pc(o)}</td></tr>`).join("");
 }
