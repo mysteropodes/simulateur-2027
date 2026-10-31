@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : encadrement des loyers (hypothèse)
+
+- `rentCtrl:1` pour Mélenchon et Glucksmann ; `rcSupply` (part de l'investissement locatif privé perdue, 0,05 / 0,15 / 0,25 selon la lecture) et `rcRent` (baisse des loyers des locataires en place, 5 / 3 / 1 %) dans `GL` et le panneau Hypothèses ; tirés dans `runMC`.
+- `consNow` × (1 − 0,3 × rcSupply) ; loyers : −rcRent + rcSupply × 100 / 3 sur dix ans (San Francisco). `cons` publié = `consNow`.
+
 ## 31 octobre 2026 : recherche des angles morts
 
 - Test d'asymétrie (scratch `adv.js`, 500 tirages) : % des tirages où chaque programme fait mieux que le statu quo, par indicateur, et plage de rangs.
