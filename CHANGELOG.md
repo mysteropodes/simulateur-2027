@@ -10,6 +10,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 - `euTax` (0/1, curseur des hypothèses, `GL`) : `leakM ×(1−euTaxCut)`, `euTaxCut` 0,25.
 - `repr` (0/1/2) : `RP` {pi, r}, inflation et `rf` décalés dès 2028 ; perte des épargnants par `microsim` (clé `epargne`, `reprSav` 3 000 Md€) ; retard d'indexation `reprLag` × écart d'inflation × sensibilité du groupe ; tension +3 par point. Deux contrôles de régression.
 - `reprComp` (0/1) : clé `epargneP` (quatre premiers déciles protégés), retard d'indexation nul pour `mod` et `jeu`, moitié pour `ret` ; coût `reprCost` = (2 × écart d'inflation + 10 % × `reprSav` × écart de taux) Md€ ajouté au déficit primaire.
+- Clés `resSec` (résidences secondaires) et `cotsal` (cotisations salariales) ; candidat IA : résidences secondaires (−0,8 `resSec`), `taxMd` 91,9, `A` 1,173 ; TVA sociale testée et refusée (tension > 60).
 
 ## 31 octobre 2026 : nationalisation de TotalEnergies, candidat IA v4
 
