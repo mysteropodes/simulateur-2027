@@ -16,7 +16,8 @@ const KEYS={ // part de la mesure reçue ou payée par chaque décile (somme = 1
  entreprises:[1,1,2,2,3,3,4,8,16,60],      // baisses d'impôts des entreprises, via les actionnaires
  heuressup:[3,8,11,13,13,13,12,11,9,7],    // heures supplémentaires défiscalisées
  jeunes:[22,18,14,11,9,8,7,5,4,2],          // aides aux 18-29 ans : jeunes adultes surreprésentés dans les premiers déciles (Insee, niveau de vie par âge)
- epargne:[1,2,3,4,5,7,9,12,18,39],      // épargne rémunérée (dépôts, livrets, fonds en euros) : hypothèse d'ordre de grandeur, les 10 % les plus aisés en détiennent un peu moins de la moitié
+ epargne:[1,2,3,4,5,7,9,12,18,39],
+ epargneP:[0,0,0,0,5,7,9,12,18,39],     // même clé, petite épargne des quatre premiers déciles protégée (livret d'épargne populaire indexé, plafond relevé)      // épargne rémunérée (dépôts, livrets, fonds en euros) : hypothèse d'ordre de grandeur, les 10 % les plus aisés en détiennent un peu moins de la moitié
  retHaut:[0,0,0,0,2,4,9,17,28,40]          // pensions au-dessus de 3 000 € brut par mois : ménages retraités des déciles supérieurs (ordre de grandeur DREES, distribution des pensions)
 };
 // Économies sociales non détaillées : même clé pour tous les programmes, construite sur la structure des prestations
@@ -24,8 +25,8 @@ const KEYS={ // part de la mesure reçue ou payée par chaque décile (somme = 1
 let SOCIAL_MIN=0.20;
 function setSocialKey(minShare){ SOCIAL_MIN=minShare; const r=(1-minShare)*0.5625, t=(1-minShare)*0.4375; KEYS.social=KEYS.retraites.map((v,i)=>v*r+KEYS.tete[i]*t+KEYS.minima[i]*minShare); RET_SHARE.social=r+0.25*t+0.1*minShare; JEU_SHARE.social=0.15*t+0.2*minShare; }
 const RET_INC=420, JEU_INC=160; // revenus des retraités et des 18-29 ans, Md€ (ordres de grandeur)
-const RET_SHARE={epargne:0.45,retraites:1,retHaut:1,conso:0.25,tete:0.25,ir:0.2,capital:0.25,minima:0.1};
-const JEU_SHARE={epargne:0.03,chomage:0.3,bassal:0.3,minima:0.2,conso:0.12,tete:0.15,fonction:0.1,heuressup:0.15,jeunes:1};
+const RET_SHARE={epargne:0.45,epargneP:0.42,retraites:1,retHaut:1,conso:0.25,tete:0.25,ir:0.2,capital:0.25,minima:0.1};
+const JEU_SHARE={epargne:0.03,epargneP:0.02,chomage:0.3,bassal:0.3,minima:0.2,conso:0.12,tete:0.15,fonction:0.1,heuressup:0.15,jeunes:1};
 setSocialKey(SOCIAL_MIN);
 const TOPKEYS={capital:1,ir:1}; // recettes perdues (CAE 2025) : impôts sur le capital, les patrimoines et le revenu des plus aisés, pas l'impôt des entreprises
 function microsim(list,leak=0){
