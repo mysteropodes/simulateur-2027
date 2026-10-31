@@ -10,7 +10,7 @@ const path=require('path');
   const out=await pg.evaluate(()=>{
     const B=o=>Object.assign({},BASE0,PRESETS.central,o||{});
     const sim=(id,o,mode)=>simulate(CANDS0.find(p=>p.id===id),mode||"credible",B(o));
-    const sq=sim("statu"), ids=CANDS0.map(p=>p.id), r={};
+    const sq=sim("statu"), ids=CANDS0.filter(p=>!p.fictif).map(p=>p.id), r={};
     for(const id of ids) r[id]=sim(id);
     const y=t=>t-2025, checks=[];
     const near=(lab,v,lo,hi)=>checks.push([lab,v,v>=lo&&v<=hi,lo+" à "+hi]);
@@ -38,6 +38,8 @@ const path=require('path');
     const lk=l=>simulate(CANDS0.find(p=>p.id==="melenchon"),"credible",B({leak:l})).debt[y(2032)];
     ok("Plus de recettes perdues augmente la dette (Mélenchon)",lk(0.6)>lk(0.2));
     const lr=l=>simulate(CANDS0.find(p=>p.id==="retailleau"),"credible",B({leak:l})).debt[y(2032)];
+    // candidat fictif : règles de construction (solde annoncé >= 0, pas de crise avant le statu quo, pauvreté sous le statu quo, tension < 61)
+    const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); near("Candidat IA : tension maximale",Math.max(...ri.tension),0,61);}
     ok("Les recettes perdues n'améliorent pas Retailleau",lr(0.9)>=lr(0.1)-0.05);
     const ic=x=>sim("statu",{infl:x,crisisPrem:1e9}).debt[y(2032)];
     ok("Plus d'inflation baisse le ratio de dette 2032 (sans crise)",ic(2.5)<ic(1.5));

@@ -8,7 +8,7 @@
 :root{
   --bg:#10131a; --side:#141822; --surface:#1a1f2b; --surface2:#222838; --ink:#eef0f5; --muted:#8f97ab; --soft:#646c81; --line:#2a3142;
   --accent:#9db0ff; --accent-ink:#121a3d; --accent-soft:#232b45; --warn:#f0b23e; --good:#5fd3a2; --shock:#ff8a7a;
-  --c0:#9aa3b2; --c1:#ef6f62; --c2:#5aa6e8; --c3:#f0b23e; --c4:#b484e0; --c5:#4cc7ae; --c6:#f48fb1;
+  --c0:#9aa3b2; --c1:#ef6f62; --c2:#5aa6e8; --c3:#f0b23e; --c4:#b484e0; --c5:#4cc7ae; --c6:#f48fb1; --c7:#b5e48c;
   --f-display:"Schibsted Grotesk",system-ui,sans-serif;
   --f-body:"Schibsted Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif;
   --f-data:"Schibsted Grotesk",system-ui,sans-serif;
@@ -157,7 +157,7 @@ h2{font-size:1.12rem;font-weight:650}
 .mnav{display:none}
 .view{display:grid;gap:18px;min-width:0}.view[hidden]{display:none}
 /* vue d'ensemble */
-.ovcards{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:12px}
+.ovcards{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:12px}
 .ovcard{all:unset;box-sizing:border-box;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px 14px 12px;position:relative;overflow:hidden;display:flex;flex-direction:column;min-width:0}
 .ovcard::before{content:"";position:absolute;inset:0 0 auto 0;height:3px;background:var(--c)}
 .ovcard:hover{border-color:#3a4358}
@@ -205,7 +205,7 @@ th{font-family:var(--f-body);text-transform:none;letter-spacing:0;font-size:.78r
 td{font-family:var(--f-body)}
 .notice{border-left-color:var(--warn);border-radius:8px}
 footer{margin:12px 0 0!important}
-@media (max-width:1280px){.ovcards{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (max-width:1400px){.ovcards{grid-template-columns:repeat(4,minmax(0,1fr))}}
 @media (max-width:1100px){.ovgrid{grid-template-columns:1fr}}
 @media (max-width:860px){
   .app{grid-template-columns:1fr}.side{display:none}

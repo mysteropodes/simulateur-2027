@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : candidat fictif construit par le simulateur
+
+- `CANDS0` : entrée `ia` (`fictif:1`, `itemized:1`, `c` 0,86, `adh` 0,68, `parl` 0,61, `A` +0,4), mesures dans `PA_MEASURES.ia` (origine `emprunt`), `EXT.ia` ; couleur `--c7`, courbe en pointillés, badge « candidat fictif ».
+- Construction (scratch `opt/feas.js`) : menu de 17 mesures + 9 leviers, algorithme évolutionnaire 500 + 60 × 350, trois lectures par évaluation, pénalités de faisabilité (solde ≥ 0, soutien min 40 % / moyen 60 %, tension < 60, pauvreté ≤ statu quo ×3, retraités ≥ statu quo, crise ≥ statu quo en central et libéral), objectif minimax sur 9 indicateurs + 0,1 × somme.
+- Exclu de `costRank`, des conclusions robustes (`rob2.js`, `adv.js` filtrent `fictif`) et de la grille des droits ; tests de régression : 4 contrôles sur ses règles.
+
 ## 31 octobre 2026 : justice et sécurité
 
 - Nouvelles séries `prisonD`, `judgeLoad`, `theftI`, `secCost` (thème « Justice et sécurité ») ; paramètres `det0`, `places0`, `mag0`, `police0`, `crimeU` (3 %/pt), `crimeP` (0,3), `secU`.
