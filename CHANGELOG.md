@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : crises plus réalistes, pauvreté à seuil figé
+
+Suite à une critique (aucune hypothèse ne rendait la pauvreté de Mélenchon pire que le statu quo), trois corrections communes :
+- Crise : choc de croissance −3,5 / −2 / −1 sur trois ans (au lieu de −2 la première année), refus −5 / −1,5 / −0,5 ; Okun × 1,6 pendant trois ans (France 2008-2009). Calage : PIB ≈ −5 % sur trois ans, chômage +2,5 à +3 points ; dette +18 à 22 points par rapport à la trajectoire sans crise (10 à 17 avant).
+- Créanciers : `rb` = 25 % puis 50 % des gains des ménages (`decEff`, `paEff`) annulés pendant le programme d'aide (hors refus), −10 points par an après la sortie ; ces annulations s'imputent sur l'ajustement imposé (`fHH = forcedCum − rb × gains`), pas en plus.
+- Nouvel indicateur `povA` : pauvreté sous le seuil de 2025 en euros constants (croissance du revenu par habitant, `popG` 0,3 %).
+- Effets : 2032 central inchangé ; dette 2046 +6 à 8 points ; lecture libérale : pauvreté 2032 Mélenchon 16,3 % contre 15,3 % pour le statu quo. Robustesse : pauvreté la plus basse Mélenchon 76 % (86), tension la plus forte Retailleau ou Le Pen 97 % (100), pauvreté la plus haute Retailleau 72 % (74).
+
 ## 31 octobre 2026 : audit, seconde partie
 
 Relecture indépendante du modèle (rapport dans le scratch `audit5/RAPPORT.md`, probes `audit5me/`) : arithmétique juste (identité de la dette, déficit = primaire + intérêts, sous-secteurs, indices, unités, règle de crédibilité, fuite comptée une fois, 665 + 189 cas limites sans valeur non finie). Corrections, toutes communes :
