@@ -50,6 +50,8 @@ const path=require('path');
     { const st=CANDS0.find(p=>p.id==="statu"), n0=simulate(st,"credible",B()), n1=simulate(Object.assign({},st,{natio:70}),"credible",B());
       ok("Nationalisation : dette 2028 plus haute",n1.debt[y(2028)]>n0.debt[y(2028)]+1.5); ok("Nationalisation : dividendes à partir de 2029",n1.natDiv[y(2029)]>0&&n1.natDiv[y(2028)]===0); ok("Nationalisation : déficit primaire 2032 plus bas",n1.prim[y(2032)]<n0.prim[y(2032)]); }
     { const ml=CANDS0.find(p=>p.id==="melenchon"); ok("Exit tax : moins de recettes perdues",simulate(Object.assign({},ml,{exitTax:1}),"credible",B()).leakM<simulate(Object.assign({},ml,{exitTax:0}),"credible",B()).leakM); }
+    { const st=CANDS0.find(p=>p.id==="statu"), r0=simulate(st,"credible",B()), r2=simulate(st,"credible",B({repr:2}));
+      ok("Répression financière : dette 2036 plus basse",r2.debt[y(2036)]<r0.debt[y(2036)]-10); ok("Répression financière : les retraités paient",r2.pa.ret[y(2032)]<r0.pa.ret[y(2032)]-3); }
     const ic=x=>sim("statu",{infl:x,crisisPrem:1e9}).debt[y(2032)];
     ok("Plus d'inflation baisse le ratio de dette 2032 (sans crise)",ic(2.5)<ic(1.5));
     // une crise fait d'abord monter la dette (Portugal, Espagne, Irlande, Grèce)

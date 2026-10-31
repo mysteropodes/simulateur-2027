@@ -8,6 +8,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 - Plafond `z.cap` appliqué à la prime des programmes sans conflit avec l'UE (`p.eu` = 0), comme le TPI.
 - Boutons dans « Choc ponctuel », textes `SHOCKTXT`.
 - `euTax` (0/1, curseur des hypothèses, `GL`) : `leakM ×(1−euTaxCut)`, `euTaxCut` 0,25.
+- `repr` (0/1/2) : `RP` {pi, r}, inflation et `rf` décalés dès 2028 ; perte des épargnants par `microsim` (clé `epargne`, `reprSav` 3 000 Md€) ; retard d'indexation `reprLag` × écart d'inflation × sensibilité du groupe ; tension +3 par point. Deux contrôles de régression.
 
 ## 31 octobre 2026 : nationalisation de TotalEnergies, candidat IA v4
 
