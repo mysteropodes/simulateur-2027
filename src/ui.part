@@ -276,9 +276,9 @@ buildMetricButtons();
     '<div class="cr-r"><span class="cr-n">–</span><span class="cr-c" style="background:var('+CANDS0.find(p=>p.id==="glucksmann").color+')"></span><span class="cr-name">Glucksmann (PS-PP)</span><span></span><span class="cr-v">–</span><span class="cr-d">Programme pas encore publié : pas de classement possible. Le simulateur reconstitue son programme à partir de ses déclarations, avec la note de crédibilité minimale.<br><span class="cr-x">'+nxt.glucksmann+'</span></span></div>'+
     '<p class="help">Ce n\'est pas une note de sérieux du programme : un candidat peut chiffrer peu mais juste. Dans le simulateur, la part non vérifiée n\'est retenue qu\'à 30 % (note de crédibilité c = 0,3 + 0,7 × cette part), les dépenses et baisses d\'impôts étant retenues en entier.</p>';
 })();
-const PRESETS={keynes:{crowd:0,povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.15,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.2},
-  central:{crowd:0.02,povSave:1.35,smicEl:0.35,spRet:0.1,invRet:0,rtt:0.5,mult:0.7,multScale:1,hyst:0.05,ineqGrowth:0.06,importSub:0.5,transDrag:0.06,leak:0.4,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.5},
-  liberal:{crowd:0.04,povSave:0,smicEl:0.5,spRet:0.03,invRet:0,rtt:0.1,mult:0.4,multScale:0.7,hyst:0,ineqGrowth:0,importSub:0.3,transDrag:0.12,leak:0.6,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:1.8}};
+const PRESETS={keynes:{uStructScale:0.5,crowd:0,povSave:2.7,smicEl:0.05,spRet:0.2,invRet:0,rtt:0.9,mult:1.0,multScale:1.25,hyst:0.1,ineqGrowth:0.12,importSub:0.7,transDrag:0,leak:0.15,prem:0.08,kDebt:0.12,crisisPrem:4.0,seniorKeep:0.45,mktReal:1.2},
+  central:{uStructScale:1,crowd:0.02,povSave:1.35,smicEl:0.35,spRet:0.1,invRet:0,rtt:0.5,mult:0.7,multScale:1,hyst:0.05,ineqGrowth:0.06,importSub:0.5,transDrag:0.06,leak:0.4,prem:0.15,kDebt:0.25,crisisPrem:3.0,seniorKeep:0.55,mktReal:1.5},
+  liberal:{uStructScale:1.6,crowd:0.04,povSave:0,smicEl:0.5,spRet:0.03,invRet:0,rtt:0.1,mult:0.4,multScale:0.7,hyst:0,ineqGrowth:0,importSub:0.3,transDrag:0.12,leak:0.6,prem:0.25,kDebt:0.4,crisisPrem:2.5,seniorKeep:0.65,mktReal:1.8}};
 // lecture fondée sur les études faites après coup : valeurs centrales, sauf là où l'histoire tranche
 PRESETS.historique=Object.assign({},PRESETS.central,{leak:0.54,seniorKeep:0.65});
 const PRESETHELP={historique:"Lecture fondée sur l'historique : pour chaque hypothèse, la valeur la mieux étayée par les études faites après coup. Recettes perdues sur les plus riches : 54 % (Conseil d'analyse économique, 2025). Seniors restant en emploi quand l'âge de départ recule : 65 % (Insee, réforme de 2010 : 63 % des hommes, 73 % des femmes). Effets sur l'activité : valeurs centrales des études, plus fortes en crise (FMI, Blanchard et Leigh, 2013, déjà appliqué). Le reste, où l'histoire ne tranche pas (35 heures, réaction des marchés, inégalités et croissance), garde les valeurs centrales.",keynes:"Lecture keynésienne (proche de l'OFCE ou des Économistes atterrés) : les économies freinent fortement l'activité, la redistribution vers les modestes et l'investissement public la relancent, peu de recettes s'évaporent, les marchés sont patients.",
@@ -381,15 +381,16 @@ function runMC(){
     if(BASE.shock==="none"&&R()<0.4){b.shock=pick(R,["recession","financial","inflation","climat","petrole","commerce","guerre"],[0.22,0.18,0.13,0.15,0.13,0.1,0.09]);b.shockYear=2028+Math.floor(R()*13);}
     if(R()<0.25){b.shock2=pick(R,["recession","financial","climat","petrole","guerre"],[0.3,0.2,0.25,0.15,0.1]);b.shockYear2=2033+Math.floor(R()*13);} // un second choc sur vingt ans
     b.bceDraw=R(); b.tensionRights=BASE.tensionRights*(0.3+R()); b.socialMin=0.1+R()*0.25; b.tpiDef=BASE.tpiDef-0.75+1.5*R(); b.premPolDecay=0.6+0.35*R(); b.povSave=Math.max(0,BASE.povSave*(0.3+1.4*R())); b.smicEl=Math.max(0,BASE.smicEl+(R()-0.5)*0.4); // filet BCE et effet du Smic : incertains
-    draws.push({b,cj:(R()-0.5)*0.3,ej:0.5+R()});
+    const pj={}; for(const c of CANDS) pj[c.id]={adh:(R()-0.5)*0.3,co2:0.5+0.6*R()}; // jugements propres à chaque programme : soutien de l'opinion (±0,15) et efficacité de la politique climatique (50 à 110 % du rythme annoncé)
+    draws.push({b,cj:(R()-0.5)*0.3,ej:0.5+R(),pj,us:0.3+1.2*R(),inf:0.5+2*R()}); // inf : diffusion des hausses de salaires (Smic, point d'indice) ou des baisses de taxes aux prix, de 50 à 250 % de l'hypothèse // us : effet des réformes du marché du travail sur le chômage structurel, de 30 à 150 % de l'hypothèse (débat sur l'assurance chômage et le Smic)
   }
   const q=(arr,x)=>{const s=[...arr].sort((a,b)=>a-b);return s[Math.min(s.length-1,Math.floor(x*s.length))];};
   MC={metric,rows:[],series:{}};
   for(const p of CANDS){
     const debt=[],up=[],pov=[],ser=[],cy=[];let cr=0,tp=0,emb=0,cr37=0,prog5=0;
-    for(const {b,cj,ej} of draws){
+    for(const {b,cj,ej,pj,us,inf} of draws){
       if(typeof setSocialKey==="function") setSocialKey(b.socialMin); // clé d'incidence des économies sociales non détaillées : part « minima » tirée entre 10 et 35 %
-      const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:cj))),eu:p.eu*ej,pa:ms.pa,paDec:ms.deciles});
+      const ms=microsim(p.paMeasures,mode==="annonce"?0:b.leak); const pp=Object.assign({},p,{c:Math.min(1,Math.max(0,p.c+(p.id==="statu"?0:cj))),eu:p.eu*ej,pa:ms.pa,paDec:ms.deciles,adh:Math.min(0.95,Math.max(0.05,(p.adh||0.5)+pj[p.id].adh)),co2Eff:pj[p.id].co2,uStruct:(p.uStruct||0)*us,inflImp:(p.inflImp||0)*inf});
       const r=simulate(pp,mode,b);
       debt.push(r.debt[yi(2036)]); up.push(Math.max(...r.unemp.slice(yi(2027),yi(2036)+1))); pov.push(r.pov[yi(2032)]);
       if(r.crisis!==null){cr++; cy.push(r.crisis); if(r.crisis<=2037) cr37++; if(r.crisisN>=2||Math.max(...r.tension.slice(r.crisis-2025))>=80) emb++; if(r.crisis<=2041&&(r.progEnds||[]).some(y=>y<=r.crisis+5)) prog5++;} else if(r.tpi!==null) tp++;

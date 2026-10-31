@@ -200,7 +200,7 @@ function simulate(p,mode,b){
     const shield=b.bouclier*Math.max(0,bill-Math.max(billRef,billT))/b.gdpMd*100; // aides publiques temporaires face à une hausse brutale (bouclier tarifaire) : elles s'éteignent quand les prix se stabilisent
     if(hasS("petrole",0)) E(t,"oil","Flambée du pétrole : +45 $ le baril, puis +25 $ l'année suivante (type 2022). Facture énergétique, inflation, aides publiques.");
     const near=NEAR[t]||{g:0,pi:0}; // conjoncture : Banque de France, septembre 2026
-    const uProg=(t>=2027?p.uStruct*pol:0)+smicUprev; const uLev=-b.uGdp*uProg, uG=uLev-uLevPrev; uLevPrev=uLev; // chômage structurel changé par le programme (assurance chômage, Smic) : moins d'actifs occupés, donc moins de PIB
+    const uProg=(t>=2027?p.uStruct*(b.uStructScale??1)*pol:0)+smicUprev; const uLev=-b.uGdp*uProg, uG=uLev-uLevPrev; uLevPrev=uLev; // chômage structurel changé par le programme (assurance chômage, Smic) : moins d'actifs occupés, donc moins de PIB
     cumProg+=progBal; const crowdLev=b.crowd*cumProg, crowdG=crowdLev-crowdPrev; crowdPrev=crowdLev; // éviction : la dette publique ajoutée (ou retirée) par le programme détourne (ou libère) une partie de l'épargne pour l'investissement privé (CBO : 0,33 € par € de déficit, part du capital 0,35 ; zone euro ouverte : moitié) ; effet de niveau sur le PIB, la tendance de référence comprenant déjà le statu quo
     const lfG=b.demog?interpYear(LF,t)-LF[2026]:0; // ralentissement puis baisse de la population active
     const tensLev=-(b.tensCost||0)*Math.max(0,tension-60), tensG=tensLev-tensLevPrev; tensLevPrev=tensLev; // tension forte (grèves, blocages, incertitude) : activité perdue tant qu'elle dure, récupérée ensuite (gilets jaunes : −0,1 pt de PIB au 4e trimestre 2018, Insee)
@@ -211,7 +211,7 @@ function simulate(p,mode,b){
     // pauvreté et dépenses publiques : surcoûts de santé, d'éducation et de justice liés à la pauvreté (39 Md€ pour environ 9,8 millions de personnes, Collectif Alerte et Oliver Wyman, 2024),
     // en Md€ par point de taux de pauvreté au-dessus ou au-dessous de 2025, avec un effet qui s'installe sur plusieurs années (les personnes concernées sont proches du seuil : effet partiel)
     const climF={aucun:0,moderee:0.8,forte:1,tresforte:1.3}[b.clim]||1, climBud=b.climCost*(0.13*(1+ramp(t,2025,2050))*climF*(1-0.4*adapt)-0.13); // intempéries : catastrophes naturelles (part publique de la CCR), calamités agricoles, réparations publiques ; ≈ 0,13 % du PIB en 2025, doublement d'ici 2050 (France Assureurs), réduit par l'adaptation
-    const povCost=climBud+b.povSave*povS/b.gdpMd*100+b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev); // + allocations chômage et recettes perdues quand le chômage structurel change
+    const povCost=climBud+b.povSave*povS/b.gdpMd*100+b.uDef*((t>=2027?p.uStruct*(b.uStructScale??1)*pol:0)+smicUprev); // + allocations chômage et recettes perdues quand le chômage structurel change
     const pd=s+povCost-b.stab*gap+z.pd+shield-b.migFisc*migN/1000+I.tax*hump*(1-0.5*cushion)+b.aiCost*Math.max(0,cushion-0.2)/0.8*hump*I.disp/1.2; // l'amortisseur IA (formation, accompagnement) a un coût
     const sm=(x,th)=>Math.max(0,Math.min(1,(x-th+1)/2)), notch=(burden>8?1:0)+(burden>11?1:0)+(burden>14?1:0);
     const rating=b.ratingW*(0.2*sm(burden,8)+0.4*sm(burden,11)+0.8*sm(burden,14)); // dégradations de note : vers 8, 11 et 14 % des recettes, sans saut brutal
@@ -247,9 +247,9 @@ function simulate(p,mode,b){
     const okunEff=(hasS("pandemie",0)||hasS("pandemie",1))?0.15:1; // activité partielle : en 2020-2021, l'emploi a été protégé malgré la chute du PIB
     const okunCr=(crisis!==null&&t-crisis>=1&&t-crisis<=3)?1.6:1; // crise de la dette : faillites et crédit coupé, l'emploi réagit plus fort (France 2008-2009 : PIB −2,9 %, chômage +1,7 point en un an, soit ≈ 0,5 au lieu de 0,3)
     const smicU=b.smicEl*(p.smicCost||0)*0.17*ramp(t,2026,2029)*pol*retreat; smicUprev=smicU; // hausse du Smic : emplois au Smic (17 % des salariés) sensibles au coût du travail
-    u=u+(b.calib&&near.du?near.du:0)+b.uSpeed*(b.uStar+(t>=2027?p.uStruct*pol:0)+smicU+aiDisp+uSen-1.1*b.rtt*rttPh-u)-b.okun*okunEff*okunCr*(gap-gapPrev);
+    u=u+(b.calib&&near.du?near.du:0)+b.uSpeed*(b.uStar+(t>=2027?p.uStruct*(b.uStructScale??1)*pol:0)+smicU+aiDisp+uSen-1.1*b.rtt*rttPh-u)-b.okun*okunEff*okunCr*(gap-gapPrev);
     // CO2 : tendance actuelle (−1,5 %/an) remplacée par le rythme du programme, l'activité module à la marge
-    const rate=b.co2Base+(p.co2Rate-b.co2Base)*pol*retreat*ramp(t,2026,2030); // rythme de décarbonation : orientation politique, appliquée si élu
+    const rate=b.co2Base+(p.co2Rate-b.co2Base)*pol*retreat*(p.co2Eff??1)*(1-rb)*ramp(t,2026,2030); // rythme de décarbonation : orientation politique, appliquée si élu ; efficacité incertaine (tirée dans les fourchettes) ; réduite pendant un programme d'aide, quand l'investissement public est coupé (Europe du Sud 2011-2014 : investissement public divisé par deux environ)
     co2=co2*(1-rate/100)*(1+0.5*(gap-gapPrev)/100);
     // pollution de l'air (PM2.5) : suit les émissions de combustion, plus un progrès technique de 1 %/an
     const pm=b.pm0*Math.pow(co2/b.co2_0,0.8)*Math.pow(0.99,t-START);
@@ -314,7 +314,7 @@ function simulate(p,mode,b){
     o.ca.push(-0.4-0.3*(cyc+struct+gapO)-(bill-b.energy0)/b.gdpMd*100-0.1*ulc);
     // déficit par administration (avant transferts de compensation entre administrations) : 2025 État 4,4, Sécurité sociale 0,2, collectivités 0,5 (Insee)
     const shA={trAutres:0.8,trMod:0.5,taxLarge:0.4,taxMod:0.6,entr:0.3,fonct:0.1}, shL={inv:0.5,log:0.2,fonct:0.15}; let pA=0,pL=0; for(const k in compEff){pA+=(shA[k]||0)*compEff[k]*retreat*phase; pL+=(shL[k]||0)*compEff[k]*retreat*phase;}
-    const intD=interest-2.2, dSecu=0.2+ageing+b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev)+0.5*(povCost-climBud-b.uDef*((t>=2027?p.uStruct*pol:0)+smicUprev))+0.1*intD+pA-0.3*react-0.3*forcedCum, dLoc=0.5+0.4*climBud+0.05*intD+pL-0.1*react-0.1*forcedCum;
+    const intD=interest-2.2, dSecu=0.2+ageing+b.uDef*((t>=2027?p.uStruct*(b.uStructScale??1)*pol:0)+smicUprev)+0.5*(povCost-climBud-b.uDef*((t>=2027?p.uStruct*(b.uStructScale??1)*pol:0)+smicUprev))+0.1*intD+pA-0.3*react-0.3*forcedCum, dLoc=0.5+0.4*climBud+0.05*intD+pL-0.1*react-0.1*forcedCum;
     o.defSecu.push(dSecu); o.defLoc.push(dLoc); o.defEtat.push(lastDef-dSecu-dLoc);
     // héritages et donations : ≈ 300 Md€ par an, 15 % du revenu national (CAE, 2021), en hausse avec le vieillissement ; droits de succession ≈ 0,5 % du PIB, plus les mesures des programmes sur les héritages
     const succProg=inhMd*(1-leakM)*realSp/GP*100*retreat*phase; o.inh.push(10+0.08*(t-START)); o.succ.push(0.5+succProg);

@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : recherche des angles morts
+
+- Test d'asymétrie (scratch `adv.js`, 500 tirages) : % des tirages où chaque programme fait mieux que le statu quo, par indicateur, et plage de rangs.
+- `runMC` : tirages par programme `adh` ±0,15 et `co2Eff` 0,5-1,1 ; tirages communs `us` (× `uStruct`, 0,3-1,5) et `inf` (× `inflImp`, 0,5-2,5).
+- Modèle : `co2Eff` et `(1 − rb)` sur le rythme de décarbonation du programme ; `uStructScale` par lecture (0,5 / 1 / 1,6).
+- Robustesse : pauvreté la plus basse Mélenchon 77 %, crise précoce Mélenchon 91 %, tension max Retailleau ou Le Pen 98 %, pauvreté max Retailleau 71 %, dette hors crise min Philippe 58 % (2036 : 48 %), crise pour tous 78 %.
+- Asymétries restantes documentées dans la Méthode (pauvreté relative des programmes d'économies sociales, crise de Le Pen et Glucksmann, CO₂ vs statu quo).
+
 ## 31 octobre 2026 : crises plus réalistes, pauvreté à seuil figé
 
 Suite à une critique (aucune hypothèse ne rendait la pauvreté de Mélenchon pire que le statu quo), trois corrections communes :
