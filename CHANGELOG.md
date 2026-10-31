@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : justice et sécurité
+
+- Nouvelles séries `prisonD`, `judgeLoad`, `theftI`, `secCost` (thème « Justice et sécurité ») ; paramètres `det0`, `places0`, `mag0`, `police0`, `crimeU` (3 %/pt), `crimeP` (0,3), `secU`.
+- `sec` par programme : Le Pen (85 000 places, juges × 2, +10 % de détenus), Attal (+3 %), Glucksmann (−3 %), Mélenchon (`cap` : détenus ≤ places). Coût affiché, non ajouté au déficit.
+- Grille : critère `prob` (probité), hors `rightsPts`.
+
 ## 31 octobre 2026 : encadrement des loyers (hypothèse)
 
 - `rentCtrl:1` pour Mélenchon et Glucksmann ; `rcSupply` (part de l'investissement locatif privé perdue, 0,05 / 0,15 / 0,25 selon la lecture) et `rcRent` (baisse des loyers des locataires en place, 5 / 3 / 1 %) dans `GL` et le panneau Hypothèses ; tirés dans `runMC`.

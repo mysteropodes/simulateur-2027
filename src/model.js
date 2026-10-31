@@ -1,7 +1,7 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
-  leak:0.4,tensCost:0.01,seniorKeep:0.55,tpiDef:4,demog:1,ecb:0.25,climCost:1,shock2:"none",shockYear2:2035,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,popG:0.3,rcSupply:0.15,rcRent:3,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
+  leak:0.4,tensCost:0.01,seniorKeep:0.55,tpiDef:4,demog:1,ecb:0.25,climCost:1,shock2:"none",shockYear2:2035,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,popG:0.3,det0:89668,places0:63303,mag0:9000,police0:250000,crimeU:3,crimeP:0.3,secU:1,rcSupply:0.15,rcRent:3,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={aucun:{dmg:0,heat:0},moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={aucune:{prod:0,disp:0,gini:0,tax:0},lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
@@ -110,7 +110,7 @@ function simulate(p,mode,b){
   const inhMd=(p.paMeasures||[]).filter(m=>/h[ée]ritage|succession/i.test(m[0])&&m[1]<0).reduce((a,m)=>a-m[1],0); // Md€ de hausse des droits sur les héritages
   const ndSav=Math.max(0,-(CD.resid||0)); if(ndSav>0&&typeof microsim==="function"){const M=microsim([["nd",-ndSav*0.5*GP/100,"social"]],0); for(const g in paEff) paNeg[g]+=uS*M.pa[g]*real; decNeg=decNeg.map((v,i)=>v+uS*M.deciles[i]*real);}
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; gap=b.gap0||0; let gapO=b.gap0||0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
-  const o={povA:[b.pov0],retreat:[0],tensGdp:[0],house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const o={prisonD:[133],judgeLoad:[100],theftI:[100],secCost:[0],povA:[b.pov0],retreat:[0],tensGdp:[0],house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
     const SH=[[b.shock,b.shockYear],[b.shock2||"none",b.shockYear2||0]], hasS=(ty,k)=>SH.some(([x,Y])=>x===ty&&t-Y===k), z={real:0,infl:0,spread:0,euMult:1,pd:0,deaths:0,tension:0}; let deathsClim=0, deathsEpid=0;
@@ -319,6 +319,17 @@ function simulate(p,mode,b){
     o.defSecu.push(dSecu); o.defLoc.push(dLoc); o.defEtat.push(lastDef-dSecu-dLoc);
     // héritages et donations : ≈ 300 Md€ par an, 15 % du revenu national (CAE, 2021), en hausse avec le vieillissement ; droits de succession ≈ 0,5 % du PIB, plus les mesures des programmes sur les héritages
     const succProg=inhMd*(1-leakM)*realSp/GP*100*retreat*phase; o.inh.push(10+0.08*(t-START)); o.succ.push(0.5+succProg);
+    // justice et sécurité (31 octobre 2026) : indicateurs de résultat, sans effet sur le budget (voir la Méthode)
+    { const S=p.sec||{}, ph=ramp(t,2027,2032)*pol*retreat;
+      const detT=b.det0*Math.pow(1.03,Math.min(t,2030)-2026)*Math.pow(1.01,Math.max(0,t-2030)); // tendance : +3 %/an jusqu'en 2030 (≈ +5 %/an observé en 2023-2026), +1 % ensuite
+      const plT=b.places0+1600*Math.max(0,Math.min(t,2032)-2026); // plan 15 000 places : ≈ 9 600 restant à livrer, sur six ans
+      const pl=plT+Math.max(0,(S.places||0)-(b.places0+9600))*ph;
+      let det=detT*(1+(S.pen||0)*ph)*(1+b.secU*(u-b.u0)/100); if(S.cap) det=Math.min(det,Math.max(pl,det-(det-pl)*ph));
+      const magT=b.mag0+300*Math.max(0,Math.min(t,2027)-2025), mag=magT*(1+((S.mag||1)-1)*ph);
+      const pol0=b.police0+1400*Math.max(0,Math.min(t,2027)-2025), police=pol0*(1+(S.police||0)*ph);
+      o.prisonD.push(100*det/pl); o.judgeLoad.push(100*Math.pow(1.01,t-2025)*b.mag0/mag);
+      o.theftI.push(100*(1+b.crimeU*(u-b.u0)/100)*Math.pow(police/b.police0,-b.crimeP));
+      o.secCost.push(((mag-magT)*0.13+(police-pol0)*0.07)/1000+Math.max(0,pl-plT)*0.045/1000); }
     o.mig.push(migW);o.debt.push(d);o.def.push(lastDef);o.unemp.push(u);o.gini.push(gini);o.pov.push(pov);o.povA.push(povA);o.health.push(health);o.heat.push(heat+epid);o.tension.push(tension);o.burden.push(burden);o.co2.push(co2);o.pm.push(pm);o.pens.push(pens);o.retliv.push(retliv);
     sPrev=s;
   }
