@@ -12,6 +12,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 - `reprComp` (0/1) : clé `epargneP` (quatre premiers déciles protégés), retard d'indexation nul pour `mod` et `jeu`, moitié pour `ret` ; coût `reprCost` = (2 × écart d'inflation + 10 % × `reprSav` × écart de taux) Md€ ajouté au déficit primaire.
 - Clés `resSec` (résidences secondaires) et `cotsal` (cotisations salariales) ; candidat IA : résidences secondaires (−0,8 `resSec`), `taxMd` 91,9, `A` 1,173 ; TVA sociale testée et refusée (tension > 60).
 - `levy` (Md€, curseur) : recette temporaire `levy × (1 − levyLeak) / levyYears` de `levyYear` (2028) pendant `levyYears` (10) ans, `levyLeak` 0,3, sortie `o.levy` ; candidat IA `levy` 100.
+- `allies` (0-40 % du PIB de la zone, curseur) : `bceProb` = `bceOk` + (0,7 − `bceOk`) × min(1, allies/40) pour les programmes avec `bce` > 0 ; prime de conflit `p.eu` × (1 − 0,5 × ally).
 
 ## 31 octobre 2026 : nationalisation de TotalEnergies, candidat IA v4
 

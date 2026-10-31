@@ -1,5 +1,5 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
-const BASE0={levyLeak:0.3,levyYear:2028,levyYears:10,reprComp:0,repr:0,reprSav:3000,reprLag:1,euTax:0,euTaxCut:0.25,depoReal:0,exitCut:0.1,natioPrem:0.15,natioYield:0.044,natioOil:1,natioYear:2028,extScale:1,leakStack:0.1,ulcGdp:0.12,premAnn:0.5,d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
+const BASE0={allies:0,levyLeak:0.3,levyYear:2028,levyYears:10,reprComp:0,repr:0,reprSav:3000,reprLag:1,euTax:0,euTaxCut:0.25,depoReal:0,exitCut:0.1,natioPrem:0.15,natioYield:0.044,natioOil:1,natioYear:2028,extScale:1,leakStack:0.1,ulcGdp:0.12,premAnn:0.5,d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
   leak:0.4,tensCost:0.01,seniorKeep:0.55,tpiDef:4,demog:1,ecb:0.25,climCost:1,shock2:"none",shockYear2:2035,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,popG:0.3,det0:89668,places0:63303,mag0:9000,police0:250000,crimeU:3,crimeP:0.3,secU:1,rcSupply:0.15,rcRent:3,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
@@ -83,7 +83,8 @@ function simulate(p,mode,b){
   const real= mode==="annonce"?1 : mode==="credible"?p.c : p.c*f; // part des montants budgétaires qui se réalise (crédibilité du chiffrage)
   const realSp= mode==="pondere"?f:1; // dépenses et baisses d'impôts : réalisées en entier (seule la faisabilité les réduit, en mode « pondéré »)
   const pol= mode==="pondere"?f:1; // réformes non budgétaires (âge de départ, temps de travail, marché du travail, ZAN) : appliquées si élu, pondérées par la faisabilité en mode « pondéré »
-  const bceProb= mode==="annonce"?1 : p.bceOk*(mode==="pondere"?f:1);
+  const ally=Math.min(1,(b.allies||0)/40); // soutien d'autres pays de la zone euro (part de son PIB, hors France) : 40 % ou plus = avec la France, une majorité de la zone
+  const bceProb= mode==="annonce"?1 : (p.bceOk+((p.bce||0)>0?(0.7-p.bceOk)*ally:0))*(mode==="pondere"?f:1); // probabilité d'acceptation de la BCE : de la valeur du programme seul jusqu'à 70 % avec une coalition majoritaire (jamais certaine : la BCE est indépendante)
   const bceOn= mode==="annonce"?1 : (b.bceDraw!=null&&b.bceDraw<bceProb?1:0); // la BCE accepte ou refuse, pas de moyenne
   const euW= mode==="pondere"?f:1;
   const C=CLIM[b.clim], I=AI[b.ai];
@@ -235,7 +236,7 @@ function simulate(p,mode,b){
     const polPrem=b.premPol*(t<=2027?1:Math.pow(b.premPolDecay,t-2027)); // prime d'instabilité politique actuelle, qui se résorbe après l'élection
     const piPrev=o.infl[o.infl.length-1], defAdj=lastDef-Math.max(0,piPrev-2)*d/100; // déficit corrigé de l'érosion de la dette par l'inflation au-delà de 2 %
     const annPrem=(t>=2027&&mode!=="annonce")?(b.premAnn||0)*extS*Math.max(0,progPos+progNeg)*(0.5+0.5*phase)*Math.pow(0.6,t-2027):0; // prime d'annonce : les marchés réagissent à un programme qui dégrade le solde (montants crédibles), avant les déficits réalisés, puis elle s'estompe (Italie 2018, Royaume-Uni 2022)
-    let prem=annPrem+b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*euW*z.euMult*(t<=2031?1:Math.pow(0.8,t-2031)):0)+z.spread; // conflit avec l'UE : prime pleine pendant le mandat, puis elle s'estompe (accord, alternance ou habitude des marchés)
+    let prem=annPrem+b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*(1-0.5*ally)*euW*z.euMult*(t<=2031?1:Math.pow(0.8,t-2031)):0)+z.spread; // conflit avec l'UE : prime pleine pendant le mandat, puis elle s'estompe (accord, alternance ou habitude des marchés)
     if(z.cap!=null&&!((p.eu||0)>0)) prem=Math.min(prem,z.cap); // la BCE protège les pays qui ne sont pas en conflit avec l'UE (comme le TPI depuis 2022)
     if(tpi!==null&&lastDef>b.tpiDef+1){tpi=null;E(t,"tpioff","Le déficit dérive de nouveau au-delà de "+(b.tpiDef+1).toFixed(0)+" % du PIB : la BCE retire son filet.");}
     const kc0=crisis===null?-1:t-crisis;
