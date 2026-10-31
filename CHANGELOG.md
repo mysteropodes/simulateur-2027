@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : canal des libertés, indice de Turchin, grille d'Attal
+
+- Scratch `analog/rights.py` : conversion de la grille (`cp` restreint : `v2x_jucon` −0,18, `v2xlg_legcon` −0,10 ; `lib` : `v2x_civlib` −0,06 ; `egal` : −0,03 ; mixte ×0,5, renforce ×−0,25 ; Δ`v2x_libdem` = 0,5 × somme), projection refaite sur le profil modifié, seuil de −0,10 appliqué au recul total ; `ANALOG.rights`.
+- `EXT.attal.grid.lib` : « mixte » (coupure de réseaux sociaux, source ajoutée) ; `rightsPts` d'Attal 0 → 3.
+- `buildPSI()` : indice = (chômage des jeunes × loyers ÷ pouvoir d'achat des modestes) × part du patrimoine des 10 % × charge d'intérêts / recettes, base 100 en 2025, lecture centrale.
+
 ## 31 octobre 2026 : projection par analogies historiques
 
 - Scratch `analog/analog.py`, `valid.py`, `final.py` : univers des années-pays 1950-2020 avec `v2x_regime` ≥ 2 et issue à cinq ans connue ; distance euclidienne pondérée et standardisée sur 12 variables (`v2x_libdem` ×2, sa variation à cinq ans, `v2x_civlib`, `v2xlg_legcon`, `v2x_jucon`, `v2cacamps` ×2, sa variation ×1,5, pic de `v2cagenmob` sur trois ans ×1,5, `v2caviol`, `v2caautmob`, log PIB par habitant et croissance à cinq ans) ; 25 analogues, huit ans d'écart minimum pour un même pays, France exclue, noyau gaussien ; issues : rupture (`v2x_regime` ≤ 1), érosion (minimum de `v2x_libdem` −0,10), recul (−0,05 à cinq ans), stable, renforcement.

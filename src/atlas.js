@@ -47,7 +47,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw(); buildAnalog();
+  atDraw(); buildAnalog(); buildPSI();
 }
 
 // Projection par analogies historiques
@@ -65,9 +65,22 @@ function buildAnalog(){
   document.getElementById("anList").innerHTML=R.analogs.map(a=>`<tr><td><b>${a.n} ${a.year}</b><span class="rng">${a.note}</span></td><td>${fmt(a.w*100,1)} %</td><td>${oc(a.out)}</td><td>${oc(a.out10)}${a.hor<10?`<span class="rng">${a.hor} ans observés</span>`:""}</td><td>${a.ld_min10<0?"−":"+"}${fmt(Math.abs(a.ld_min10),2)}</td></tr>`).join("");
   document.getElementById("anScen").innerHTML=Object.entries(R.scen).map(([k,[v,,v10]])=>`<tr><td>${k}</td><td>${fmt(v,0)} %</td><td>${fmt(v10,0)} %</td></tr>`).join("");
   document.getElementById("anScen").innerHTML+=Object.entries(R.autumn).map(([k,[v,v10]])=>`<tr><td><i>${k}</i></td><td>${fmt(v,0)} %</td><td>${fmt(v10,0)} %</td></tr>`).join("");
-  document.getElementById("anCrisis").innerHTML=R.crisis.tab.map(([k,c,v])=>`<tr><td>${k}</td><td>${c} %</td><td>${fmt(v,0)} %</td></tr>`).join("");
+  const sg=v=>(v<0?"−":v>0?"+":"")+fmt(Math.abs(v),2);
+  document.getElementById("anCrisis").innerHTML=R.rights.map(([k,c,d,e,a,x,g])=>`<tr><td><b>${k}</b><span class="rng">${g}</span></td><td>${c} %</td><td class="${d<=-0.1?"worse":d>0?"better":""}">${sg(d)}</td><td>${fmt(e,0)} %</td><td class="${a>=99?"worse":""}">${a>=99?"atteinte":fmt(a,0)+" %"}</td><td>${sg(x)}</td></tr>`).join("");
   const GZO={"Népal (2025)":"Gouvernement renversé, Parlement incendié, 73 morts ; gouvernement intérimaire, élections prévues en mars 2026","Madagascar (2025)":"Président en fuite, l'armée prend le pouvoir","Maroc (2025)":"Promesses de réformes de la santé et de l'école ; plus de 2 400 personnes poursuivies","Kenya (2024)":"Loi de finances retirée ; répression meurtrière","Bangladesh (2024)":"La Première ministre fuit le pays ; gouvernement intérimaire","Sri Lanka (2022)":"Faillite de l'État, le président fuit ; plan du FMI","Indonésie (2025)":"Avantages des députés supprimés ; émeutes","Pérou (2025)":"Présidente destituée par le Congrès","Serbie (2024-2025)":"Le Premier ministre démissionne ; mouvement étudiant durable","France (2026)":"En cours"};
   document.getElementById("anGenz").innerHTML=R.genz.map(([k,l,pl,m,v])=>`<tr${k.startsWith("France")?' class="me"':""}><td><b>${k}</b><span class="rng">${GZO[k]||""}</span></td><td>${fmt(l,2)}</td><td>${fmt(pl,1)}</td><td>${fmt(m,1)}</td></tr>`).join("");
   const cal=V=>V.cal.map(([b,n,p,o])=>`<tr><td>${b}</td><td>${n}</td><td>${pc(p)}</td><td>${pc(o)}</td></tr>`).join("");
   document.getElementById("anValid").innerHTML=`<tr><th colspan="4">Horizon 5 ans (${R.valid.n} situations, AUC ${fmt(R.valid.auc,2)})</th></tr>`+cal(R.valid)+`<tr><th colspan="4">Horizon 10 ans (${R.valid10.n} situations, AUC ${fmt(R.valid10.auc,2)})</th></tr>`+cal(R.valid10);
+}
+// Indice de tension structurelle, d'après Turchin (Ages of Discord, 2016) : mobilisation populaire × compétition des élites × détresse budgétaire, à partir des séries du simulateur
+let psiChart=null;
+function psiSeries(r){const I=(a,i)=>a[i]/a[0]; return r.youth.map((_,i)=>{const mmp=I(r.youth,i)*I(r.rent,i)/(r.pa.mod[i]/100), emp=I(r.w10,i), sfd=I(r.burden,i); return {psi:100*mmp*emp*sfd,mmp:100*mmp,emp:100*emp,sfd:100*sfd};});}
+function buildPSI(){
+  const B=Object.assign({},BASE0,PRESETS.central), ys=[]; for(let y=2025;y<=2046;y++) ys.push(y);
+  const pal=["--ink","--c1","--c2","--c3","--c4","--c5","--c6","--c7"], rows=[];
+  const ds=CANDS0.map((c,i)=>{const r=simulate(c,"credible",B), S=psiSeries(r); rows.push([c.name,S[7],S[11],r.youth[7],r.burden[7]]);
+    return {label:c.name,data:S.map(x=>+x.psi.toFixed(0)),borderColor:css(pal[i%pal.length]),backgroundColor:css(pal[i%pal.length]),borderWidth:c.id==="statu"?3:2,pointRadius:0,borderDash:c.fictif?[2,3]:[]};});
+  if(psiChart) psiChart.destroy();
+  psiChart=new Chart(document.getElementById("psiChart"),{type:"line",data:{labels:ys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}}},scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:"Indice, 2025 = 100",color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
+  document.getElementById("psiTab").innerHTML=rows.map(([n,a,b,yu,bu])=>`<tr><td>${n}</td><td>${fmt(a.mmp,0)}</td><td>${fmt(a.emp,0)}</td><td>${fmt(a.sfd,0)}</td><td><b>${fmt(a.psi,0)}</b></td><td><b>${fmt(b.psi,0)}</b></td></tr>`).join("");
 }
