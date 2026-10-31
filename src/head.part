@@ -255,5 +255,6 @@ footer{margin:12px 0 0!important}
 .metricrow button[aria-pressed="true"]::before{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--accent);margin-right:6px;vertical-align:1px}
 .ovcard dl{gap:3px 6px;font-size:12px}.ovcard{padding:13px 12px 11px}
 .panel,.chartcol,.view,.main{grid-template-columns:minmax(0,1fr)}.chartbox{width:100%;min-width:0}.chartbox canvas{max-width:100%}
+.atchips{display:grid;gap:10px}.atfam{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.atfl{font:600 12px var(--f-body);color:var(--muted);min-width:180px}.atchips .chip{padding:5px 10px;font-size:12.5px}.atchips .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--surface)}.atgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:14px}.atcard{border:1px solid var(--line);border-radius:12px;padding:14px 16px;display:grid;gap:8px;align-content:start}.atcard h3{margin:0;font-size:1.02rem}.atcard p{margin:0;line-height:1.5}.atvs{color:var(--muted)}
 </style>
 

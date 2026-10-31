@@ -554,6 +554,7 @@ function showView(id,noScroll){
   const v=views.find(x=>x.dataset.view===id); document.getElementById("viewTitle").textContent=v.dataset.title; document.getElementById("viewSub").textContent=v.dataset.sub;
   if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);}
   else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);}
+  else if(id==="atlas"){setTimeout(()=>{if(typeof buildAtlas==="function") buildAtlas();},30);}
   else if(id==="overview"&&chart) chart.resize();
   const mb=document.querySelector(`.mnav [data-go="${id}"]`); if(mb) mb.scrollIntoView({block:"nearest",inline:"center"});
   if(!noScroll) window.scrollTo({top:0});

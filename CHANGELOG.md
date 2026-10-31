@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 31 octobre 2026 : onglet « Changer les règles du jeu »
+
+- `src/atlas_data.js` : `ATLAS` (29 pays, 1950-2025 ; `pib` indice France 2019 = 100 d'après `e_gdppc` Fariss et al., `vie` `e_pelifeex`, `mort` `e_pechmor`, `dem` `v2x_libdem`, `lib` `v2x_civlib`, `egal` `v2x_egal`, `corr` `v2x_corr`, `oil` `e_total_oil_income_pc` ; `co2` Global Carbon Project via OWID), extrait du paquet `vdemdata` (GitHub) et de `owid/co2-data`. Inflation V-Dem écartée (séries incohérentes pour l'URSS).
+- `src/atlas.js` : graphique comparatif (indicateur, jusqu'à huit pays, France toujours affichée), six expériences naturelles calculées depuis les données, `buildAtlas()` appelé par `showView("atlas")` ; `build.py` inclut les deux fichiers.
+- `body.part` : vue `atlas`, entrée de menu « Explorer », huit fiches par système ; `head.part` : styles `.atchips`, `.atgrid`, `.atcard`.
+
 ## 31 octobre 2026 : réaction extérieure (marchés, exil fiscal, concurrence) et candidat fictif v3
 
 - `BASE0` : `extScale` 1 (curseur « Réaction extérieure », `GL`, panneau Hypothèses, tiré 0,3-1,8 dans `runMC`), `leakStack` 0,1, `ulcGdp` 0,12, `premAnn` 0,5 ; `PRESETS` : `extScale` 0,5 / 1 / 1,6.
