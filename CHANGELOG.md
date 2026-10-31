@@ -8,6 +8,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 - Résultat France 2025 : érosion forte 25 %, recul 17 %, stable 57 %, rupture 0 ; neuf variantes 13-34 % ; bootstrap 14-37 % ; scénarios (polarisation de 2018 : 12 %).
 - Validation hors pays (1 062 situations, 30 événements) : AUC 0,83, Brier 0,0248 contre 0,0275.
 - Horizon dix ans ajouté (`ld_min10`, `reg_min10`, `out10`, observé jusqu'en 2025 pour les cas récents) : érosion forte ou rupture 48 % (neuf variantes 33-52 %, bootstrap 35-61 %), taux de base 6 % ; validation hors pays 1960-2015 : 961 situations, 56 événements, AUC 0,80, Brier −15 %.
+- Couplage simulateur (scratch `analog/crisis.py`, `mc35.js`) : rapport de chances 2,1 d'une chute du PIB par habitant ≥ 5 % en cinq ans sur l'érosion à dix ans (démocraties, `v2x_libdem` ≥ 0,6, 1960-2009, 53 chutes) ; probabilité de crise avant 2036 par programme sur 400 tirages ; risque combiné 51-59 %. Scénarios « automne 2026 » (`mob3` 3, `v2caviol` 1 à 1,3, `v2x_civlib` 0,88-0,90) : 42-46 %. Tableau « Gen Z » (`ANALOG.genz`).
 - `src/analog_data.js` (`ANALOG`), `buildAnalog()` dans `atlas.js`, section `h-atlas-proj`, style `.anbig`.
 
 ## 31 octobre 2026 : onglet « Changer les règles du jeu »
