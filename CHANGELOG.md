@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 1er novembre 2026 : tension sociale de départ
+
+- `BASE0.tensNow` 30 (si `calib`) : +30 en 2026, ×0,7, 0,4, 0,2 de 2027 à 2029.
+- Comparaisons de tension maximale à partir de 2027 (`tension.slice(2)`) : atlas §9, test du candidat fictif.
+
 ## 1er novembre 2026 : contre-budget LFI
 
 - `PA_MEASURES.melenchon` : jeunes 6 → 9,5 (cand).
