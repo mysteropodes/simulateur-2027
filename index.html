@@ -561,6 +561,11 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
     <p class="help">C'est la thèse du CADTM, d'Attac et de l'audit citoyen de la dette (2014 : 59 % de la dette jugée « illégitime », issue de baisses d'impôts et de taux élevés plutôt que de dépenses utiles) : suspendre les paiements, auditer, annuler la part illégitime, protéger les petits épargnants, socialiser les banques, contrôler les capitaux. Le simulateur l'applique au programme de Mélenchon, le plus proche de cette approche : en 2028, 30 % de la dette détenue hors banque centrale sont annulés. Qui perd directement : les non-résidents, qui détiennent environ 55 % de la dette négociable de l'État, puis les assureurs (≈ 9 %) et les banques (≈ 9 %) ; l'État recapitalise la moitié des pertes françaises pour protéger les petits épargnants. L'assurance-vie est surtout un placement des ménages aisés : 80 % des 10 % les plus riches en ont un, contre environ 40 % de l'ensemble des ménages (Insee). Les pertes de patrimoine ne sont pas comptées dans les revenus ci-dessous. Ensuite : plus d'accès aux marchés, contrôle des capitaux, financement national et sortie de fait de l'euro, avec les règles communes du simulateur (récession, inflation, ajustement de 0,75 point de PIB par an), puis une prime de risque durable après le défaut. Le curseur « Défaut unilatéral » permet de l'appliquer à n'importe quel programme.</p>
     <div class="tablewrap"><table class="mini"><thead><tr><th></th><th style="text-align:right">Mélenchon</th><th style="text-align:right">Mélenchon avec défaut</th></tr></thead><tbody id="defTab"></tbody></table></div>
     <p class="help" id="defRead"></p>
+    <h3>Au fil des années</h3>
+    <div class="seg" role="group" aria-label="Indicateur" id="defInd"><button type="button" data-di="pov" aria-pressed="true">Pauvreté</button><button type="button" data-di="mod" aria-pressed="false">Revenu des ménages modestes</button><button type="button" data-di="debt" aria-pressed="false">Dette</button></div>
+    <div class="seg" role="group" aria-label="Lecture" id="defRd" style="margin-top:8px"><button type="button" data-dr="central" aria-pressed="true">Lecture centrale</button><button type="button" data-dr="keynes" aria-pressed="false">Keynésienne</button><button type="button" data-dr="liberal" aria-pressed="false">Libérale</button></div>
+    <div style="position:relative;height:340px;margin-top:10px"><canvas id="defChart" aria-label="Pauvreté, revenu des ménages modestes ou dette, 2025-2046 : statu quo, Mélenchon avec et sans défaut, candidat fictif"></canvas></div>
+    <p class="help"><b>Comment lire la courbe.</b> En lecture centrale, sur la pauvreté : avec défaut (tirets), elle remonte dès 2029 autour de 15 % et y reste ; sans défaut (trait plein), elle descend vers 12,7 % jusqu'en 2034, puis remonte au-dessus de 16 % quand la crise arrive, sous l'austérité européenne. Les deux courbes se croisent vers 2035. Avant, le défaut coûte environ deux points de pauvreté pendant six ans ; après, il en épargne environ un pendant onze ans : sur vingt ans, c'est à peu près jeu égal. Le défaut avance la douleur, il ne la supprime pas. Sur le revenu des ménages modestes, même dessin : un creux de −13 % dès 2029 avec défaut, un creux de −14 % en 2036-2038 sans défaut. Attention, cette courbe est un écart au statu quo : quand le statu quo entre lui-même en crise, en 2038, les autres programmes paraissent gagner beaucoup d'un coup. Passez en lecture keynésienne : sans défaut, il n'y a plus de crise, et le défaut crée un creux qui n'aurait pas existé. En lecture libérale, la crise arrive dès 2027 dans les deux cas, et le défaut l'adoucit un peu. La courbe en pointillés, celle du candidat fictif, montre la troisième voie : pas de remontée de la pauvreté avant 2040.</p>
     <p class="help"><b>Ce que ça montre.</b> Les premières années sont dures : la crise arrive tout de suite au lieu de 2034, avec une inflation proche de 8 %, une récession et une forte tension ; les ménages modestes perdent autant que les plus riches. Ensuite, le défaut fait mieux pour les modestes et pour la dette en 2040-2046 qu'une crise plus tardive gérée par un programme d'austérité européen. Mais en moyenne sur 2027-2046, il fait seulement jeu égal sur la pauvreté (lecture centrale : 15,0 % contre 14,9 %) ; il ne gagne nettement que sur la dette (175 % en 2046 contre 248). Tout dépend de la certitude de la crise : en lecture keynésienne, où le programme n'aurait pas eu de crise, le défaut en provoque une et c'est une perte nette (pauvreté moyenne 14,6 % contre 12,8) ; en lecture libérale, où la crise arrive dès 2027, il aide un peu (15,4 % contre 16,3). C'est l'argument des économistes de cette école, qui citent l'Argentine et l'Islande contre la Grèce : une stratégie de dernier recours, quand la crise est déjà là, pas un moyen de l'éviter. Deux réserves : la sortie de l'euro et le financement national sont la partie la plus incertaine du modèle ; et un programme qui évite la crise, comme celui du candidat fictif, fait mieux que les deux. Aucun pays de la taille de la France, au cœur d'une monnaie commune, n'a jamais fait défaut.</p>
   </section>
   <section class="panel" aria-labelledby="h-atlas-next">
@@ -2466,7 +2471,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw(); buildAnalog(); buildPSI(); buildUS(); buildDef();
+  atDraw(); buildAnalog(); buildPSI(); buildUS(); buildDef(); defDraw();
 }
 
 // Projection par analogies historiques
@@ -2533,6 +2538,23 @@ function buildDef(){
    ["Retraités 2030",r=>pa(r,"ret",2030)],["10 % les plus riches 2030",r=>pa(r,"top",2030)]];
   tb.innerHTML=rows.map(([l,f])=>`<tr><td>${l}</td><td style="text-align:right">${f(a)}</td><td style="text-align:right">${f(d)}</td></tr>`).join("");
   document.getElementById("defRead").textContent="Calcul avec les réglages en cours (lecture, hypothèses). 30 % de la dette détenue hors banque centrale annulés en 2028.";
+}
+
+let defChart=null, defInd="pov", defRd="central", defWired=false;
+function defDraw(){
+  const cv=document.getElementById("defChart"); if(!cv||typeof simulate!=="function") return;
+  if(!defWired){defWired=true;
+    document.querySelectorAll("[data-di]").forEach(x=>x.onclick=()=>{defInd=x.dataset.di;document.querySelectorAll("[data-di]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.di===defInd));defDraw();});
+    document.querySelectorAll("[data-dr]").forEach(x=>x.onclick=()=>{defRd=x.dataset.dr;document.querySelectorAll("[data-dr]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.dr===defRd));defDraw();});}
+  const B=Object.assign({},BASE0,PRESETS[defRd]), ys=[]; for(let y=2025;y<=2046;y++) ys.push(y);
+  const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS0.find(c=>c.id==="melenchon"), ia=CANDS0.find(c=>c.id==="ia");
+  const s0=simulate(st,"credible",B);
+  const ser=r=>defInd==="pov"?r.pov.map(v=>+v.toFixed(1)):defInd==="debt"?r.debt.map(v=>+v.toFixed(0)):r.pa.mod.map((v,i)=>+((v/s0.pa.mod[i]-1)*100).toFixed(1));
+  const L=[["Statu quo",st,"--ink",[],3],["Mélenchon",ml,"--c1",[],2],["Mélenchon avec défaut en 2028",Object.assign({},ml,{defaut:0.3}),"--c1",[7,4],2],["Candidat IA (fictif)",ia,"--c7",[2,3],2]];
+  const ds=L.map(([n,c,col,dash,w])=>({label:n,data:ser(simulate(c,"credible",B)),borderColor:css(col),backgroundColor:css(col),borderWidth:w,pointRadius:0,borderDash:dash}));
+  const yt={pov:"Pauvreté (% de la population)",mod:"Revenu des ménages modestes, écart au statu quo (%)",debt:"Dette publique (% du PIB)"}[defInd];
+  if(defChart) defChart.destroy();
+  defChart=new Chart(cv,{type:"line",data:{labels:ys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}}},scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:yt,color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
 }
 </script>
 </body>

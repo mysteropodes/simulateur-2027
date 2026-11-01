@@ -47,7 +47,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw(); buildAnalog(); buildPSI(); buildUS(); buildDef();
+  atDraw(); buildAnalog(); buildPSI(); buildUS(); buildDef(); defDraw();
 }
 
 // Projection par analogies historiques
@@ -114,4 +114,21 @@ function buildDef(){
    ["Retraités 2030",r=>pa(r,"ret",2030)],["10 % les plus riches 2030",r=>pa(r,"top",2030)]];
   tb.innerHTML=rows.map(([l,f])=>`<tr><td>${l}</td><td style="text-align:right">${f(a)}</td><td style="text-align:right">${f(d)}</td></tr>`).join("");
   document.getElementById("defRead").textContent="Calcul avec les réglages en cours (lecture, hypothèses). 30 % de la dette détenue hors banque centrale annulés en 2028.";
+}
+
+let defChart=null, defInd="pov", defRd="central", defWired=false;
+function defDraw(){
+  const cv=document.getElementById("defChart"); if(!cv||typeof simulate!=="function") return;
+  if(!defWired){defWired=true;
+    document.querySelectorAll("[data-di]").forEach(x=>x.onclick=()=>{defInd=x.dataset.di;document.querySelectorAll("[data-di]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.di===defInd));defDraw();});
+    document.querySelectorAll("[data-dr]").forEach(x=>x.onclick=()=>{defRd=x.dataset.dr;document.querySelectorAll("[data-dr]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.dr===defRd));defDraw();});}
+  const B=Object.assign({},BASE0,PRESETS[defRd]), ys=[]; for(let y=2025;y<=2046;y++) ys.push(y);
+  const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS0.find(c=>c.id==="melenchon"), ia=CANDS0.find(c=>c.id==="ia");
+  const s0=simulate(st,"credible",B);
+  const ser=r=>defInd==="pov"?r.pov.map(v=>+v.toFixed(1)):defInd==="debt"?r.debt.map(v=>+v.toFixed(0)):r.pa.mod.map((v,i)=>+((v/s0.pa.mod[i]-1)*100).toFixed(1));
+  const L=[["Statu quo",st,"--ink",[],3],["Mélenchon",ml,"--c1",[],2],["Mélenchon avec défaut en 2028",Object.assign({},ml,{defaut:0.3}),"--c1",[7,4],2],["Candidat IA (fictif)",ia,"--c7",[2,3],2]];
+  const ds=L.map(([n,c,col,dash,w])=>({label:n,data:ser(simulate(c,"credible",B)),borderColor:css(col),backgroundColor:css(col),borderWidth:w,pointRadius:0,borderDash:dash}));
+  const yt={pov:"Pauvreté (% de la population)",mod:"Revenu des ménages modestes, écart au statu quo (%)",debt:"Dette publique (% du PIB)"}[defInd];
+  if(defChart) defChart.destroy();
+  defChart=new Chart(cv,{type:"line",data:{labels:ys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}}},scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:yt,color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
 }
