@@ -47,7 +47,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw(); buildAnalog(); buildPSI(); buildUS();
+  atDraw(); buildAnalog(); buildPSI(); buildUS(); buildDef();
 }
 
 // Projection par analogies historiques
@@ -98,4 +98,20 @@ function buildUS(){
   const G=[["mod","Ménages modestes"],["jeu","Jeunes 18-29 ans"],["moy","Classes moyennes"],["ret","Retraités"],["ais","Ménages aisés"],["top","10 % les plus riches"]];
   document.getElementById("usPa").innerHTML=G.map(([k,l])=>{const v=(r.pa[k][y(2032)]/s.pa[k][y(2032)]-1)*100;return `<tr><td>${l}</td><td class="${v>=0?"better":"worse"}">${v>=0?"+":"−"}${fmt(Math.abs(v))} %</td></tr>`}).join("");
   document.getElementById("usRead").textContent="Calcul avec les réglages en cours (lecture, hypothèses). Recul du gouvernement face à la contestation : jusqu'à "+fmt(Math.max(...r.retreat),0)+" % des mesures.";
+}
+
+// Défaut unilatéral appliqué au programme de Mélenchon
+function buildDef(){
+  const tb=document.getElementById("defTab"); if(!tb||typeof simulate!=="function") return;
+  const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS.find(c=>c.id==="melenchon")||CANDS0.find(c=>c.id==="melenchon");
+  const B=Object.assign({},BASE), md=typeof mode!=="undefined"?mode:"credible", y=t=>t-2025;
+  const s0=simulate(st,md,B), a=simulate(Object.assign({},ml,{defaut:0}),md,B), d=simulate(Object.assign({},ml,{defaut:0.3}),md,B);
+  const pa=(r,g,t)=>{const v=(r.pa[g][y(t)]/s0.pa[g][y(t)]-1)*100;return (v>=0?"+":"−")+fmt(Math.abs(v))+" %";};
+  const rows=[["Crise de la dette",r=>r.crisis||"aucune avant 2046"],["Inflation maximale",r=>fmt(Math.max(...r.infl))+" %"],["Tension sociale maximale",r=>fmt(Math.max(...r.tension),0)],
+   ["Dette 2036",r=>fmt(r.debt[y(2036)],0)+" %"],["Dette 2046",r=>fmt(r.debt[y(2046)],0)+" %"],
+   ["Pauvreté 2030",r=>fmt(r.pov[y(2030)])+" %"],["Pauvreté 2040",r=>fmt(r.pov[y(2040)])+" %"],
+   ["Ménages modestes 2030 (écart à rien ne change)",r=>pa(r,"mod",2030)],["Ménages modestes 2046",r=>pa(r,"mod",2046)],
+   ["Retraités 2030",r=>pa(r,"ret",2030)],["10 % les plus riches 2030",r=>pa(r,"top",2030)]];
+  tb.innerHTML=rows.map(([l,f])=>`<tr><td>${l}</td><td style="text-align:right">${f(a)}</td><td style="text-align:right">${f(d)}</td></tr>`).join("");
+  document.getElementById("defRead").textContent="Calcul avec les réglages en cours (lecture, hypothèses). 30 % de la dette détenue hors banque centrale annulés en 2028.";
 }

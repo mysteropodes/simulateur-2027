@@ -4,6 +4,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 
 ## 1er novembre 2026 : crises européennes
 
+- `defaut` (part annulée, curseur) et `defautYear` (2028) : crise forcée sur la voie « refus », ajustement stocks-flux `−defaut × defPriv × d × (1 − defDom × defRecap)` (0,8 ; 0,31 ; 0,5), prime `defPrem` 2 × defaut/0,3 décroissant de 15 % par an ; atlas : section `h-atlas-def`, `buildDef()`.
 - Atlas : section `h-atlas-us`, `buildUS()` dans `atlas.js` (programme fictif calculé avec `BASE` et `mode` courants).
 - `shockAt` : `eurobce` (k0 : réel −2,5, spread +3, pd +1, tension +10 ; k1 : réel −0,5, inflation +1,5, spread +0,5 ; k2 : inflation +1 ; `euMult` 2 et plafond de prime `cap` 2,5 de k0 à k2) et `eurofract` (k0 : réel −5, inflation +6, spread +4, pd +2, tension +25 ; k1 : réel −2, inflation +4, spread +2, tension +15 ; k2 : réel +1, inflation +2, spread +1, tension +8 ; k3 : réel +1 ; `euMult` 3).
 - Plafond `z.cap` appliqué à la prime des programmes sans conflit avec l'UE (`p.eu` = 0), comme le TPI.

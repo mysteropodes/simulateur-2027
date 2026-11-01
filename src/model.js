@@ -1,5 +1,5 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
-const BASE0={allies:0,levyLeak:0.3,levyYear:2028,levyYears:10,reprComp:0,repr:0,reprSav:3000,reprLag:1,euTax:0,euTaxCut:0.25,depoReal:0,exitCut:0.1,natioPrem:0.15,natioYield:0.044,natioOil:1,natioYear:2028,extScale:1,leakStack:0.1,ulcGdp:0.12,premAnn:0.5,d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
+const BASE0={defPriv:0.8,defDom:0.31,defRecap:0.5,defPrem:2,allies:0,levyLeak:0.3,levyYear:2028,levyYears:10,reprComp:0,repr:0,reprSav:3000,reprLag:1,euTax:0,euTaxCut:0.25,depoReal:0,exitCut:0.1,natioPrem:0.15,natioYield:0.044,natioOil:1,natioYear:2028,extScale:1,leakStack:0.1,ulcGdp:0.12,premAnn:0.5,d0:115.6,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
   shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.1,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
   leak:0.4,tensCost:0.01,seniorKeep:0.55,tpiDef:4,demog:1,ecb:0.25,climCost:1,shock2:"none",shockYear2:2035,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,popG:0.3,det0:89668,places0:63303,mag0:9000,police0:250000,crimeU:3,crimeP:0.3,secU:1,rcSupply:0.15,rcRent:3,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.2,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
@@ -150,7 +150,7 @@ function simulate(p,mode,b){
     const react=t>=2032&&dRef!==null?Math.min(b.reactMax,b.fiscalReact*Math.max(0,d-dRef))*ramp(t,2031,2040):0; // montée progressive sur huit ans, pour éviter un à-coup de croissance
     s-=react;
     if(react>0.3&&!reactSaid){reactSaid=true;E(t,"react","Après 2031, les gouvernements suivants corrigent une partie du déficit en fonction du niveau de la dette (règle de réaction budgétaire).");}
-    const refus=b.exit==="refus"; // sortie de crise : programme européen (prêts contre économies) ou refus (contrôle des capitaux, financement national, sortie de fait de l'euro)
+    const refus=b.exit==="refus"||(p.defaut||0)>0; // un défaut unilatéral ferme l'accès au programme européen // sortie de crise : programme européen (prêts contre économies) ou refus (contrôle des capitaux, financement national, sortie de fait de l'euro)
     // régime de programme : cinq ans au moins, prolongé tant que le déficit n'est pas ramené sous le plafond du filet BCE (dix ans au plus, comme la Grèce) ; en cas de refus, cinq ans de financement contraint
     const inProg=crisis!==null&&progEnd===null;
     if(inProg){ const s0=s; s=lastDef>3?Math.min(s,sPrev-(refus?0.75:1.5)):Math.min(s,sPrev); s=Math.max(s,s0-b.forcedMax); forcedCum=Math.max(0,s0-s); } // ajustement imposé pendant le programme
@@ -237,6 +237,7 @@ function simulate(p,mode,b){
     const piPrev=o.infl[o.infl.length-1], defAdj=lastDef-Math.max(0,piPrev-2)*d/100; // déficit corrigé de l'érosion de la dette par l'inflation au-delà de 2 %
     const annPrem=(t>=2027&&mode!=="annonce")?(b.premAnn||0)*extS*Math.max(0,progPos+progNeg)*(0.5+0.5*phase)*Math.pow(0.6,t-2027):0; // prime d'annonce : les marchés réagissent à un programme qui dégrade le solde (montants crédibles), avant les déficits réalisés, puis elle s'estompe (Italie 2018, Royaume-Uni 2022)
     let prem=annPrem+b.prem*Math.max(0,defAdj-3)+b.kDebt*Math.max(0,d-120)/10+rating+polPrem+(b.calib&&near.prem?near.prem:0)+(t>=2027?p.eu*(1-0.5*ally)*euW*z.euMult*(t<=2031?1:Math.pow(0.8,t-2031)):0)+z.spread; // conflit avec l'UE : prime pleine pendant le mandat, puis elle s'estompe (accord, alternance ou habitude des marchés)
+    if((p.defaut||0)>0&&t>(p.defautYear||2028)) prem+=b.defPrem*p.defaut/0.3*Math.pow(0.85,t-(p.defautYear||2028)-1); // après un défaut, les prêteurs exigent une prime durable, d'autant plus forte que la perte a été lourde (Cruces et Trebesch, 2013)
     if(z.cap!=null&&!((p.eu||0)>0)) prem=Math.min(prem,z.cap); // la BCE protège les pays qui ne sont pas en conflit avec l'UE (comme le TPI depuis 2022)
     if(tpi!==null&&lastDef>b.tpiDef+1){tpi=null;E(t,"tpioff","Le déficit dérive de nouveau au-delà de "+(b.tpiDef+1).toFixed(0)+" % du PIB : la BCE retire son filet.");}
     const kc0=crisis===null?-1:t-crisis;
@@ -246,6 +247,7 @@ function simulate(p,mode,b){
       else if(kc0>=10){ progEnd=t; progEnds.push(t); E(t,"progend","Dix ans de programme sans ramener le déficit sous "+b.tpiDef.toFixed(0)+" % : fin des prêts officiels, retour au marché."); }
       else if(kc0===5) E(t,"progext","Cinq ans après la crise, le déficit reste au-dessus de "+b.tpiDef.toFixed(0)+" % : le programme est prolongé, économies imposées comprises."); }
     if(crisis!==null && progEnd!==null && t>progEnd && kc0>=8 && tpi===null && prem>b.crisisPrem){ crisis=t; crisisN++; progEnd=null; E(t,"crisis","Nouvelle crise de financement : le programme achevé, les comptes ne sont pas redressés et la prime de risque dépasse de nouveau le seuil."); } // une rechute reste possible après un programme
+    const dY=p.defautYear||2028; if((p.defaut||0)>0&&t===dY&&crisis===null){crisis=t;crisisFirst=t;E(t,"default","Défaut unilatéral : paiements suspendus, "+Math.round(p.defaut*100)+" % de la dette détenue hors banque centrale annulés. Plus d'accès aux marchés : contrôle des capitaux, financement national, sortie de fait de l'euro.");}
     if(t>=2027 && crisis===null && tpi===null && prem>b.crisisPrem){
       if(p.eu*euW<0.2 && lastDef<=b.tpiDef){tpi=t; if(tpiFirst===null) tpiFirst=t;} else {crisis=t; crisisFirst=t;} // filet de la BCE (TPI) : seulement si le déficit est sur une trajectoire conforme aux règles européennes
     }
@@ -261,7 +263,7 @@ function simulate(p,mode,b){
     const ng=(1+realg/100)*(1+pi/100)-1;
     const interest=d*i/100/(1+ng); // intérêts rapportés au PIB de l'année
     const bank=(crisis!==null&&t===crisis+1&&!refus)?b.bankCrisis:0; // soutien aux banques pendant la crise (Espagne 2012 : ≈ 4 % du PIB ; Portugal ≈ 3 %), compté dans la dette, pas dans le déficit
-    const sf=((b.calib&&near.sf)?near.sf:0)+((p.natio||0)>0&&t===(p.natioYear||b.natioYear)?p.natio/GP*100:0); // achat des actions financé par emprunt : opération financière, hors déficit mais comptée dans la dette (règles d'Eurostat) // ajustements stocks-flux (trésorerie de l'État)
+    const sf=(((p.defaut||0)>0&&t===(p.defautYear||2028))?-p.defaut*b.defPriv*d*(1-b.defDom*b.defRecap):0)+((b.calib&&near.sf)?near.sf:0)+((p.natio||0)>0&&t===(p.natioYear||b.natioYear)?p.natio/GP*100:0); // achat des actions financé par emprunt : opération financière, hors déficit mais comptée dans la dette (règles d'Eurostat) // ajustements stocks-flux (trésorerie de l'État)
     const dOld=d; d=Math.max(0,d*(1+i/100)/(1+ng)+pd+bank+sf); o.snow.push(d-dOld-pd); o.prim.push(pd);
     lastDef=pd+interest; burden=interest/b.rev*100;
     const okunEff=(hasS("pandemie",0)||hasS("pandemie",1))?0.15:1; // activité partielle : en 2020-2021, l'emploi a été protégé malgré la chute du PIB
