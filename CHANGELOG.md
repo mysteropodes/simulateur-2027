@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 1er novembre 2026 : contre-budget LFI
+
+- `PA_MEASURES.melenchon` : jeunes 6 → 9,5 (cand).
+- `melenchon` : `spServ` 0,23 → 0,62 ; `compItems` + ["log", 3] ; textes et source (document LFI d'octobre 2026).
+
 ## 1er novembre 2026 : chiffrages des candidats
 
 - `PA_MEASURES.retailleau` : postes du plan × 0,73 (144 Md€ annuels impliqués par la cible / 197 cumulés) ; chômage et prestations 30 → −11 chomage −11 minima ; allocations +40,3 tete, −25 tete, −16 minima (catégorie trAutres) au lieu de +23 / −13 ir ; cotisations 10,5 → clé `cotsal`.
