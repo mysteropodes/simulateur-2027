@@ -39,7 +39,7 @@ const path=require('path');
     ok("Plus de recettes perdues augmente la dette (Mélenchon)",lk(0.6)>lk(0.2));
     const lr=l=>simulate(CANDS0.find(p=>p.id==="retailleau"),"credible",B({leak:l})).debt[y(2032)];
     // candidat fictif : règles de construction (solde annoncé >= 0, pas de crise avant le statu quo, pauvreté sous le statu quo, tension < 60)
-    const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); near("Candidat IA : tension maximale à partir de 2027",Math.max(...ri.tension.slice(2)),0,60);}
+    const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); near("Candidat IA : tension maximale de 2027 à la crise de la dette",Math.max(...ri.tension.slice(2,(ri.crisis||2047)-2025)),0,60);}
     ok("Les recettes perdues n'améliorent pas Retailleau",lr(0.9)>=lr(0.1)-0.05);
     // réaction extérieure (marchés, exil fiscal, concurrence) : sans effet sur le statu quo, défavorable à un programme qui empile les impôts sur le capital et relève le coût du travail
     const ex=(id,v)=>simulate(CANDS0.find(p=>p.id===id),"credible",B({extScale:v}));

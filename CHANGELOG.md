@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 2 novembre 2026 : tension pendant les crises
+
+- Terme de crise : `tensCrisis` [15, 20, 20, 15, 10, 5] (au lieu de 20 puis 12 − 2k) ; + `tensForced` 4 × min(3, forcedCum).
+- Recul gouvernemental gelé pendant un programme d'aide européen (hors voie « refus »).
+- Incertitude : « la crise s'emballe » à 95 au lieu de 80.
+- Test du candidat fictif : tension de 2027 jusqu'à la crise.
+
 ## 1er novembre 2026 : tension sociale de départ
 
 - `BASE0.tensNow` 30 (si `calib`) : +30 en 2026, ×0,7, 0,4, 0,2 de 2027 à 2029.

@@ -126,7 +126,7 @@ function simulate(p,mode,b){
     if(RP&&t>=2028) z.tension+=3*RP.pi; // inflation durable : mécontentement, comme un choc d'inflation modéré (3 points de tension par point d'inflation)
     const EX=b.ext||null, exAt=k=>EX&&EX[k]&&EX[k][t]||0; z.real+=exAt("g"); z.infl+=exAt("pi"); z.pd+=exAt("pd"); z.tension+=exAt("ten"); // contexte imposé, année par année (test sur les mandats passés)
     for(const [ty,Y] of SH){ if(ty==="none") continue; const q=shockAt(ty,Y,t); for(const kk of ["real","infl","spread","pd","tension"]) z[kk]+=q[kk]; z.euMult=Math.max(z.euMult,q.euMult); if(q.cap!=null) z.cap=Math.min(z.cap??99,q.cap); if(ty==="climat") deathsClim+=q.deaths; if(ty==="pandemie") deathsEpid+=q.deaths; } // deux chocs possibles sur vingt ans
-    if(mode!=="annonce"){ const tgt=1-0.4*Math.max(0,Math.min(1,(tension-60)/20)); retreat=tgt<retreat?Math.max(tgt,retreat-0.1):Math.min(tgt,retreat+0.03); } // recul progressif au-delà de 60 de tension (jusqu'à 40 % du programme à 80), et retour lent quand la tension retombe
+    if(mode!=="annonce"&&!(crisis!==null&&progEnd===null&&!(b.exit==="refus"||(p.defaut||0)>0||b.shock==="eurofract"||b.shock2==="eurofract"))){ const tgt=1-0.4*Math.max(0,Math.min(1,(tension-60)/20)); retreat=tgt<retreat?Math.max(tgt,retreat-0.1):Math.min(tgt,retreat+0.03); } // recul progressif au-delà de 60 de tension (jusqu'à 40 % du programme à 80), et retour lent quand la tension retombe
     if(mode!=="annonce" && retreat<0.97){ if(!retreatSaid&&p.id!=="statu"){retreatSaid=true;E(t,"retreat","Tension sociale au-dessus de 60 : le gouvernement recule progressivement sur une partie du programme (jusqu'à 40 % quand la tension atteint 80).");} } // recul face à la contestation
     if(t===2027&&p.id!=="statu") E(t,"start","Entrée en vigueur du programme, montée en charge sur cinq ans.");
     for(const [ty,Y] of SH) if(t===Y&&ty!=="none") E(t,"shock",SHOCKTXT[ty]);
@@ -314,7 +314,7 @@ function simulate(p,mode,b){
     const rightsReal=mode==="pondere"?f:1; // la mobilisation répond à la tentative, même si une mesure est ensuite censurée
     const rightsT=t>=2027?b.tensionRights*(p.rightsPts||0)*rightsReal*(t===2027?1.5:retreat):0; // mobilisations contre les mesures touchant aux droits (grille qualitative)
     if(t===2027&&rightsT>=8) E(t,"rights","Fortes mobilisations contre les mesures touchant à l'égalité de traitement, aux libertés ou aux contre-pouvoirs.");
-    tension=Math.max(0,Math.min(100,40+rightsT+4*(u-b.u0)+5*(pov-b.pov0)+25*(1-p.adh)*real*retreat*phase*unpop+3*Math.max(0,pi-3)+z.tension+(b.calib?(b.tensNow??0)*({2026:1,2027:0.7,2028:0.4,2029:0.2}[t]||0):0)+(crisis===null?0:crisis===t?(refus?30:20):Math.max(0,(refus?18:12)-2*(t-crisis)))));
+    tension=Math.max(0,Math.min(100,40+rightsT+4*(u-b.u0)+5*(pov-b.pov0)+25*(1-p.adh)*real*retreat*phase*unpop+3*Math.max(0,pi-3)+z.tension+(b.calib?(b.tensNow??0)*({2026:1,2027:0.7,2028:0.4,2029:0.2}[t]||0):0)+(crisis===null?0:(b.tensCrisis??[15,20,20,15,10,5])[t-crisis]??0)+(b.tensForced??4)*Math.min(3,forcedCum)));
     emp55=Math.min(75,b.emp55_0+(t<=2032?0.6*(t-START):0.6*7+0.2*(t-2032))+empEff);
     const wf=(p.wealthFlow||0), wEff=wf<0?wf*(1-leakM):wf;
     w10=w10+0.05+wEff*(wEff<0?1:realSp)*(wEff<0?retreat:1)*phase/b.wealthMd*100*0.52; // pertes des plus riches déjà réduites par la fuite ; gains en entier
