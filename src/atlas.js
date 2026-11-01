@@ -47,7 +47,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw(); buildAnalog(); buildPSI();
+  atDraw(); buildAnalog(); buildPSI(); buildUS();
 }
 
 // Projection par analogies historiques
@@ -82,4 +82,20 @@ function buildPSI(){
   if(psiChart) psiChart.destroy();
   psiChart=new Chart(document.getElementById("psiChart"),{type:"line",data:{labels:ys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}}},scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:"Indice, 2025 = 100",color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
   document.getElementById("psiTab").innerHTML=rows.map(([n,a,b,yu,bu])=>`<tr><td>${n}</td><td>${fmt(a.mmp,0)}</td><td>${fmt(a.emp,0)}</td><td>${fmt(a.sfd,0)}</td><td><b>${fmt(a.psi,0)}</b></td><td><b>${fmt(b.psi,0)}</b></td></tr>`).join("");
+}
+
+// Programme fictif « modèle américain », recalculé avec les réglages courants
+function buildUS(){
+  const tb=document.getElementById("usTab"); if(!tb||typeof simulate!=="function") return;
+  const st=CANDS0.find(c=>c.id==="statu");
+  const pm=[["Minima sociaux et APL réduits",-40,"minima","x","sim"],["Assurance chômage : six mois au plus",-25,"chomage","x","sim"],["Retraites : 67 ans, indexation réduite",-60,"retraites","x","sim"],["Fonction publique : −15 % d'effectifs",-40,"fonction","x","sim"],["Allocations familiales réduites",-10,"tete","x","sim"],["Fin de l'impôt sur la fortune immobilière, revenus du capital à 15 %",40,"capital","x","sim"],["Impôt sur les sociétés à 15 %",40,"entreprises","x","sim"],["Impôt sur le revenu à taux unique",40,"ir","x","sim"]];
+  const ms=microsim(pm);
+  const us=Object.assign({},st,{id:"usa",paMeasures:pm,pa:ms.pa,paDec:ms.deciles,A:4.5,taxMd:-120,spServ:-2,healthSpend:-1,ageShift:3,uStruct:-0.6,topTax:-1.5,botGain:-3,climInv:0,c:0.5,parl:0.4,adh:0.3,legal:0.6});
+  const B=Object.assign({},BASE), md=typeof mode!=="undefined"?mode:"credible";
+  const s=simulate(st,md,B), r=simulate(us,md,B), y=t=>t-2025, g=a=>a.slice(2,8).reduce((x,v)=>x+v,0)/6;
+  const rows=[["Pauvreté 2032",v=>fmt(v.pov[y(2032)])+" %"],["Inégalités 2032 (indice de Gini)",v=>fmt(v.gini[y(2032)],3)],["Espérance de vie 2032 (écart à 2025)",v=>(v.health[y(2032)]>=0?"+":"−")+fmt(Math.abs(v.health[y(2032)]))+" an"],["Chômage 2032",v=>fmt(v.unemp[y(2032)])+" %"],["Croissance moyenne 2027-2032",v=>fmt(g(v.growth),2)+" %"],["Tension sociale (maximum)",v=>fmt(Math.max(...v.tension),0)],["Services publics 2032 (% du PIB)",v=>fmt(v.sp[y(2032)])],["Dette 2036",v=>fmt(v.debt[y(2036)],0)+" %"],["Crise de la dette",v=>v.crisis||"aucune avant 2046"]];
+  tb.innerHTML=rows.map(([l,f])=>`<tr><td>${l}</td><td style="text-align:right">${f(s)}</td><td style="text-align:right">${f(r)}</td></tr>`).join("");
+  const G=[["mod","Ménages modestes"],["jeu","Jeunes 18-29 ans"],["moy","Classes moyennes"],["ret","Retraités"],["ais","Ménages aisés"],["top","10 % les plus riches"]];
+  document.getElementById("usPa").innerHTML=G.map(([k,l])=>{const v=(r.pa[k][y(2032)]/s.pa[k][y(2032)]-1)*100;return `<tr><td>${l}</td><td class="${v>=0?"better":"worse"}">${v>=0?"+":"−"}${fmt(Math.abs(v))} %</td></tr>`}).join("");
+  document.getElementById("usRead").textContent="Calcul avec les réglages en cours (lecture, hypothèses). Recul du gouvernement face à la contestation : jusqu'à "+fmt(Math.max(...r.retreat),0)+" % des mesures.";
 }
