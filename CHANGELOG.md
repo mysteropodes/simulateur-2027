@@ -2,6 +2,20 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 1er novembre 2026 : audit de vérification
+
+- `BASE0` : `d0` 115,7, `rev` 52,2, `dep0` 57,3 (Insee, comptes du 29 mai 2026).
+- `repr` : effet sur le pouvoir d'achat calculé à part (`RPpa`, `RPdec`) dès 2028, hors `phase` du programme.
+- `levy` : décote `levyLeak` hors mode « annonce », division par `GP` (PIB courant) et non `gdpMd`.
+- `allies` : n'agit que si `p.bce > 0` ; `max(0, 0,7 − bceOk)`.
+- Taux de dépôt : inflation de zone (`near.pi`, choc pétrolier, chocs) et répression incluses.
+- `eurofract` et `defaut` forcent la voie « refus » ; l'événement « default » est émis même si la crise a déjà eu lieu ; événements dédoublonnés (`E`).
+- Nouvelle clé `capitalNet` (même répartition que `capital`, hors `TOPKEYS`) pour les héritages au-delà de 10 M€ du candidat fictif.
+- `EXT.ia` : `pensBal` 0,35, `retLiv` −0,8.
+- `buildUS` : `topFlows(pm)` et `climInv` par défaut.
+- Test : tension du candidat fictif sous 60.
+- Textes : CAE Focus 118, Chalfin-McCrary, Oliver Wyman, Brülhart et al., pétrole (haut de fourchette Insee), sources des candidats.
+
 ## 1er novembre 2026 : crises européennes
 
 - `defaut` (part annulée, curseur) et `defautYear` (2028) : crise forcée sur la voie « refus », ajustement stocks-flux `−defaut × defPriv × d × (1 − defDom × defRecap)` (0,8 ; 0,31 ; 0,5), prime `defPrem` 2 × defaut/0,3 décroissant de 15 % par an ; atlas : section `h-atlas-def`, `buildDef()`.
