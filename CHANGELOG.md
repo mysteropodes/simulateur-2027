@@ -2,6 +2,15 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 1er novembre 2026 : chiffrages des candidats
+
+- `PA_MEASURES.retailleau` : postes du plan × 0,73 (144 Md€ annuels impliqués par la cible / 197 cumulés) ; chômage et prestations 30 → −11 chomage −11 minima ; allocations +40,3 tete, −25 tete, −16 minima (catégorie trAutres) au lieu de +23 / −13 ir ; cotisations 10,5 → clé `cotsal`.
+- `PA_MEASURES.attal` : social −84 → −39 ; `compItems` fonctionnaires −4,2 → −7.
+- `PA_MEASURES.melenchon` : retraites 22 → 13 (62 ans 9 + 4 indexation), minima 8 + 5 → 4.
+- `PA_MEASURES.lepen` : + impôts de production 20 (entreprises).
+- `PA_MEASURES.philippe` : allocation unique +41 tete, −25 tete, −16 minima, catégorie « none » (hors solde).
+- Test : efforts retenus Le Pen 0,1, Retailleau −0,3.
+
 ## 1er novembre 2026 : audit de vérification
 
 - `BASE0` : `d0` 115,7, `rev` 52,2, `dep0` 57,3 (Insee, comptes du 29 mai 2026).
