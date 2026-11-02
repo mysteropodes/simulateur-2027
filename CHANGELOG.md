@@ -4,6 +4,8 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 
 ## 2 novembre 2026 : El Niño
 
+- Recalibrage après audit : 2027 inflation +0,1, croissance −0,05, tension +2 ; 2028 inflation +0,2, croissance −0,05, tension +2. Curseur 0-3 : central, contagion ×2, extrême ×3 (tension ×2 au plus ; écart de taux +0,1 par cran au-delà du premier).
+
 - `shockAt("elnino")` : 2027 inflation +0,3, croissance −0,1, tension +3 ; 2028 inflation +0,3, tension +3.
 - `BASE0.elnino` 0 ; curseur `elnino` dans les hypothèses (GL), combinable avec les chocs ponctuels ; événement daté 2027.
 
