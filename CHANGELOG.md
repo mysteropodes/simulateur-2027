@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 2 novembre 2026 : El Niño
+
+- `shockAt("elnino")` : 2027 inflation +0,3, croissance −0,1, tension +3 ; 2028 inflation +0,3, tension +3.
+- `BASE0.elnino` 0 ; curseur `elnino` dans les hypothèses (GL), combinable avec les chocs ponctuels ; événement daté 2027.
+
 ## 2 novembre 2026 : tension pendant les crises
 
 - Terme de crise : `tensCrisis` [15, 20, 20, 15, 10, 5] (au lieu de 20 puis 12 − 2k) ; + `tensForced` 4 × min(3, forcedCum).
