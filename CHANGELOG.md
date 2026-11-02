@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 2 novembre 2026 : émissions par secteur
+
+- `SECT0`, `SECTR`, `CO2TARGET` ; `co2_0` 359,4 ; `co2Base` 1,8 ; `climK` 0,3 Mt par Md€ cumulé.
+- `p.climPol` {rate: points de baisse par secteur, lvl: [secteur, Mt, années de montée, libellé, début et fin d'effacement]} ; `climNote` affiché dans la fiche ; repli sur `co2Rate` pour les programmes construits (`co2Ref`).
+- `o.sect` : émissions par secteur et effet de l'investissement.
+- Graphique : objectif 2030 (TARGET) et bouton « Écart au statu quo » (`diffMode`).
+
 ## 2 novembre 2026 : El Niño
 
 - Recalibrage après audit : 2027 inflation +0,1, croissance −0,05, tension +2 ; 2028 inflation +0,2, croissance −0,05, tension +2. Curseur 0-3 : central, contagion ×2, extrême ×3 (tension ×2 au plus ; écart de taux +0,1 par cran au-delà du premier).

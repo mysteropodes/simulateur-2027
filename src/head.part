@@ -279,5 +279,6 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 .attoc{display:flex;flex-wrap:wrap;gap:8px}.attoc a{font:600 12.5px var(--f-body);color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px}.attoc a:hover{border-color:var(--accent);color:var(--accent)}.ankpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}.atbox{display:grid;gap:8px;align-content:start}.atbox h3{margin:0;font-size:1rem}.view[data-view="atlas"] details{border:1px solid var(--line);border-radius:10px;padding:10px 14px}.view[data-view="atlas"] summary{cursor:pointer;font-weight:600}.view[data-view="atlas"] details p,.view[data-view="atlas"] details ul{margin:10px 0 0}
 .view[data-view="atlas"] table.mini td:not(:first-child),.view[data-view="atlas"] table.mini th:not(:first-child){white-space:nowrap}
 .view[data-view="atlas"] .atcard table.mini td,.view[data-view="atlas"] .atcard table.mini th{white-space:normal}
+#metrics .diffbtn{margin-left:auto;border-style:dashed}
 </style>
 

@@ -1,6 +1,6 @@
 // Modèle v5 — même règle pour tous. Climat, IA, santé, tension sociale, financement, pouvoir d'achat, retraites, CO2, pollution.
 const BASE0={defPriv:0.8,defDom:0.31,defRecap:0.5,defPrem:2,allies:0,levyLeak:0.3,levyYear:2028,levyYears:10,reprComp:0,repr:0,reprSav:3000,reprLag:1,euTax:0,euTaxCut:0.25,depoReal:0,exitCut:0.1,natioPrem:0.15,natioYield:0.044,natioOil:1,natioYear:2028,extScale:1,leakStack:0.1,ulcGdp:0.12,premAnn:0.5,tensNow:30,elnino:0,d0:115.7,pd0:2.9,realg:1.0,infl:2.0,mktReal:1.5,ieff0:1.9,idxShare:0.1,idxReal:0.5,mult:0.7,prem:0.15,okun:0.3,u0:8.3,uStar:7.4,uSpeed:0.2,gini0:0.302,pov0:15.4,redistEff:0.85,stab:0.6,
-  shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.2,co2_0:364,co2Base:1.5,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
+  shock:"none",shockYear:2029,clim:"forte",climNeed:1.0,heatBase:2000,ai:"moyenne",kDebt:0.25,crisisPrem:3.0,rev:52.2,co2_0:359.4,co2Base:1.8,climK:0.3,pm0:40000,pensBal0:-0.2,retLiv0:100.2,
   leak:0.4,tensCost:0.01,seniorKeep:0.55,tpiDef:4,demog:1,ecb:0.25,climCost:1,shock2:"none",shockYear2:2035,uGdp:0.5,uDef:0.2,bankCrisis:3,crowd:0.02,ratingW:0.5,roll:0.09,gdpProg:3600,exit:"programme",povSave:1.35,ageCost:0.8,natoGap:0.45,pensDef:1,phil:0.15,smicEl:0.35,ageEff:0.7,aiFade:2040,multScale:1,hyst:0.05,ineqGrowth:0.06,energy:"tendance",importSub:0.5,transDrag:0.06,oilGdp:0.02,oilPi:0.04,oilCoupling:0.2,bouclier:0.4,migWork:0.35,migGdp:0.5,emp0:30500,migFisc:0,icf0:1.56,icfRef:1.45,births0:645,famElast:0.01,povElast:0.35,popG:0.3,det0:89668,places0:63303,mag0:9000,police0:250000,crimeU:3,crimeP:0.3,secU:1,rcSupply:0.15,rcRent:3,rtt:0.5,calib:1,forcedMax:6,tensionRights:1,spRet:0.1,invRet:0,fiscalReact:0.04,reactMax:4,nw0:23.5,premPol:1.3,premPolDecay:0.8,def0:2.05,lpm:0.55,aiCost:0.4,cons0:265,rateSens:0.08,sp0:17.5,po0:43.6,dep0:57.3,int0:2.2,youth0:21.6,energy0:45.8,artif0:19000,emp55_0:62.1,w10_0:48,gdpMd:2991,wealthMd:11700};
 const START=2025, END=2046;
 const CLIM={aucun:{dmg:0,heat:0},moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
@@ -76,9 +76,13 @@ const ENERGY={
   tensions:{p:{2025:69,2026:96,2027:100,2028:105,2032:105,2036:95,2046:95},supply:null},
   contrainte:{p:{2025:69,2026:96,2027:90,2030:105,2035:130,2040:160,2046:190},supply:{2025:1,2030:0.95,2040:0.73,2046:0.62}}
 };
-const ENERGYTXT={tendance:"Pétrole : retour progressif vers 75 $ le baril après le choc d'Ormuz de 2026 (EIA, AIE).",tensions:"Pétrole : tensions durables au Moyen-Orient, Brent autour de 100 à 105 $ jusqu'au milieu des années 2030.",contrainte:"Pétrole : l'offre disponible pour l'Europe baisse (The Shift Project) ; le prix monte et, au-delà de ce que la baisse de consommation absorbe, l'économie est rationnée."};
+const ENERGYTXT={tendance:"Pétrole : retour progressif vers 75 $ le baril après le choc d'Ormuz de 2026 (prévision de l'agence américaine de l'énergie du 6 octobre 2026, antérieure à la nouvelle fermeture d'Ormuz fin octobre : le baril était à ≈ 110 $ début novembre ; « Tensions durables » est plus proche des cours actuels).",tensions:"Pétrole : tensions durables au Moyen-Orient, Brent autour de 100 à 105 $ jusqu'au milieu des années 2030.",contrainte:"Pétrole : l'offre disponible pour l'Europe baisse (The Shift Project) ; le prix monte et, au-delà de ce que la baisse de consommation absorbe, l'économie est rationnée."};
 function interpYear(tab,t){const ks=Object.keys(tab).map(Number).sort((a,b)=>a-b); if(t<=ks[0]) return tab[ks[0]]; for(let i=1;i<ks.length;i++) if(t<=ks[i]) return tab[ks[i-1]]+(tab[ks[i]]-tab[ks[i-1]])*(t-ks[i-1])/(ks[i]-ks[i-1]); return tab[ks[ks.length-1]];}
 
+// Émissions par secteur (Citepa, Secten 2026 : 2025 provisoire, hors puits ; MtCO₂e) et tendance avec les mesures existantes (%/an, hypothèse du simulateur calée sur le scénario AME 2024 de la DGEC : ≈ −1,9 %/an au total jusqu'en 2030, et sur les rythmes 2023-2025)
+const SECT0={T:122.9,B:54.9,A:76.6,I:58.4,E:31.4,W:15.3}, SECTR={T:1.8,B:2.5,A:1.0,I:3.0,E:1.0,W:0.5};
+const SECTLAB={T:"Transports",B:"Bâtiments",A:"Agriculture",I:"Industrie",E:"Production d'énergie",W:"Déchets"};
+const CO2TARGET={2030:274}; // SNBC 3 (décret du 16 juillet 2026) : −50 % d'émissions brutes en 2030 par rapport à 1990, ≈ 270 à 276 Mt selon les documents
 function simulate(p,mode,b){
   const f=feas(p);
   const real= mode==="annonce"?1 : mode==="credible"?p.c : p.c*f; // part des montants budgétaires qui se réalise (crédibilité du chiffrage)
@@ -94,7 +98,7 @@ function simulate(p,mode,b){
   // réaction extérieure (marchés, concurrence), intensité par lecture (extScale) : fuite croissante avec l'empilement des impôts sur les mêmes contribuables (Brülhart et al. 2022, CAE 2025 : l'élasticité monte avec le taux), canal compétitivité, prime d'annonce
   const extS=(b.extScale??1), topNet=Math.max(0,(p.topRev||0)-(p.topCut||0));
   const leakM=mode==="annonce"?0:Math.min(0.85,b.leak+extS*(b.leakStack||0)*Math.max(0,topNet-20)/20)*(1-(p.exitTax?b.exitCut:0))*(1-(b.euTax?b.euTaxCut:0)); const topLeak=((p.topRev||0)-(p.topCut||0))*leakM/GP*100; // recettes perdues sur les hausses visant les plus riches, récupérées en partie sur les baisses // recettes perdues sur les plus riches (pt de PIB)
-  let d=b.d0, ieff=(b.ieff0-b.idxShare*(b.idxReal+b.infl))/(1-b.idxShare), sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, inflCum=0, gdp=1;
+  let d=b.d0, ieff=(b.ieff0-b.idxShare*(b.idxReal+b.infl))/(1-b.idxShare), sPrev=b.pd0, gap=0, u=b.u0, lastDef=5.1, tension=40, retreat=1, burden=2.2/b.rev*100, crisis=null, tpi=null, forcedCum=0, co2=b.co2_0, sectL=Object.assign({},SECT0), climCum=0, inflCum=0, gdp=1;
   let rb=0, rcLevPrev=0, emp55=b.emp55_0, w10=b.w10_0, premRef=null, artifS=b.artif0, KS=0, KI=0, dRef=null, reactSaid=false, relSaid=false, crisisN=0, crisisFirst=null, progEnd=null, progEnds=[], rf=0, rMortPrev=null, dRprev=0, hpI=100, rentI=100, hpGprev=0, povS=0, crowdPrev=0, cumProg=0, uLevPrev=0, smicUprev=0, uProgPrev=0, tpiFirst=null, tensLevPrev=0; const spHist=[], invHist=[];
   const CD=fiscalCompDetail(p,b), comp=CD.c; comp.taxAis+=topLeak; // recettes évaporées : moins de prélèvement effectif sur les plus aisés
   // crédibilité appliquée par sens : recettes et économies réduites par la crédibilité du chiffrage, sauf les impôts sur les plus aisés
@@ -120,7 +124,7 @@ function simulate(p,mode,b){
   const entrMd=(p.paMeasures||[]).filter(m=>m[2]==="entreprises"&&m[5]!=="none").reduce((a,m)=>a+m[1]*(m[1]>0?realSp:real),0)+(()=>{const rest=(p.taxMd||0)-(p.paMeasures||[]).filter(m=>m[5]!=="none"&&TAXCAT[m[5]||KEYCAT[m[2]]]).reduce((a,m)=>a-m[1],0); const sh=p.taxRestEntr==null?0.5:p.taxRestEntr; return -rest*sh*(rest<0?realSp:real);})(); // Md€ de baisse (+) ou de hausse (−) des prélèvements sur les entreprises
   let compLevPrev=0;
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; gap=b.gap0||0; let gapO=b.gap0||0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
-  const o={levy:[0],natDiv:[0],prisonD:[133],judgeLoad:[100],theftI:[100],secCost:[0],povA:[b.pov0],retreat:[0],tensGdp:[0],house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const o={sect:[Object.assign({inv:0},SECT0)],levy:[0],natDiv:[0],prisonD:[133],judgeLoad:[100],theftI:[100],secCost:[0],povA:[b.pov0],retreat:[0],tensGdp:[0],house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
   for(let t=START+1;t<=END;t++){
     const SH=[[b.shock,b.shockYear],[b.shock2||"none",b.shockYear2||0]], hasS=(ty,k)=>SH.some(([x,Y])=>x===ty&&t-Y===k), z={real:0,infl:0,spread:0,euMult:1,pd:0,deaths:0,tension:0}; let deathsClim=0, deathsEpid=0;
@@ -272,9 +276,14 @@ function simulate(p,mode,b){
     const okunCr=(crisis!==null&&t-crisis>=1&&t-crisis<=3)?1.6:1; // crise de la dette : faillites et crédit coupé, l'emploi réagit plus fort (France 2008-2009 : PIB −2,9 %, chômage +1,7 point en un an, soit ≈ 0,5 au lieu de 0,3)
     const smicU=b.smicEl*(p.smicCost||0)*0.17*ramp(t,2026,2029)*pol*retreat; smicUprev=smicU; // hausse du Smic : emplois au Smic (17 % des salariés) sensibles au coût du travail
     u=u+(b.calib&&near.du?near.du:0)+b.uSpeed*(b.uStar+(t>=2027?p.uStruct*(b.uStructScale??1)*pol:0)+smicU+aiDisp+uSen-1.1*b.rtt*rttPh-u)-b.okun*okunEff*okunCr*(gap-gapPrev);
-    // CO2 : tendance actuelle (−1,5 %/an) remplacée par le rythme du programme, l'activité module à la marge
-    const rate=b.co2Base+(p.co2Rate-b.co2Base)*pol*retreat*(p.co2Eff??1)*(1-rb)*ramp(t,2026,2030); // rythme de décarbonation : orientation politique, appliquée si élu ; efficacité incertaine (tirée dans les fourchettes) ; réduite pendant un programme d'aide, quand l'investissement public est coupé (Europe du Sud 2011-2014 : investissement public divisé par deux environ)
-    co2=co2*(1-rate/100)*(1+0.5*(gap-gapPrev)/100);
+    // CO2 par secteur : tendance avec les mesures existantes, rythme changé par les règles du programme (rate, %/an en plus de la baisse), effets en niveau des mesures de prix (lvl, Mt), et investissement climatique public cumulé (climK Mt/an par Md€ au-delà du niveau actuel)
+    { const CP=p.climPol, wPol=pol*retreat*(p.co2Eff??1)*(1-rb)*ramp(t,2026,2030);
+      climCum+=(t>=2027?((p.climInv??0.2)-0.2)*realSp*retreat*phase*GP/100:0)*(1-rb);
+      let tot=0; const lv={};
+      for(const s in SECT0){ const dr=CP?(((CP.rate&&CP.rate[s])||0)+(p.co2Ref!=null?(p.co2Rate??p.co2Ref)-p.co2Ref:0)):((p.co2Rate??b.co2Base)-b.co2Base); sectL[s]=sectL[s]*(1-(SECTR[s]+dr*wPol)/100); lv[s]=sectL[s]; }
+      if(CP&&CP.lvl) for(const it of CP.lvl){ const [s,mt,n,,f0,f1]=it; let w=t<2027?0:Math.min(1,(t-2026)/(n||1))*pol; if(f0&&t>f0) w*=Math.max(0,1-(t-f0)/((f1||f0+1)-f0)); lv[s]+=mt*w; }
+      const cl=b.climK*climCum; for(const s in SECT0) tot+=lv[s]; tot=Math.max(0,tot-cl);
+      co2=tot*(1+0.5*gap/100); o.sect.push(Object.assign({inv:-cl},lv)); }
     // pollution de l'air (PM2.5) : suit les émissions de combustion, plus un progrès technique de 1 %/an
     const pm=b.pm0*Math.pow(co2/b.co2_0,0.8)*Math.pow(0.99,t-START);
     // retraites : trajectoire COR (−0,2 % du PIB jusqu'en 2030, −0,9 % en 2045) + effet du programme (déjà compris dans le déficit)
@@ -359,4 +368,4 @@ function simulate(p,mode,b){
   o.comp=comp;o.ev=ev;o.uSen=uSenLast;o.ageReal=ageRealLast;o.topLeak=topLeak;o.annD=Math.max(0,progPos+progNeg);o.leakM=leakM; // exitTax : exit tax d'avant 2019 (plus-values latentes taxées au départ, suivi sur 15 ans), une partie de l'exil fiscal évitée (exitCut, effet modeste faute d'étude solide)
   o.real=real;o.realSp=realSp;o.compEff=compEff;o.progFull=progFull;o.f=f;o.crisis=crisisFirst;o.crisisLast=crisis;o.crisisN=crisisN+(crisisFirst!==null?1:0);o.progEnd=progEnd;o.progEnds=progEnds;o.tpi=tpiFirst;return o;
 }
-if(typeof module!=="undefined") module.exports={ENERGY,ENERGYTXT,BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,fiscalCompDetail,multAt};
+if(typeof module!=="undefined") module.exports={SECT0,SECTR,SECTLAB,CO2TARGET,ENERGY,ENERGYTXT,BASE0,SHOCKTXT,simulate,feas,START,END,GROUPS,MULT,MULTLABEL,fiscalComp,fiscalCompDetail,multAt};
