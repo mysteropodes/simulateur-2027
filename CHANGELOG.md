@@ -2,6 +2,15 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 3 novembre 2026 : choix tranchés après l'audit
+
+- Marchés : `premEndo` (0 par défaut en lectures centrale et keynésienne, 1 en libérale) ; à 0, prime = `premFix` 1,5 + prime d'annonce + conflit UE ; à 1, prime endogène avec `prem` 0,11 (central), `kDebt` 0,3 au-delà de `debtRef` 100, notation, `premPol` 0,7 qui ne décroît que les années où le déficit baisse. Libérale : `prem` 0,2, `kDebt` 0,45. `NEAR[2026].prem` −0,5.
+- Crise : `crisisPrem` 4,5 (5,5 keynésienne, 4 libérale) ; tirages ±1,5 ; `premEndo` tiré une fois sur deux dans `runMC` et `crisisTable`.
+- Fuite fiscale : `leakBase` par type d'impôt (fortune 0,5, capital et IR 0,4, héritages 0,25, niches et fraude 0,15), `leakW` dans `topFlows` ; empilement de Saez (`tauTop` 0,5, `incTop` 800 Md€, contribution exceptionnelle comprise) ; `leakStack` n'est plus utilisé. Ligne « chevauchement Zucman » (+3,8 Mélenchon, +4 candidat IA).
+- Budget 2027 : `budLayer(b)` (couche de référence tirée du scénario `gov`, crédibilité 0,95, `bud27` 1) appliquée à tous dès 2027 (solde, impulsions par catégorie, revenus par décile et par groupe, services publics, santé) ; `gov.phaseProf` {2027:0, 2028:1, 2029:2} ; `NEAR[2027].g` +0,5 (croissance ≈ 0,6 %). Test sur le passé inchangé (`calib` 0, paramètres de marché d'avant).
+- Curseurs « Marchés : l'écart de taux monte avec la dette » et « Budget 2027 hérité par tous ».
+- Tests : dette 2036 du statu quo 140-156, croissance 2026-2028 0,6-1,0, crise la plus tardive en variante stress, budget hérité, taux stables par défaut, fuite par impôt.
+
 ## 3 novembre 2026 : audit du calcul budgétaire
 
 - Vieillissement (Haut-commissariat à la Stratégie et au Plan, juillet 2026) : `ageCost` 0,8 → 1,1 (santé et autonomie, rampe 2030-2050), nouveau `ageOff` −1,0 (contreparties : éducation, prestations, rémunérations), retraites `0.7*ramp(2030,2045)` → `0.15*ramp(2030,2050)` (le solde COR dépend de transferts internes aux administrations).

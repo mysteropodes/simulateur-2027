@@ -17,18 +17,19 @@ const path=require('path');
     const ok=(lab,c)=>checks.push([lab,"",!!c,"vrai"]);
     // repères du statu quo (calage)
     near("Dette 2030 statu quo (comité d'experts ≈ 130)",sq.debt[y(2030)],126,135);
-    near("Dette 2036 statu quo (stabilité du calage ; Commission 144-156 aux taux de 2024, plus hauts depuis)",sq.debt[y(2036)],156,168);
+    near("Dette 2036 statu quo (Commission 144, Haut-commissariat 140 en 2035, à taux stables)",sq.debt[y(2036)],140,156);
     near("OAT 10 ans 2027",BASE0.mktReal+sq.infl[y(2027)]+sq.spread[y(2027)],4.6,5.4);
-    near("Croissance 2026-2028 (Banque de France 0,4/0,9/1,2)",(sq.growth[1]+sq.growth[2]+sq.growth[3])/3,0.7,1.0);
+    near("Croissance 2026-2028, budget 2027 compris (Banque de France 0,4/0,9/1,2 ; OFCE 2027 : 0,5)",(sq.growth[1]+sq.growth[2]+sq.growth[3])/3,0.6,1.0);
     // efforts retenus publiés (README et Méthode)
-    const eff={melenchon:-2.3,lepen:0.1,philippe:-0.2,glucksmann:-1.9,retailleau:0.3,attal:-0.8};
+    const eff={melenchon:-1.9,lepen:0.1,philippe:-0.2,glucksmann:-1.9,retailleau:0.3,attal:-0.8};
     for(const id in eff) near("Effort retenu "+id,r[id].progFull,eff[id]-0.1,eff[id]+0.1);
     // conclusions robustes (analyse de sensibilité)
     const pov=ids.filter(i=>i!=="statu").map(i=>[i,r[i].pov[y(2032)]]).sort((a,b)=>a[1]-b[1]);
     ok("Pauvreté 2032 la plus basse : Mélenchon",pov[0][0]==="melenchon");
     ok("Pauvreté 2032 la plus haute : Philippe ou Retailleau",["philippe","retailleau"].includes(pov[pov.length-1][0]));
-    const cr=ids.filter(i=>i!=="statu").map(i=>[i,r[i].crisis||2047]).sort((a,b)=>b[1]-a[1]);
-    ok("Crise la plus tardive : Philippe ou Retailleau",["philippe","retailleau"].includes(cr[0][0]));
+    const rs={}; for(const id of ids) rs[id]=sim(id,{premEndo:1}); // variante « stress » : la prime de risque monte avec la dette
+    const cr=ids.filter(i=>i!=="statu").map(i=>[i,rs[i].crisis||2047]).sort((a,b)=>b[1]-a[1]);
+    ok("Crise la plus tardive, variante stress : Philippe ou Retailleau",["philippe","retailleau"].includes(cr[0][0]));
     // audit du 3 novembre 2026 : calage sur les sources officielles
     near("Déficit 2026 statu quo (PLF 2027 : 5,4 ; OFCE 5,5)",sq.def[y(2026)],5.3,5.6);
     near("Dette 2026 statu quo (PLF 2027 : 119,3)",sq.debt[y(2026)],118.9,119.9);
@@ -48,10 +49,13 @@ const path=require('path');
     const gv=CANDS0.find(p=>p.id==="gov"); if(gv){const rg=simulate(gv,"credible",B()), ra=simulate(gv,"annonce",B());
       near("Gouvernement : déficit 2027 tel qu'annoncé (instituts 5,2-5,3 ; objectif 5,0)",ra.def[y(2027)],5.0,5.6);
       near("Gouvernement : déficit 2027 chiffrage crédible (OFCE 5,4)",rg.def[y(2027)],5.2,5.9);
-      ok("Gouvernement : budget en entier dès 2027 (effort 2027 > un cinquième)",sq.def[y(2027)]-ra.def[y(2027)]>0.5);
-      ok("Gouvernement : croissance 2027 sous le statu quo (budget restrictif)",rg.growth[y(2027)]<sq.growth[y(2027)]);
+      ok("Référence : le budget 2027 est hérité par tous (déficit 2027 du statu quo sous 5,5 %)",sq.def[y(2027)]<5.5);
+      ok("Gouvernement : budget reconduit en 2028 (déficit 2028 au moins 0,4 point sous le statu quo)",sq.def[y(2028)]-rg.def[y(2028)]>0.4);
+      ok("Gouvernement : croissance 2028 sous le statu quo (budget reconduit, restrictif)",rg.growth[y(2028)]<sq.growth[y(2028)]-0.3);
       ok("Gouvernement : dette 2036 sous le statu quo",rg.debt[y(2036)]<sq.debt[y(2036)]);}
-    const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); near("Candidat IA : tension maximale de 2027 à la crise de la dette",Math.max(...ri.tension.slice(2,(ri.crisis||2047)-2025)),0,60);}
+    const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); ok("Candidat IA : tension maximale avant la crise sous celle du statu quo",Math.max(...ri.tension.slice(2,(ri.crisis||2047)-2025))<=Math.max(...sq.tension.slice(2,(sq.crisis||2047)-2025)));
+    ok("Marchés : taux stables par défaut (pas de crise du statu quo en lecture centrale)",sq.crisis===null);
+    ok("Recettes perdues par impôt : héritages moins que fortune (Mélenchon, lecture centrale sous 0,5)",r.melenchon.leakM<0.5);}
     ok("Les recettes perdues n'améliorent pas Retailleau",lr(0.9)>=lr(0.1)-0.05);
     // réaction extérieure (marchés, exil fiscal, concurrence) : sans effet sur le statu quo, défavorable à un programme qui empile les impôts sur le capital et relève le coût du travail
     const ex=(id,v)=>simulate(CANDS0.find(p=>p.id===id),"credible",B({extScale:v}));
