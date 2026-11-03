@@ -2,6 +2,18 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 3 novembre 2026 : audit du calcul budgétaire
+
+- Vieillissement (Haut-commissariat à la Stratégie et au Plan, juillet 2026) : `ageCost` 0,8 → 1,1 (santé et autonomie, rampe 2030-2050), nouveau `ageOff` −1,0 (contreparties : éducation, prestations, rémunérations), retraites `0.7*ramp(2030,2045)` → `0.15*ramp(2030,2050)` (le solde COR dépend de transferts internes aux administrations).
+- Défense : `lpm` 0,55 → 0,4 ; `natoGap` 0,45 → 0 (réglage).
+- Intérêts : `piE = infl + piPass × (pi − infl)`, `piPass` 0,4 (1 dans le test sur le passé, qui impose les taux observés) ; `stShare` 0,076 (titres courts au taux de dépôt + 0,1 + 0,3 × prime).
+- `NEAR` : `dpi` (déflateur − prix) −1,2 en 2026, −0,5 en 2027 ; `sf` 2026 1,0 → 0,3 ; `pd` 2026 −0,15 ; croissance +0,03 par an en 2026-2028 (effet de la LPM corrigée sur le calage Banque de France).
+- Réformes neutres : 7e champ `grp` dans `PA_MEASURES` ; solde net par catégorie dans `fiscalCompDetail`, toutes les lignes du côté du solde net dans `microsimSplit` (allocation familiale unique de Philippe et de Retailleau).
+- `entrMd` calculé à partir de `fiscalCompDetail` (tous les postes « entreprises »).
+- Gouvernement : `c` 0,76 → 0,95.
+- Textes : règle des 30 % présentée comme propre au simulateur ; « Ce qu'il faut retenir » recalculé (400 tirages) ; README, fiche du candidat IA, curseurs vieillissement et OTAN.
+- Tests : efforts publiés, conclusions robustes (pauvreté la plus haute : Philippe ou Retailleau ; crise la plus tardive : Philippe ou Retailleau), cinq contrôles de calage ajoutés (déficit et dette 2026, intérêts 2027, vieillissement net, réforme neutre).
+
 ## 3 novembre 2026 : scénario du gouvernement
 
 - Nouveau programme `gov` (« Gouvernement (budget 2027 prolongé) ») : `A` 1,43 (43 Md€ / 3 000), `gdpRef` 3 000, `c` 0,76 (0,3 + 0,7 × 28/43, effort structurel retrouvé par le HCFP), `parl` 0,45, `adh` 0,35, `taxMd` +18, `spServ` −0,12, `healthSpend` −0,13, 12 mesures dans `PA_MEASURES.gov`, `compItems` (entreprises −6,6, investissement −2,1, recettes −2,4).
