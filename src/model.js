@@ -137,7 +137,7 @@ function simulate(p,mode,b){
     if(t===2027&&p.id!=="statu") E(t,"start",p.phaseProf?(p.startTxt||"Entrée en vigueur du budget."):"Entrée en vigueur du programme, montée en charge sur cinq ans.");
     for(const [ty,Y] of SH) if(t===Y&&ty!=="none") E(t,"shock",SHOCKTXT[ty]);
     if(t===2027&&p.bce>0) E(t,"bce",bceOn?"Gel de la dette détenue par la BCE accepté : charge d'intérêts allégée.":"Gel de la dette détenue par la BCE refusé (probabilité d'acceptation retenue : "+Math.round(bceProb*100)+" %) : pas d'allègement des intérêts.");
-    const phase=t<2027?0:p.phaseProf?(p.phaseProf[t]??1):Math.min((t-2026)/5,1); // montée en charge : cinq ans pour un programme élu en 2027 ; profil propre pour un budget déjà voté (scénario du gouvernement)
+    const phase=t<2027?0:p.phaseProf?(p.phaseProf[t]??p.phaseProf.after??1):Math.min((t-2026)/5,1); // montée en charge : cinq ans pour un programme élu en 2027 ; profil propre pour un budget déjà voté (scénario du gouvernement)
     // seniors : report ou avancée de l'âge de départ
     const sh0=p.ageShift||0, agePh=sh0>0?ramp(t,2026,2027+4*sh0):ramp(t,2026,2027+1.5*Math.abs(sh0));
     const sh=sh0*b.ageEff*pol*retreat*agePh, keep=sh>0?b.seniorKeep:0.85;

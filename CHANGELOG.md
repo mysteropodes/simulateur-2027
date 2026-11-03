@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 3 novembre 2026 : scénario du gouvernement
+
+- Nouveau programme `gov` (« Gouvernement (budget 2027 prolongé) ») : `A` 1,43 (43 Md€ / 3 000), `gdpRef` 3 000, `c` 0,76 (0,3 + 0,7 × 28/43, effort structurel retrouvé par le HCFP), `parl` 0,45, `adh` 0,35, `taxMd` +18, `spServ` −0,12, `healthSpend` −0,13, 12 mesures dans `PA_MEASURES.gov`, `compItems` (entreprises −6,6, investissement −2,1, recettes −2,4).
+- `p.phaseProf` : profil de montée en charge propre (`{2027:1,2028:2,2029:3,after:3}` : budget reconduit à l'identique en 2028 et 2029) à la place des cinq ans des candidats ; `p.startTxt` pour l'événement de 2027.
+- Drapeau `gov` : hors classement des chiffrages et hors conclusions robustes des tests ; tirets longs ; couleur `--c8`.
+- `ORIG.plf`, `CHIF.gouv`, `CHIF.anal` ; cinq contrôles de non-régression (déficit 2027 annoncé 5,0-5,6, crédible 5,2-5,9, etc.).
+
 ## 2 novembre 2026 : émissions par secteur
 
 - `SECT0`, `SECTR`, `CO2TARGET` ; `co2_0` 359,4 ; `co2Base` 1,8 ; `climK` 0,3 Mt par Md€ cumulé.

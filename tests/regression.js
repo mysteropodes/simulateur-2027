@@ -10,7 +10,7 @@ const path=require('path');
   const out=await pg.evaluate(()=>{
     const B=o=>Object.assign({},BASE0,PRESETS.central,o||{});
     const sim=(id,o,mode)=>simulate(CANDS0.find(p=>p.id===id),mode||"credible",B(o));
-    const sq=sim("statu"), ids=CANDS0.filter(p=>!p.fictif).map(p=>p.id), r={};
+    const sq=sim("statu"), ids=CANDS0.filter(p=>!p.fictif&&!p.gov).map(p=>p.id), r={};
     for(const id of ids) r[id]=sim(id);
     const y=t=>t-2025, checks=[];
     const near=(lab,v,lo,hi)=>checks.push([lab,v,v>=lo&&v<=hi,lo+" à "+hi]);
@@ -39,6 +39,12 @@ const path=require('path');
     ok("Plus de recettes perdues augmente la dette (Mélenchon)",lk(0.6)>lk(0.2));
     const lr=l=>simulate(CANDS0.find(p=>p.id==="retailleau"),"credible",B({leak:l})).debt[y(2032)];
     // candidat fictif : règles de construction (solde annoncé >= 0, pas de crise avant le statu quo, pauvreté sous le statu quo, tension < 60)
+    const gv=CANDS0.find(p=>p.id==="gov"); if(gv){const rg=simulate(gv,"credible",B()), ra=simulate(gv,"annonce",B());
+      near("Gouvernement : déficit 2027 tel qu'annoncé (instituts 5,2-5,3 ; objectif 5,0)",ra.def[y(2027)],5.0,5.6);
+      near("Gouvernement : déficit 2027 chiffrage crédible (OFCE 5,4)",rg.def[y(2027)],5.2,5.9);
+      ok("Gouvernement : budget en entier dès 2027 (effort 2027 > un cinquième)",sq.def[y(2027)]-ra.def[y(2027)]>0.5);
+      ok("Gouvernement : croissance 2027 sous le statu quo (budget restrictif)",rg.growth[y(2027)]<sq.growth[y(2027)]);
+      ok("Gouvernement : dette 2036 sous le statu quo",rg.debt[y(2036)]<sq.debt[y(2036)]);}
     const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); near("Candidat IA : tension maximale de 2027 à la crise de la dette",Math.max(...ri.tension.slice(2,(ri.crisis||2047)-2025)),0,60);}
     ok("Les recettes perdues n'améliorent pas Retailleau",lr(0.9)>=lr(0.1)-0.05);
     // réaction extérieure (marchés, exil fiscal, concurrence) : sans effet sur le statu quo, défavorable à un programme qui empile les impôts sur le capital et relève le coût du travail
