@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 3 novembre 2026 : risque de crise en pourcentage
+
+- `premEndo` 1 par défaut dans toutes les lectures (écart de taux endogène) ; `noCrisis` 1 : seuil infini dans les courbes principales ; tirages (`runMC`, `crisisTable`) toujours avec crises (`noCrisis` 0) ; graphiques du défaut et du modèle américain avec crises.
+- Cartes d'accueil : risque de crise d'ici 2046 (part des 200 tirages) et année médiane, recalculés après les tirages ; curseur « Afficher les crises dans les courbes ».
+- Textes, conclusions robustes (400 tirages), README et tests mis à jour.
+
 ## 3 novembre 2026 : choix tranchés après l'audit
 
 - Marchés : `premEndo` (0 par défaut en lectures centrale et keynésienne, 1 en libérale) ; à 0, prime = `premFix` 1,5 + prime d'annonce + conflit UE ; à 1, prime endogène avec `prem` 0,11 (central), `kDebt` 0,3 au-delà de `debtRef` 100, notation, `premPol` 0,7 qui ne décroît que les années où le déficit baisse. Libérale : `prem` 0,2, `kDebt` 0,45. `NEAR[2026].prem` −0,5.

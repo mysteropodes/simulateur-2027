@@ -91,7 +91,7 @@ function buildUS(){
   const pm=[["Minima sociaux et APL réduits",-40,"minima","x","sim"],["Assurance chômage : six mois au plus",-25,"chomage","x","sim"],["Retraites : 67 ans, indexation réduite",-60,"retraites","x","sim"],["Fonction publique : −15 % d'effectifs",-40,"fonction","x","sim"],["Allocations familiales réduites",-10,"tete","x","sim"],["Fin de l'impôt sur la fortune immobilière, revenus du capital à 15 %",40,"capital","x","sim"],["Impôt sur les sociétés à 15 %",40,"entreprises","x","sim"],["Impôt sur le revenu à taux unique",40,"ir","x","sim"]];
   const ms=microsim(pm);
   const us=Object.assign({},st,{id:"usa",paMeasures:pm,pa:ms.pa,paDec:ms.deciles,A:4.5,taxMd:-120,spServ:-2,healthSpend:-1,ageShift:3,uStruct:-0.6,topTax:-1.5,botGain:-3,c:0.5,parl:0.4,adh:0.3,legal:0.6},topFlows(pm));
-  const B=Object.assign({},BASE), md=typeof mode!=="undefined"?mode:"credible";
+  const B=Object.assign({},BASE,{noCrisis:0}), md=typeof mode!=="undefined"?mode:"credible";
   const s=simulate(st,md,B), r=simulate(us,md,B), y=t=>t-2025, g=a=>a.slice(2,8).reduce((x,v)=>x+v,0)/6;
   const rows=[["Pauvreté 2032",v=>fmt(v.pov[y(2032)])+" %"],["Inégalités 2032 (indice de Gini)",v=>fmt(v.gini[y(2032)],3)],["Espérance de vie 2032 (écart à 2025)",v=>(v.health[y(2032)]>=0?"+":"−")+fmt(Math.abs(v.health[y(2032)]))+" an"],["Chômage 2032",v=>fmt(v.unemp[y(2032)])+" %"],["Croissance moyenne 2027-2032",v=>fmt(g(v.growth),2)+" %"],["Tension sociale (maximum à partir de 2027)",v=>fmt(Math.max(...v.tension.slice(2)),0)],["Services publics 2032 (% du PIB)",v=>fmt(v.sp[y(2032)])],["Dette 2036",v=>fmt(v.debt[y(2036)],0)+" %"],["Crise de la dette",v=>v.crisis||"aucune avant 2046"]];
   tb.innerHTML=rows.map(([l,f])=>`<tr><td>${l}</td><td style="text-align:right">${f(s)}</td><td style="text-align:right">${f(r)}</td></tr>`).join("");
@@ -104,7 +104,7 @@ function buildUS(){
 function buildDef(){
   const tb=document.getElementById("defTab"); if(!tb||typeof simulate!=="function") return;
   const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS.find(c=>c.id==="melenchon")||CANDS0.find(c=>c.id==="melenchon");
-  const B=Object.assign({},BASE), md=typeof mode!=="undefined"?mode:"credible", y=t=>t-2025;
+  const B=Object.assign({},BASE,{noCrisis:0}), md=typeof mode!=="undefined"?mode:"credible", y=t=>t-2025;
   const s0=simulate(st,md,B), a=simulate(Object.assign({},ml,{defaut:0}),md,B), d=simulate(Object.assign({},ml,{defaut:0.3}),md,B);
   const pa=(r,g,t)=>{const v=(r.pa[g][y(t)]/s0.pa[g][y(t)]-1)*100;return (v>=0?"+":"−")+fmt(Math.abs(v))+" %";};
   const rows=[["Crise de la dette",r=>r.crisis||"aucune avant 2046"],["Inflation maximale",r=>fmt(Math.max(...r.infl))+" %"],["Tension sociale maximale",r=>fmt(Math.max(...r.tension),0)],
@@ -122,7 +122,7 @@ function defDraw(){
   if(!defWired){defWired=true;
     document.querySelectorAll("[data-di]").forEach(x=>x.onclick=()=>{defInd=x.dataset.di;document.querySelectorAll("[data-di]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.di===defInd));defDraw();});
     document.querySelectorAll("[data-dr]").forEach(x=>x.onclick=()=>{defRd=x.dataset.dr;document.querySelectorAll("[data-dr]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.dr===defRd));defDraw();});}
-  const B=Object.assign({},BASE0,PRESETS[defRd]), ys=[]; for(let y=2025;y<=2046;y++) ys.push(y);
+  const B=Object.assign({},BASE0,PRESETS[defRd],{noCrisis:0}), ys=[]; // ici, la crise est le sujet : elle est affichée for(let y=2025;y<=2046;y++) ys.push(y);
   const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS0.find(c=>c.id==="melenchon"), ia=CANDS0.find(c=>c.id==="ia");
   const s0=simulate(st,"credible",B);
   const ser=r=>defInd==="pov"?r.pov.map(v=>+v.toFixed(1)):defInd==="debt"?r.debt.map(v=>+v.toFixed(0)):r.pa.mod.map((v,i)=>+((v/s0.pa.mod[i]-1)*100).toFixed(1));

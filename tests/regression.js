@@ -27,9 +27,9 @@ const path=require('path');
     const pov=ids.filter(i=>i!=="statu").map(i=>[i,r[i].pov[y(2032)]]).sort((a,b)=>a[1]-b[1]);
     ok("Pauvreté 2032 la plus basse : Mélenchon",pov[0][0]==="melenchon");
     ok("Pauvreté 2032 la plus haute : Philippe ou Retailleau",["philippe","retailleau"].includes(pov[pov.length-1][0]));
-    const rs={}; for(const id of ids) rs[id]=sim(id,{premEndo:1}); // variante « stress » : la prime de risque monte avec la dette
+    const rs={}; for(const id of ids) rs[id]=sim(id,{premEndo:1,noCrisis:0}); // crises affichées : la prime de risque monte avec la dette et franchit le seuil
     const cr=ids.filter(i=>i!=="statu").map(i=>[i,rs[i].crisis||2047]).sort((a,b)=>b[1]-a[1]);
-    ok("Crise la plus tardive, variante stress : Philippe ou Retailleau",["philippe","retailleau"].includes(cr[0][0]));
+    ok("Crise la plus tardive, crises affichées : Philippe ou Retailleau",["philippe","retailleau"].includes(cr[0][0]));
     // audit du 3 novembre 2026 : calage sur les sources officielles
     near("Déficit 2026 statu quo (PLF 2027 : 5,4 ; OFCE 5,5)",sq.def[y(2026)],5.3,5.6);
     near("Dette 2026 statu quo (PLF 2027 : 119,3)",sq.debt[y(2026)],118.9,119.9);
@@ -54,7 +54,7 @@ const path=require('path');
       ok("Gouvernement : croissance 2028 sous le statu quo (budget reconduit, restrictif)",rg.growth[y(2028)]<sq.growth[y(2028)]-0.3);
       ok("Gouvernement : dette 2036 sous le statu quo",rg.debt[y(2036)]<sq.debt[y(2036)]);}
     const ia=CANDS0.find(p=>p.id==="ia"); if(ia){const ri=simulate(ia,"credible",B()); ok("Candidat IA : solde annoncé >= 0",ia.A>=0); ok("Candidat IA : pas de crise avant le statu quo",(ri.crisis||2047)>=(sq.crisis||2047)); ok("Candidat IA : pauvreté 2032 sous le statu quo",ri.pov[y(2032)]<sq.pov[y(2032)]); ok("Candidat IA : tension maximale avant la crise sous celle du statu quo",Math.max(...ri.tension.slice(2,(ri.crisis||2047)-2025))<=Math.max(...sq.tension.slice(2,(sq.crisis||2047)-2025)));
-    ok("Marchés : taux stables par défaut (pas de crise du statu quo en lecture centrale)",sq.crisis===null);
+    ok("Courbes principales sans crise imposée (risque donné par les tirages)",sq.crisis===null);
     ok("Recettes perdues par impôt : héritages moins que fortune (Mélenchon, lecture centrale sous 0,5)",r.melenchon.leakM<0.5);}
     ok("Les recettes perdues n'améliorent pas Retailleau",lr(0.9)>=lr(0.1)-0.05);
     // réaction extérieure (marchés, exil fiscal, concurrence) : sans effet sur le statu quo, défavorable à un programme qui empile les impôts sur le capital et relève le coût du travail
@@ -71,7 +71,7 @@ const path=require('path');
     const ic=x=>sim("statu",{infl:x,crisisPrem:1e9}).debt[y(2032)];
     ok("Plus d'inflation baisse le ratio de dette 2032 (sans crise)",ic(2.5)<ic(1.5));
     // une crise fait d'abord monter la dette (Portugal, Espagne, Irlande, Grèce)
-    const L=sim("statu",{},"credible"), Lc=simulate(CANDS0[0],"credible",B(Object.assign({},PRESETS.liberal))), Ln=simulate(CANDS0[0],"credible",B(Object.assign({},PRESETS.liberal,{crisisPrem:1e9})));
+    const L=sim("statu",{},"credible"), Lc=simulate(CANDS0[0],"credible",B(Object.assign({},PRESETS.liberal,{noCrisis:0}))), Ln=simulate(CANDS0[0],"credible",B(Object.assign({},PRESETS.liberal,{crisisPrem:1e9})));
     if(Lc.crisis){const k=Lc.crisis-2025+2; ok("Deux ans après une crise, la dette dépasse la trajectoire sans crise",Lc.debt[k]>Ln.debt[k]);}
     return checks;
   });
