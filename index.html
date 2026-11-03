@@ -1295,10 +1295,10 @@ function simulate(p,mode,b){
     for(const [ty,Y] of SH){ if(ty==="none") continue; const q=shockAt(ty,Y,t); for(const kk of ["real","infl","spread","pd","tension"]) z[kk]+=q[kk]; z.euMult=Math.max(z.euMult,q.euMult); if(q.cap!=null) z.cap=Math.min(z.cap??99,q.cap); if(ty==="climat") deathsClim+=q.deaths; if(ty==="pandemie") deathsEpid+=q.deaths; } // deux chocs possibles sur vingt ans
     if(mode!=="annonce"&&!(crisis!==null&&progEnd===null&&!(b.exit==="refus"||(p.defaut||0)>0||b.shock==="eurofract"||b.shock2==="eurofract"))){ const tgt=1-0.4*Math.max(0,Math.min(1,(tension-60)/20)); retreat=tgt<retreat?Math.max(tgt,retreat-0.1):Math.min(tgt,retreat+0.03); } // recul progressif au-delà de 60 de tension (jusqu'à 40 % du programme à 80), et retour lent quand la tension retombe
     if(mode!=="annonce" && retreat<0.97){ if(!retreatSaid&&p.id!=="statu"){retreatSaid=true;E(t,"retreat","Tension sociale au-dessus de 60 : le gouvernement recule progressivement sur une partie du programme (jusqu'à 40 % quand la tension atteint 80).");} } // recul face à la contestation
-    if(t===2027&&p.id!=="statu") E(t,"start","Entrée en vigueur du programme, montée en charge sur cinq ans.");
+    if(t===2027&&p.id!=="statu") E(t,"start",p.phaseProf?(p.startTxt||"Entrée en vigueur du budget."):"Entrée en vigueur du programme, montée en charge sur cinq ans.");
     for(const [ty,Y] of SH) if(t===Y&&ty!=="none") E(t,"shock",SHOCKTXT[ty]);
     if(t===2027&&p.bce>0) E(t,"bce",bceOn?"Gel de la dette détenue par la BCE accepté : charge d'intérêts allégée.":"Gel de la dette détenue par la BCE refusé (probabilité d'acceptation retenue : "+Math.round(bceProb*100)+" %) : pas d'allègement des intérêts.");
-    const phase=t<2027?0:Math.min((t-2026)/5,1);
+    const phase=t<2027?0:p.phaseProf?(p.phaseProf[t]??1):Math.min((t-2026)/5,1); // montée en charge : cinq ans pour un programme élu en 2027 ; profil propre pour un budget déjà voté (scénario du gouvernement)
     // seniors : report ou avancée de l'âge de départ
     const sh0=p.ageShift||0, agePh=sh0>0?ramp(t,2026,2027+4*sh0):ramp(t,2026,2027+1.5*Math.abs(sh0));
     const sh=sh0*b.ageEff*pol*retreat*agePh, keep=sh>0?b.seniorKeep:0.85;
