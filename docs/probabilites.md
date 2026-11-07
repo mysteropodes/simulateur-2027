@@ -116,7 +116,24 @@ Ces trois lignes sont les mêmes pour tous les programmes : aucun ne change le m
 - **Chocs pétroliers.** Dans 58 démocraties de 1965 à 2015, la dépendance au pétrole n'a pas fait plus de troubles après les chocs de 1973, 1979, 1990 et 2008, à croissance égale (p = 0,37 et 0,38). Le choc passe par l'économie, que le simulateur calcule déjà.
 - **Guerre.** Dans 2 177 situations démocratiques de 1900 à 1995 (guerres mondiales exclues), être engagé dans une guerre ne change pas à lui seul le risque de mobilisation. Les scénarios géopolitiques du tableau passent donc par l'économie du simulateur.
 
-## 4. La dette : repères extérieurs
+## 4. La France face à l'Europe et au monde
+
+Les modèles de mobilisation et de violence sont appliqués au point de départ de 2025 de chaque démocratie (V-Dem 2026 : 84 démocraties, dont 26 dans l'Union européenne ; la Hongrie est classée autocratie électorale). La croissance est la même pour tous, 1 % par an, pour ne comparer que les points de départ.
+
+| Indicateur | France | Union européenne | Démocraties du monde | Place de la France |
+|---|---|---|---|---|
+| Grande mobilisation d'ici 2032 | 47 % | 24 % | 25 % | 4e de l'UE (Pologne 75 %, Slovaquie 69 %, Pays-Bas 60 %) |
+| Violence politique forte d'ici 2032 | 9 % | 1 % | 8 % | 2e de l'UE (Grèce 13 %) |
+| Polarisation (V-Dem 2025) | 1,43 | 0,03 | – | 4e de l'UE, 15e sur 84 |
+| Vote pour la droite radicale (ParlGov, dernières législatives jusqu'en 2023) | 22,9 % (2022) | 11,7 % | 10,7 % (37 démocraties) | 3e de l'UE |
+| Durée médiane des gouvernements formés de 1990 à 2023 (plus de trois mois) | 1,6 an | 2,3 ans | – | 9e plus courte sur 27 |
+| Dette publique, 2e trimestre 2026 (Eurostat) | 119,1 % | 82,9 % (zone euro 88,8 %) | – | 3e, après la Grèce et l'Italie |
+| Déficit 2025 (Eurostat) | 5,1 % | 3,1 % | – | 4e plus fort |
+| Taux à 10 ans, 21 octobre 2026 | 5,01 % | Allemagne 3,4 %, Espagne 4,06 %, Italie 4,57 % | – | plus cher que l'Italie |
+| Crises bancaires 1970-2017 | 2 | 1,4 en moyenne (17 pays) | – | un peu au-dessus |
+| Décès dus à la chaleur, été 2022 (Ballester et al., 2023) | 71 par million | 114 par million (35 pays) | – | sous la moyenne (Italie 306) |
+
+## 5. La dette : repères extérieurs
 
 La « crise de la dette » du simulateur est une crise de financement : prêts d'urgence et ajustement imposé, type Grèce, Irlande, Portugal 2010-2011, en plus modéré. Ce n'est pas un défaut. Les séries historiques de dette et de taux longs nécessaires à un calage sur l'histoire n'étaient pas accessibles. Le risque vient donc des règles du simulateur (seuil de prime de risque). Ces repères servent à vérifier l'ordre de grandeur, et ont servi au calage de l'« humeur des marchés » (ci-dessous) :
 
@@ -133,7 +150,7 @@ La « crise de la dette » du simulateur est une crise de financement : prêts d
 - **Sensibilité.** Avec un écart-type de 0,20, le statu quo est à 4 % avant 2032 ; avec 0,29, à 9 % ; avec 0,42, à 17 %.
 - **Comparaison avec le marché.** Le prix du marché (8 %) porte sur un défaut ; une crise de financement est plus large : l'Irlande, le Portugal et l'Espagne ont été aidés sans faire défaut. Ce prix mêle aussi tous les résultats possibles de l'élection, que le simulateur ne pondère pas.
 
-## 5. Limites
+## 6. Limites
 
 - **L'économie ne pèse qu'un peu.** Elle déplace les probabilités de quelques points ; le point de départ de la France et le contexte mondial pèsent bien plus que l'écart entre programmes.
 - **Mauvaise calibration au-dessus de 50 %.** Les grandes vagues de 1936, 1968 et 1995 n'étaient pas annoncées. Au-dessus de 50 %, la méthode surestime le risque de mobilisation.

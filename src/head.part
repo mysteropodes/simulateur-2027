@@ -289,6 +289,7 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 .polkpi .anbig{flex-direction:column;align-items:flex-start;gap:8px}
 .view[data-view="atlas"] table.polprob th[colspan]{font:600 11.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
 .view[data-view="atlas"] table.polprob td.polspan{white-space:normal;text-align:left;line-height:1.45;color:var(--ink)}
+.view[data-view="atlas"] table.polcmp td,.view[data-view="atlas"] table.polcmp td .rng{white-space:normal}.view[data-view="atlas"] table.polcmp td:first-child{min-width:170px}.view[data-view="atlas"] table.polcmp td:last-child{min-width:200px;text-align:left}.view[data-view="atlas"] table.polcmp td:first-child,.view[data-view="atlas"] table.polcmp thead th:first-child{position:sticky;left:0;background:var(--surface);z-index:1}@media(max-width:600px){.view[data-view="atlas"] table.polcmp td:first-child{min-width:140px;max-width:140px}}
 .view[data-view="atlas"] table.polprob .polspanm{display:none}
 @media(max-width:600px){.view[data-view="atlas"] table.polprob td.polspan>div{display:none}.view[data-view="atlas"] table.polprob td:first-child .polspanm{display:block;margin-top:6px;line-height:1.45;color:var(--ink)}}
 .view[data-view="atlas"] table.mini td.name{min-width:150px}

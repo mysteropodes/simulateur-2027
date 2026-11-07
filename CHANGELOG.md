@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : la France face à l'Europe et au monde
+
+- `POLIT.cmp` : modèles `mob` et `viol` appliqués aux 84 démocraties V-Dem de 2025 (croissance commune 1 %), moyennes UE (26) et monde, rangs ; polarisation ; droite radicale (ParlGov, dernières législatives jusqu'en 2023) ; durée médiane des gouvernements 1990-2023 (plus de trois mois) ; crises bancaires 1970-2017 par pays de l'UE ; `ext` : Eurostat 21/10/2026 (dette T2 2026, déficits 2025), taux à 10 ans du 21/10/2026, décès dus à la chaleur 2022 (Ballester et al.). Encadré « La France face à l'Europe et au monde » et repères UE sur les lignes mobilisation et violence.
+
 ## 7 novembre 2026 : alimentation, récoltes, crises bancaires
 
 - `POLIT.food` : indice FAO mensuel 1990-2026 (épisodes ≥ +30 % sur un an : 2007-2008, 2010-2011, 2021-2022 ; ≥ +20 % : 5), Insee (alimentation +6,8 % en 2022, +11,8 % en 2023, pic +15,9 %), blé FAOSTAT 1961-2018 (écart à la moyenne olympique quinquennale) et Agreste 2024-2025. Lignes fusionnées : flambée mondiale, alimentation +10 % en France, mauvaise récolte de blé ; rationnement non calculé.
