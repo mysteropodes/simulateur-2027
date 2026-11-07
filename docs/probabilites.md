@@ -157,7 +157,22 @@ V-Dem distingue quatre régimes : démocratie libérale, démocratie électorale
 - **Deux méthodes, deux chiffres.** Le risque d'« érosion forte » des analogues (autour de 50 % d'ici 2035) vient des 25 situations passées les plus proches de la France. Ce sont surtout des démocraties polarisées des années 2010, dont beaucoup ont reculé.
 - **Non chiffré.** Le gouvernement de techniciens (Italie et Grèce en 2011) et le changement de Constitution n'ont pas assez de cas comparables pour être chiffrés.
 
-## 6. La France face à l'Europe et au monde
+## 6. Les partis : mesurer plutôt qu'étiqueter
+
+Les mots « extrême » et « radical » n'entrent dans aucun calcul.
+
+- **Les familles de partis.** Le simulateur reprend celles de ParlGov, de façon symétrique : « gauche radicale » (famille communiste/socialiste, qui inclut LFI) et « droite radicale » (qui inclut le RN). Pour les municipales de 2026, le ministère de l'Intérieur range LFI à l'extrême gauche, et le Conseil d'État a rejeté son recours le 27 février 2026 sans qualifier le parti sur le fond. La science politique parle plutôt de gauche radicale, qui rejette la structure du capitalisme mais conquiert le pouvoir par l'élection.
+- **La mesure d'anti-pluralisme de V-Party.** Pour savoir si un parti au pouvoir fait reculer la démocratie, le simulateur utilise aussi l'indice d'anti-pluralisme de V-Party (base des partis de V-Dem, CC BY-SA 4.0). C'est une mesure d'experts, de 0 à 1, faite à chaque élection : engagement envers les règles démocratiques, diabolisation des adversaires, respect des minorités, rejet de la violence.
+  - France, dernière mesure en 2017 : Renaissance et PS 0,03, LR 0,05, PCF 0,20 (2012), LFI 0,28, FN 0,49.
+  - Ailleurs : Die Linke 0,06, Démocrates américains 0,22, M5S 0,49, Syriza 0,59, Vox 0,61, Fidesz 0,66, AfD 0,66, Républicains américains 0,69, PiS 0,71, Ligue 0,90.
+- **Ce qui a suivi dans l'histoire.** Démocraties de 1946 à 2019, 3 179 situations, en retenant le parti le plus anti-pluraliste au gouvernement.
+  - Érosion forte en dix ans : 3,5 % quand ce parti est sous 0,1, 17 % quand il atteint 0,5 ou plus.
+  - Recul de régime : 4 % contre 32 %.
+  - À point de départ égal (niveau de démocratie, polarisation, mobilisations), l'effet propre est faible et non significatif (p = 0,59), et la prévision hors pays ne s'améliore pas : ces partis arrivent surtout au pouvoir là où la démocratie est déjà fragile.
+- **Application à la France de 2025.** Risque d'érosion forte d'ici 2035 d'environ 20 % avec Renaissance ou le PS au pouvoir, 21 % avec LR, 22 % avec LFI, 23 % avec le RN.
+- **Limites.** La mesure de V-Party date de 2017 pour la France. Horizons et Place publique n'existaient pas encore.
+
+## 7. La France face à l'Europe et au monde
 
 Les modèles de mobilisation et de violence sont appliqués au point de départ de 2025 de chaque démocratie (V-Dem 2026 : 84 démocraties, dont 26 dans l'Union européenne ; la Hongrie est classée autocratie électorale). La croissance est la même pour tous, 1 % par an, pour ne comparer que les points de départ.
 
@@ -174,7 +189,7 @@ Les modèles de mobilisation et de violence sont appliqués au point de départ 
 | Crises bancaires 1970-2017 | 2 | 1,4 en moyenne (17 pays) | – | un peu au-dessus |
 | Décès dus à la chaleur, été 2022 (Ballester et al., 2023) | 71 par million | 114 par million (35 pays) | – | sous la moyenne (Italie 306) |
 
-## 7. La dette : repères extérieurs
+## 8. La dette : repères extérieurs
 
 La « crise de la dette » du simulateur est une crise de financement : prêts d'urgence et ajustement imposé, type Grèce, Irlande, Portugal 2010-2011, en plus modéré. Ce n'est pas un défaut. Les séries historiques de dette et de taux longs nécessaires à un calage sur l'histoire n'étaient pas accessibles. Le risque vient donc des règles du simulateur (seuil de prime de risque). Ces repères servent à vérifier l'ordre de grandeur, et ont servi au calage de l'« humeur des marchés » (ci-dessous) :
 
@@ -191,7 +206,7 @@ La « crise de la dette » du simulateur est une crise de financement : prêts d
 - **Sensibilité.** Avec un écart-type de 0,20, le statu quo est à 4 % avant 2032 ; avec 0,29, à 9 % ; avec 0,42, à 17 %.
 - **Comparaison avec le marché.** Le prix du marché (8 %) porte sur un défaut ; une crise de financement est plus large : l'Irlande, le Portugal et l'Espagne ont été aidés sans faire défaut. Ce prix mêle aussi tous les résultats possibles de l'élection, que le simulateur ne pondère pas.
 
-## 8. Limites
+## 9. Limites
 
 - **L'économie ne pèse qu'un peu.** Elle déplace les probabilités de quelques points ; le point de départ de la France et le contexte mondial pèsent bien plus que l'écart entre programmes.
 - **Mauvaise calibration au-dessus de 50 %.** Les grandes vagues de 1936, 1968 et 1995 n'étaient pas annoncées. Au-dessus de 50 %, la méthode surestime le risque de mobilisation.

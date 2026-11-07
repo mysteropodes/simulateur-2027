@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : anti-pluralisme des partis (V-Party)
+
+- `POLIT.vparty` (scratch `vparty.py`) : V-Party v2 (paquet `vdemdata`), `v2xpa_antiplural` du parti le plus anti-pluraliste au gouvernement (`v2pagovsup` 0 ou 1, après l'élection), reporté jusqu'à cinq ans ; démocraties V-Dem 1946-2019 (3 179 situations, 112 pays) ; taux bruts d'érosion forte (libdem −0,10) et de recul de régime à dix ans par tranche ; logit avec niveau de démocratie, polarisation, mobilisation : effet non significatif (p = 0,59 à dix ans), AUC hors pays inchangée ; application à la France 2025 selon le parti (2017 : FI 0,28, FN 0,49, LR 0,05, LaREM et PS 0,03).
+- Encadré « Les partis et la démocratie : mesurer plutôt qu'étiqueter ».
+
 ## 7 novembre 2026 : démocratie illibérale
 
 - `POLIT.illib` (scratch `illib.py`) : démocraties libérales V-Dem (`v2x_regime` = 3), 1950-2020 (5 ans) et 1950-2015 (10 ans), bascule en démocratie électorale ou moins ; logit sur `v2x_libdem`, limite basse (`v2x_regime_amb` = 8), polarisation, variation sur 5 ans, mobilisation ; AUC hors pays 0,715 et 0,670 ; France 2025 : 15,3 % et 21,5 %. Vague récente : 11 des 41 démocraties libérales de 2015. Ligne fusionnée et encadré « Démocratie illibérale : où en est la France ? ».
