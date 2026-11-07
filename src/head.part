@@ -279,6 +279,18 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 .attoc{display:flex;flex-wrap:wrap;gap:8px}.attoc a{font:600 12.5px var(--f-body);color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:999px;padding:6px 12px}.attoc a:hover{border-color:var(--accent);color:var(--accent)}.ankpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px}.atbox{display:grid;gap:8px;align-content:start}.atbox h3{margin:0;font-size:1rem}.view[data-view="atlas"] details{border:1px solid var(--line);border-radius:10px;padding:10px 14px}.view[data-view="atlas"] summary{cursor:pointer;font-weight:600}.view[data-view="atlas"] details p,.view[data-view="atlas"] details ul{margin:10px 0 0}
 .view[data-view="atlas"] table.mini td:not(:first-child),.view[data-view="atlas"] table.mini th:not(:first-child){white-space:nowrap}
 .view[data-view="atlas"] .atcard table.mini td,.view[data-view="atlas"] .atcard table.mini th{white-space:normal}
+.attoc .attg{flex-basis:100%;font:600 11.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-top:6px}.attoc .attg:first-child{margin-top:0}
+.view[data-view="atlas"] table.polprob td:first-child,.view[data-view="atlas"] table.polprob th:first-child{min-width:250px;white-space:normal}
+.view[data-view="atlas"] table.mini thead th{white-space:normal;vertical-align:bottom;min-width:64px}
+.view[data-view="atlas"] table.polprob td:first-child,.view[data-view="atlas"] table.polprob thead th:first-child{position:sticky;left:0;background:var(--surface);z-index:1}
+@media(max-width:600px){.view[data-view="atlas"] table.polprob td:first-child,.view[data-view="atlas"] table.polprob th:first-child{min-width:165px;max-width:165px}}
+.view[data-view="atlas"] table.polprob td:first-child .rng,.view[data-view="atlas"] table.polprob th:first-child .rng{display:block;font-weight:400;margin-top:2px}
+#anCrisis td:first-child{min-width:220px}
+.polkpi .anbig{flex-direction:column;align-items:flex-start;gap:8px}
+.view[data-view="atlas"] table.polprob th[colspan]{font:600 11.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.view[data-view="atlas"] table.mini td.name{min-width:150px}
+.polkpi{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}.polkpi .anbig>b{font-size:2rem}
+.poldet{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:6px}.poldet>details{min-width:0}.poldet details>*:not(summary){margin-top:10px}
 #metrics .diffbtn{margin-left:auto;border-style:dashed}
 </style>
 

@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 (soir) : mise en page et « qui gouverne »
+
+- Onglet « Changer les règles du jeu » : tableau des probabilités en section 1, repère historique sous chaque intitulé, détails repliés, sommaire en trois groupes ; `buildAtlas` protège chaque bloc (`try/catch`) pour qu'un graphique non chargé ne vide pas la page.
+- `POLIT.gov` : taux bruts et effets à point de départ égal (logit, erreurs groupées par pays) de la présence de la droite radicale (`right`) ou de la gauche radicale (`com`) au gouvernement dans les cinq ans (ParlGov `cabinet_party`), 1900-1939 et 1946-2015 ; encadré « Qui gouverne ». Calcul du tableau inchangé.
+
 ## 7 novembre 2026 (après-midi) : tableau des probabilités, géopolitique, pénuries
 
 - `model.js` : nouvelle sortie `o.ration` (part de la demande de pétrole non servie, %), sans effet sur les autres résultats.
