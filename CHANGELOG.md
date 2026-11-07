@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 (soir) : énergie depuis 1965
+
+- `POLIT.energy` : parts du pétrole, des fossiles et du bas carbone en France (1965-2024), consommation fossile (pic : 1979), comparaison avec 18 pays en 2024, test choc pétrolier × part du pétrole (58 démocraties, 1965-2015, sans effet mesurable) ; Our World in Data `energy-data` (CC BY 4.0).
+- Encadré « L'énergie de la France depuis 1965 » et repère historique sur la ligne du rationnement ; consommation fossile des programmes = 2024 × indice d'émissions du simulateur.
+
 ## 7 novembre 2026 (soir) : mise en page et « qui gouverne »
 
 - Onglet « Changer les règles du jeu » : tableau des probabilités en section 1, repère historique sous chaque intitulé, détails repliés, sommaire en trois groupes ; `buildAtlas` protège chaque bloc (`try/catch`) pour qu'un graphique non chargé ne vide pas la page.

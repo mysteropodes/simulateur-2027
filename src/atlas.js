@@ -123,7 +123,7 @@ function buildPolit(){
       ["Crise de la dette d'ici 2046",id=>(mc(id)||{}).cr,"Hypothèses : section « Comprendre la dette »"],
       ["Énergie et alimentation"],
       ["Facture énergétique au moins doublée par rapport à 2025, une année d'ici 2040",id=>M.rows[id].bill,"2022 : 116 Md€, deux fois et demie 2025"],
-      ["Rationnement du pétrole d'ici 2040 (5&nbsp;% de la demande ou plus non servie)",id=>M.rows[id].ra5,"Derniers tickets d'essence : décembre 1949"],
+      ["Rationnement du pétrole d'ici 2040 (5&nbsp;% de la demande ou plus non servie)",id=>M.rows[id].ra5,`Pétrole : ${fmt(P.energy.hist.find(x=>x[0]===2024)[1],0)} % de l'énergie primaire en 2024, contre ${fmt(P.energy.hist.find(x=>x[0]===1973)[1],0)} % en 1973. Derniers tickets d'essence : décembre 1949`],
       ["Pénurie alimentaire",()=>null,"Non calculée : voir la note sous le tableau"],
       ["Politique et démocratie"],
       ["Grande mobilisation (gilets jaunes ou plus) d'ici 2032",id=>M.rows[id].mob,`Démocratie au hasard : ${pc(P.mob.rate)} sur cinq ans`],
@@ -150,6 +150,13 @@ function buildPolit(){
     gv.innerHTML=["1900-1939","1946-2015"].map(per=>["droite radicale","gauche radicale","aucune des deux"].map((g,k)=>`<tr${k===2?' class="me"':""}>${k===0?`<td rowspan="3"><b>${per}</b></td>`:""}<td style="text-align:left">${g==="aucune des deux"?"Ni l'une ni l'autre":g==="droite radicale"?"Droite radicale au gouvernement":"Gauche radicale au gouvernement"}</td>${row(per,g)}</tr>`).join("")).join("");
     const f=(k,c)=>{const [b,p]=A[k][c]; return `${b>=0?"+":"−"}${fmt(Math.abs(b),2)} (p = ${fmt(p,2)})`;};
     document.getElementById("polGovAdj").innerHTML=`À point de départ égal (violence et polarisation déjà présentes, démocratie, croissance), l'effet de la droite radicale au gouvernement sur la violence forte est de ${f("1946-2015|y_viol","rr")} après 1945, contre ${f("avant 1940|y_viol","rr")} avant 1940 (logit) ; celui de la gauche radicale, ${f("1946-2015|y_viol","fl")} après 1945. Sur les grandes mobilisations après 1945 : droite radicale ${f("1946-2015|y_mob","rr")}, gauche radicale ${f("1946-2015|y_mob","fl")}.`;}
+  const eH=document.getElementById("polEnH"); if(eH){ const EN=P.energy, f1=v=>fmt(v,0)+" %";
+    eH.innerHTML=EN.hist.map(([y,o,fo,lc,tw])=>`<tr${y===2024?' class="me"':""}><td>${y}</td><td>${f1(o)}</td><td>${f1(fo)}</td><td>${f1(lc)}</td><td>${fmt(tw,0)} TWh <span class="rng">${fmt(100*tw/EN.peak.twh,0)} % du pic</span></td></tr>`).join("");
+    const k=EN.peers.findIndex(x=>x[0]==="France");
+    document.getElementById("polEnPeers").innerHTML=`<b>Par rapport aux voisins (2024).</b> Part des énergies fossiles : ${EN.peers.map(([c,o,fo])=>c==="France"?`<b>France ${f1(fo)}</b>`:`${c} ${f1(fo)}`).join(", ")}. La France est ${k+1}e sur ${EN.peers.length}, grâce au nucléaire. Pour le pétrole seul, l'écart se resserre : ${["Suède","France","Allemagne","Italie","Grèce"].map(c=>{const x=EN.peers.find(z=>z[0]===c); return x?c+" "+f1(x[1]):"";}).filter(Boolean).join(", ")}.`;
+    const md=typeof mode!=="undefined"?mode:"credible", yi=y=>y-START, base=EN.hist.find(x=>x[0]===2024)[4];
+    document.getElementById("polEnProg").innerHTML=CANDS.map(p=>{const r=simulate(p,md,BASE), c0=r.co2[yi(2025)], v=t=>base*r.co2[yi(t)]/c0;
+      return `<tr${p.id==="statu"?' class="me"':""}><td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td><td>${fmt(v(2032),0)} TWh <span class="rng">${fmt(100*v(2032)/EN.peak.twh,0)} % du pic</span></td><td>${fmt(v(2040),0)} TWh <span class="rng">${fmt(100*v(2040)/EN.peak.twh,0)} % du pic</span></td></tr>`;}).join("");}
   document.getElementById("polBack").innerHTML=[...P.frback].sort((a,b)=>a[0]-b[0]).map(([y,p,o,w])=>`<tr><td>${y}</td><td>${pc(p)}</td><td class="${o?"worse":""}">${o?"oui : "+w:w}</td></tr>`).join("");
   document.getElementById("polCal").innerHTML=P.mob.cal.map(([b,n,p,o])=>`<tr><td>${b}</td><td>${n}</td><td>${pc(p)}</td><td>${pc(o)}</td></tr>`).join("");
   document.getElementById("polDec").innerHTML=Object.entries(W.dec).map(([d,v])=>`<tr><td>années ${d}</td><td>${fmt(v,1)} %</td></tr>`).join("");
