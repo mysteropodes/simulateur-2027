@@ -89,7 +89,7 @@ function politMC(PD,q){
     out.rows[id]={mob:av(m),mobR:Q(m),dmob:Q(m.map((v,n)=>100*(v-m0[n]))),dmobM:100*(av(m)-av(m0)),cutPts:100*(av(m)-av(mg)),cutMax:q(d.cut.map(c=>Math.max(...c)),0.5),
       rr:Q(d.gv.map((g,n)=>cf[n].rg*(g-st.gv[n])+cf[n].ri*(d.iv[n]-st.iv[n])+cf[n].rb*(d.cr[n]-st.cr[n]))), // crise avant 2032 traitée comme une crise financière pendant la législature (Reinhart-Rogoff, Laeven-Valencia)
       fl:Q(d.gv.map((g,n)=>cf[n].fg*(g-st.gv[n])+cf[n].fi*(d.iv[n]-st.iv[n]))),
-      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr),c36:av(d.c36),viol:av(viol(id)),rec:av(d.rec),hinf:av(d.hinf),bill:av(d.bill),alt:av(alt(id)),ra5:av(d.ra.map(v=>v>=5?1:0)),raC:conR.length?q(conR,0.5):null};}
+      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr),c36:av(d.c36),viol:av(viol(id)),rec:av(d.rec),hinf:av(d.hinf),bill:av(d.bill),alt:av(alt(id)),d30:av(d.d30),rat:av(d.rat),u10:av(d.u10),pov:av(d.pov),ra5:av(d.ra.map(v=>v>=5?1:0)),raC:conR.length?q(conR,0.5):null};}
   out.withCr=wc.length?av(wc):null; out.noCr=nc.length?av(nc):null; out.nCr=wc.length;
   return out;
 }
@@ -120,6 +120,10 @@ function buildPolit(){
     const L=[["Économie et dette"],
       ["Récession (une année de baisse du PIB au moins) d'ici 2032",id=>M.rows[id].rec,`France 1950-2020 : ${pc(H.rec)} des périodes de six ans`],
       ["Inflation au-dessus de 5&nbsp;% une année d'ici 2032",id=>M.rows[id].hinf,`France 1950-2020 : ${pc(H.inf5)} (surtout avant 1986, puis 2022)`],
+      ["Dette plus élevée en 2030 qu'en 2025",id=>M.rows[id].d30,`Contrôle : ${pc(P.debt.dsm.p30)} dans les projections aléatoires de la Commission européenne à politique inchangée (février 2026)`],
+      ["Nouvelle dégradation de la note d'ici 2032",id=>M.rows[id].rat,"Dans le modèle : charge d'intérêts au-delà de 8, 11 puis 14 % des recettes, ou crise. S&amp;P et Fitch : deux crans perdus depuis 2023 (de AA à A+) ; Moody's : perspective négative"],
+      ["Chômage à 10&nbsp;% ou plus une année d'ici 2032",id=>M.rows[id].u10,"Au-dessus de 10 % de 2013 à 2016 ; 8,3 % au 2e trimestre 2026 (Insee)"],
+      ["Pauvreté plus haute en 2032 qu'en 2025",id=>M.rows[id].pov,"15,4 % en 2023, le plus haut depuis le début de la série en 1996 (Insee)"],
       ["Crise de la dette avant 2032",id=>M.rows[id].cr,`Grèce, Irlande, Portugal 2010-2011 ; Espagne et Italie sous tension en 2012. Octobre 2026 : taux à 10 ans au-dessus de 5&nbsp;% (une première depuis 2002), assurance contre le défaut au plus haut depuis 2012 (voir « La dette vue par les marchés »)`],
       ["Crise de la dette d'ici 2046",id=>(mc(id)||{}).cr,"Hypothèses : section « Comprendre la dette »"],
       ["Énergie et alimentation"],
@@ -155,7 +159,7 @@ function buildPolit(){
     const f=(k,c)=>{const [b,p]=A[k][c]; return `${b>=0?"+":"−"}${fmt(Math.abs(b),2)} (p = ${fmt(p,2)})`;};
     document.getElementById("polGovAdj").innerHTML=`À point de départ égal (violence et polarisation déjà présentes, démocratie, croissance), l'effet de la droite radicale au gouvernement sur la violence forte est de ${f("1946-2015|y_viol","rr")} après 1945, contre ${f("avant 1940|y_viol","rr")} avant 1940 (logit) ; celui de la gauche radicale, ${f("1946-2015|y_viol","fl")} après 1945. Sur les grandes mobilisations après 1945 : droite radicale ${f("1946-2015|y_mob","rr")}, gauche radicale ${f("1946-2015|y_mob","fl")}.`;}
   const sT=document.getElementById("polStab"); if(sT){ const T=P.stab; sT.innerHTML=[["Un parti a la majorité absolue à lui seul",T.dom],["Coalition majoritaire, aucun parti seul",T.coal],["Gouvernement minoritaire",T.min]].map(([l,[r,n]])=>`<tr><td style="text-align:left">${l}</td><td>${pc(r)}</td><td>${fmt(n,0)}</td></tr>`).join("");}
-  const dS=document.getElementById("polDebtSq"); if(dS&&M.rows.statu) dS.textContent=pc(M.rows.statu.cr); const dS2=document.getElementById("polDebtSq46"), mS=MC.rows.find(x=>x.p.id==="statu"); if(dS2&&mS) dS2.textContent=pc(mS.cr);
+  const dS=document.getElementById("polDebtSq"); if(dS&&M.rows.statu) dS.textContent=pc(M.rows.statu.cr); const dS2=document.getElementById("polDebtSq46"), mS=MC.rows.find(x=>x.p.id==="statu"); if(dS2&&mS) dS2.textContent=pc(mS.cr); const dR=document.getElementById("polDebtRg"), cv=CANDS.filter(p=>!["statu","ia","gov"].includes(p.id)&&M.rows[p.id]).map(p=>M.rows[p.id].cr); if(dR&&cv.length) dR.textContent=fmt(Math.min(...cv)*100,0)+" à "+fmt(Math.max(...cv)*100,0)+" %";
   const eH=document.getElementById("polEnH"); if(eH){ const EN=P.energy, f1=v=>fmt(v,0)+" %";
     eH.innerHTML=EN.hist.map(([y,o,fo,lc,tw])=>`<tr${y===2024?' class="me"':""}><td>${y}</td><td>${f1(o)}</td><td>${f1(fo)}</td><td>${f1(lc)}</td><td>${fmt(tw,0)} TWh <span class="rng">${fmt(100*tw/EN.peak.twh,0)} % du pic</span></td></tr>`).join("");
     const k=EN.peers.findIndex(x=>x[0]==="France");

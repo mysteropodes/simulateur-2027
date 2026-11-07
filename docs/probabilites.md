@@ -11,7 +11,7 @@ Ce document décrit la section 1 de l'onglet « Changer les règles du jeu » du
 3. Les coefficients sont reportés dans `src/polit_data.js` (objet `POLIT`).
 4. Dans la page, ils sont appliqués aux 200 tirages de chaque programme. Les tirages sont communs à tous les programmes. Les coefficients sont eux-mêmes tirés dans leur marge d'incertitude (graine fixe, `rng(1789)`). Les écarts avec le statu quo sont calculés tirage par tirage. Le code se trouve dans `src/atlas.js` (`politMC`, `buildPolit`).
 
-Les lignes économiques (récession, inflation, crise de la dette, facture énergétique, rationnement) sont des sorties directes du simulateur. Elles ne viennent pas d'une estimation historique.
+Les lignes économiques sont des sorties directes du simulateur et ne viennent pas d'une estimation historique : récession, inflation, dette plus haute en 2030 qu'en 2025, nouvelle dégradation de la note, chômage à 10 % ou plus, pauvreté plus haute en 2032 qu'en 2025, crise de la dette, facture énergétique, rationnement. La ligne sur la dette en 2030 sert de contrôle : la Commission européenne trouve 95 % dans ses projections aléatoires à politique inchangée, le simulateur 100 % pour tous les programmes, un peu plus pessimiste comme ses projections centrales.
 
 ## 2. Données
 
@@ -87,12 +87,20 @@ Les lignes économiques (récession, inflation, crise de la dette, facture éner
 
 ## 4. La dette : repères extérieurs
 
-La « crise de la dette » du simulateur est une crise de financement : prêts d'urgence et ajustement imposé, type Grèce, Irlande, Portugal 2010-2011, en plus modéré. Ce n'est pas un défaut. Les séries historiques de dette et de taux longs nécessaires à un calage sur l'histoire n'étaient pas accessibles. Le risque vient donc des règles du simulateur (seuil de prime de risque). Ces repères servent à vérifier l'ordre de grandeur :
+La « crise de la dette » du simulateur est une crise de financement : prêts d'urgence et ajustement imposé, type Grèce, Irlande, Portugal 2010-2011, en plus modéré. Ce n'est pas un défaut. Les séries historiques de dette et de taux longs nécessaires à un calage sur l'histoire n'étaient pas accessibles. Le risque vient donc des règles du simulateur (seuil de prime de risque). Ces repères servent à vérifier l'ordre de grandeur, et ont servi au calage de l'« humeur des marchés » (ci-dessous) :
 
 - **Marchés, fin octobre 2026.** Le taux à 10 ans a dépassé 5 % pour la première fois depuis 2002 (5,02 % le 23 octobre). L'écart avec l'Allemagne a atteint 1,78 point, au plus haut depuis 2011. Le taux est revenu à 4,90 % le 26 octobre (AFP). Le CDS à 5 ans a dépassé 100 points de base, une première depuis 2012. À ce prix, la probabilité de défaut implicite est d'environ 8 % sur cinq ans, avec 40 % de recouvrement. Cette mesure dite « risque neutre » comprend une prime de risque et surestime donc le risque réel.
 - **Commission européenne**, *Debt Sustainability Monitor 2025* (12 février 2026). Le risque est élevé à moyen terme et moyen à long terme. À politique inchangée, la dette passerait de 116,3 % du PIB en 2025 à 144 % en 2036. Dans 95 % des projections, la dette de 2030 dépasse celle de 2025.
 - **FMI**, article IV (mai 2026) : ajustement d'environ 0,8 point de PIB par an.
 - **Notes.** S&P et Fitch ont abaissé la France en 2025. Moody's la maintient à Aa3 avec une perspective négative (octobre 2026).
+
+**Calage sur les marchés (7 novembre 2026).** Avant ce calage, l'écart de taux de chaque tirage ne dépendait que de la dette, du déficit, des notes, de l'instabilité politique et des chocs. Aucun tirage du statu quo n'avait de crise avant 2032 (0 %), alors que les marchés payaient environ 8 % de risque de défaut sur cinq ans. Il manquait la volatilité ordinaire de l'écart.
+
+- **Ce qui est ajouté.** Dans chaque tirage, l'écart de chaque année est multiplié par exp(x − v/2). x suit un processus autorégressif : persistance 0,8, écart-type des chocs 0,26 par an, x = 0 en 2026. v est la variance de x, ce qui garde un facteur de moyenne 1. Le générateur aléatoire est séparé, pour ne pas déplacer les autres tirages. Les courbes principales ne changent pas.
+- **D'où viennent les valeurs.** Écart des taux à 10 ans avec l'Allemagne (OCDE, via FRED), moyennes annuelles, logarithme. Régression autorégressive groupée sur la France, l'Italie, l'Espagne, le Portugal et l'Irlande. Sur 2015-2025 : écart-type 0,257, persistance 0,885. Sur 2008-2025 : 0,42 et 0,81. France seule : 0,22 sur 2015-2025, 0,29 sur 2008-2025. On retient la période hors crise de la zone euro, parce que les crises du type 2010-2012 sont déjà tirées à part (choc « crise financière »).
+- **Résultat, réglages par défaut.** Crise de financement avant 2032 : 8 % pour le statu quo, de 10 à 34 % pour les programmes des candidats (0 à 11 % avant le calage). D'ici 2046 : 73 % pour le statu quo, de 72 à 87 % pour les candidats, presque inchangé ; 49 % pour le candidat fictif (38 % avant), 28 % pour le scénario du gouvernement (13 %).
+- **Sensibilité.** Avec un écart-type de 0,20, le statu quo est à 4 % avant 2032 ; avec 0,29, à 9 % ; avec 0,42, à 17 %.
+- **Comparaison avec le marché.** Le prix du marché (8 %) porte sur un défaut ; une crise de financement est plus large : l'Irlande, le Portugal et l'Espagne ont été aidés sans faire défaut. Ce prix mêle aussi tous les résultats possibles de l'élection, que le simulateur ne pondère pas.
 
 ## 5. Limites
 
