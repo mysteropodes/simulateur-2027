@@ -75,19 +75,31 @@ function buildAnalog(){
 // Mobilisation : logit estimé sur les démocraties 1900-2015 (V-Dem) ; vote : élections législatives 1906-2020 (ParlGov) ; voir POLIT
 function politMC(PD,q){
   const st=PD.statu; if(!st||!st.g5.length) return null;
-  const R=rng(1789), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R()), N=st.g5.length, S=POLIT.start;
+  const R=rng(1789), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R()), N=st.g5.length, S=POLIT.start, SC=PD._scen||[];
   const z0=m=>m.b[0]+m.X.slice(0,-1).reduce((s,x,i)=>s+m.b[i+1]*S[x],0), bg=m=>m.b[m.b.length-1], sig=z=>1/(1+Math.exp(-z));
-  const zm=z0(POLIT.mob), zv=z0(POLIT.viol), cf=[]; // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
-  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss()});
-  const mob=id=>PD[id].g5.map((g,n)=>sig(zm+cf[n].m*g)), viol=id=>PD[id].g5.map((g,n)=>sig(zv+cf[n].v*g)), m0=mob("statu"), av=a=>a.reduce((s,v)=>s+v,0)/a.length, Q=a=>[q(a,0.1),q(a,0.5),q(a,0.9)];
-  const out={viol0:av(viol("statu")),mob0:av(m0),n:N,rows:{}}, wc=[], nc=[];
-  for(const id in PD){const d=PD[id], m=mob(id); if(id!=="ia"&&id!=="gov") m.forEach((v,n)=>(d.cr[n]?wc:nc).push(v));
-    out.rows[id]={mob:av(m),mobR:Q(m),dmob:Q(m.map((v,n)=>100*(v-m0[n]))),dmobM:100*(av(m)-av(m0)),
+  const zm=z0(POLIT.mob), zv=z0(POLIT.viol), cf=[], kPV=POLIT.pv.ols/POLIT.pv.mean; // coupes : +9 % de troubles par point de PIB de baisse des dépenses (Ponticelli et Voth, croissance contrôlée)
+  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss()}); // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
+  const withCuts=(p5,cuts)=>{const h=1-Math.pow(1-p5,1/5); return 1-cuts.reduce((s,c)=>s*(1-Math.min(1,h*(1+kPV*c))),1);}; // probabilité sur cinq ans → risque annuel, augmenté les années de coupes
+  const mob=id=>PD[id].g5.map((g,n)=>withCuts(sig(zm+cf[n].m*g),PD[id].cut[n])), mobG=id=>PD[id].g5.map((g,n)=>sig(zm+cf[n].m*g)), viol=id=>PD[id].g5.map((g,n)=>sig(zv+cf[n].v*g));
+  const m0=mob("statu"), av=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null, Q=a=>[q(a,0.1),q(a,0.5),q(a,0.9)];
+  const out={viol0:av(viol("statu")),mob0:av(m0),n:N,rows:{}}, wc=[], nc=[], M={};
+  for(const id in PD){ if(id==="_scen") continue; const d=PD[id], m=M[id]=mob(id), mg=mobG(id); if(id!=="ia"&&id!=="gov") m.forEach((v,n)=>(d.cr[n]?wc:nc).push(v));
+    const conR=d.ra.filter((_,n)=>SC[n]&&SC[n].energy==="contrainte");
+    out.rows[id]={mob:av(m),mobR:Q(m),dmob:Q(m.map((v,n)=>100*(v-m0[n]))),dmobM:100*(av(m)-av(m0)),cutPts:100*(av(m)-av(mg)),cutMax:q(d.cut.map(c=>Math.max(...c)),0.5),
       rr:Q(d.gv.map((g,n)=>cf[n].rg*(g-st.gv[n])+cf[n].ri*(d.iv[n]-st.iv[n]))),
       fl:Q(d.gv.map((g,n)=>cf[n].fg*(g-st.gv[n])+cf[n].fi*(d.iv[n]-st.iv[n]))),
-      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr)};}
+      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr),c36:av(d.c36),viol:av(viol(id)),rec:av(d.rec),hinf:av(d.hinf),bill:av(d.bill),ra5:av(d.ra.map(v=>v>=5?1:0)),raC:conR.length?q(conR,0.5):null};}
   out.withCr=wc.length?av(wc):null; out.noCr=nc.length?av(nc):null; out.nCr=wc.length;
   return out;
+}
+function polEro(base,pcr){ // risque d'érosion forte d'ici 2035 : mélange sans crise / avec crise (une chute du PIB de 5 % double les chances, OR 2,1), calé pour que la moyenne historique (3,2 % de crises) redonne le risque de base
+  const E=POLIT.ero; if(base>=0.999) return 1; const pc=pn=>{const o=E.or*pn/(1-pn);return o/(1+o);};
+  let lo=1e-5,hi=0.9999; for(let i=0;i<60;i++){const m=(lo+hi)/2; ((1-E.p0)*m+E.p0*pc(m)>base)?hi=m:lo=m;} const pn=(lo+hi)/2; return pcr*pc(pn)+(1-pcr)*pn;
+}
+function polMob(r){ // trajectoire d'un programme → probabilité d'une grande mobilisation d'ici 2032 (coefficients centraux, coupes comprises)
+  const m=POLIT.mob, S=POLIT.start, k=POLIT.pv.ols/POLIT.pv.mean, yi=y=>y-START, Y=[2027,2028,2029,2030,2031];
+  const g5=Y.reduce((s,y)=>s+r.growth[yi(y)],0)/5, z=m.b[0]+m.X.slice(0,-1).reduce((s,x,i)=>s+m.b[i+1]*S[x],0)+m.b[m.b.length-1]*g5, p5=1/(1+Math.exp(-z)), h=1-Math.pow(1-p5,1/5);
+  return {g5,p:1-Y.reduce((s,y)=>s*(1-Math.min(1,h*(1+k*Math.max(0,r.dep[yi(y-1)]-r.dep[yi(y)])))),1)};
 }
 function buildPolit(){
   const tb=document.getElementById("polTab"); if(!tb) return; const P=POLIT, pc=v=>fmt(v*100,0)+" %", sg=(v,d=1)=>{const k=10**d, r=Math.round(v*k)/k; return (r<0?"−":r>0?"+":"")+fmt(Math.abs(r),d);};
@@ -100,7 +112,40 @@ function buildPolit(){
   const top=CANDS.filter(p=>p.id!=="statu"&&M.rows[p.id]).map(p=>[p,M.rows[p.id]]).sort((a,b)=>b[1].dmobM-a[1].dmobM);
   const hi=top[0], lo=top[top.length-1];
   const vmax=Math.max(...top.map(([,x])=>Math.max(Math.abs(x.rr[1]),Math.abs(x.fl[1]))));
-  document.getElementById("polRead").innerHTML=`<b>Lecture.</b> Par l'économie, les programmes déplacent la probabilité d'une grande mobilisation de ${sg(lo[1].dmobM,1)} point (${lo[0].name.replace(/ \(.*/,"")}) à ${sg(hi[1].dmobM,1)} point (${hi[0].name.replace(/ \(.*/,"")}) autour de ${fmt(M.mob0*100,0)} % sans changement de politique. Sur le vote pour les partis radicaux, l'effet de la trajectoire économique reste ${vmax<1?"inférieur à un point dans tous les programmes":"limité, au plus "+fmt(vmax,1)+" point"}. ${M.withCr!=null&&M.nCr>=20?`Ce qui pèse le plus, c'est une crise de la dette : dans les tirages où elle survient avant 2032, la probabilité d'une grande mobilisation est de ${fmt(M.withCr*100,0)} %, contre ${fmt(M.noCr*100,0)} % sans crise. `:""}Le point de départ de la France et le contexte mondial comptent davantage que l'écart entre programmes.`;
+  document.getElementById("polRead").innerHTML=`<b>Lecture.</b> Par l'économie, les programmes déplacent la probabilité d'une grande mobilisation de ${sg(lo[1].dmobM,1)} point (${lo[0].name.replace(/ \(.*/,"")}) à ${sg(hi[1].dmobM,1)} point (${hi[0].name.replace(/ \(.*/,"")}) autour de ${fmt(M.mob0*100,0)} % sans changement de politique. Sur le vote pour les partis radicaux, l'effet de la trajectoire économique reste ${vmax<1?"inférieur à un point dans tous les programmes":"limité, au plus "+fmt(vmax,1)+" point"}. ${M.withCr!=null&&M.nCr>=20?`Ce qui pèse le plus, c'est une crise de la dette : dans les tirages où elle survient avant 2032, la probabilité d'une grande mobilisation est de ${fmt(M.withCr*100,0)} %, contre ${fmt(M.noCr*100,0)} % sans crise. `:""}Les coupes budgétaires ajoutent leur propre effet, en plus de la croissance : jusqu'à ${fmt(Math.max(...top.map(([,x])=>x.cutPts)),1)} point selon les programmes. Le point de départ de la France et le contexte mondial comptent davantage que l'écart entre programmes.`;
+  // tableau des probabilités, programme par programme
+  const pT=document.getElementById("polProb"); if(pT){ const progs=CANDS.filter(p=>p.id!=="ia"&&p.id!=="gov"&&M.rows[p.id]), mc=id=>MC.rows.find(x=>x.p.id===id), H=P.hist["France 1950-2020"], E=P.ero.app;
+    const ero=(id,k)=>{const b=(E[id]||E.statu)[k]; return b>=0.999?null:polEro(b,M.rows[id].c36);};
+    const L=[["Économie et dette"],
+      ["Récession (une année de baisse du PIB au moins) d'ici 2032",id=>M.rows[id].rec,`France 1950-2020 : ${pc(H.rec)} des périodes de six ans`],
+      ["Inflation au-dessus de 5&nbsp;% une année d'ici 2032",id=>M.rows[id].hinf,`France 1950-2020 : ${pc(H.inf5)} (surtout avant 1986, puis 2022)`],
+      ["Crise de la dette avant 2032",id=>M.rows[id].cr,"Grèce, Irlande, Portugal 2010-2011 ; Espagne et Italie sous tension en 2012"],
+      ["Crise de la dette d'ici 2046",id=>(mc(id)||{}).cr,"Hypothèses : section « Comprendre la dette »"],
+      ["Énergie et alimentation"],
+      ["Facture énergétique au moins doublée par rapport à 2025, une année d'ici 2040",id=>M.rows[id].bill,"2022 : 116 Md€, deux fois et demie 2025"],
+      ["Rationnement du pétrole d'ici 2040 (5&nbsp;% de la demande ou plus non servie)",id=>M.rows[id].ra5,"Derniers tickets d'essence : décembre 1949"],
+      ["Pénurie alimentaire",()=>null,"Non calculée : voir la note sous le tableau"],
+      ["Politique et démocratie"],
+      ["Grande mobilisation (gilets jaunes ou plus) d'ici 2032",id=>M.rows[id].mob,`Démocratie au hasard : ${pc(P.mob.rate)} sur cinq ans`],
+      ["Violence politique forte d'ici 2032",id=>M.rows[id].viol,`Démocratie au hasard : ${pc(P.viol.rate)}`],
+      ["Érosion forte de la démocratie d'ici 2035, mesures bloquées",id=>ero(id,0),`Démocratie établie au hasard : ${pc(ANALOG.valid10.base)}`],
+      ["… mesures appliquées telles qu'annoncées",id=>ero(id,1)===null?1:ero(id,1),"Seuil franchi par les seules mesures : 100 %"]];
+    pT.innerHTML=`<thead><tr><th>Risque</th>${progs.map(p=>`<th><span class="sw" style="background:var(${p.color})"></span>${p.id==="statu"?"Statu quo":p.name.replace(/ \(.*/,"")}</th>`).join("")}<th>Repère</th></tr></thead><tbody>`+
+      L.map(([l,f,h])=>!f?`<tr><th colspan="${progs.length+2}" style="text-align:left;padding-top:12px">${l}</th></tr>`:`<tr><td>${l}</td>${progs.map(p=>{const v=f(p.id); return `<td class="${v==null?"":v>=0.5?"worse":""}">${v==null?"–":(v>=0.995&&l.startsWith("…")?"atteint":pc(v))}</td>`;}).join("")}<td class="rng" style="white-space:normal;min-width:180px">${h}</td></tr>`).join("")+"</tbody>";}
+  // section 2 : risque d'érosion recalculé avec le risque de crise du simulateur en cours
+  const aC=document.getElementById("anCrisis"); if(aC&&typeof ANALOG!=="undefined"){ const ID={"Statu quo":"statu","Mélenchon":"melenchon","Le Pen":"lepen","Philippe":"philippe","Glucksmann":"glucksmann","Retailleau":"retailleau","Attal":"attal","Candidat IA (fictif)":"ia"}, E=P.ero.app, s2=v=>(v<0?"−":v>0?"+":"")+fmt(Math.abs(v),2), vals=[];
+    aC.innerHTML=ANALOG.rights.map(([k,c0,d,e0,a0,x,g])=>{const id=ID[k], x2=M.rows[id]; if(!x2) return ""; const c=x2.c36, e=polEro(E[id][0],c), a=E[id][1]>=0.999?1:polEro(E[id][1],c); vals.push(e);
+      return `<tr><td><b>${k}</b><span class="rng">${g}</span></td><td>${fmt(c*100,0)} %</td><td class="${d<=-0.1?"worse":d>0?"better":""}">${s2(d)}</td><td>${fmt(e*100,0)} %</td><td class="${a>=0.99?"worse":""}">${a>=0.99?"atteinte":fmt(a*100,0)+" %"}</td><td>${s2(x)}</td></tr>`;}).join("");
+    const rg=document.getElementById("anRng"); if(rg&&vals.length) rg.textContent=fmt(Math.min(...vals)*100,0)+" à "+fmt(Math.max(...vals)*100,0)+" %";}
+  const raT=document.getElementById("polRa"); if(raT) raT.innerHTML=CANDS.filter(p=>M.rows[p.id]).map(p=>{const x=M.rows[p.id];
+    return `<tr${p.id==="statu"?' class="me"':""}><td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td><td>${fmt(x.cutMax,1)} pt</td><td class="${x.cutPts>=1.5?"worse":""}">${sg(x.cutPts,1)} pt</td><td>${pc(x.ra5)}</td><td>${x.raC==null?"–":fmt(x.raC,0)+" %"}</td></tr>`;}).join("");
+  const gT=document.getElementById("polGeo"); if(gT&&typeof simulate==="function"){ // scénarios imposés : chaque crise déclenchée en 2029, pour tous les programmes
+    const md=typeof mode!=="undefined"?mode:"credible", yi=y=>y-START, progs=CANDS.filter(p=>p.id!=="ia"&&p.id!=="gov");
+    const SCN=[["Aucun choc, pétrole vers 75 $",{}],["Guerre en Europe en 2029",{shock:"guerre",shockYear:2029}],["Flambée du pétrole en 2029 (+45 $, type 2022)",{shock:"petrole",shockYear:2029}],["Guerre commerciale en 2029",{shock:"commerce",shockYear:2029}],["Blocus de Taïwan en 2029",{shock:"taiwan",shockYear:2029}],["Tensions durables sur le pétrole (100 à 105 $)",{energy:"tensions"}],["Offre de pétrole en déclin",{energy:"contrainte"}]];
+    let ref=null; gT.innerHTML=SCN.map(([l,o],k)=>{const B=Object.assign({},BASE,{noCrisis:0,shock:"none",shock2:"none",energy:"tendance"},o);
+      const res=progs.map(p=>{const r=simulate(p,md,B), m=polMob(r); return {id:p.id,g5:m.g5,p:m.p,cr:r.crisis!==null&&r.crisis<=2036,ra:r.ration[yi(2040)]};});
+      const sq=res.find(x=>x.id==="statu"), ps=res.map(x=>x.p), ra=res.map(x=>x.ra), ncr=res.filter(x=>x.cr&&x.id!=="statu").length; if(k===0) ref=sq.p;
+      return `<tr${k===0?' class="me"':""}><td>${l}</td><td>${fmt(sq.g5,2)} %</td><td><b>${pc(sq.p)}</b> <span class="rng">programmes : ${pc(Math.min(...ps))} à ${pc(Math.max(...ps))}</span></td><td class="${k&&100*(sq.p-ref)>=1.5?"worse":""}">${k?sg(100*(sq.p-ref),1)+" pt":"réf."}</td><td class="${ncr>=3?"worse":""}">${ncr} sur ${progs.length-1}${sq.cr?" (et le statu quo)":""}</td><td>${Math.max(...ra)<0.5?"aucun":fmt(sq.ra,0)+" % <span class=\"rng\">programmes : "+fmt(Math.min(...ra),0)+" à "+fmt(Math.max(...ra),0)+" %</span>"}</td></tr>`;}).join("");}
   document.getElementById("polBack").innerHTML=[...P.frback].sort((a,b)=>a[0]-b[0]).map(([y,p,o,w])=>`<tr><td>${y}</td><td>${pc(p)}</td><td class="${o?"worse":""}">${o?"oui : "+w:w}</td></tr>`).join("");
   document.getElementById("polCal").innerHTML=P.mob.cal.map(([b,n,p,o])=>`<tr><td>${b}</td><td>${n}</td><td>${pc(p)}</td><td>${pc(o)}</td></tr>`).join("");
   document.getElementById("polDec").innerHTML=Object.entries(W.dec).map(([d,v])=>`<tr><td>années ${d}</td><td>${fmt(v,1)} %</td></tr>`).join("");

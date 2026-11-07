@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 (après-midi) : tableau des probabilités, géopolitique, pénuries
+
+- `model.js` : nouvelle sortie `o.ration` (part de la demande de pétrole non servie, %), sans effet sur les autres résultats.
+- `runMC` : par tirage, plus forte crise avant 2036 (`c36`), récession, inflation > 5 %, facture énergétique doublée (2027-2040), coupes annuelles des dépenses 2027-2031, rationnement maximal 2027-2040, situation énergétique du tirage (`PD._scen`).
+- `politMC` / `polMob` / `polEro` : canal des coupes budgétaires (Ponticelli et Voth 2020, MCO : 0,067 / 0,722 par point de PIB, appliqué au risque annuel) ; risque d'érosion recalculé avec le risque de crise courant (`POLIT.ero`, bases tirées de `analog/rights.py`) ; repères historiques `POLIT.hist` (JST et Clio Infra, périodes de six ans).
+- Section 3 renommée « Le tableau des probabilités » : tableau unique, scénarios géopolitiques imposés en 2029 (`simulate` avec `shock`/`energy`), coupes et pénuries par programme, note sur la pénurie alimentaire (FranceAgriMer, Insee, fin du rationnement en 1949). Section 2 : risque d'érosion et fourchette en direct.
+
 ## 7 novembre 2026 : répercussions politiques d'après l'histoire
 
 - `src/polit_data.js` (`POLIT`) : coefficients estimés hors du site (V-Dem 2026, ParlGov CC0, JST R6 pour le PIB et les prix de 18 pays) ; mobilisation (V-Dem `v2cagenmob` ≥ 2 dans les cinq ans) et violence (`v2caviol` ≥ 1) par régression logistique sur les démocraties 1900-2015, vote droite radicale (`right`) et gauche radicale (`com`) sur 592 élections législatives 1906-2020 ; état de départ France 2025 ; validation hors pays, calibration, test sur la France ; vote moyen de la droite radicale par décennie.
