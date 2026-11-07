@@ -80,6 +80,20 @@ Les lignes économiques sont des sorties directes du simulateur et ne viennent p
 - **Application.** Le modèle est appliqué à la croissance et à l'inflation 2027-2032 de chaque tirage. On obtient la probabilité que le camp au pouvoir, quel qu'il soit, perde la main en 2032.
 - **Limite pour la France.** En France, l'alternance se joue d'abord à la présidentielle, que ParlGov ne mesure pas. On retient la moyenne des démocraties. Repère : depuis 1981, le président élu venait de l'autre camp en 1981, 1995, 2012 et 2017 ; le sortant ou son camp ont gardé la main en 1988, 2002, 2007 et 2022.
 
+### Intérêts de la dette face aux grands budgets
+
+- **Point de départ (projet de budget 2027).** Intérêts de la dette de l'État : 72,9 Md€. Éducation nationale : environ 64 Md€ hors pensions. Armées : 64 Md€ hors pensions. Pour l'ensemble des administrations publiques, Bercy annonce environ 91 Md€ d'intérêts en 2027 ; le simulateur en calcule 3,1 % du PIB, du même ordre.
+- **Prolongement jusqu'en 2032, tirage par tirage.** Les intérêts de l'État suivent les intérêts publics du simulateur (même part qu'en 2027). L'Éducation nationale garde sa part du PIB de 2027. Les Armées suivent la trajectoire de défense de chaque programme.
+- **Ligne du tableau.** Part des tirages où les intérêts de l'État dépassent en 2032 l'Éducation nationale et les Armées réunies.
+- **Charge réelle.** Intérêts moins inflation des prix × dette de l'année précédente, en % du PIB ; c'est une approximation, l'OFCE utilise le déflateur du PIB. Repères de François Geerolf (OFCE, octobre 2026) : environ 0,9 point de PIB en 2027, 2,9 points en moyenne de 1993 à 1999. Son argument : les comparaisons en euros courants exagèrent le poids de la dette. L'argument inverse : ce sont des euros à financer chaque année.
+
+### Été meurtrier
+
+- **Ligne du tableau.** Au moins un été à plus de 5 000 décès dus à la chaleur entre 2027 et 2032. Le risque est le même pour tous : les programmes ne changent presque rien à l'exposition d'ici là.
+- **Données (Santé publique France, décès attribuables à la chaleur du 1er juin au 15 septembre).** Environ 33 000 décès de 2014 à 2022, soit 1 000 à 7 000 par été. Plus de 5 000 en 2023, plus de 3 700 en 2024, plus de 5 700 en 2025.
+- **Fréquence et probabilité.** Au moins deux étés sur douze ont dépassé 5 000 décès (2023, 2025). Le détail année par année de 2014 à 2021 n'est pas publié, donc ce chiffre est un minimum. Au rythme 2014-2025, la probabilité sur six étés est d'au moins 67 %. Au rythme des trois derniers étés, elle dépasse 99 %.
+- **Ce qui n'est pas utilisé.** Les 10 420 décès de l'été 2022 souvent cités sont un excès toutes causes, Covid compris, et non des décès dus à la chaleur. Ils ne sont pas utilisés. L'été 2003 a fait environ 15 000 décès en excès.
+
 ### Énergie et géopolitique
 
 - **Chocs pétroliers.** Dans 58 démocraties de 1965 à 2015, la dépendance au pétrole n'a pas fait plus de troubles après les chocs de 1973, 1979, 1990 et 2008, à croissance égale (p = 0,37 et 0,38). Le choc passe par l'économie, que le simulateur calcule déjà.

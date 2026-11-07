@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : intérêts face aux grands budgets, étés meurtriers
+
+- `POLIT.debt.bud` (PLF 2027 : intérêts de l'État 72,9 Md€, Éducation nationale 64, Armées 64, hors pensions ; APU ≈ 91) et `POLIT.debt.real` (Geerolf, OFCE) ; `runMC` : `i32` (intérêts publics 2032, % du PIB), `df32` (défense 2032), `rl32` (intérêts − inflation × dette) ; `politMC` : `big` (intérêts de l'État > Éducation + Armées en 2032, ancrage sur le statu quo central de 2027), `iEdu`, `i32`, `rl32` ; encadré « Les intérêts de la dette face aux grands budgets ».
+- `POLIT.heat` (Santé publique France : 1 000 à 7 000 décès attribuables à la chaleur par été 2014-2022, > 5 000 en 2023, > 3 700 en 2024, > 5 700 en 2025) ; ligne « Été à plus de 5 000 décès dus à la chaleur d'ici 2032 », même risque pour tous (au moins 1 − (10/12)^6). L'excès toutes causes de l'été 2022 (10 420, Covid compris) n'est pas utilisé.
+
 ## 7 novembre 2026 : humeur des marchés dans les tirages, quatre lignes de probabilités
 
 - `BASE.spreadVol` 0,26 et `BASE.spreadRho` 0,8 : dans `runMC`, chaque tirage reçoit `b.sNoise[t] = exp(x_t − v_t/2)`, x autorégressif à partir de 2027 (générateur séparé `rng(9001+n)`, les autres tirages ne bougent pas) ; `simulate` multiplie la prime par ce facteur avant le plafond de la BCE. Calibrage : log de l'écart à 10 ans avec l'Allemagne (OCDE via FRED), France, Italie, Espagne, Portugal, Irlande, 2015-2025, AR(1) groupé (écart-type 0,257). Mettre `spreadVol` à 0 redonne l'ancien comportement.
