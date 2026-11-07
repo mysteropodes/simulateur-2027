@@ -78,7 +78,7 @@ function politMC(PD,q){
   const R=rng(1789), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R()), N=st.g5.length, S=POLIT.start, SC=PD._scen||[];
   const z0=m=>m.b[0]+m.X.slice(0,-1).reduce((s,x,i)=>s+m.b[i+1]*S[x],0), bg=m=>m.b[m.b.length-1], sig=z=>1/(1+Math.exp(-z));
   const zm=z0(POLIT.mob), zv=z0(POLIT.viol), cf=[], kPV=POLIT.pv.ols/POLIT.pv.mean; // coupes : +9 % de troubles par point de PIB de baisse des dépenses (Ponticelli et Voth, croissance contrôlée)
-  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss()}); // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
+  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss(),rb:POLIT.bank.v.b+POLIT.bank.v.se*gauss()}); // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
   const withCuts=(p5,cuts)=>{const h=1-Math.pow(1-p5,1/5); return 1-cuts.reduce((s,c)=>s*(1-Math.min(1,h*(1+kPV*c))),1);}; // probabilité sur cinq ans → risque annuel, augmenté les années de coupes
   const mob=id=>PD[id].g5.map((g,n)=>withCuts(sig(zm+cf[n].m*g),PD[id].cut[n])), mobG=id=>PD[id].g5.map((g,n)=>sig(zm+cf[n].m*g)), viol=id=>PD[id].g5.map((g,n)=>sig(zv+cf[n].v*g));
   const m0=mob("statu"), av=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null, Q=a=>[q(a,0.1),q(a,0.5),q(a,0.9)];
@@ -86,7 +86,7 @@ function politMC(PD,q){
   for(const id in PD){ if(id==="_scen") continue; const d=PD[id], m=M[id]=mob(id), mg=mobG(id); if(id!=="ia"&&id!=="gov") m.forEach((v,n)=>(d.cr[n]?wc:nc).push(v));
     const conR=d.ra.filter((_,n)=>SC[n]&&SC[n].energy==="contrainte");
     out.rows[id]={mob:av(m),mobR:Q(m),dmob:Q(m.map((v,n)=>100*(v-m0[n]))),dmobM:100*(av(m)-av(m0)),cutPts:100*(av(m)-av(mg)),cutMax:q(d.cut.map(c=>Math.max(...c)),0.5),
-      rr:Q(d.gv.map((g,n)=>cf[n].rg*(g-st.gv[n])+cf[n].ri*(d.iv[n]-st.iv[n]))),
+      rr:Q(d.gv.map((g,n)=>cf[n].rg*(g-st.gv[n])+cf[n].ri*(d.iv[n]-st.iv[n])+cf[n].rb*(d.cr[n]-st.cr[n]))), // crise avant 2032 traitée comme une crise financière pendant la législature (Reinhart-Rogoff, Laeven-Valencia)
       fl:Q(d.gv.map((g,n)=>cf[n].fg*(g-st.gv[n])+cf[n].fi*(d.iv[n]-st.iv[n]))),
       g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr),c36:av(d.c36),viol:av(viol(id)),rec:av(d.rec),hinf:av(d.hinf),bill:av(d.bill),ra5:av(d.ra.map(v=>v>=5?1:0)),raC:conR.length?q(conR,0.5):null};}
   out.withCr=wc.length?av(wc):null; out.noCr=nc.length?av(nc):null; out.nCr=wc.length;
@@ -126,7 +126,7 @@ function buildPolit(){
       ["Rationnement du pétrole d'ici 2040 (5&nbsp;% de la demande ou plus non servie)",id=>M.rows[id].ra5,`Pétrole : ${fmt(P.energy.hist.find(x=>x[0]===2024)[1],0)} % de l'énergie primaire en 2024, contre ${fmt(P.energy.hist.find(x=>x[0]===1973)[1],0)} % en 1973. Derniers tickets d'essence : décembre 1949`],
       ["Pénurie alimentaire",()=>null,"Non calculée : voir la note sous le tableau"],
       ["Politique et démocratie"],
-      ["Grande mobilisation (gilets jaunes ou plus) d'ici 2032",id=>M.rows[id].mob,`Démocratie au hasard : ${pc(P.mob.rate)} sur cinq ans`],
+      ["Grande mobilisation (gilets jaunes ou plus) d'ici 2032",id=>M.rows[id].mob,`Démocratie au hasard : ${pc(P.mob.rate)} sur cinq ans. En comptant la hausse de la concentration du pouvoir économique relevée par V-Dem en 2020 : environ ${pc(P.ineq.sens[1])} (lecture de sensibilité, voir « Climat, crises, inégalités »)`],
       ["Violence politique forte d'ici 2032",id=>M.rows[id].viol,`Même niveau pour tous : depuis 1945, ni la croissance ni l'arrivée de la droite ou de la gauche radicale au gouvernement ne l'ont fait bouger, à point de départ égal (voir « Qui gouverne »). Démocratie au hasard : ${pc(P.viol.rate)}`],
       ["Érosion forte de la démocratie d'ici 2035, mesures bloquées",id=>ero(id,0),`Démocratie établie au hasard : ${pc(ANALOG.valid10.base)}`],
       ["… mesures appliquées telles qu'annoncées",id=>ero(id,1)===null?1:ero(id,1),"Seuil franchi par les seules mesures : 100 %"]];

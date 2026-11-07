@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 (soir) : crises financières et inégalités
+
+- `POLIT.bank` : crise bancaire pendant la législature → +1,231 point de droite radicale (e.t. 0,845, p = 0,145 ; Reinhart-Rogoff 1800-2010 + Laeven-Valencia 2018, 515 législatures, 59 avec crise) ; `politMC` : `rb × (crise avant 2032 du programme − statu quo)`, coefficient tiré par tirage. Pas d'effet propre sur les mobilisations (OR 0,77, p = 0,41).
+- `POLIT.ineq` : SWIID 9.92 et V-Dem (`v2peapsecon`, `v2xeg_eqdr`) testés, sans gain hors échantillon ; lecture de sensibilité France (`v2peapsecon` 3,87 → 3,48 en 2020) : 50 % → 66 % de grande mobilisation.
+
 ## 7 novembre 2026 (soir) : énergie depuis 1965
 
 - `POLIT.energy` : parts du pétrole, des fossiles et du bas carbone en France (1965-2024), consommation fossile (pic : 1979), comparaison avec 18 pays en 2024, test choc pétrolier × part du pétrole (58 démocraties, 1965-2015, sans effet mesurable) ; Our World in Data `energy-data` (CC BY 4.0).
