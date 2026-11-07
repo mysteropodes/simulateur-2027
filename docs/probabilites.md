@@ -94,6 +94,23 @@ Les lignes économiques sont des sorties directes du simulateur et ne viennent p
 - **Fréquence et probabilité.** Au moins deux étés sur douze ont dépassé 5 000 décès (2023, 2025). Le détail année par année de 2014 à 2021 n'est pas publié, donc ce chiffre est un minimum. Au rythme 2014-2025, la probabilité sur six étés est d'au moins 67 %. Au rythme des trois derniers étés, elle dépasse 99 %.
 - **Ce qui n'est pas utilisé.** Les 10 420 décès de l'été 2022 souvent cités sont un excès toutes causes, Covid compris, et non des décès dus à la chaleur. Ils ne sont pas utilisés. L'été 2003 a fait environ 15 000 décès en excès.
 
+### Alimentation
+
+Ces trois lignes sont les mêmes pour tous les programmes : aucun ne change le marché mondial ni la météo d'ici 2032.
+
+- **Flambée mondiale des prix.** Indice des prix alimentaires de la FAO, mensuel, de janvier 1990 à août 2026. On compte une flambée quand l'indice monte de 30 % ou plus sur un an. Il y en a eu 3 en 35,6 ans (2007-2008, 2010-2011, 2021-2022), soit environ 41 % de risque sur six ans. Avec un seuil de +20 %, 5 épisodes et environ 60 %. En août 2026, l'indice est à 133, en hausse de 2,5 % sur un an.
+- **Prix de l'alimentation +10 % en France.** Sur ces trois flambées, une seule a fait dépasser 10 % en France, quand elle s'est ajoutée au choc de l'énergie : +6,8 % en 2022 et +11,8 % en 2023 en moyenne annuelle (Insee), +15,9 % sur un an en mars 2023. D'où environ 41 % ÷ 3, soit 14 %.
+- **Mauvaise récolte de blé.** Rendement d'au moins 10 % sous la moyenne des cinq années précédentes, sans la meilleure ni la pire (moyenne dite olympique, comme celle d'Agreste). Source : FAOSTAT via Our World in Data, 1961-2018, puis Agreste pour 2024 (60,9 quintaux par hectare) et 2025 (74,0).
+  - Mauvaises récoltes trouvées : 1975, 1976, 2003 (−14 %), 2007 (−11 %), 2016 (−27 %), 2024.
+  - Probabilité sur six ans : environ 63 % au rythme de 2000-2025 (4 mauvaises récoltes en 26 ans), 44 % au rythme de 1961-2025.
+  - La France exporte environ la moitié de son blé : une mauvaise récolte touche les agriculteurs et les exportations, pas l'approvisionnement.
+- **Rationnement.** Il n'est pas calculé : il n'y en a pas eu depuis 1949, et il n'a pas de fréquence mesurable en temps de paix.
+
+### Crises bancaires
+
+- **Fréquence historique.** On compte les débuts de crise bancaire (Reinhart-Rogoff 1800-2010, Laeven-Valencia jusqu'en 2017) dans les 18 pays avancés de la base Jordà-Schularick-Taylor et en Irlande. Le taux annuel est de 2,2 % sur 1950-2017 et de 3,6 % sur 1990-2017, soit 12 à 20 % de risque sur six ans. France : 1994 (Crédit lyonnais) et 2008.
+- **Écart avec le simulateur.** Le simulateur tire une crise financière mondiale de type 2008 dans environ 3 % des tirages d'ici 2032, et 7 % d'ici 2040. C'est plus rare que l'histoire, en partie parce que les crises bancaires historiques comptent aussi celles sans récession. Cet écart est affiché, pas corrigé.
+
 ### Énergie et géopolitique
 
 - **Chocs pétroliers.** Dans 58 démocraties de 1965 à 2015, la dépendance au pétrole n'a pas fait plus de troubles après les chocs de 1973, 1979, 1990 et 2008, à croissance égale (p = 0,37 et 0,38). Le choc passe par l'économie, que le simulateur calcule déjà.

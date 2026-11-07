@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : alimentation, récoltes, crises bancaires
+
+- `POLIT.food` : indice FAO mensuel 1990-2026 (épisodes ≥ +30 % sur un an : 2007-2008, 2010-2011, 2021-2022 ; ≥ +20 % : 5), Insee (alimentation +6,8 % en 2022, +11,8 % en 2023, pic +15,9 %), blé FAOSTAT 1961-2018 (écart à la moyenne olympique quinquennale) et Agreste 2024-2025. Lignes fusionnées : flambée mondiale, alimentation +10 % en France, mauvaise récolte de blé ; rationnement non calculé.
+- `POLIT.bankHist` : débuts de crise bancaire, 18 pays avancés, taux annuel 2,2 % (1950-2017) à 3,6 % (1990-2017) ; ligne fusionnée avec la comparaison au choc « crise financière » du simulateur (≈ 3 % des tirages d'ici 2032).
+
 ## 7 novembre 2026 : intérêts face aux grands budgets, étés meurtriers
 
 - `POLIT.debt.bud` (PLF 2027 : intérêts de l'État 72,9 Md€, Éducation nationale 64, Armées 64, hors pensions ; APU ≈ 91) et `POLIT.debt.real` (Geerolf, OFCE) ; `runMC` : `i32` (intérêts publics 2032, % du PIB), `df32` (défense 2032), `rl32` (intérêts − inflation × dette) ; `politMC` : `big` (intérêts de l'État > Éducation + Armées en 2032, ancrage sur le statu quo central de 2027), `iEdu`, `i32`, `rl32` ; encadré « Les intérêts de la dette face aux grands budgets ».
