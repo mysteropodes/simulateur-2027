@@ -2,13 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
-## 8 novembre 2026 : humeur des marchés dans les tirages, quatre lignes de probabilités
+## 7 novembre 2026 : humeur des marchés dans les tirages, quatre lignes de probabilités
 
 - `BASE.spreadVol` 0,26 et `BASE.spreadRho` 0,8 : dans `runMC`, chaque tirage reçoit `b.sNoise[t] = exp(x_t − v_t/2)`, x autorégressif à partir de 2027 (générateur séparé `rng(9001+n)`, les autres tirages ne bougent pas) ; `simulate` multiplie la prime par ce facteur avant le plafond de la BCE. Calibrage : log de l'écart à 10 ans avec l'Allemagne (OCDE via FRED), France, Italie, Espagne, Portugal, Irlande, 2015-2025, AR(1) groupé (écart-type 0,257). Mettre `spreadVol` à 0 redonne l'ancien comportement.
 - Effets (réglages par défaut) : crise avant 2032, statu quo 0 → 8 %, candidats 0-11 → 10-34 % ; d'ici 2046, candidats 70-88 → 72-87 %, statu quo 72 → 73 %, candidat fictif 38 → 49 %, gouvernement 13 → 28 %. Textes mis à jour (README, Méthode, fiche du candidat fictif, encadré sur la dette, `docs/probabilites.md`).
 - Tableau des probabilités : `d30` (dette 2030 > 2025), `rat` (note du modèle dégradée entre 2027 et 2032), `u10` (chômage ≥ 10 % une année 2027-2032), `pov` (pauvreté 2032 > 2025).
 
-## 7 novembre 2026 (nuit) : chute du gouvernement, alternance, repères sur la dette
+## 7 novembre 2026 : chute du gouvernement, alternance, repères sur la dette
 
 - `POLIT.stab` : chute ou rupture dans les cinq ans (gouvernement remplacé sans législative par une autre composition ou un autre parti), ParlGov 1946-2018, 997 gouvernements, 37 pays : parti majoritaire seul 7,7 % (196), coalition majoritaire 39,9 % (456), minoritaire 35,9 % (345) ; polarisation V-Dem +0,443 (p < 0,01, AUC hors pays 0,70) ; croissance, pire année et crise bancaire sans effet. Ligne du tableau affichée en cellule fusionnée (même risque pour tous).
 - `POLIT.alt` : alternance (parti du chef du gouvernement après une législative), 473 élections, 36 pays, 1946-2023 : logit croissance −0,192 (e.t. 0,060), inflation +0,094 (e.t. 0,022), centré sur les moyennes de l'échantillon ; `politMC` : `alt` par tirage avec la croissance et l'inflation 2027-2032, pentes tirées. AUC hors pays 0,65.
