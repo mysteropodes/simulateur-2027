@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : démocratie illibérale
+
+- `POLIT.illib` (scratch `illib.py`) : démocraties libérales V-Dem (`v2x_regime` = 3), 1950-2020 (5 ans) et 1950-2015 (10 ans), bascule en démocratie électorale ou moins ; logit sur `v2x_libdem`, limite basse (`v2x_regime_amb` = 8), polarisation, variation sur 5 ans, mobilisation ; AUC hors pays 0,715 et 0,670 ; France 2025 : 15,3 % et 21,5 %. Vague récente : 11 des 41 démocraties libérales de 2015. Ligne fusionnée et encadré « Démocratie illibérale : où en est la France ? ».
+
 ## 7 novembre 2026 : où mènent les crises
 
 - `POLIT.crises` (scratch `crises.py`) : démocraties V-Dem, années de guerre exclues ; crise = début de crise bancaire (Reinhart-Rogoff, Laeven-Valencia) ou croissance ≤ −3 % ; issues dans les cinq ans : autocratie (`v2x_regime` ≤ 1 deux ans de suite), tentative de coup (Powell-Thyne, depuis 1950), guerre civile (`e_civil_war`, jusqu'en 2006), guerre entre États (`e_miinteco`, jusqu'en 2000), érosion (libdem −0,10), mobilisation, violence, alternance et changement de bloc du chef du gouvernement, entrée de la droite (`right`) ou de la gauche radicale (`com`) au gouvernement (ParlGov) ; démocraties riches (30 % les plus riches de l'année, 1946-2018) et entre-deux-guerres (1919-1939).

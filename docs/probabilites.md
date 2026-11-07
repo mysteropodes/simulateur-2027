@@ -142,7 +142,22 @@ On compare, dans les démocraties (V-Dem, années de guerre exclues), ce qui sui
 - Bascule en dictature : environ 1 % pour tous. C'est le risque de crise du programme multiplié par 1,1 %, plus le reste multiplié par 0,9 %.
 - Guerre civile ou guerre entre États : pas plus probable après une crise.
 
-## 5. La France face à l'Europe et au monde
+## 5. Démocratie illibérale
+
+V-Dem distingue quatre régimes : démocratie libérale, démocratie électorale, autocratie électorale et autocratie fermée. La démocratie électorale correspond à ce qu'on appelle souvent une démocratie illibérale : les élections restent libres, mais la justice, les contre-pouvoirs et les libertés sont moins bien garantis.
+
+- **Où en est la France.** Elle reste une démocratie libérale, mais dans la limite basse de la catégorie depuis 2021. Son indice de démocratie libérale est stable à 0,80. Sa polarisation est passée de 0,26 en 2020 à 1,43 en 2025.
+- **La vague récente.** Sur les 41 démocraties libérales de 2015, 11 sont devenues des démocraties électorales en 2025 : États-Unis, Royaume-Uni, Canada, Portugal, Grèce, Pologne, Slovaquie, Slovénie, Israël, Botswana, Maurice. Aucune n'est devenue une autocratie.
+- **Le modèle.** Échantillon : les démocraties libérales depuis 1950. Événement : bascule en démocratie électorale ou moins. Logit sur le niveau de démocratie libérale, la limite basse, la polarisation, le recul sur cinq ans et les mobilisations.
+  - Fréquence de base : 5 % en cinq ans, 12 % pour les démocraties à la limite basse.
+  - France : 15 % d'ici 2030, 21 % d'ici 2035.
+  - Test hors pays : AUC 0,72 et 0,67, calibration correcte.
+  - Passage direct à l'autocratie : 0,2 % en cinq ans.
+- **Les programmes.** Appliquées telles qu'annoncées, les mesures de Mélenchon, Le Pen et Retailleau font reculer l'indice d'au moins 0,10 selon la grille du simulateur. La France passerait alors autour de 0,70, le niveau de pays classés démocraties électorales : Royaume-Uni 0,69, Portugal 0,72, Canada 0,74.
+- **Deux méthodes, deux chiffres.** Le risque d'« érosion forte » des analogues (autour de 50 % d'ici 2035) vient des 25 situations passées les plus proches de la France. Ce sont surtout des démocraties polarisées des années 2010, dont beaucoup ont reculé.
+- **Non chiffré.** Le gouvernement de techniciens (Italie et Grèce en 2011) et le changement de Constitution n'ont pas assez de cas comparables pour être chiffrés.
+
+## 6. La France face à l'Europe et au monde
 
 Les modèles de mobilisation et de violence sont appliqués au point de départ de 2025 de chaque démocratie (V-Dem 2026 : 84 démocraties, dont 26 dans l'Union européenne ; la Hongrie est classée autocratie électorale). La croissance est la même pour tous, 1 % par an, pour ne comparer que les points de départ.
 
@@ -159,7 +174,7 @@ Les modèles de mobilisation et de violence sont appliqués au point de départ 
 | Crises bancaires 1970-2017 | 2 | 1,4 en moyenne (17 pays) | – | un peu au-dessus |
 | Décès dus à la chaleur, été 2022 (Ballester et al., 2023) | 71 par million | 114 par million (35 pays) | – | sous la moyenne (Italie 306) |
 
-## 6. La dette : repères extérieurs
+## 7. La dette : repères extérieurs
 
 La « crise de la dette » du simulateur est une crise de financement : prêts d'urgence et ajustement imposé, type Grèce, Irlande, Portugal 2010-2011, en plus modéré. Ce n'est pas un défaut. Les séries historiques de dette et de taux longs nécessaires à un calage sur l'histoire n'étaient pas accessibles. Le risque vient donc des règles du simulateur (seuil de prime de risque). Ces repères servent à vérifier l'ordre de grandeur, et ont servi au calage de l'« humeur des marchés » (ci-dessous) :
 
@@ -176,7 +191,7 @@ La « crise de la dette » du simulateur est une crise de financement : prêts d
 - **Sensibilité.** Avec un écart-type de 0,20, le statu quo est à 4 % avant 2032 ; avec 0,29, à 9 % ; avec 0,42, à 17 %.
 - **Comparaison avec le marché.** Le prix du marché (8 %) porte sur un défaut ; une crise de financement est plus large : l'Irlande, le Portugal et l'Espagne ont été aidés sans faire défaut. Ce prix mêle aussi tous les résultats possibles de l'élection, que le simulateur ne pondère pas.
 
-## 7. Limites
+## 8. Limites
 
 - **L'économie ne pèse qu'un peu.** Elle déplace les probabilités de quelques points ; le point de départ de la France et le contexte mondial pèsent bien plus que l'écart entre programmes.
 - **Mauvaise calibration au-dessus de 50 %.** Les grandes vagues de 1936, 1968 et 1995 n'étaient pas annoncées. Au-dessus de 50 %, la méthode surestime le risque de mobilisation.
