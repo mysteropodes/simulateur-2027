@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : dette et patrimoine calés sur l'histoire
+
+- `BASE.kDebt` 0,3 → 0,47 et `debtRef` 100 → 107 (niveau de 2027 inchangé) ; `PRESETS` : keynésienne 0,31, centrale 0,47, libérale 0,70. Estimation : JST R6 complet, écart à 10 ans avec l'Allemagne, 8 pays de la zone euro, 1999-2020 hors 2010-2013, 0,47 point par 10 points de dette au-delà de 100 % (p < 0,01) ; déficit non significatif hors crise (0,08), 0,66 sur toute la période (scratch `jstdebt.py`).
+- Effets (réglages par défaut) : crise avant 2032, statu quo 8 → 10 %, candidats 10-34 → 12-38 % ; d'ici 2046, statu quo 73 → 83 %, candidats 72-87 → 83-94 %, candidat fictif 49 → 60 %, gouvernement 28 → 40 % ; seuil central : candidats 2035-2040 (2037-2044 avant), candidat fictif 2044. Textes mis à jour (README, Méthode, fiche du candidat fictif, encadrés).
+- `POLIT.jst` et encadré « La dette dans l'histoire » (sensibilités, seuil, 18 passages au-dessus de 100 % depuis 1870).
+- `POLIT.wealth` (WID via Our World in Data, part du patrimoine des 10 % les plus riches) : niveau et variation sans effet sur mobilisation, violence, vote radical ; ligne ajoutée à « La France face à l'Europe et au monde ».
+
 ## 7 novembre 2026 : anti-pluralisme des partis (V-Party)
 
 - `POLIT.vparty` (scratch `vparty.py`) : V-Party v2 (paquet `vdemdata`), `v2xpa_antiplural` du parti le plus anti-pluraliste au gouvernement (`v2pagovsup` 0 ou 1, après l'élection), reporté jusqu'à cinq ans ; démocraties V-Dem 1946-2019 (3 179 situations, 112 pays) ; taux bruts d'érosion forte (libdem −0,10) et de recul de régime à dix ans par tranche ; logit avec niveau de démocratie, polarisation, mobilisation : effet non significatif (p = 0,59 à dix ans), AUC hors pays inchangée ; application à la France 2025 selon le parti (2017 : FI 0,28, FN 0,49, LR 0,05, LaREM et PS 0,03).
