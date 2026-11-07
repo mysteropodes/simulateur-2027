@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : où mènent les crises
+
+- `POLIT.crises` (scratch `crises.py`) : démocraties V-Dem, années de guerre exclues ; crise = début de crise bancaire (Reinhart-Rogoff, Laeven-Valencia) ou croissance ≤ −3 % ; issues dans les cinq ans : autocratie (`v2x_regime` ≤ 1 deux ans de suite), tentative de coup (Powell-Thyne, depuis 1950), guerre civile (`e_civil_war`, jusqu'en 2006), guerre entre États (`e_miinteco`, jusqu'en 2000), érosion (libdem −0,10), mobilisation, violence, alternance et changement de bloc du chef du gouvernement, entrée de la droite (`right`) ou de la gauche radicale (`com`) au gouvernement (ParlGov) ; démocraties riches (30 % les plus riches de l'année, 1946-2018) et entre-deux-guerres (1919-1939).
+- Encadré « Où mènent les crises », lignes fusionnées « Bascule en dictature » et « Guerre civile ou guerre entre États ».
+
 ## 7 novembre 2026 : la France face à l'Europe et au monde
 
 - `POLIT.cmp` : modèles `mob` et `viol` appliqués aux 84 démocraties V-Dem de 2025 (croissance commune 1 %), moyennes UE (26) et monde, rangs ; polarisation ; droite radicale (ParlGov, dernières législatives jusqu'en 2023) ; durée médiane des gouvernements 1990-2023 (plus de trois mois) ; crises bancaires 1970-2017 par pays de l'UE ; `ext` : Eurostat 21/10/2026 (dette T2 2026, déficits 2025), taux à 10 ans du 21/10/2026, décès dus à la chaleur 2022 (Ballester et al.). Encadré « La France face à l'Europe et au monde » et repères UE sur les lignes mobilisation et violence.
