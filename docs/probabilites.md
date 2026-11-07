@@ -202,8 +202,8 @@ La « crise de la dette » du simulateur est une crise de financement : prêts d
 
 - **Ce qui est ajouté.** Dans chaque tirage, l'écart de chaque année est multiplié par exp(x − v/2). x suit un processus autorégressif : persistance 0,8, écart-type des chocs 0,26 par an, x = 0 en 2026. v est la variance de x, ce qui garde un facteur de moyenne 1. Le générateur aléatoire est séparé, pour ne pas déplacer les autres tirages. Les courbes principales ne changent pas.
 - **D'où viennent les valeurs.** Écart des taux à 10 ans avec l'Allemagne (OCDE, via FRED), moyennes annuelles, logarithme. Régression autorégressive groupée sur la France, l'Italie, l'Espagne, le Portugal et l'Irlande. Sur 2015-2025 : écart-type 0,257, persistance 0,885. Sur 2008-2025 : 0,42 et 0,81. France seule : 0,22 sur 2015-2025, 0,29 sur 2008-2025. On retient la période hors crise de la zone euro, parce que les crises du type 2010-2012 sont déjà tirées à part (choc « crise financière »).
-- **Résultat, réglages par défaut**, après le calage de la sensibilité à la dette (ci-dessous). Crise de financement avant 2032 : 10 % pour le statu quo, de 12 à 38 % pour les programmes des candidats (0 à 11 % avant les deux calages). D'ici 2046 : 83 % pour le statu quo, de 83 à 94 % pour les candidats, 60 % pour le candidat fictif, 40 % pour le scénario du gouvernement.
-- **Sensibilité.** Avec un écart-type de 0,20, le statu quo est à 8 % avant 2032 ; avec 0,29, à 12 %.
+- **Résultat, réglages par défaut**, après le calage de la sensibilité à la dette et le canal du crédit (ci-dessous). Crise de financement avant 2032 : 11 % pour le statu quo, de 13 à 39 % pour les programmes des candidats (0 à 11 % avant ces calages). D'ici 2046 : 83 % pour le statu quo, de 84 à 95 % pour les candidats, 64 % pour le candidat fictif, 42 % pour le scénario du gouvernement.
+- **Sensibilité.** Avec un écart-type de 0,20, le statu quo est à 8 % avant 2032 ; avec 0,29, à 13 %.
 
 **Calage de la sensibilité à la dette sur l'histoire (7 novembre 2026, base Jordà-Schularick-Taylor R6 complète).** On mesure l'écart des taux à 10 ans avec l'Allemagne dans huit pays de la zone euro (Belgique, Espagne, Finlande, France, Irlande, Italie, Pays-Bas, Portugal), de 1999 à 2020, selon la dette et le déficit de l'année précédente.
 
@@ -217,6 +217,13 @@ La « crise de la dette » du simulateur est une crise de financement : prêts d
   - baisse d'au moins 20 points de dette : 22 % (Canada après 1995, Irlande après 1986) ;
   - aucune crise de financement au Japon ni en Belgique, malgré une dette en hausse ; le Portugal a connu la crise de 2011.
 - **Limite.** La base ne donne pas les dates de défaut ni de programme d'aide. On ne peut donc pas en tirer directement la fréquence des crises de la dette selon le niveau de dette.
+
+**Écart de taux → crédit → croissance (7 novembre 2026).** Les banques répercutent l'écart de taux de l'État sur les crédits aux entreprises et aux ménages. Dans le modèle, chaque point d'écart au-delà de celui de fin octobre 2026 coûte, à l'équilibre, 0,2 % de PIB ; l'écart retenu est celui de l'année précédente, plafonné au seuil de crise.
+
+- **Sources.** Banque d'Italie (Albertazzi et al., 2012) : la moitié de l'écart passe aux crédits en un trimestre, tout en un an. FMI (Italie, 2018) : la hausse durable des écarts coûte 0,2 à 0,4 % de PIB en deux ans.
+- **La fuite des capitaux.** Dans la zone euro, elle passe par ce canal et par l'écart de taux, pas par une dévaluation comme en France en 1981-1983.
+- **Effets en lecture centrale.** Croissance 2027-2031 : 1,07 % au lieu de 1,13 pour Mélenchon, 0,81 au lieu de 0,85 pour Le Pen. Crise avant 2032 : +0 à +1 point.
+- **Résultats par défaut après ce canal.** Crise avant 2032 : 11 % pour le statu quo, de 13 à 39 % pour les candidats. D'ici 2046 : 83 % pour le statu quo, de 84 à 95 % pour les candidats.
 - **Comparaison avec le marché.** Le prix du marché (8 %) porte sur un défaut ; une crise de financement est plus large : l'Irlande, le Portugal et l'Espagne ont été aidés sans faire défaut. Ce prix mêle aussi tous les résultats possibles de l'élection, que le simulateur ne pondère pas.
 
 ## 9. Limites

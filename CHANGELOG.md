@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : écart de taux → crédit → croissance
+
+- `simulate` : `finG = −spreadGdp × (min(écart de l'année précédente, seuil de crise) − 1,5)`, ajouté à l'écart de production à partir de 2028, sauf les trois années qui suivent une crise ; `spreadGdp` 0,1 (−0,2 % de PIB à l'équilibre par point). Sources : Albertazzi et al. (Banque d'Italie, 2012), FMI rapport pays n° 19/40 (Italie). Effets (lecture centrale) : croissance 2027-2031 Mélenchon 1,13 → 1,07, Le Pen 0,85 → 0,81 ; dette 2046 hors crise +8 à +18 points ; crise avant 2032 +0 à +1 point.
+
 ## 7 novembre 2026 : dette et patrimoine calés sur l'histoire
 
 - `BASE.kDebt` 0,3 → 0,47 et `debtRef` 100 → 107 (niveau de 2027 inchangé) ; `PRESETS` : keynésienne 0,31, centrale 0,47, libérale 0,70. Estimation : JST R6 complet, écart à 10 ans avec l'Allemagne, 8 pays de la zone euro, 1999-2020 hors 2010-2013, 0,47 point par 10 points de dette au-delà de 100 % (p < 0,01) ; déficit non significatif hors crise (0,08), 0,66 sur toute la période (scratch `jstdebt.py`).
