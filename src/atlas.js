@@ -47,7 +47,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  atDraw(); buildAnalog(); buildPSI(); buildUS(); buildDef(); defDraw();
+  atDraw(); buildAnalog(); buildPolit(); buildPSI(); buildUS(); buildDef(); defDraw();
 }
 
 // Projection par analogies historiques
@@ -71,6 +71,41 @@ function buildAnalog(){
   const cal=V=>V.cal.map(([b,n,p,o])=>`<tr><td>${b}</td><td>${n}</td><td>${pc(p)}</td><td>${pc(o)}</td></tr>`).join("");
   document.getElementById("anValid").innerHTML=`<tr><th colspan="4">Horizon 5 ans (${R.valid.n} situations, AUC ${fmt(R.valid.auc,2)})</th></tr>`+cal(R.valid)+`<tr><th colspan="4">Horizon 10 ans (${R.valid10.n} situations, AUC ${fmt(R.valid10.auc,2)})</th></tr>`+cal(R.valid10);
 }
+// Répercussions politiques : probabilités historiques appliquées aux trajectoires de chaque tirage du simulateur
+// Mobilisation : logit estimé sur les démocraties 1900-2015 (V-Dem) ; vote : élections législatives 1906-2020 (ParlGov) ; voir POLIT
+function politMC(PD,q){
+  const st=PD.statu; if(!st||!st.g5.length) return null;
+  const R=rng(1789), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R()), N=st.g5.length, S=POLIT.start;
+  const z0=m=>m.b[0]+m.X.slice(0,-1).reduce((s,x,i)=>s+m.b[i+1]*S[x],0), bg=m=>m.b[m.b.length-1], sig=z=>1/(1+Math.exp(-z));
+  const zm=z0(POLIT.mob), zv=z0(POLIT.viol), cf=[]; // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
+  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss()});
+  const mob=id=>PD[id].g5.map((g,n)=>sig(zm+cf[n].m*g)), viol=id=>PD[id].g5.map((g,n)=>sig(zv+cf[n].v*g)), m0=mob("statu"), av=a=>a.reduce((s,v)=>s+v,0)/a.length, Q=a=>[q(a,0.1),q(a,0.5),q(a,0.9)];
+  const out={viol0:av(viol("statu")),mob0:av(m0),n:N,rows:{}}, wc=[], nc=[];
+  for(const id in PD){const d=PD[id], m=mob(id); if(id!=="ia"&&id!=="gov") m.forEach((v,n)=>(d.cr[n]?wc:nc).push(v));
+    out.rows[id]={mob:av(m),mobR:Q(m),dmob:Q(m.map((v,n)=>100*(v-m0[n]))),dmobM:100*(av(m)-av(m0)),
+      rr:Q(d.gv.map((g,n)=>cf[n].rg*(g-st.gv[n])+cf[n].ri*(d.iv[n]-st.iv[n]))),
+      fl:Q(d.gv.map((g,n)=>cf[n].fg*(g-st.gv[n])+cf[n].fi*(d.iv[n]-st.iv[n]))),
+      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr)};}
+  out.withCr=wc.length?av(wc):null; out.noCr=nc.length?av(nc):null; out.nCr=wc.length;
+  return out;
+}
+function buildPolit(){
+  const tb=document.getElementById("polTab"); if(!tb) return; const P=POLIT, pc=v=>fmt(v*100,0)+" %", sg=(v,d=1)=>{const k=10**d, r=Math.round(v*k)/k; return (r<0?"−":r>0?"+":"")+fmt(Math.abs(r),d);};
+  const M=MC&&MC.pol; const W=P.world;
+  document.getElementById("polHead").innerHTML=M?`<div class="anbig"><b>${fmt(M.mob0*100,0)} %</b><span><b>Mobilisation de l'ampleur des gilets jaunes ou plus d'ici 2032</b>, sans changement de politique. Pour une démocratie au hasard de la base : ${pc(P.mob.rate)} sur cinq ans. C'est le point de départ qui fait l'essentiel : une mobilisation et une polarisation déjà très hautes en 2023-2025.</span></div><div class="anbig"><b>${fmt(M.viol0*100,0)} %</b><span><b>Violence politique au niveau de 1934 ou de 2021 d'ici 2032.</b> Démocratie au hasard : ${pc(P.viol.rate)}. Depuis 1945, la croissance ne change presque rien à ce risque : il est le même pour tous les programmes.</span></div><div class="anbig"><b>${fmt(W.rrNow,1)} %</b><span><b>Vote moyen pour la droite radicale</b> aux dernières élections législatives des ${W.n} démocraties de la base (jusqu'en ${W.rrDate.slice(0,4)}), contre ${fmt(W.dec[1950],1)} % dans les années 1950. Historiquement, chaque point de plus chez les autres s'accompagne de +${fmt(P.rr.b.w_rr,2)} point à l'élection suivante.</span></div>`:`<p class="help">Calcul en cours (200 tirages de chaque programme)…</p>`;
+  if(!M){tb.innerHTML=""; return;}
+  const rg=(a,d=1,s="")=>`${sg(a[1],d)}${s} <span class="rng">${sg(a[0],d)} à ${sg(a[2],d)}</span>`;
+  tb.innerHTML=CANDS.filter(p=>M.rows[p.id]).map(p=>{const x=M.rows[p.id], ref=p.id==="statu";
+    return `<tr${ref?' class="me"':""}><td class="name"><span class="sw" style="background:var(${p.color})"></span>${p.name}</td><td>${fmt(x.g5,2)} %</td><td class="${x.cr>=0.25?"worse":""}">${pc(x.cr)}</td><td><b>${fmt(x.mob*100,0)} %</b> <span class="rng">${fmt(x.mobR[0]*100,0)} à ${fmt(x.mobR[2]*100,0)} %</span></td><td class="${ref?"":x.dmobM>=1.5?"worse":x.dmobM<=-1.5?"better":""}">${ref?"réf.":rg(x.dmob,1," pt")}</td><td>${ref?"réf.":rg(x.rr,2," pt")}</td><td>${ref?"réf.":rg(x.fl,2," pt")}</td></tr>`;}).join("");
+  const top=CANDS.filter(p=>p.id!=="statu"&&M.rows[p.id]).map(p=>[p,M.rows[p.id]]).sort((a,b)=>b[1].dmobM-a[1].dmobM);
+  const hi=top[0], lo=top[top.length-1];
+  const vmax=Math.max(...top.map(([,x])=>Math.max(Math.abs(x.rr[1]),Math.abs(x.fl[1]))));
+  document.getElementById("polRead").innerHTML=`<b>Lecture.</b> Par l'économie, les programmes déplacent la probabilité d'une grande mobilisation de ${sg(lo[1].dmobM,1)} point (${lo[0].name.replace(/ \(.*/,"")}) à ${sg(hi[1].dmobM,1)} point (${hi[0].name.replace(/ \(.*/,"")}) autour de ${fmt(M.mob0*100,0)} % sans changement de politique. Sur le vote pour les partis radicaux, l'effet de la trajectoire économique reste ${vmax<1?"inférieur à un point dans tous les programmes":"limité, au plus "+fmt(vmax,1)+" point"}. ${M.withCr!=null&&M.nCr>=20?`Ce qui pèse le plus, c'est une crise de la dette : dans les tirages où elle survient avant 2032, la probabilité d'une grande mobilisation est de ${fmt(M.withCr*100,0)} %, contre ${fmt(M.noCr*100,0)} % sans crise. `:""}Le point de départ de la France et le contexte mondial comptent davantage que l'écart entre programmes.`;
+  document.getElementById("polBack").innerHTML=[...P.frback].sort((a,b)=>a[0]-b[0]).map(([y,p,o,w])=>`<tr><td>${y}</td><td>${pc(p)}</td><td class="${o?"worse":""}">${o?"oui : "+w:w}</td></tr>`).join("");
+  document.getElementById("polCal").innerHTML=P.mob.cal.map(([b,n,p,o])=>`<tr><td>${b}</td><td>${n}</td><td>${pc(p)}</td><td>${pc(o)}</td></tr>`).join("");
+  document.getElementById("polDec").innerHTML=Object.entries(W.dec).map(([d,v])=>`<tr><td>années ${d}</td><td>${fmt(v,1)} %</td></tr>`).join("");
+}
+
 // Indice de tension structurelle, d'après Turchin (Ages of Discord, 2016) : mobilisation populaire × compétition des élites × détresse budgétaire, à partir des séries du simulateur
 let psiChart=null;
 function psiSeries(r){const I=(a,i)=>a[i]/a[0]; return r.youth.map((_,i)=>{const mmp=I(r.youth,i)*I(r.rent,i)/(r.pa.mod[i]/100), emp=I(r.w10,i), sfd=I(r.burden,i); return {psi:100*mmp*emp*sfd,mmp:100*mmp,emp:100*emp,sfd:100*sfd};});}

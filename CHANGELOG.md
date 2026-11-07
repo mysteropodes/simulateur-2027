@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 : répercussions politiques d'après l'histoire
+
+- `src/polit_data.js` (`POLIT`) : coefficients estimés hors du site (V-Dem 2026, ParlGov CC0, JST R6 pour le PIB et les prix de 18 pays) ; mobilisation (V-Dem `v2cagenmob` ≥ 2 dans les cinq ans) et violence (`v2caviol` ≥ 1) par régression logistique sur les démocraties 1900-2015, vote droite radicale (`right`) et gauche radicale (`com`) sur 592 élections législatives 1906-2020 ; état de départ France 2025 ; validation hors pays, calibration, test sur la France ; vote moyen de la droite radicale par décennie.
+- `runMC` : croissance 2027-2031, croissance et inflation 2027-2032 et crise avant 2032 gardées pour chaque tirage ; `politMC` (atlas.js) applique les coefficients, avec un tirage des coefficients par tirage (générateur séparé, `rng(1789)`, la suite des tirages économiques est inchangée), écarts appariés au statu quo.
+- Onglet « Changer les règles du jeu » : nouvelle section 3 (sections suivantes renumérotées), méthode et limites, encadré sur le climat, les crises financières, les coupes budgétaires et l'inflation (Hsiang et al. 2013, Zhang et al. 2007, Mach et al. 2019, Funke et al. 2016, Ponticelli et Voth 2020, Federle et al. 2024).
+- Projection démocratique refaite sur 1900-2020 : 25,0 % au lieu de 25,3 % d'érosion forte d'ici 2030, aucune situation d'avant 1950 parmi les 25 plus proches (mentionné, calcul principal inchangé).
+
 ## 3 novembre 2026 : risque de crise en pourcentage
 
 - `premEndo` 1 par défaut dans toutes les lectures (écart de taux endogène) ; `noCrisis` 1 : seuil infini dans les courbes principales ; tirages (`runMC`, `crisisTable`) toujours avec crises (`noCrisis` 0) ; graphiques du défaut et du modèle américain avec crises.
