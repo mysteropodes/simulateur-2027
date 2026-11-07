@@ -27,6 +27,8 @@ Une huitième trajectoire, **« Candidat IA (fictif) »**, est construite par le
 
 L'onglet « Test sur le passé » rejoue les programmes de Hollande 2012, Macron 2017 et Macron 2022 avec les mêmes règles, depuis la situation de l'année précédant l'élection, et compare à la réalité (Insee) : à l'aveugle (ce que le simulateur aurait prédit le jour de l'élection) et avec les chocs réels imposés (crise de la zone euro, Covid, énergie). Écart moyen en fin de période : dette 5 points à l'aveugle (surtout le Covid), 2,4 avec le contexte ; déficit 1,6 et 0,6 point ; chômage 0,7 et 0,6 point. Deux réserves : l'écart de production de départ (`gap0`) et le chômage structurel de l'époque sont des hypothèses fixées après coup, qui pèsent de 4 à 6 points de dette ; et le choc « épidémie » du simulateur a été recalé sur 2020-2021, si bien que l'épisode 2017-2022 « avec contexte » n'est plus une validation indépendante. Chaque lecture donne aussi un repère « sans programme » (même point de départ, mêmes chocs, A = 0) : en 2012-2017, le programme décoté rapproche le simulateur du réel (dette 102 % contre 104 sans programme, réel 98,7) ; en 2017-2022, il l'en éloigne (109,6 contre 110,6, réel 111,4) ; en 2022-2025, il ne change presque rien. Autrement dit, le test valide surtout la mécanique de base (point de départ, taux, croissance, chocs) ; la lecture des programmes n'y ajoute une information nette que sur un mandat sur trois.
 
+L'onglet « Changer les règles du jeu » commence par un **tableau des probabilités** programme par programme : récession, inflation, crise de la dette, facture énergétique, rationnement du pétrole, grande mobilisation, violence politique, érosion de la démocratie, chute du gouvernement et alternance en 2032. Les liens sont estimés sur l'histoire (V-Dem, ParlGov, Jordà-Schularick-Taylor, crises bancaires), testés pays par pays, puis appliqués aux 200 tirages de chaque programme, sans sondage ni prédiction de scores. Données, modèles, tests et limites : [docs/probabilites.md](docs/probabilites.md).
+
 La section « Conséquences concrètes » traduit la tension sociale et les crises en effets lisibles : années de tension forte (au-dessus de 60 sur 100), part du programme abandonnée sous la pression, activité perdue (0,01 % de PIB par point au-dessus de 60, ordre de grandeur des gilets jaunes), et pour une crise de financement, pic de chômage, pic de pauvreté et économies imposées.
 
 ## Méthode de simulation
@@ -177,6 +179,11 @@ src/
   model.js                modèle macro-budgétaire (simulate, BASE0, chocs, énergie)
   microsim.js             microsimulation par décile, mesures et fuites
   ui.part                 paramètres des candidats, lectures, Monte-Carlo, graphiques, interface
+  retro.js                test sur le passé (Hollande 2012, Macron 2017 et 2022)
+  atlas_data.js, analog_data.js  données de l'onglet « Changer les règles du jeu » (V-Dem, Global Carbon Project, analogues)
+  polit_data.js           coefficients historiques du tableau des probabilités (voir docs/probabilites.md)
+  atlas.js                calculs et affichage de l'onglet « Changer les règles du jeu »
+docs/probabilites.md      méthode du tableau des probabilités : données, licences, modèles, tests, limites
 openfisca/                script reproductible des cas types (OpenFisca France) et résultats
 CHANGELOG.md              journal des modifications
 tests/smoke.js            test de fumée dans un navigateur sans interface

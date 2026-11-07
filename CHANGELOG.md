@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 7 novembre 2026 (nuit) : chute du gouvernement, alternance, repères sur la dette
+
+- `POLIT.stab` : chute ou rupture dans les cinq ans (gouvernement remplacé sans législative par une autre composition ou un autre parti), ParlGov 1946-2018, 997 gouvernements, 37 pays : parti majoritaire seul 7,7 % (196), coalition majoritaire 39,9 % (456), minoritaire 35,9 % (345) ; polarisation V-Dem +0,443 (p < 0,01, AUC hors pays 0,70) ; croissance, pire année et crise bancaire sans effet. Ligne du tableau affichée en cellule fusionnée (même risque pour tous).
+- `POLIT.alt` : alternance (parti du chef du gouvernement après une législative), 473 élections, 36 pays, 1946-2023 : logit croissance −0,192 (e.t. 0,060), inflation +0,094 (e.t. 0,022), centré sur les moyennes de l'échantillon ; `politMC` : `alt` par tirage avec la croissance et l'inflation 2027-2032, pentes tirées. AUC hors pays 0,65.
+- `POLIT.debt` : repères (taux à 10 ans 5,02 % le 23/10/2026, écart 1,78 point, CDS > 100 pb, Commission européenne DSM 2025, FMI) ; encadré « La dette vue par les marchés et les institutions » avec le risque du statu quo en direct.
+- `docs/probabilites.md` : données, licences, modèles, tests, limites ; README mis à jour.
+
 ## 7 novembre 2026 (soir) : crises financières et inégalités
 
 - `POLIT.bank` : crise bancaire pendant la législature → +1,231 point de droite radicale (e.t. 0,845, p = 0,145 ; Reinhart-Rogoff 1800-2010 + Laeven-Valencia 2018, 515 législatures, 59 avec crise) ; `politMC` : `rb × (crise avant 2032 du programme − statu quo)`, coefficient tiré par tirage. Pas d'effet propre sur les mobilisations (OR 0,77, p = 0,41).

@@ -78,9 +78,10 @@ function politMC(PD,q){
   const R=rng(1789), gauss=()=>Math.sqrt(-2*Math.log(R()+1e-12))*Math.cos(2*Math.PI*R()), N=st.g5.length, S=POLIT.start, SC=PD._scen||[];
   const z0=m=>m.b[0]+m.X.slice(0,-1).reduce((s,x,i)=>s+m.b[i+1]*S[x],0), bg=m=>m.b[m.b.length-1], sig=z=>1/(1+Math.exp(-z));
   const zm=z0(POLIT.mob), zv=z0(POLIT.viol), cf=[], kPV=POLIT.pv.ols/POLIT.pv.mean; // coupes : +9 % de troubles par point de PIB de baisse des dépenses (Ponticelli et Voth, croissance contrôlée)
-  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss(),rb:POLIT.bank.v.b+POLIT.bank.v.se*gauss()}); // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
+  for(let n=0;n<N;n++) cf.push({m:bg(POLIT.mob)+POLIT.mob.seG*gauss(),v:bg(POLIT.viol)+POLIT.viol.seG*gauss(),rg:POLIT.rr.b.gavg+POLIT.rr.se.gavg*gauss(),ri:POLIT.rr.b.isurp+POLIT.rr.se.isurp*gauss(),fg:POLIT.fl.b.gavg+POLIT.fl.se.gavg*gauss(),fi:POLIT.fl.b.isurp+POLIT.fl.se.isurp*gauss(),rb:POLIT.bank.v.b+POLIT.bank.v.se*gauss(),ag:POLIT.alt.b[1]+POLIT.alt.se[1]*gauss(),ai:POLIT.alt.b[2]+POLIT.alt.se[2]*gauss()}); // incertitude sur les coefficients : un tirage par tirage du simulateur, commun à tous les programmes
   const withCuts=(p5,cuts)=>{const h=1-Math.pow(1-p5,1/5); return 1-cuts.reduce((s,c)=>s*(1-Math.min(1,h*(1+kPV*c))),1);}; // probabilité sur cinq ans → risque annuel, augmenté les années de coupes
   const mob=id=>PD[id].g5.map((g,n)=>withCuts(sig(zm+cf[n].m*g),PD[id].cut[n])), mobG=id=>PD[id].g5.map((g,n)=>sig(zm+cf[n].m*g)), viol=id=>PD[id].g5.map((g,n)=>sig(zv+cf[n].v*g));
+  const AL=POLIT.alt, za=AL.b[0]+AL.b[1]*AL.mu[0]+AL.b[2]*AL.mu[1], alt=id=>PD[id].gv.map((g,n)=>sig(za+cf[n].ag*(g-AL.mu[0])+cf[n].ai*(PD[id].iv[n]-AL.mu[1]))); // alternance : logit centré sur les moyennes de l'échantillon, pentes tirées avec leur incertitude
   const m0=mob("statu"), av=a=>a.length?a.reduce((s,v)=>s+v,0)/a.length:null, Q=a=>[q(a,0.1),q(a,0.5),q(a,0.9)];
   const out={viol0:av(viol("statu")),mob0:av(m0),n:N,rows:{}}, wc=[], nc=[], M={};
   for(const id in PD){ if(id==="_scen") continue; const d=PD[id], m=M[id]=mob(id), mg=mobG(id); if(id!=="ia"&&id!=="gov") m.forEach((v,n)=>(d.cr[n]?wc:nc).push(v));
@@ -88,7 +89,7 @@ function politMC(PD,q){
     out.rows[id]={mob:av(m),mobR:Q(m),dmob:Q(m.map((v,n)=>100*(v-m0[n]))),dmobM:100*(av(m)-av(m0)),cutPts:100*(av(m)-av(mg)),cutMax:q(d.cut.map(c=>Math.max(...c)),0.5),
       rr:Q(d.gv.map((g,n)=>cf[n].rg*(g-st.gv[n])+cf[n].ri*(d.iv[n]-st.iv[n])+cf[n].rb*(d.cr[n]-st.cr[n]))), // crise avant 2032 traitée comme une crise financière pendant la législature (Reinhart-Rogoff, Laeven-Valencia)
       fl:Q(d.gv.map((g,n)=>cf[n].fg*(g-st.gv[n])+cf[n].fi*(d.iv[n]-st.iv[n]))),
-      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr),c36:av(d.c36),viol:av(viol(id)),rec:av(d.rec),hinf:av(d.hinf),bill:av(d.bill),ra5:av(d.ra.map(v=>v>=5?1:0)),raC:conR.length?q(conR,0.5):null};}
+      g5:q(d.g5,0.5),iv:q(d.iv,0.5),cr:av(d.cr),c36:av(d.c36),viol:av(viol(id)),rec:av(d.rec),hinf:av(d.hinf),bill:av(d.bill),alt:av(alt(id)),ra5:av(d.ra.map(v=>v>=5?1:0)),raC:conR.length?q(conR,0.5):null};}
   out.withCr=wc.length?av(wc):null; out.noCr=nc.length?av(nc):null; out.nCr=wc.length;
   return out;
 }
@@ -119,7 +120,7 @@ function buildPolit(){
     const L=[["Économie et dette"],
       ["Récession (une année de baisse du PIB au moins) d'ici 2032",id=>M.rows[id].rec,`France 1950-2020 : ${pc(H.rec)} des périodes de six ans`],
       ["Inflation au-dessus de 5&nbsp;% une année d'ici 2032",id=>M.rows[id].hinf,`France 1950-2020 : ${pc(H.inf5)} (surtout avant 1986, puis 2022)`],
-      ["Crise de la dette avant 2032",id=>M.rows[id].cr,"Grèce, Irlande, Portugal 2010-2011 ; Espagne et Italie sous tension en 2012"],
+      ["Crise de la dette avant 2032",id=>M.rows[id].cr,`Grèce, Irlande, Portugal 2010-2011 ; Espagne et Italie sous tension en 2012. Octobre 2026 : taux à 10 ans au-dessus de 5&nbsp;% (une première depuis 2002), assurance contre le défaut au plus haut depuis 2012 (voir « La dette vue par les marchés »)`],
       ["Crise de la dette d'ici 2046",id=>(mc(id)||{}).cr,"Hypothèses : section « Comprendre la dette »"],
       ["Énergie et alimentation"],
       ["Facture énergétique au moins doublée par rapport à 2025, une année d'ici 2040",id=>M.rows[id].bill,"2022 : 116 Md€, deux fois et demie 2025"],
@@ -129,9 +130,12 @@ function buildPolit(){
       ["Grande mobilisation (gilets jaunes ou plus) d'ici 2032",id=>M.rows[id].mob,`Démocratie au hasard : ${pc(P.mob.rate)} sur cinq ans. En comptant la hausse de la concentration du pouvoir économique relevée par V-Dem en 2020 : environ ${pc(P.ineq.sens[1])} (lecture de sensibilité, voir « Climat, crises, inégalités »)`],
       ["Violence politique forte d'ici 2032",id=>M.rows[id].viol,`Même niveau pour tous : depuis 1945, ni la croissance ni l'arrivée de la droite ou de la gauche radicale au gouvernement ne l'ont fait bouger, à point de départ égal (voir « Qui gouverne »). Démocratie au hasard : ${pc(P.viol.rate)}`],
       ["Érosion forte de la démocratie d'ici 2035, mesures bloquées",id=>ero(id,0),`Démocratie établie au hasard : ${pc(ANALOG.valid10.base)}`],
-      ["… mesures appliquées telles qu'annoncées",id=>ero(id,1)===null?1:ero(id,1),"Seuil franchi par les seules mesures : 100 %"]];
+      ["… mesures appliquées telles qu'annoncées",id=>ero(id,1)===null?1:ero(id,1),"Seuil franchi par les seules mesures : 100 %"],
+      ["Pouvoir et élections"],
+      ["Chute du gouvernement ou rupture de la coalition d'ici 2032",`Même risque pour tous : tout dépend de la majorité sortie des urnes. <b>${pc(P.stab.dom[0])}</b> si un parti a la majorité absolue à lui seul, <b>${pc(P.stab.coal[0])}</b> avec une coalition majoritaire, <b>${pc(P.stab.min[0])}</b> sans majorité`,`${fmt(P.stab.n,0)} gouvernements de ${P.stab.nc} démocraties, 1946-2018 : l'économie et les crises n'y changent rien. Ve République : censures en 1962 et 2024, confiance refusée en 2025 ; cinq Premiers ministres depuis 2022`],
+      ["Alternance en 2032 : le camp au pouvoir perd la main",id=>M.rows[id].alt,`Démocraties 1946-2023 : ${pc(P.alt.rateAll)} des législatives ; ${pc(P.alt.quart[0][1])} quand la croissance de la législature est la plus faible, ${pc(P.alt.quart[3][1])} quand elle est la plus forte. France : 4 présidentielles sur 8 depuis 1981`]];
     pT.innerHTML=`<thead><tr><th>Risque <span class="rng">et repère historique</span></th>${progs.map(p=>`<th><span class="sw" style="background:var(${p.color})"></span>${p.id==="statu"?"Statu quo":p.name.replace(/ \(.*/,"")}</th>`).join("")}</tr></thead><tbody>`+
-      L.map(([l,f,h])=>!f?`<tr><th colspan="${progs.length+1}" style="text-align:left;padding-top:12px">${l}</th></tr>`:`<tr><td>${l}<span class="rng">${h}</span></td>${progs.map(p=>{const v=f(p.id); return `<td class="${v==null?"":v>=0.5?"worse":""}">${v==null?"–":(v>=0.995&&l.startsWith("…")?"atteint":pc(v))}</td>`;}).join("")}</tr>`).join("")+"</tbody>";}
+      L.map(([l,f,h])=>!f?`<tr><th colspan="${progs.length+1}" style="text-align:left;padding-top:12px">${l}</th></tr>`:typeof f==="string"?`<tr><td>${l}<span class="rng">${h}</span><span class="polspanm">${f}</span></td><td colspan="${progs.length}" class="polspan"><div>${f}</div></td></tr>`:`<tr><td>${l}<span class="rng">${h}</span></td>${progs.map(p=>{const v=f(p.id); return `<td class="${v==null?"":v>=0.5?"worse":""}">${v==null?"–":(v>=0.995&&l.startsWith("…")?"atteint":pc(v))}</td>`;}).join("")}</tr>`).join("")+"</tbody>";}
   // section 2 : risque d'érosion recalculé avec le risque de crise du simulateur en cours
   const aC=document.getElementById("anCrisis"); if(aC&&typeof ANALOG!=="undefined"){ const ID={"Statu quo":"statu","Mélenchon":"melenchon","Le Pen":"lepen","Philippe":"philippe","Glucksmann":"glucksmann","Retailleau":"retailleau","Attal":"attal","Candidat IA (fictif)":"ia"}, E=P.ero.app, s2=v=>(v<0?"−":v>0?"+":"")+fmt(Math.abs(v),2), vals=[];
     aC.innerHTML=ANALOG.rights.map(([k,c0,d,e0,a0,x,g])=>{const id=ID[k], x2=M.rows[id]; if(!x2) return ""; const c=x2.c36, e=polEro(E[id][0],c), a=E[id][1]>=0.999?1:polEro(E[id][1],c); vals.push(e);
@@ -150,6 +154,8 @@ function buildPolit(){
     gv.innerHTML=["1900-1939","1946-2015"].map(per=>["droite radicale","gauche radicale","aucune des deux"].map((g,k)=>`<tr${k===2?' class="me"':""}>${k===0?`<td rowspan="3"><b>${per}</b></td>`:""}<td style="text-align:left">${g==="aucune des deux"?"Ni l'une ni l'autre":g==="droite radicale"?"Droite radicale au gouvernement":"Gauche radicale au gouvernement"}</td>${row(per,g)}</tr>`).join("")).join("");
     const f=(k,c)=>{const [b,p]=A[k][c]; return `${b>=0?"+":"−"}${fmt(Math.abs(b),2)} (p = ${fmt(p,2)})`;};
     document.getElementById("polGovAdj").innerHTML=`À point de départ égal (violence et polarisation déjà présentes, démocratie, croissance), l'effet de la droite radicale au gouvernement sur la violence forte est de ${f("1946-2015|y_viol","rr")} après 1945, contre ${f("avant 1940|y_viol","rr")} avant 1940 (logit) ; celui de la gauche radicale, ${f("1946-2015|y_viol","fl")} après 1945. Sur les grandes mobilisations après 1945 : droite radicale ${f("1946-2015|y_mob","rr")}, gauche radicale ${f("1946-2015|y_mob","fl")}.`;}
+  const sT=document.getElementById("polStab"); if(sT){ const T=P.stab; sT.innerHTML=[["Un parti a la majorité absolue à lui seul",T.dom],["Coalition majoritaire, aucun parti seul",T.coal],["Gouvernement minoritaire",T.min]].map(([l,[r,n]])=>`<tr><td style="text-align:left">${l}</td><td>${pc(r)}</td><td>${fmt(n,0)}</td></tr>`).join("");}
+  const dS=document.getElementById("polDebtSq"); if(dS&&M.rows.statu) dS.textContent=pc(M.rows.statu.cr); const dS2=document.getElementById("polDebtSq46"), mS=MC.rows.find(x=>x.p.id==="statu"); if(dS2&&mS) dS2.textContent=pc(mS.cr);
   const eH=document.getElementById("polEnH"); if(eH){ const EN=P.energy, f1=v=>fmt(v,0)+" %";
     eH.innerHTML=EN.hist.map(([y,o,fo,lc,tw])=>`<tr${y===2024?' class="me"':""}><td>${y}</td><td>${f1(o)}</td><td>${f1(fo)}</td><td>${f1(lc)}</td><td>${fmt(tw,0)} TWh <span class="rng">${fmt(100*tw/EN.peak.twh,0)} % du pic</span></td></tr>`).join("");
     const k=EN.peers.findIndex(x=>x[0]==="France");

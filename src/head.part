@@ -288,6 +288,9 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 #anCrisis td:first-child{min-width:220px}
 .polkpi .anbig{flex-direction:column;align-items:flex-start;gap:8px}
 .view[data-view="atlas"] table.polprob th[colspan]{font:600 11.5px var(--f-body);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.view[data-view="atlas"] table.polprob td.polspan{white-space:normal;text-align:left;line-height:1.45;color:var(--ink)}
+.view[data-view="atlas"] table.polprob .polspanm{display:none}
+@media(max-width:600px){.view[data-view="atlas"] table.polprob td.polspan>div{display:none}.view[data-view="atlas"] table.polprob td:first-child .polspanm{display:block;margin-top:6px;line-height:1.45;color:var(--ink)}}
 .view[data-view="atlas"] table.mini td.name{min-width:150px}
 .polkpi{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}.polkpi .anbig>b{font-size:2rem}
 .poldet{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:6px}.poldet>details{min-width:0}.poldet details>*:not(summary){margin-top:10px}
