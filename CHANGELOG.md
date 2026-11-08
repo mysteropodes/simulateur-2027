@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : dette gardée par la BCE en montant fixe, solutions BCE de LFI testées
+
+- `simulate` : la part de dette gardée par la BCE (gel ou renouvellement accepté) est un stock fixé en 2027 (`bS = p.bce × dette`), déflaté par la croissance nominale, au lieu d'une part constante de la dette totale. Effets (réglages par défaut) : Mélenchon 39 / 95 % inchangé ; candidat fictif 6 / 64 → 6 / 66 % ; mode « tel qu'annoncé », dette 2046 Mélenchon 186 → 196 %, candidat fictif 141 → 148 %. Textes mis à jour (README, fiche du candidat fictif, encadré du risque, docs).
+- Options de scénario (désactivées par défaut, utilisées par `tests/bce-scenarios.js`) : `bceFull` (tout l'intérêt économisé), `bceCancel` (dette effacée en 2027), `bceCost` (la Banque de France rémunère toujours les réserves, l'État perd ce qu'elle lui reversait), `ecbDirect` (traité révisé : prime plafonnée à 1 point dès 2028).
+- Encadré « Les solutions BCE de LFI à l'épreuve du simulateur » (section 1) et paragraphe dans `docs/probabilites.md`.
+
 ## 8 novembre 2026 : programme de Mélenchon du 7 novembre
 
 - Fiche `melenchon` (`checked` 8 novembre 2026) : programme présenté au Bourget (L'Avenir en commun, 1 069 mesures dont 238 nouvelles), chiffrage complet annoncé pour début 2027. Montants et réglages inchangés (contre-budget du 14 octobre), résultats identiques.
