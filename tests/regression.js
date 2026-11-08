@@ -36,6 +36,18 @@ const path=require('path');
     near("Intérêts 2027 statu quo, % du PIB (PLF 2027 : 2,9 aux taux de septembre)",sq.def[y(2027)]-sq.prim[y(2027)],2.8,3.2);
     ok("Vieillissement net de ses contreparties limité (Haut-commissariat : +0,2 pt de 2025 à 2050) : solde primaire 2036 − 2030 < 0,5 hors défense",(()=>{const b=B({fiscalReact:0,crisisPrem:1e9,natoGap:0});const r=simulate(CANDS0.find(p=>p.id==="statu"),"credible",b);return r.prim[y(2036)]-r.prim[y(2030)]<0.5;})());
     ok("Réforme familiale neutre : la crédibilité ne s'applique pas d'un seul côté (Retailleau)",(()=>{const p=CANDS0.find(p=>p.id==="retailleau");const a=simulate(Object.assign({},p,{c:0.3}),"credible",B()),b=simulate(Object.assign({},p,{c:0.3,paMeasures:p.paMeasures.filter(m=>!m[6])}),"credible",B());return Math.abs(a.progFull-b.progFull)<0.01;})());
+    // section 11 (défaut) : chiffres du texte fixe
+    { const ml=CANDS0.find(p=>p.id==="melenchon"), st=CANDS0.find(p=>p.id==="statu"), avg=(r,k)=>{let t=0;for(let a=2027;a<=2046;a++)t+=r[k][y(a)];return t/20;};
+      const Bd=rd=>Object.assign({},BASE0,PRESETS[rd],{noCrisis:0});
+      const a=simulate(Object.assign({},ml,{defaut:0}),"credible",Bd("central")), d=simulate(Object.assign({},ml,{defaut:0.3}),"credible",Bd("central")), s0=simulate(st,"credible",Bd("central"));
+      near("Défaut (section 11) : crise sans défaut, Mélenchon (texte : 2035)",a.crisis||0,2035,2035);
+      near("Défaut (section 11) : crise du statu quo (texte : 2039)",s0.crisis||0,2039,2039);
+      near("Défaut (section 11) : dette 2046 sans défaut (texte : 208)",a.debt[y(2046)],203,213);
+      near("Défaut (section 11) : dette 2046 avec défaut (texte : 122)",d.debt[y(2046)],117,127);
+      near("Défaut (section 11) : pauvreté moyenne sans défaut (texte : 15,5)",avg(a,"pov"),15.45,15.55);
+      near("Défaut (section 11) : pauvreté moyenne avec défaut (texte : 15,9)",avg(d,"pov"),15.85,15.95);
+      const al=simulate(Object.assign({},ml,{defaut:0}),"credible",Bd("liberal"));
+      near("Défaut (section 11) : crise sans défaut, lecture libérale (texte : 2029)",al.crisis||0,2029,2029); }
     // règles de méthode
     for(const id of ids) ok("Valeurs finies "+id,["debt","def","unemp","growth","pov","tension"].every(k=>r[id][k].slice(1).every(Number.isFinite)));
     const pc=c=>simulate(Object.assign({},CANDS0.find(p=>p.id==="glucksmann"),{c}),"credible",B()).debt[y(2036)];

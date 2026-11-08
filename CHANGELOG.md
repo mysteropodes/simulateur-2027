@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : section « défaut » remise à jour
+
+- `body.part`, section 11 : texte fixe aligné sur le modèle actuel (lecture centrale, Mélenchon) : crise sans défaut 2037 → 2035, croisement des courbes 2038 → 2037, creux des ménages modestes sans défaut −17 % vers 2043 → −13 % vers 2039, statu quo en crise 2044 → 2039, lecture libérale 2030 → 2029, dette 2046 222/121 → 208/122 %, pauvreté moyenne 15,3/15,9 → 15,5/15,9 % (libérale 16,5/16,1 → 16,7/16,2 %).
+- `tests/regression.js` : sept contrôles sur ces chiffres, pour signaler un texte devenu faux après un recalage.
+
 ## 8 novembre 2026 : dette gardée par la BCE en montant fixe, solutions BCE de LFI testées
 
 - `simulate` : la part de dette gardée par la BCE (gel ou renouvellement accepté) est un stock fixé en 2027 (`bS = p.bce × dette`), déflaté par la croissance nominale, au lieu d'une part constante de la dette totale. Effets (réglages par défaut) : Mélenchon 39 / 95 % inchangé ; candidat fictif 6 / 64 → 6 / 66 % ; mode « tel qu'annoncé », dette 2046 Mélenchon 186 → 196 %, candidat fictif 141 → 148 %. Textes mis à jour (README, fiche du candidat fictif, encadré du risque, docs).
