@@ -45,7 +45,7 @@ Six blocs d'après la nuance officielle des candidats en 2024 : LFI (candidats N
 | centre | 167 | 165 |
 | LR et divers droite | 66 | 66 |
 | RN et alliés | 143 | 143 |
-| bon vainqueur par circonscription | 546 / 577 | |
+| bon vainqueur par circonscription | 546 / 577 | résultats officiels par circonscription, non inclus dans `parl_data.js` |
 | 2022 avec les reports de 2022 : gauche, centre, LR, RN | 154, 247, 73, 92 | 153, 252, 71, 90 |
 | 2022 avec les reports de 2024 | RN 6 | 90 |
 

@@ -1,10 +1,21 @@
 # Journal des modifications
 
-Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
+Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
+
+## 8 novembre 2026 : audit complet du site
+
+- Trois relectures indépendantes : code, chiffres et sources, cohérence et affichage.
+- `src/audit_data.js` : Mélenchon retraite à 60 ans 12 au lieu de 22 (total 35,2 = 27 + 8,2, Institut Montaigne 2024), « 100 % Sécu » 21 au lieu de 24 (HCAAM via Institut Montaigne 2022 : 17,1 net), service citoyen 21 au lieu de 25 (Institut Montaigne 2022 : 18-20) ; « cotisation sociale élargie aux revenus du capital » (libellé du livre 2027) ; FDJ ajoutée aux renationalisations. Philippe : enseignants +20 % (≈ 8 Md€, AFP 25 août 2026), part fiscale dès le 2e enfant (2,5). Attal : enseignants +200 € nets (2,5, AFP), classes de 20 et PER 1 000 € retirés (déjà dans `compItems`). Retailleau : allègements de cotisations 0 (0 à 10). Le Pen : sources marquées « programme 2022 ». Totaux : Mélenchon 149,8 (77 à 271), Le Pen 36,5, Philippe 19, Glucksmann 7, Retailleau 6, Attal 4,5.
+- `src/model.js` : `auditVariant` retire aussi de `taxMd` les mesures fiscales de l'audit (sinon elles réapparaissaient en hausse d'impôt « non détaillée »).
+- `src/atlas.js` : boucle des années du graphique « défaut » (section 11) avalée par un commentaire depuis le 3 novembre ; graphique vide, réparé.
+- `src/ui.part` : `makeDraws` et `simDraw` factorisés ; le tableau des trois lectures (`crisisTable`) utilise les mêmes tirages que les cartes (avant : graine et hypothèses différentes, 85 % contre 83 % pour le statu quo) ; colonne « sans crise » calculée avec `noCrisis` (n'altère plus le canal du crédit) ; clés manquantes (`social`, `ia`) ; pic de tension compté depuis 2027 ; PIB de la fiche audit.
+- `src/parl.js` : bonus de sièges plafonné pour qu'aucun bloc ne dépasse 95 % des voix.
+- Textes : fiche du candidat fictif, seuil de crise, censures Lecornu, encadré BCE, Méthode (115,7 %, 0,9 %), noms d'onglets. Conclusions solides recalculées : `tests/robust.js` (nouveau, 400 tirages).
+- Affichage : `.drawer` en `border-box`, colonne 1 fixe des tableaux sous 820 px, graphique principal 440 px sous 600 px, `--soft` #7f889e (contraste AA).
 
 ## 8 novembre 2026 : promesses non financées, des deux côtés
 
-- Fiches candidats : graphique et tableau des trois écarts entre l'annonce et un chiffrage vérifiable, calculés par le modèle (aux réglages par défaut, sans crise) : effort « tel qu'annoncé » moins effort « crédible » (recettes et économies non retrouvées, fuite fiscale, dépenses sous-estimées `spendOver`), plus l'audit (montant net déclaré). Mélenchon ≈ 241 Md€ par an, Philippe ≈ 140, Attal ≈ 129, Le Pen ≈ 128, Retailleau ≈ 87, Glucksmann ≈ 26, candidat fictif ≈ 24. Affichage seulement : aucun calcul ne change.
+- Fiches candidats : graphique et tableau des trois écarts entre l'annonce et un chiffrage vérifiable, calculés par le modèle (aux réglages par défaut, sans crise) : effort « tel qu'annoncé » moins effort « crédible » (recettes et économies non retrouvées, fuite fiscale, dépenses sous-estimées `spendOver`), plus l'audit (montant net déclaré). Mélenchon ≈ 224 Md€ par an, Philippe ≈ 148, Attal ≈ 130, Le Pen ≈ 128, Retailleau ≈ 87, Glucksmann ≈ 26, candidat fictif ≈ 24. Affichage seulement : aucun calcul ne change.
 
 ## 8 novembre 2026 : audit du coût des programmes complets
 

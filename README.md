@@ -153,8 +153,8 @@ Le signe − signifie un déficit en hausse.
 - **Test 2015-2025** (`tests/backtest.js`). Il couvre le chômage (erreur moyenne de 0,6 point), le taux apparent de la dette (0,10 point) et l'identité de la dette (0,5 point hors 2020). Ces mécanismes ont aussi été réglés sur cette période : ce n'est pas une validation indépendante.
 - **Test des effets des mesures sur la croissance** (`tests/backtest-growth.js`, consolidation 2010-2016). Erreur moyenne de 0,50 point en lecture centrale et de 0,41 en lecture libérale, contre 0,42 en supposant les mesures sans effet. Un seul épisode, mêlé à la crise de la zone euro, ne permet pas de trancher.
 - **Test de non-régression** (`tests/regression.js`) : contrôles automatiques. Les repères de calage sont des contrôles de stabilité (ils détectent une dérive involontaire), pas une validation externe : la dette 2036 du statu quo (≈ 150 %) est un peu au-dessus des projections officielles à politique inchangée (Commission européenne 144 %, Haut-commissariat à la Stratégie et au Plan 140 % en 2035), parce que le simulateur fait monter l'écart de taux avec la dette, alors qu'elles le figent par convention ; avec l'écart figé (réglage « taux stables »), il donne 148 % (audit du 3 novembre 2026). Il vérifie les repères de calage, les efforts publiés, les conclusions robustes de l'analyse de sensibilité et les règles de méthode : une crédibilité plus basse ne réduit jamais la dette, plus de recettes perdues ne l'améliore jamais, plus d'inflation baisse le ratio de dette, une crise fait d'abord monter la dette.
-- **Analyse de sensibilité** (1 500 tirages sur 65 hypothèses). Conclusions solides (recalculées le 3 novembre 2026 sur 400 tirages, après l'audit, seuil de crise de 3 à 6 points) : Mélenchon a la pauvreté la plus basse (85 %) et, quand une crise survient, il est le premier touché (91 %) ; Philippe ou Retailleau la pauvreté la plus haute (100 % : Philippe 64 %, Retailleau 36 %) ; Retailleau ou Le Pen la tension sociale la plus forte en 2032 (88 %) ; Retailleau ou Philippe la dette hors crise la plus basse en 2046 (89 %). Une crise touche au moins un programme dans 74 % des tirages, tous dans 54 %. Conclusions fragiles : qui a la dette la plus haute ; le chômage, trop proche entre programmes pour les classer. Hypothèses décisives : seuil de crise, réaction des marchés, prime politique, crédibilité, recettes perdues, multiplicateurs.
-- **Audits.** Plusieurs audits indépendants du code et de la méthode ont été menés (octobre 2026). Leurs corrections sont datées dans l'onglet « Informations » et dans [CHANGELOG.md](CHANGELOG.md).
+- **Analyse de sensibilité** (1 500 tirages sur 65 hypothèses). Conclusions solides (recalculées le 8 novembre 2026 sur 400 tirages, `node tests/robust.js`, mêmes tirages que le site, seuil de crise de 3 à 6 points) : Mélenchon a la pauvreté la plus basse (75 %) et, quand une crise survient, il est le premier touché (95 %) ; Philippe ou Retailleau la pauvreté la plus haute (98 % : Philippe 61 %, Retailleau 37 %) ; Retailleau ou Le Pen la tension sociale la plus forte en 2032 (86 %) ; Retailleau ou Philippe la dette hors crise la plus basse en 2046 (89 %). Une crise touche au moins un programme dans 89 % des tirages, tous dans 75 %. Conclusions fragiles : qui a la dette la plus haute ; le chômage, trop proche entre programmes pour les classer. Hypothèses décisives : seuil de crise, réaction des marchés, prime politique, crédibilité, recettes perdues, multiplicateurs.
+- **Audits.** Plusieurs audits indépendants du code et de la méthode ont été menés (octobre 2026). Leurs corrections sont datées dans l'onglet « Journal des corrections » et dans [CHANGELOG.md](CHANGELOG.md).
 
 ## Limites à garder en tête
 
@@ -165,7 +165,7 @@ Le signe − signifie un déficit en hausse.
 
 ## Contester un chiffrage
 
-Équipes de campagne et lecteurs peuvent [signaler une erreur ou compléter un chiffrage](https://github.com/mysteropodes/simulateur-2027/issues/new/choose). Les corrections sont datées dans l'onglet « Informations » et dans [CHANGELOG.md](CHANGELOG.md).
+Équipes de campagne et lecteurs peuvent [signaler une erreur ou compléter un chiffrage](https://github.com/mysteropodes/simulateur-2027/issues/new/choose). Les corrections sont datées dans l'onglet « Journal des corrections » et dans [CHANGELOG.md](CHANGELOG.md).
 
 ## Structure du dépôt
 
@@ -196,6 +196,7 @@ tests/backtest-growth.js  test des effets des mesures sur la croissance (consoli
 tests/regression.js       test de non-régression : chiffres publiés et règles de méthode
 tests/bce-scenarios.js    scénarios BCE de LFI (gel, annulation, traité révisé) de l'encadré dédié
 tests/audit.js            lecture « Programme complet (audit) » : risque de crise et dette par candidat
+tests/robust.js           conclusions solides (« Ce qu'il faut retenir ») sur 400 tirages
 tests/parl.js             calculateur de sièges : rejoue 2024, contrefactuel sans barrage, sens des curseurs
 ```
 
@@ -207,7 +208,7 @@ npm i -D playwright && npx playwright install chromium
 node tests/smoke.js         # vérifie que la page charge et que chaque candidat donne une trajectoire finie
 node tests/backtest.js      # test historique 2015-2025
 node tests/backtest-growth.js
-node tests/regression.js    # 24 contrôles, échoue si un chiffre publié ou une règle n'est plus respecté
+node tests/regression.js    # 59 contrôles, échoue si un chiffre publié ou une règle n'est plus respecté
 ```
 
 La page ne dépend que de Chart.js (cdnjs) et de polices Google Fonts. Elle s'ouvre directement dans un navigateur.
