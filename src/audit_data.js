@@ -52,8 +52,7 @@ const AUDIT={
   ["Sixième semaine de congés payés et 32 heures dans les métiers pénibles : remplacements dans le secteur public",3,1,6,"fonction",null,["lfi_livre"],"Hypothèse du simulateur : ≈ 1 % de la masse salariale publique."],
   ["Soignants et EHPAD publics (10 000 places par an), au-delà des 3 Md€ comptés pour l'hôpital",2.5,1.5,5,null,"fonct",["lfi_livre","mont_nfp"],"Plan de recrutement du soin et du médico-social : 4,6 Md€ (Institut Montaigne, 2024)."],
   ["Cotisations sociales sur les dividendes, l'intéressement et les rachats d'actions",-5,-6.3,-3,"capital",null,["lfi_livre","mont_nfp"],"6,3 Md€ (Institut Montaigne, 2024), moins les comportements d'évitement."],
-  ["Impôt sur le revenu à 14 tranches",-4.7,-8,0,"ir",null,["lfi_livre","mont_nfp"],"4,7 Md€ (Institut Montaigne, 2024)."],
-  ["Fin des exonérations de cotisations au-dessus de 2 Smic",-5,-8,-3,"entreprises",null,["lfi_livre"],"Ordre de grandeur estimé par le simulateur, faute de chiffrage public à ce seuil."]],
+  ["Impôt sur le revenu à 14 tranches",-4.7,-8,0,"ir",null,["lfi_livre","mont_nfp"],"4,7 Md€ (Institut Montaigne, 2024)."]],
   debt:["Renationalisations : Engie, autoroutes, aéroports stratégiques",85,60,110,["lfi_livre","engie","autoroutes"],"Engie vaut ≈ 58 Md€ en bourse (septembre 2026), dont l'État détient une partie ; autoroutes : 45 à 50 Md€ selon Bercy (2021), moins à mesure que les concessions approchent de leur fin ; Aéroports de Paris : la part non détenue par l'État. Opération financière : la dette augmente, pas le déficit ; les dividendes reçus ne sont pas comptés."]},
  lepen:{items:[
   ["Retraites (abrogation des 64 ans, 60 ans pour les carrières commencées avant 20 ans) : complément au montant compté (14 Md€)",11,0,21,"retraites",null,["rn_prog","mont_rn","ifrap_rn"],"34,7 Md€ selon l'Institut Montaigne (2024) ; ≈ 10 Md€ pour la seule abrogation en 2027 selon l'iFRAP (2024), sans les départs à 60 ans. Retenu ≈ 25 Md€."],

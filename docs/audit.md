@@ -19,7 +19,7 @@ Les montants du simulateur sont ceux que chaque candidat chiffre, corrigés par 
 
 | Candidat | Mesures | Net (Md€ par an) | Fourchette | Hors déficit (dette) |
 |---|---|---|---|---|
-| Jean-Luc Mélenchon (LFI) | 18 | 161,8 | 85,2 à 268,0 | ≈ 85 Md€ (renationalisations) |
+| Jean-Luc Mélenchon (LFI) | 17 | 166,8 | 93,2 à 271,0 | ≈ 85 Md€ (renationalisations) |
 | Marine Le Pen (RN) | 10 | 36,5 | 11,7 à 74,2 | ≈ 35 Md€ (renationalisation des autoroutes) |
 | Raphaël Glucksmann (PS-Place publique) | 2 | 7,0 | 3,5 à 14,0 | — |
 | Gabriel Attal (Renaissance) | 4 | 3,6 | 1,6 à 7,7 | — |
@@ -40,7 +40,7 @@ Le nombre de mesures dépend de la taille des programmes : le livre de LFI compt
 | Retailleau | 14 / 84 % → 16 / 85 % | 156 → 156 % | 18,1 → 18,0 % |
 | Attal | 13 / 85 % → 13 / 85 % | 156 → 156 % | 16,0 → 16,0 % |
 
-Sans crise (calcul déterministe), le déficit 2030 de Mélenchon passe de 7,8 à 11,2 % du PIB et sa dette 2036 de 172 à 219 % : la dette médiane monte moins parce que la crise, plus précoce, impose ensuite l'austérité.
+Sans crise (calcul déterministe), le déficit 2030 de Mélenchon passe de 7,8 à 11,3 % du PIB et sa dette 2036 de 172 à 220 % : la dette médiane monte moins parce que la crise, plus précoce, impose ensuite l'austérité.
 
 ## Jean-Luc Mélenchon (LFI)
 
@@ -63,8 +63,7 @@ Sans crise (calcul déterministe), le déficit 2030 de Mélenchon passe de 7,8 �
 | Soignants et EHPAD publics (10 000 places par an), au-delà des 3 Md€ comptés pour l'hôpital | 2,5 | 1,5 à 5,0 | Plan de recrutement du soin et du médico-social : 4,6 Md€ (Institut Montaigne, 2024). | [L'Avenir en commun, édition 2027 (7 novembre 2026)](https://melenchon2027.fr/programme/livre/) ; [Institut Montaigne – chiffrage du programme du NFP (législatives 2024)](https://www.institutmontaigne.org/legislatives-2024/nouveau-front-populaire/synthese) |
 | Cotisations sociales sur les dividendes, l'intéressement et les rachats d'actions | −5,0 | −6,3 à −3,0 | 6,3 Md€ (Institut Montaigne, 2024), moins les comportements d'évitement. | [L'Avenir en commun, édition 2027 (7 novembre 2026)](https://melenchon2027.fr/programme/livre/) ; [Institut Montaigne – chiffrage du programme du NFP (législatives 2024)](https://www.institutmontaigne.org/legislatives-2024/nouveau-front-populaire/synthese) |
 | Impôt sur le revenu à 14 tranches | −4,7 | −8,0 à 0,0 | 4,7 Md€ (Institut Montaigne, 2024). | [L'Avenir en commun, édition 2027 (7 novembre 2026)](https://melenchon2027.fr/programme/livre/) ; [Institut Montaigne – chiffrage du programme du NFP (législatives 2024)](https://www.institutmontaigne.org/legislatives-2024/nouveau-front-populaire/synthese) |
-| Fin des exonérations de cotisations au-dessus de 2 Smic | −5,0 | −8,0 à −3,0 | Ordre de grandeur estimé par le simulateur, faute de chiffrage public à ce seuil. | [L'Avenir en commun, édition 2027 (7 novembre 2026)](https://melenchon2027.fr/programme/livre/) |
-| **Total net** | **161,8** | 85,2 à 268,0 | | |
+| **Total net** | **166,8** | 93,2 à 271,0 | | |
 
 Hors déficit : Renationalisations : Engie, autoroutes, aéroports stratégiques, ≈ 85 Md€ de dette (60 à 110). Engie vaut ≈ 58 Md€ en bourse (septembre 2026), dont l'État détient une partie ; autoroutes : 45 à 50 Md€ selon Bercy (2021), moins à mesure que les concessions approchent de leur fin ; Aéroports de Paris : la part non détenue par l'État. Opération financière : la dette augmente, pas le déficit ; les dividendes reçus ne sont pas comptés. Sources : [L'Avenir en commun, édition 2027 (7 novembre 2026)](https://melenchon2027.fr/programme/livre/) ; [StockAnalysis – capitalisation d'Engie (18 septembre 2026)](https://stockanalysis.com/quote/epa/ENGI/market-cap/) ; [Public Sénat – renationaliser les autoroutes : à quel coût ? (septembre 2021)](https://www.publicsenat.fr/actualites/politique/montebourg-souhaite-renationaliser-les-autoroutes-mais-a-quel-cout-et-de-quelle).
 
