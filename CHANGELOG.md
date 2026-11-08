@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : qui pourrait gouverner ?
+
+- Onglet « Changer les règles du jeu », section 12 (`src/parl.js`, `src/parl_data.js`) : hémicycle de l'Assemblée au 30 octobre 2026 et tableau par candidat (camp, manque pour 289, censure possible) ; législatives 1958-2024 par bloc (ParlGov, ministère de l'Intérieur) ; camp du gouvernement après chaque législative ; nombre effectif de blocs (voix 1,9 → 3,7 ; sièges 1,3 → 3,8) ; voix et sièges en 2024 ; coefficients de report 2022 et 2024.
+- Calculateur de sièges sans sondage : premier tour réel de 2024 par circonscription ; élan du camp présidentiel (glissement proportionnel uniforme), gauche divisée (part locale de LFI d'après la présidentielle 2022, recalée sur la part choisie), alliance de LR (15 % de fuite du plus petit partenaire), barrage contre le RN (interpolation entre les retraits et reports de 2022 et de 2024). Reports estimés par moindres carrés sur 500 seconds tours (2024) et 569 (2022) ; retraits observés en 2024. Fourchettes : 120 tirages, centrées sur le calcul sans tirage.
+- `tests/parl.js` : rejoue 2024 (gauche 189 / 191, centre 167 / 165, LR 66 / 66, RN 143 / 143), contrefactuel sans barrage (RN 276), sens des curseurs, fourchettes contenant le résultat réel.
+- Aucun sondage, aucun changement des résultats économiques.
+
 ## 8 novembre 2026 : désobéir de l'intérieur
 
 - `simulate` : options `ecbProtect` (écart de taux plafonné à cette valeur malgré le conflit, dès 2027) et `sanction` (points de PIB ajoutés au déficit primaire, 2028-2031), désactivées par défaut ; résultats publiés inchangés.

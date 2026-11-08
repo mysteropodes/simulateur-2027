@@ -1,0 +1,28 @@
+// Modèle de sièges « Qui pourrait gouverner ? » : rejoue 2024 et vérifie les cas limites
+const fs=require("fs"), path=require("path"), vm=require("vm");
+const src=f=>fs.readFileSync(path.join(__dirname,"..","src",f),"utf8");
+const ctx={module:undefined,console,Math}; vm.createContext(ctx);
+vm.runInContext(src("parl_data.js").replace("const PARL=","PARL=")+src("parl.js").replace(/^const (\w+)=/gm,"$1=").replace(/^function /gm,"function "),ctx);
+let fail=0; const ok=(c,m)=>{console.log((c?"ok   ":"ÉCHEC ")+m); if(!c) fail++;};
+const base={pres:"",bonus:0,gauche:"unie",k:31,lr:"seul",fr:100};
+const S=st=>ctx.pSeats(Object.assign({},base,st),0).mean.map(x=>Math.round(x));
+const near=(a,b,t)=>Math.abs(a-b)<=t;
+const s=S({}), R=ctx.PARL.res24;
+console.log("2024 rejoué :",s.join(" / "),"— réel :",[R.L,R.G,R.C,R.D,R.R,R.A].join(" / "));
+ok(near(s[0]+s[1],R.L+R.G,8),"2024 : gauche à 8 sièges près ("+(s[0]+s[1])+" contre "+(R.L+R.G)+")");
+ok(near(s[2],R.C,8),"2024 : centre à 8 sièges près ("+s[2]+" contre "+R.C+")");
+ok(near(s[3],R.D,8),"2024 : LR à 8 sièges près ("+s[3]+" contre "+R.D+")");
+ok(near(s[4],R.R,8),"2024 : RN à 8 sièges près ("+s[4]+" contre "+R.R+")");
+ok(s.reduce((a,x)=>a+x,0)>=575&&s.reduce((a,x)=>a+x,0)<=579,"577 sièges au total");
+const s0=S({fr:0}); console.log("2024 sans barrage (climat 2022) :",s0.join(" / "));
+ok(s0[4]>s[4]+80,"sans barrage, le RN gagne nettement plus de sièges ("+s0[4]+")");
+const sb=S({pres:"lepen",bonus:5}); ok(sb[4]>s[4],"bonus de 5 points au RN : plus de sièges RN ("+sb[4]+")");
+const sm=S({pres:"melenchon",bonus:5}); ok(sm[0]+sm[1]>s[0]+s[1],"bonus de 5 points à la gauche unie : plus de sièges ("+(sm[0]+sm[1])+")");
+const sd=S({gauche:"divisee"}); ok(sd[0]+sd[1]<s[0]+s[1],"gauche divisée : moins de sièges qu'unie ("+(sd[0]+sd[1])+" contre "+(s[0]+s[1])+")");
+const sc=S({lr:"centre"}); ok(sc[2]+sc[3]>s[2]+s[3],"alliance centre-LR : plus de sièges pour les deux ("+(sc[2]+sc[3])+")");
+const sr=S({lr:"rn"}); ok(sr[3]+sr[4]>s[3]+s[4],"alliance LR-RN : plus de sièges pour les deux ("+(sr[3]+sr[4])+")");
+const sn=S({pres:"attal",bonus:-5}); ok(sn[2]<s[2],"bonus négatif au centre : moins de sièges ("+sn[2]+")");
+const r=ctx.pSeats(base,60); const [lo,hi]=ctx.pRange(r,[4]);
+console.log("fourchette RN 2024 (tirages) :",lo,"à",hi); ok(lo<=R.R&&R.R<=hi,"le résultat réel du RN est dans la fourchette");
+const [lo2,hi2]=ctx.pRange(r,[0,1]); console.log("fourchette gauche :",lo2,"à",hi2); ok(lo2<=R.L+R.G+5&&R.L+R.G-5<=hi2,"le résultat réel de la gauche est dans la fourchette (à 5 près)");
+console.log(fail?fail+" échec(s)":"tout est bon"); process.exit(fail?1:0);

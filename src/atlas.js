@@ -47,7 +47,7 @@ function buildAtlas(){
   if(!atBuilt){atBuilt=true; atChips(); atPairs();
     document.getElementById("atInd").innerHTML=Object.entries(AT_IND).map(([k,v])=>`<button type="button" data-ai="${k}" aria-pressed="${k===atInd}">${v[0]}</button>`).join("");
     document.querySelectorAll("[data-ai]").forEach(b=>b.onclick=()=>{atInd=b.dataset.ai; document.querySelectorAll("[data-ai]").forEach(x=>x.setAttribute("aria-pressed",x.dataset.ai===atInd)); atDraw();});}
-  for(const f of [atDraw,buildAnalog,buildPolit,buildPSI,buildUS,buildDef,defDraw]){ try{ f(); }catch(e){ console.error(e); } } // une partie qui échoue (graphique non chargé, par exemple) ne vide pas le reste de la page
+  for(const f of [atDraw,buildAnalog,buildPolit,buildPSI,buildUS,buildDef,defDraw,typeof buildParl==='function'?buildParl:()=>{}]){ try{ f(); }catch(e){ console.error(e); } } // une partie qui échoue (graphique non chargé, par exemple) ne vide pas le reste de la page
 }
 
 // Projection par analogies historiques

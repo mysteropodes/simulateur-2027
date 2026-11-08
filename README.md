@@ -183,7 +183,9 @@ src/
   atlas_data.js, analog_data.js  données de l'onglet « Changer les règles du jeu » (V-Dem, Global Carbon Project, analogues)
   polit_data.js           coefficients historiques du tableau des probabilités (voir docs/probabilites.md)
   atlas.js                calculs et affichage de l'onglet « Changer les règles du jeu »
+  parl_data.js, parl.js   section « Qui pourrait gouverner ? » : législatives 2022-2024 par circonscription, 1958-2024 par bloc, calculateur de sièges sans sondage (voir docs/parlement.md)
 docs/probabilites.md      méthode du tableau des probabilités : données, licences, modèles, tests, limites
+docs/parlement.md         méthode du calculateur de sièges : données, blocs, second tour, tests, limites
 openfisca/                script reproductible des cas types (OpenFisca France) et résultats
 CHANGELOG.md              journal des modifications
 tests/smoke.js            test de fumée dans un navigateur sans interface
@@ -191,6 +193,7 @@ tests/backtest.js         test historique 2015-2025 (données dans tests/backtes
 tests/backtest-growth.js  test des effets des mesures sur la croissance (consolidation 2010-2016)
 tests/regression.js       test de non-régression : chiffres publiés et règles de méthode
 tests/bce-scenarios.js    scénarios BCE de LFI (gel, annulation, traité révisé) de l'encadré dédié
+tests/parl.js             calculateur de sièges : rejoue 2024, contrefactuel sans barrage, sens des curseurs
 ```
 
 ## Modifier et reconstruire
