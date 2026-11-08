@@ -96,7 +96,18 @@ function budLayer(b){
     const nd=Math.max(0,-(CD.resid||0)); if(nd>0&&typeof microsim==="function"){const M=microsim([["nd",-nd*0.5*GP/100,"social"]],0); for(const g in pa) pa[g]+=uS*M.pa[g]*real*sc; M.deciles.forEach((v,i)=>{dec[i]+=uS*v*real*sc;});}}
   return {comp,bal,pa,dec,sp:(G.spServ||0)*real*sc,hs:(G.healthSpend||0)*real*sc};
 }
+// Lecture « programme complet (audit) » : le chiffrage crédible, plus les mesures du programme non comptées (AUDIT, même grille pour tous).
+// Les mesures s'ajoutent aux postes du programme et l'effort annoncé A baisse d'autant : elles creusent vraiment le déficit au lieu d'être absorbées par le solde non détaillé.
+function auditVariant(p,b){
+  const a=(typeof AUDIT!=="undefined")?AUDIT[p.id]:null; if(!a) return p;
+  const GP=p.gdpRef||b.gdpProg||b.gdpMd, pm=(p.paMeasures||[]).slice(), ci=(p.compItems||[]).slice(); let net=0;
+  for(const [lab,md,,,k,cat] of a.items){ net+=md; if(k) pm.push([lab,md,k,"audit","audit",cat||undefined]); else ci.push([cat||"fonct",md]); }
+  const q=Object.assign({},p,{paMeasures:pm,compItems:ci,A:(p.A||0)-net/GP*100,debtOp:a.debt?a.debt[1]:0});
+  if(typeof topFlows==="function") Object.assign(q,topFlows(pm));
+  return q;
+}
 function simulate(p,mode,b){
+  if(mode==="audit"){ p=auditVariant(p,b); mode="credible"; }
   const f=feas(p); const BL=budLayer(b);
   const real= mode==="annonce"?1 : mode==="credible"?p.c : p.c*f; // part des montants budgétaires qui se réalise (crédibilité du chiffrage)
   const realSp= mode==="pondere"?f:1; // dépenses et baisses d'impôts : réalisées en entier (seule la faisabilité les réduit, en mode « pondéré »)
@@ -287,7 +298,7 @@ function simulate(p,mode,b){
     const interest=d*i/100/(1+ng); // intérêts rapportés au PIB de l'année
     const bank=(crisis!==null&&t===crisis+1&&!refus)?b.bankCrisis:0; // soutien aux banques pendant la crise (Espagne 2012 : ≈ 4 % du PIB ; Portugal ≈ 3 %), compté dans la dette, pas dans le déficit
     const sf=(((p.defaut||0)>0&&t===(p.defautYear||2028))?-p.defaut*b.defPriv*d*(1-b.defDom*b.defRecap):0)+((b.calib&&near.sf)?near.sf:0)+((p.natio||0)>0&&t===(p.natioYear||b.natioYear)?p.natio/GP*100:0); // achat des actions financé par emprunt : opération financière, hors déficit mais comptée dans la dette (règles d'Eurostat) // ajustements stocks-flux (trésorerie de l'État)
-    const dOld=d; if(t===2027){cS=(p.bceCancel&&bceOn)?(p.bce||0)*d:0; d-=cS;} if(t>2027&&cS>0){ if(p.bceCost) d+=cS*depo/100; cS/=(1+ng);} /* scénarios d'annulation (tests) : dette effacée en 2027 ; bceCost = la Banque de France continue de rémunérer les réserves sans recette, l'État perd ce qu'elle lui reversait */ d=Math.max(0,d*(1+i/100)/(1+ng)+pd+bank+sf); if(t>=2027&&bS>0) bS/=(1+ng); /* dette gardée par la BCE : montant fixe en euros, de moins en moins lourd rapporté au PIB */ o.snow.push(d-dOld-pd); o.prim.push(pd);
+    const dOld=d; if(t===2027){cS=(p.bceCancel&&bceOn)?(p.bce||0)*d:0; d-=cS;} if(t>2027&&cS>0){ if(p.bceCost) d+=cS*depo/100; cS/=(1+ng);} /* scénarios d'annulation (tests) : dette effacée en 2027 ; bceCost = la Banque de France continue de rémunérer les réserves sans recette, l'État perd ce qu'elle lui reversait */ d=Math.max(0,d*(1+i/100)/(1+ng)+pd+bank+sf); if(t===2028&&p.debtOp) d+=p.debtOp/GP*100; /* rachats d'entreprises (lecture « programme complet ») : dette sans déficit */ if(t>=2027&&bS>0) bS/=(1+ng); /* dette gardée par la BCE : montant fixe en euros, de moins en moins lourd rapporté au PIB */ o.snow.push(d-dOld-pd); o.prim.push(pd);
     lastDef=pd+interest; burden=interest/b.rev*100;
     const okunEff=(hasS("pandemie",0)||hasS("pandemie",1))?0.15:1; // activité partielle : en 2020-2021, l'emploi a été protégé malgré la chute du PIB
     const okunCr=(crisis!==null&&t-crisis>=1&&t-crisis<=3)?1.6:1; // crise de la dette : faillites et crédit coupé, l'emploi réagit plus fort (France 2008-2009 : PIB −2,9 %, chômage +1,7 point en un an, soit ≈ 0,5 au lieu de 0,3)

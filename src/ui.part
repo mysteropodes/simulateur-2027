@@ -117,7 +117,7 @@ for(const c of CANDS0){ Object.assign(c,EXT[c.id]); c.co2Ref=c.co2Rate; c.rights
 
 let BASE=structuredClone(BASE0), CANDS=structuredClone(CANDS0), mode="credible", metric="debt", diffMode=false;
 let encodeStateDefault=""; // état par défaut encodé, pour le lien de partage
-const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme : ses réformes (âge de départ, temps de travail, marché du travail) s'appliquent, mais seule la part jugée crédible des montants budgétaires se réalise. Les mesures touchant aux droits sont pondérées par la solidité juridique du programme.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario."};
+const MODEHELP={annonce:"Chaque programme est appliqué à 100 %, comme le candidat l'annonce, sans recul face à la contestation. La réaction des marchés est quand même ajoutée.",credible:"Le candidat est élu et applique son programme : ses réformes (âge de départ, temps de travail, marché du travail) s'appliquent, mais seule la part jugée crédible des montants budgétaires se réalise. Les mesures touchant aux droits sont pondérées par la solidité juridique du programme.",pondere:"La part crédible est multipliée par la probabilité de pouvoir appliquer le programme (majorité, opinion, droit). C'est une moyenne, pas un scénario.",audit:"Le chiffrage crédible, plus les mesures du programme que le candidat n'a pas chiffrées, à leur coût selon notre audit (sources dans chaque fiche, même grille pour tous). C'est le programme écrit appliqué en entier, ce qu'aucun gouvernement ne fait : en moyenne, environ la moitié des promesses sont tenues."};
 const SHOCKHELP={none:"Pas de choc ponctuel.",petrole:"Prix du pétrole +45 $ pendant un an, +25 $ l'année suivante (type 2022) : facture énergétique, inflation, aides publiques ; l'effet dépend de la dépendance aux énergies fossiles.",commerce:"Guerre commerciale : −0,4 point de PIB cumulé sur trois ans (Banque de France, droits de douane américains de 2025).",taiwan:"Blocus de Taïwan : −3 points de croissance, inflation +1,5 point, tensions sur les taux (ordre de grandeur très incertain).",recession:"Croissance −3 points, rebond partiel ensuite (type 2009).",financial:"Croissance −2 points, taux +2 points sur trois ans, confrontation avec l'UE plus coûteuse (type 2011-2012).",inflation:"Inflation +3 puis +1,5 point, croissance −1 point (type 2022-2023).",climat:"Canicule ou inondations majeures : croissance −1,5 point, déficit +1 point, environ 10 000 décès (type 2003).",pandemie:"Croissance −7 points puis rebond, déficit +5 puis +2 points, environ 75 000 décès sur deux ans (type 2020)."};
 const CLIMHELP={moderee:"Dommages limités : −0,03 point de croissance par an, décès liés à la chaleur +2 % par an.",forte:"Dommages notables : −0,07 point par an, décès liés à la chaleur +4 % par an.",tresforte:"Dommages lourds : −0,12 point par an, décès liés à la chaleur +6 % par an."};
 const AIHELP={lente:"Gains de productivité +0,1 point par an, pertes d'emplois au pic +0,5 point de chômage.",moyenne:"Gains +0,3 point par an, pertes d'emplois au pic +1,2 point de chômage.",rapide:"Gains +0,6 point par an, pertes d'emplois au pic +2,5 points de chômage."};
@@ -355,13 +355,34 @@ function renderPlan(P){
    +`<section class="psec"><h4>${P.who.t}</h4><p class="src">${P.who.sub}</p><ul class="plist">${P.who.rows.map(([a,v,n])=>`<li><div class="pl">${a}</div><span class="pamt ${v>=0?"up":"down"}"><b>${v>0?"+":"−"}${fmt(Math.abs(v),1)} %</b></span>${n?`<div class="pn">${n}</div>`:""}</li>`).join("")}</ul><p class="src">${P.who.note}</p></section>`;
 }
 
+// audit du coût des programmes complets : tableau dans chaque fiche et synthèse
+function auditSrc(keys){return keys.map(k=>{const x=AUDIT_SRC[k];return x?`<a href="${x[1]}" target="_blank" rel="noopener">${x[0]}</a>`:"";}).filter(Boolean).join(" ; ");}
+function auditHTML(p){
+  if(typeof AUDIT==="undefined") return "";
+  const a=AUDIT[p.id];
+  if(!a) return p.id==="ia"?`<p class="src"><b>Audit du programme complet.</b> Sans objet : le candidat fictif n'a que des mesures chiffrées, toutes comptées.</p>`:"";
+  const f=x=>(x<0?"−":"")+fmt(Math.abs(x),1);
+  const rows=a.items.map(([l,c,lo,hi,,,src,m])=>`<li><div class="pl">${l}</div><span class="pamt ${c>0?"down":c<0?"up":""}"><b>${c>0?"+":""}${f(c)} Md€</b> <span style="color:var(--muted);font-weight:400">(${f(lo)} à ${f(hi)})</span></span><div class="pn">${m} Sources : ${auditSrc(src)}.</div></li>`).join("");
+  const n=auditNet(p.id,1), lo=auditNet(p.id,2), hi=auditNet(p.id,3);
+  const d=a.debt?`<p class="src"><b>Opération financière, hors déficit :</b> ${a.debt[0]}, ≈ ${fmt(a.debt[1],0)} Md€ de dette en plus (${fmt(a.debt[2],0)} à ${fmt(a.debt[3],0)}). ${a.debt[5]} Sources : ${auditSrc(a.debt[4])}.</p>`:"";
+  return `<section class="psec"><h4>Audit : mesures du programme non comptées</h4><p class="src">Coût annuel en fin de mandat, en Md€ (+ = coût, − = recette). Total net : <b>${n>0?"+":""}${f(n)} Md€ par an</b> (${f(lo)} à ${f(hi)}), soit ≈ ${fmt(n/(p.gdpRef||3400)*100,1)} point${n/(p.gdpRef||3400)*100>=2?"s":""} de PIB. Compté seulement dans la lecture « Programme complet (audit) ».</p><ul class="plist">${rows}</ul>${d}</section>`;
+}
+function buildAuditTab(){
+  const el=document.getElementById("auditTab"); if(!el||typeof AUDIT==="undefined") return;
+  const f=x=>(x<0?"−":x>0?"+":"")+fmt(Math.abs(x),0);
+  const L=CANDS0.filter(c=>c.id!=="statu"&&c.id!=="gov").map(c=>{const a=AUDIT[c.id];
+    if(!a) return `<tr><td>${c.name}</td><td>0</td><td>—</td><td>—</td><td style="white-space:normal;text-align:left">Pas de mesure non comptée (candidat fictif).</td></tr>`;
+    const top=a.items.filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]).slice(0,3).map(x=>x[0].split(/[:,(]/)[0].trim()).join(" ; ");
+    return `<tr><td>${c.name}</td><td>${a.items.length}</td><td><b>${f(auditNet(c.id,1))}</b></td><td>${f(auditNet(c.id,2))} à ${f(auditNet(c.id,3))}</td><td style="white-space:normal;text-align:left">${top}${a.debt?` ; hors déficit : ${a.debt[0].split(/[:(]/)[0].trim().toLowerCase()} (≈ ${fmt(a.debt[1],0)} Md€ de dette)`:""}</td></tr>`;});
+  el.innerHTML=`<div class="tablewrap"><table class="mini"><thead><tr><th>Candidat</th><th>Mesures</th><th>Net, Md€ par an</th><th>Fourchette</th><th style="text-align:left">Principales</th></tr></thead><tbody>${L.join("")}</tbody></table></div>`;
+}
 function buildCands(){
   const box=document.getElementById("cands"); box.innerHTML="";
   for(const p of CANDS){ if(p.id==="statu") continue;
     const d=document.createElement("details"); d.className="cand"; d.id="fiche-"+p.id;
     d.innerHTML=`<summary><span class="sw" style="background:var(${p.color})"></span>${p.name}</summary>
       ${p.id==="ia"?`<div class="iaplan">${renderPlan(IA_PLAN)}</div>`:""}<div class="cbody"><div style="display:grid;gap:10px;min-width:0;align-content:start">${p.id==="ia"?"":`<h3>Mesures retenues</h3><ul>${p.measures.map(m=>`<li>${m}</li>`).join("")}</ul>`}
-      <p class="src">${p.why}</p><p class="src">${p.why2}</p><p class="src">${p.why3}</p>${p.climNote?`<p class="src"><b>Émissions, mesure par mesure.</b> ${p.climNote}</p>`:""}${p.evals?`<p class="src"><b>Évaluations indépendantes.</b> ${p.evals}</p>`:""}
+      <p class="src">${p.why}</p><p class="src">${p.why2}</p><p class="src">${p.why3}</p>${p.climNote?`<p class="src"><b>Émissions, mesure par mesure.</b> ${p.climNote}</p>`:""}${p.evals?`<p class="src"><b>Évaluations indépendantes.</b> ${p.evals}</p>`:""}${auditHTML(p)}
       <h3>Effet sur le revenu des ménages (Md€ par an, application complète)</h3>
       <div class="tablewrap"><table class="mini"><thead><tr><th>Mesure</th><th>Md€</th><th>Qui est concerné</th><th>Origine</th></tr></thead><tbody>${p.paMeasures.map(([l,md,k,o,ch])=>`<tr><td>${l}</td><td class="${md>0?"better":md<0?"worse":""}">${md>0?"+":md<0?"−":""}${fmt(Math.abs(md),1)}</td><td>${KEYLABEL[k]}</td><td>${ORIG[o]||"–"}<span class="rng">${CHIF[ch]||""}</span></td></tr>`).join("")}</tbody></table></div><p class="src">Chiffrage revu le ${p.checked||"–"}. Une erreur ou un oubli ? <a href="https://github.com/mysteropodes/simulateur-2027/issues/new?template=contester-un-chiffrage.yml&amp;title=${encodeURIComponent("["+p.name+"] ")}" target="_blank" rel="noopener">Contester ou compléter ce chiffrage</a>.</p><p class="src">Sources : ${p.sources.map(([t,u])=>`<a href="${u}" target="_blank" rel="noopener">${t}</a>`).join(" · ")}</p><h3>Répartition de l'effort et effet sur l'activité</h3>${compTable(p)}</div>
       <div class="sliders">${PS.map(([k,l,mn,mx,st])=>`<div class="sl"><label for="${p.id}-${k}">${l} <output id="o-${p.id}-${k}"></output></label><input type="range" id="${p.id}-${k}" min="${mn}" max="${mx}" step="${st}"></div>`).join("")}</div></div>`;
@@ -689,7 +710,7 @@ openBtn.onclick=()=>openDrawer(); document.getElementById("closeHyp").onclick=cl
 drawer.querySelectorAll("[data-dtab]").forEach(b=>b.onclick=()=>setDTab(b.dataset.dtab));
 document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!drawer.hidden) closeDrawer();});
 // Pastilles du scénario en cours (un clic ouvre le panneau)
-const MODELAB={annonce:"Tel qu'annoncé",credible:"Si élu, chiffrage crédible",pondere:"Pondéré par la faisabilité"};
+const MODELAB={annonce:"Tel qu'annoncé",credible:"Si élu, chiffrage crédible",audit:"Programme complet (audit)",pondere:"Pondéré par la faisabilité"};
 const PRESETLAB={keynes:"Keynésienne",central:"Centrale",liberal:"Libérale",historique:"Fondée sur l'historique"};
 // Scénario en cours : trois menus déroulants dans la barre du haut ; le choix s'applique tout de suite, avec un message de confirmation
 const SCEN=[["mode","Application",()=>mode,"credible",MODELAB],["preset","Lecture",()=>preset,"central",PRESETLAB],["shock","Choc",()=>BASE.shock,"none",null]];
@@ -759,7 +780,7 @@ document.getElementById("share").onclick=async()=>{
 encodeStateDefault=encodeState();
 if(decodeState(location.hash)){syncSeg("mode",mode);syncSeg("preset",preset);document.getElementById("presethelp").textContent=PRESETHELP[preset];
   themeIdx=Math.max(0,themeOf(metric)); buildMetricButtons();}
-bindGlobals(); buildCands(); buildGrid(); fillMultTable(); render();
+bindGlobals(); buildCands(); buildAuditTab(); buildGrid(); fillMultTable(); render();
 
 // Conséquences concrètes : tension sociale forte et crise de financement, par programme (calculées à chaque changement de réglage)
 function buildConseq(res){

@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : audit du coût des programmes complets
+
+- `src/audit_data.js` : mesures annoncées non comptées, par candidat, avec coût central, fourchette, clé ménages ou poste budgétaire, sources et méthode ; rachats d'entreprises à part (dette sans déficit). Totaux nets (Md€ par an) : Mélenchon 161,8 (85 à 268), Le Pen 36,5 (12 à 74), Philippe 10,9 (−2 à 38), Glucksmann 7 (4 à 14), Retailleau 6 (3 à 13), Attal 3,6 (2 à 8), candidat fictif 0.
+- `simulate` : mode `audit` = chiffrage crédible + ces mesures (ajoutées aux mesures ménages ou aux postes, effort annoncé A réduit d'autant pour qu'elles creusent le déficit) ; `debtOp` ajouté à la dette en 2028. Les autres modes sont inchangés (59 contrôles de non-régression).
+- Interface : bouton « Programme complet (audit) » ; tableau de synthèse et détail dans chaque fiche.
+- `tests/audit.js` : risque de crise et dette, chiffrage crédible puis programme complet (Mélenchon 39 → 75 % avant 2032, dette médiane 2036 166 → 176 % ; Le Pen 30 → 37 %, 162 → 169 % ; autres +0 à 2 points).
+- `docs/audit.md` : grille, mesures, sources, limites.
+
 ## 8 novembre 2026 : qui pourrait gouverner ?
 
 - Onglet « Changer les règles du jeu », section 12 (`src/parl.js`, `src/parl_data.js`) : hémicycle de l'Assemblée au 30 octobre 2026 et tableau par candidat (camp, manque pour 289, censure possible) ; législatives 1958-2024 par bloc (ParlGov, ministère de l'Intérieur) ; camp du gouvernement après chaque législative ; nombre effectif de blocs (voix 1,9 → 3,7 ; sièges 1,3 → 3,8) ; voix et sièges en 2024 ; coefficients de report 2022 et 2024.
