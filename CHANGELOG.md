@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : programme de Mélenchon du 7 novembre
+
+- Fiche `melenchon` (`checked` 8 novembre 2026) : programme présenté au Bourget (L'Avenir en commun, 1 069 mesures dont 238 nouvelles), chiffrage complet annoncé pour début 2027. Montants et réglages inchangés (contre-budget du 14 octobre), résultats identiques.
+- Mesures : révision du traité et des statuts de la BCE (achat direct de dette, interdiction de revente ; unanimité requise) ; moratoire européen voté par le Parlement (libre circulation des marchandises et des capitaux, concurrence dans les services publics, libre-échange). Liste « annoncés sans chiffrage » : blocage des prix, indexation des salaires, cotisations sur les revenus du capital, aides conditionnées ; objectifs climat repoussés notés sans effet. Sources : LCP (6 novembre), L'Essentiel de l'Éco (8 novembre).
+
 ## 7 novembre 2026 : écart de taux → crédit → croissance
 
 - `simulate` : `finG = −spreadGdp × (min(écart de l'année précédente, seuil de crise) − 1,5)`, ajouté à l'écart de production à partir de 2028, sauf les trois années qui suivent une crise ; `spreadGdp` 0,1 (−0,2 % de PIB à l'équilibre par point). Sources : Albertazzi et al. (Banque d'Italie, 2012), FMI rapport pays n° 19/40 (Italie). Effets (lecture centrale) : croissance 2027-2031 Mélenchon 1,13 → 1,07, Le Pen 0,85 → 0,81 ; dette 2046 hors crise +8 à +18 points ; crise avant 2032 +0 à +1 point.
