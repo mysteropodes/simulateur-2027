@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : promesses non financées, des deux côtés
+
+- Fiches candidats : graphique et tableau des trois écarts entre l'annonce et un chiffrage vérifiable, calculés par le modèle (aux réglages par défaut, sans crise) : effort « tel qu'annoncé » moins effort « crédible » (recettes et économies non retrouvées, fuite fiscale, dépenses sous-estimées `spendOver`), plus l'audit (montant net déclaré). Mélenchon ≈ 241 Md€ par an, Philippe ≈ 140, Attal ≈ 129, Le Pen ≈ 128, Retailleau ≈ 87, Glucksmann ≈ 26, candidat fictif ≈ 24. Affichage seulement : aucun calcul ne change.
+
 ## 8 novembre 2026 : audit du coût des programmes complets
 
 - `src/audit_data.js` : mesures annoncées non comptées, par candidat, avec coût central, fourchette, clé ménages ou poste budgétaire, sources et méthode ; rachats d'entreprises à part (dette sans déficit). Totaux nets (Md€ par an) : Mélenchon 166,8 (93 à 271), Le Pen 36,5 (12 à 74), Philippe 10,9 (−2 à 38), Glucksmann 7 (4 à 14), Retailleau 6 (3 à 13), Attal 3,6 (2 à 8), candidat fictif 0.

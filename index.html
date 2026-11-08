@@ -486,9 +486,11 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
   <section aria-labelledby="h-cands" style="display:grid;gap:12px">
     <h2 id="h-cands">Programmes et réglages par candidat</h2>
     <div class="panel" style="display:grid;gap:8px">
-      <h3 style="margin:0">Audit : le coût des programmes complets</h3>
-      <p class="help">Les montants du simulateur sont ceux que chaque candidat chiffre, corrigés par des chiffrages indépendants. Les programmes contiennent aussi des mesures annoncées sans coût : elles ne sont pas comptées, même règle pour tous. L'audit les chiffre une par une avec des sources publiques (Insee, Cour des comptes, Institut Montaigne, iFRAP, HCAAM), sur la même grille pour tous : mesures dont l'effet peut dépasser ≈ 1 Md€ par an, coût en fin de mandat, lecture la moins coûteuse quand une mesure est ambiguë. Elles entrent dans le calcul avec la lecture « Programme complet (audit) » (réglages, Application des programmes). Le détail, mesure par mesure, est dans chaque fiche.</p>
+      <h3 style="margin:0">Promesses non financées : ce que chaque programme annonce sans le financer</h3>
+      <p class="help">Trois écarts entre l'annonce et un chiffrage vérifiable, en Md€ par an en fin de mandat, avec les mêmes règles pour tous : les <b>recettes et économies annoncées</b> (ou impliquées par la cible de déficit) qu'un chiffrage indépendant ne retrouve pas, et les recettes sur les plus aisés perdues par la fuite fiscale ; les <b>dépenses</b> qu'un chiffrage indépendant estime plus chères que l'annonce ; les <b>mesures du programme annoncées sans coût</b>, chiffrées par l'audit avec des sources publiques (Insee, Cour des comptes, Institut Montaigne, iFRAP, HCAAM) : mesures dont l'effet peut dépasser ≈ 1 Md€ par an, lecture la moins coûteuse quand une mesure est ambiguë. Les deux premiers écarts sont déjà dans la lecture « Si élu, chiffrage crédible » ; le troisième s'y ajoute dans la lecture « Programme complet (audit) » (réglages, Application des programmes). Le détail, mesure par mesure, est dans chaque fiche.</p>
+      <div style="position:relative;height:320px"><canvas id="auditChart" aria-label="Promesses non financées par candidat, en Md€ par an : recettes et économies non retrouvées, dépenses sous-estimées, mesures non chiffrées"></canvas></div>
       <div id="auditTab"></div>
+      <p class="help">Lecture : la gauche promet surtout des dépenses que son chiffrage ne couvre pas ; le centre et la droite, surtout des économies que personne ne retrouve dans le détail de leurs mesures. Pour Attal, Philippe et Retailleau, l'effort annoncé est celui que suppose leur cible de déficit (règle commune). Calcul aux réglages par défaut.</p>
       <p class="help">Le nombre de mesures retenues dépend de la taille des programmes : le livre de La France insoumise compte 1 069 mesures, les autres programmes publiés de quelques dizaines à une centaine. Un programme écrit appliqué en entier est un cas limite : en moyenne, environ la moitié des promesses sont tenues.</p>
     </div>
     <div class="cands" id="cands"></div>
@@ -1124,6 +1126,7 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>8 novembre 2026 : promesses non financées, des deux côtés.</strong> L'onglet Fiches candidats montre désormais, pour chaque programme, les trois écarts entre l'annonce et un chiffrage vérifiable : recettes et économies annoncées non retrouvées (et recettes perdues par la fuite fiscale), dépenses sous-estimées, mesures non chiffrées (audit). Total, Md€ par an en fin de mandat (réglages par défaut) : Mélenchon ≈ 241 (dont 167 de mesures non chiffrées), Philippe ≈ 140 (dont 129 d'économies non retrouvées), Attal ≈ 129, Le Pen ≈ 128, Retailleau ≈ 87, Glucksmann ≈ 26, candidat fictif ≈ 24. La gauche promet surtout des dépenses non couvertes, le centre et la droite surtout des économies introuvables. Calculs inchangés : les deux premiers écarts étaient déjà dans la lecture crédible.</li>
       <li><strong>8 novembre 2026 : audit du coût des programmes complets.</strong> Les programmes contiennent des mesures annoncées sans coût, jusqu'ici listées mais non comptées (même règle pour tous). Elles sont désormais chiffrées une par une avec des sources publiques, sur la même grille pour tous (mesures dont l'effet peut dépasser ≈ 1 Md€ par an, coût en fin de mandat, lecture la moins coûteuse quand une mesure est ambiguë), et comptées dans une nouvelle lecture, « Programme complet (audit) ». Total net par an : Mélenchon +167 Md€ (93 à 271 ; livre de 1 069 mesures, dont garantie d'autonomie pour tous, retraite à 60 ans, « 100 % Sécu », service citoyen payé au Smic), Le Pen +37 (12 à 74), Philippe +11, Glucksmann +7, Retailleau +6, Attal +4 ; rachats d'entreprises comptés en dette seulement (Mélenchon ≈ 85 Md€, Le Pen ≈ 35). Risque de crise avant 2032, chiffrage crédible puis programme complet : Mélenchon 39 → 75 %, Le Pen 30 → 37 %, les autres +0 à 2 points. Les lectures existantes ne changent pas.</li>
       <li><strong>8 novembre 2026 : qui pourrait gouverner ?</strong> Nouvelle section 12 dans l'onglet « Changer les règles du jeu ». L'Assemblée telle qu'elle est (groupes au 30 octobre 2026) et ce qui manque à chaque candidat pour 289 sièges ; 66 ans de législatives (voix et sièges par bloc, camp du gouvernement, nombre effectif de blocs : de 2 à 3,8 dans les sièges) ; voix et sièges en 2024 ; reports de voix entre 2022 et 2024. Un calculateur de sièges sans sondage : premier tour réel de 2024 dans les 577 circonscriptions, hypothèses choisies par le visiteur (élan du camp présidentiel, gauche unie ou divisée, alliance de LR, intensité du barrage contre le RN), second tour calé sur les vrais seconds tours de 2022 et 2024. Réglages par défaut : il retrouve 2024 à quelques sièges près (gauche 189 contre 191, centre 167 contre 165, LR 66, RN 143) et le bon vainqueur dans 546 circonscriptions sur 577. Les résultats économiques du simulateur ne changent pas.</li>
       <li><strong>8 novembre 2026 : désobéir de l'intérieur, testé.</strong> L'encadré « Les solutions BCE de LFI à l'épreuve du simulateur » ajoute huit scénarios pour la stratégie de LFI dans l'euro : désobéissance telle que modélisée, refus du plan d'aide, protection de la BCE malgré le conflit (« trop gros pour tomber »), sanctions européennes, alliés, escalade sur les capitaux. Tout dépend de la BCE : si elle protège la France, aucune crise de marché (0 %) ; sinon, 39 % de risque avant 2032 contre 21 % sans conflit. Deux options de calcul ajoutées, désactivées par défaut : résultats publiés inchangés.</li>
@@ -2400,14 +2403,37 @@ function auditHTML(p){
   const d=a.debt?`<p class="src"><b>Opération financière, hors déficit :</b> ${a.debt[0]}, ≈ ${fmt(a.debt[1],0)} Md€ de dette en plus (${fmt(a.debt[2],0)} à ${fmt(a.debt[3],0)}). ${a.debt[5]} Sources : ${auditSrc(a.debt[4])}.</p>`:"";
   return `<section class="psec"><h4>Audit : mesures du programme non comptées</h4><p class="src">Coût annuel en fin de mandat, en Md€ (+ = coût, − = recette). Total net : <b>${n>0?"+":""}${f(n)} Md€ par an</b> (${f(lo)} à ${f(hi)}), soit ≈ ${fmt(n/(p.gdpRef||3400)*100,1)} point${n/(p.gdpRef||3400)*100>=2?"s":""} de PIB. Compté seulement dans la lecture « Programme complet (audit) ».</p><ul class="plist">${rows}</ul>${d}</section>`;
 }
+// promesses non financées, des deux côtés : recettes et économies annoncées non retrouvées, dépenses sous-estimées (lecture crédible), mesures non chiffrées (audit)
+let AUD_GAP=null, audChart=null;
+function auditGaps(){
+  if(AUD_GAP) return AUD_GAP;
+  const B=Object.assign({},BASE0,{noCrisis:1}); AUD_GAP=[];
+  for(const c of CANDS0){ if(c.id==="statu"||c.id==="gov") continue;
+    const GP=c.gdpRef||B.gdpProg||B.gdpMd, an=simulate(c,"annonce",B), cr=simulate(c,"credible",B);
+    const cred=(an.progFull-cr.progFull)*GP/100, over=c.spendOver||0, aud=typeof auditNet==="function"?auditNet(c.id,1):0; // audit : montant net déclaré, comme dans les fiches
+    AUD_GAP.push({id:c.id,name:c.name,rev:Math.max(0,cred-over),over,aud,tot:cred+aud,gp:GP});}
+  AUD_GAP.sort((a,b)=>b.tot-a.tot); return AUD_GAP;
+}
 function buildAuditTab(){
   const el=document.getElementById("auditTab"); if(!el||typeof AUDIT==="undefined") return;
-  const f=x=>(x<0?"−":x>0?"+":"")+fmt(Math.abs(x),0);
-  const L=CANDS0.filter(c=>c.id!=="statu"&&c.id!=="gov").map(c=>{const a=AUDIT[c.id];
-    if(!a) return `<tr><td>${c.name}</td><td>0</td><td>—</td><td>—</td><td style="white-space:normal;text-align:left">Pas de mesure non comptée (candidat fictif).</td></tr>`;
-    const top=a.items.filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]).slice(0,3).map(x=>x[0].split(/[:,(]/)[0].trim()).join(" ; ");
-    return `<tr><td>${c.name}</td><td>${a.items.length}</td><td><b>${f(auditNet(c.id,1))}</b></td><td>${f(auditNet(c.id,2))} à ${f(auditNet(c.id,3))}</td><td style="white-space:normal;text-align:left">${top}${a.debt?` ; hors déficit : ${a.debt[0].split(/[:(]/)[0].trim().toLowerCase()} (≈ ${fmt(a.debt[1],0)} Md€ de dette)`:""}</td></tr>`;});
-  el.innerHTML=`<div class="tablewrap"><table class="mini"><thead><tr><th>Candidat</th><th>Mesures</th><th>Net, Md€ par an</th><th>Fourchette</th><th style="text-align:left">Principales</th></tr></thead><tbody>${L.join("")}</tbody></table></div>`;
+  const f=x=>fmt(Math.abs(x)<0.5?0:x,0), G=auditGaps();
+  const L=G.map(g=>{const a=AUDIT[g.id];
+    const top=a?a.items.filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]).slice(0,3).map(x=>x[0].split(/[:,(]/)[0].trim()).join(" ; ")+(a.debt?` ; hors déficit : ${a.debt[0].split(/[:(]/)[0].trim().toLowerCase()} (≈ ${fmt(a.debt[1],0)} Md€ de dette)`:""):"Aucune (candidat fictif : toutes ses mesures sont chiffrées).";
+    return `<tr><td>${g.name}</td><td>${f(g.rev)}</td><td>${f(g.over)}</td><td>${f(g.aud)}${a?` <span style="color:var(--muted)">(${fmt(auditNet(g.id,2),0)} à ${fmt(auditNet(g.id,3),0)})</span>`:""}</td><td><b>${f(g.tot)}</b></td><td>${fmt(g.tot/g.gp*100,1)}</td><td style="white-space:normal;text-align:left">${top}</td></tr>`;});
+  el.innerHTML=`<div class="tablewrap"><table class="mini"><thead><tr><th>Candidat</th><th>Recettes et économies non retrouvées</th><th>Dépenses sous-estimées</th><th>Mesures non chiffrées (audit)</th><th>Total, Md€ par an</th><th>Points de PIB</th><th style="text-align:left">Mesures non chiffrées les plus lourdes</th></tr></thead><tbody>${L.join("")}</tbody></table></div>`;
+  buildAuditChart();
+}
+function buildAuditChart(){
+  const cv=document.getElementById("auditChart"); if(!cv||typeof Chart==="undefined") return;
+  const G=auditGaps();
+  if(audChart) audChart.destroy();
+  audChart=new Chart(cv,{type:"bar",data:{labels:G.map(g=>g.name),datasets:[
+    {label:"Recettes et économies annoncées, non retrouvées",data:G.map(g=>+g.rev.toFixed(1)),backgroundColor:css("--c0")},
+    {label:"Dépenses chiffrées au-dessus de l'annonce",data:G.map(g=>+g.over.toFixed(1)),backgroundColor:css("--c8")},
+    {label:"Mesures du programme non chiffrées (audit)",data:G.map(g=>+g.aud.toFixed(1)),backgroundColor:css("--accent")}]},
+   options:{indexAxis:"y",responsive:true,maintainAspectRatio:false,animation:false,
+    plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}},tooltip:{callbacks:{label:c=>` ${c.dataset.label} : ${fmt(c.raw,0)} Md€`,footer:items=>{const g=G.at(items.at(0).dataIndex);return `Total : ${fmt(g.tot,0)} Md€ par an (${fmt(g.tot/g.gp*100,1)} point de PIB)`;}}}},
+    scales:{x:{stacked:true,title:{display:true,text:"Md€ par an, en fin de mandat",color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{stacked:true,ticks:{color:css("--ink")},grid:{display:false}}}}});
 }
 function buildCands(){
   const box=document.getElementById("cands"); box.innerHTML="";
@@ -2727,6 +2753,7 @@ function showView(id,noScroll){
   if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);}
   else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);}
   else if(id==="atlas"){setTimeout(()=>{if(typeof buildAtlas==="function") buildAtlas();},30);}
+  else if(id==="cands"){setTimeout(()=>{if(typeof buildAuditChart==="function") buildAuditChart();},30);}
   else if(id==="overview"&&chart) chart.resize();
   const mb=document.querySelector(`.mnav [data-go="${id}"]`); if(mb) mb.scrollIntoView({block:"nearest",inline:"center"});
   if(!noScroll) window.scrollTo({top:0});
