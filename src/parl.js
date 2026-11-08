@@ -43,7 +43,7 @@ function pPrep(st){
   const T=pTarget(st);
   if(T&&st.bonus){
     let S=0,N=0; for(const o of out) for(const c of o.cs){N+=c.v; if(T.includes(c.b)) S+=c.v;}
-    S/=N; const b=Math.max(-S+0.01,st.bonus/100), fT=(S+b)/S, fO=(1-S-b)/(1-S);
+    S/=N; const b=Math.min(0.95-S,Math.max(-S+0.01,st.bonus/100)), fT=(S+b)/S, fO=(1-S-b)/(1-S);
     for(const o of out) for(const c of o.cs) c.v*=T.includes(c.b)?fT:fO;
   }
   if(st.lr==="centre"||st.lr==="rn"){

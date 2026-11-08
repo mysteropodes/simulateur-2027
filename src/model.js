@@ -101,8 +101,9 @@ function budLayer(b){
 function auditVariant(p,b){
   const a=(typeof AUDIT!=="undefined")?AUDIT[p.id]:null; if(!a) return p;
   const GP=p.gdpRef||b.gdpProg||b.gdpMd, pm=(p.paMeasures||[]).slice(), ci=(p.compItems||[]).slice(); let net=0;
-  for(const [lab,md,,,k,cat] of a.items){ net+=md; if(k) pm.push([lab,md,k,"audit","audit",cat||undefined]); else ci.push([cat||"fonct",md]); }
-  const q=Object.assign({},p,{paMeasures:pm,compItems:ci,A:(p.A||0)-net/GP*100,debtOp:a.debt?a.debt[1]:0});
+  let netTax=0; // mesures d'impôt : retirées aussi de taxMd, sinon le reste « non détaillé » des impôts annoncés les compenserait
+  for(const [lab,md,,,k,cat] of a.items){ net+=md; const c2=cat||(k==="ir"?"ir":KEYCAT[k]); if(c2==="ir"||TAXCAT[c2]) netTax+=md; if(k) pm.push([lab,md,k,"audit","audit",cat||undefined]); else ci.push([cat||"fonct",md]); }
+  const q=Object.assign({},p,{paMeasures:pm,compItems:ci,A:(p.A||0)-net/GP*100,taxMd:(p.taxMd||0)-netTax,debtOp:a.debt?a.debt[1]:0});
   if(typeof topFlows==="function") Object.assign(q,topFlows(pm));
   return q;
 }

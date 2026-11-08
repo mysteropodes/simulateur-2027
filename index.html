@@ -1569,8 +1569,9 @@ function budLayer(b){
 function auditVariant(p,b){
   const a=(typeof AUDIT!=="undefined")?AUDIT[p.id]:null; if(!a) return p;
   const GP=p.gdpRef||b.gdpProg||b.gdpMd, pm=(p.paMeasures||[]).slice(), ci=(p.compItems||[]).slice(); let net=0;
-  for(const [lab,md,,,k,cat] of a.items){ net+=md; if(k) pm.push([lab,md,k,"audit","audit",cat||undefined]); else ci.push([cat||"fonct",md]); }
-  const q=Object.assign({},p,{paMeasures:pm,compItems:ci,A:(p.A||0)-net/GP*100,debtOp:a.debt?a.debt[1]:0});
+  let netTax=0; // mesures d'impôt : retirées aussi de taxMd, sinon le reste « non détaillé » des impôts annoncés les compenserait
+  for(const [lab,md,,,k,cat] of a.items){ net+=md; const c2=cat||(k==="ir"?"ir":KEYCAT[k]); if(c2==="ir"||TAXCAT[c2]) netTax+=md; if(k) pm.push([lab,md,k,"audit","audit",cat||undefined]); else ci.push([cat||"fonct",md]); }
+  const q=Object.assign({},p,{paMeasures:pm,compItems:ci,A:(p.A||0)-net/GP*100,taxMd:(p.taxMd||0)-netTax,debtOp:a.debt?a.debt[1]:0});
   if(typeof topFlows==="function") Object.assign(q,topFlows(pm));
   return q;
 }
@@ -2401,7 +2402,7 @@ function auditHTML(p){
   const rows=a.items.map(([l,c,lo,hi,,,src,m])=>`<li><div class="pl">${l}</div><span class="pamt ${c>0?"down":c<0?"up":""}"><b>${c>0?"+":""}${f(c)} Md€</b> <span style="color:var(--muted);font-weight:400">(${f(lo)} à ${f(hi)})</span></span><div class="pn">${m} Sources : ${auditSrc(src)}.</div></li>`).join("");
   const n=auditNet(p.id,1), lo=auditNet(p.id,2), hi=auditNet(p.id,3);
   const d=a.debt?`<p class="src"><b>Opération financière, hors déficit :</b> ${a.debt[0]}, ≈ ${fmt(a.debt[1],0)} Md€ de dette en plus (${fmt(a.debt[2],0)} à ${fmt(a.debt[3],0)}). ${a.debt[5]} Sources : ${auditSrc(a.debt[4])}.</p>`:"";
-  return `<section class="psec"><h4>Audit : mesures du programme non comptées</h4><p class="src">Coût annuel en fin de mandat, en Md€ (+ = coût, − = recette). Total net : <b>${n>0?"+":""}${f(n)} Md€ par an</b> (${f(lo)} à ${f(hi)}), soit ≈ ${fmt(n/(p.gdpRef||3400)*100,1)} point${n/(p.gdpRef||3400)*100>=2?"s":""} de PIB. Compté seulement dans la lecture « Programme complet (audit) ».</p><ul class="plist">${rows}</ul>${d}</section>`;
+  return `<section class="psec"><h4>Audit : mesures du programme non comptées</h4><p class="src">Coût annuel en fin de mandat, en Md€ (+ = coût, − = recette). Total net : <b>${n>0?"+":""}${f(n)} Md€ par an</b> (${f(lo)} à ${f(hi)}), soit ≈ ${fmt(n/(p.gdpRef||BASE0.gdpProg)*100,1)} point${n/(p.gdpRef||BASE0.gdpProg)*100>=2?"s":""} de PIB. Compté seulement dans la lecture « Programme complet (audit) ».</p><ul class="plist">${rows}</ul>${d}</section>`;
 }
 // promesses non financées, des deux côtés : recettes et économies annoncées non retrouvées, dépenses sous-estimées (lecture crédible), mesures non chiffrées (audit)
 let AUD_GAP=null, audChart=null;
@@ -3218,7 +3219,7 @@ function defDraw(){
   if(!defWired){defWired=true;
     document.querySelectorAll("[data-di]").forEach(x=>x.onclick=()=>{defInd=x.dataset.di;document.querySelectorAll("[data-di]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.di===defInd));defDraw();});
     document.querySelectorAll("[data-dr]").forEach(x=>x.onclick=()=>{defRd=x.dataset.dr;document.querySelectorAll("[data-dr]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.dr===defRd));defDraw();});}
-  const B=Object.assign({},BASE0,PRESETS[defRd],{noCrisis:0}), ys=[]; // ici, la crise est le sujet : elle est affichée for(let y=2025;y<=2046;y++) ys.push(y);
+  const B=Object.assign({},BASE0,PRESETS[defRd],{noCrisis:0}), ys=[]; for(let y=2025;y<=2046;y++) ys.push(y); // ici, la crise est le sujet : elle est affichée
   const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS0.find(c=>c.id==="melenchon"), ia=CANDS0.find(c=>c.id==="ia");
   const s0=simulate(st,"credible",B);
   const ser=r=>defInd==="pov"?r.pov.map(v=>+v.toFixed(1)):defInd==="debt"?r.debt.map(v=>+v.toFixed(0)):r.pa.mod.map((v,i)=>+((v/s0.pa.mod[i]-1)*100).toFixed(1));
@@ -3277,7 +3278,7 @@ function pPrep(st){
   const T=pTarget(st);
   if(T&&st.bonus){
     let S=0,N=0; for(const o of out) for(const c of o.cs){N+=c.v; if(T.includes(c.b)) S+=c.v;}
-    S/=N; const b=Math.max(-S+0.01,st.bonus/100), fT=(S+b)/S, fO=(1-S-b)/(1-S);
+    S/=N; const b=Math.min(0.95-S,Math.max(-S+0.01,st.bonus/100)), fT=(S+b)/S, fO=(1-S-b)/(1-S);
     for(const o of out) for(const c of o.cs) c.v*=T.includes(c.b)?fT:fO;
   }
   if(st.lr==="centre"||st.lr==="rn"){

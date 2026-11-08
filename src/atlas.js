@@ -261,7 +261,7 @@ function defDraw(){
   if(!defWired){defWired=true;
     document.querySelectorAll("[data-di]").forEach(x=>x.onclick=()=>{defInd=x.dataset.di;document.querySelectorAll("[data-di]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.di===defInd));defDraw();});
     document.querySelectorAll("[data-dr]").forEach(x=>x.onclick=()=>{defRd=x.dataset.dr;document.querySelectorAll("[data-dr]").forEach(y=>y.setAttribute("aria-pressed",y.dataset.dr===defRd));defDraw();});}
-  const B=Object.assign({},BASE0,PRESETS[defRd],{noCrisis:0}), ys=[]; // ici, la crise est le sujet : elle est affichée for(let y=2025;y<=2046;y++) ys.push(y);
+  const B=Object.assign({},BASE0,PRESETS[defRd],{noCrisis:0}), ys=[]; for(let y=2025;y<=2046;y++) ys.push(y); // ici, la crise est le sujet : elle est affichée
   const st=CANDS0.find(c=>c.id==="statu"), ml=CANDS0.find(c=>c.id==="melenchon"), ia=CANDS0.find(c=>c.id==="ia");
   const s0=simulate(st,"credible",B);
   const ser=r=>defInd==="pov"?r.pov.map(v=>+v.toFixed(1)):defInd==="debt"?r.debt.map(v=>+v.toFixed(0)):r.pa.mod.map((v,i)=>+((v/s0.pa.mod[i]-1)*100).toFixed(1));
