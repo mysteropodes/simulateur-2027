@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Informations » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 8 novembre 2026 : désobéir de l'intérieur
+
+- `simulate` : options `ecbProtect` (écart de taux plafonné à cette valeur malgré le conflit, dès 2027) et `sanction` (points de PIB ajoutés au déficit primaire, 2028-2031), désactivées par défaut ; résultats publiés inchangés.
+- `tests/bce-scenarios.js` : second tableau (désobéissance telle que modélisée 39 / 95 % ; refus du plan d'aide 39 / 95 %, pauvreté 2040 15,1 % au lieu de 16,3 ; « trop gros pour tomber » 0 / 0 %, dette 2046 206 à 227 % ; sanctions 0,35 point 41 / 96 % ; alliés 40 % 30 / 93 % ; escalade 57 / 96 % ; référence sans conflit 21 / 92 %).
+- Encadré BCE : tableau, lecture, arguments pour et contre (2003-2004, TPI, Grèce 2015, Hongrie), sources.
+
 ## 8 novembre 2026 : section « défaut » remise à jour
 
 - `body.part`, section 11 : texte fixe aligné sur le modèle actuel (lecture centrale, Mélenchon) : crise sans défaut 2037 → 2035, croisement des courbes 2038 → 2037, creux des ménages modestes sans défaut −17 % vers 2043 → −13 % vers 2039, statu quo en crise 2044 → 2039, lecture libérale 2030 → 2029, dette 2046 222/121 → 208/122 %, pauvreté moyenne 15,3/15,9 → 15,5/15,9 % (libérale 16,5/16,1 → 16,7/16,2 %).
