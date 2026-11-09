@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 9 novembre 2026 : quiz refondu sur le modèle du Wahl-O-Mat
+
+- `src/quiz.js` réécrit : douze affirmations, trois réponses plus « passer » et « compte double », score façon Wahl-O-Mat, matrice candidats × affirmations, position chiffrée de chaque programme avec son libellé de mesure.
+- Pédagogie : chaque affirmation affiche ses conséquences simulées (budget, dette 2036, pauvreté 2032, pouvoir d'achat, chômage, CO₂) sur une France sans mesure nouvelle ; « votre programme » chiffre l'ensemble des affirmations acceptées (100 tirages, risque de crise).
+- Les coûts viennent des chiffrages des programmes quand ils existent, sinon ce sont des ordres de grandeur du quiz, signalés comme tels.
+- `tests/quiz.js` réécrit (parcours, passes, double, profils gauche/droite, mobile).
+
 ## 9 novembre 2026 : quiz « quel programme vous ressemble ? »
 
 - Nouvelle vue `quiz` (`src/quiz.js`, branchée dans `build.py`) : huit thèmes, importance par thème, trois programmes les plus proches avec accord par sujet et projection (`MC.rows`, `LASTRES`). Positions tirées des paramètres des programmes (`ageShift`, `spServ`, `climInv`, `migDelta`, `A`, `defense`) et des effets calculés sur les revenus (`pa.mod`, `pa.top`). Ordre des réponses aléatoire, sans enregistrement ni envoi.
