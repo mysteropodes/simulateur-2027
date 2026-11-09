@@ -197,6 +197,7 @@ tests/regression.js       test de non-régression : chiffres publiés et règles
 tests/bce-scenarios.js    scénarios BCE de LFI (gel, annulation, traité révisé) de l'encadré dédié
 tests/audit.js            lecture « Programme complet (audit) » : risque de crise et dette par candidat
 tests/robust.js           conclusions solides (« Ce qu'il faut retenir ») sur 400 tirages
+tests/defcmp.js           défaut rapide ou austérité étalée (atlas, section 11), trois lectures
 tests/parl.js             calculateur de sièges : rejoue 2024, contrefactuel sans barrage, sens des curseurs
 ```
 

@@ -271,3 +271,25 @@ function defDraw(){
   if(defChart) defChart.destroy();
   defChart=new Chart(cv,{type:"line",data:{labels:ys,datasets:ds},options:{responsive:true,maintainAspectRatio:false,animation:false,interaction:{mode:"index",intersect:false},plugins:{legend:{position:"bottom",labels:{color:css("--muted"),boxWidth:12}}},scales:{x:{ticks:{color:css("--muted")},grid:{color:css("--line")}},y:{title:{display:true,text:yt,color:css("--muted")},ticks:{color:css("--muted")},grid:{color:css("--line")}}}}});
 }
+
+// Défaut rapide ou austérité étalée : six scénarios sur les tirages du site (makeDraws/simDraw), calcul à la demande
+let defCmpOn=false;
+function defCmpCalc(){
+  const tb=document.querySelector("#defCmp tbody"); if(!tb||typeof makeDraws!=="function") return;
+  defCmpOn=true; tb.innerHTML='<tr><td colspan="8">Calcul en cours…</td></tr>';
+  setTimeout(()=>{
+    const md0=mode; mode="credible"; const yi=t=>t-2025, C=id=>CANDS0.find(c=>c.id===id);
+    const sc=[["Statu quo",C("statu")],["Gouvernement (austérité étalée)",C("gov")],["Statu quo + défaut en 2028",Object.assign({},C("statu"),{defaut:0.3})],
+      ["Mélenchon, crise subie",C("melenchon")],["Mélenchon + défaut en 2028",Object.assign({},C("melenchon"),{defaut:0.3})],["Mélenchon + défaut en 2030",Object.assign({},C("melenchon"),{defaut:0.3,defautYear:2030})]];
+    const draws=makeDraws(Object.assign({},BASE0,PRESETS[defRd],{noCrisis:0})), med=a=>{const s=[...a].sort((x,y)=>x-y);return s[Math.floor(s.length/2)];};
+    const avg=(a,y0,y1)=>{let s=0;for(let t=y0;t<=y1;t++)s+=a[yi(t)];return s/(y1-y0+1);};
+    const base=draws.map(d=>simDraw(C("statu"),d)); const rows=[];
+    for(const [n,p] of sc){const R=draws.map(d=>simDraw(p,d));
+      const cum=R.map((r,k)=>{let s=0,s0=0;for(let t=2027;t<=2046;t++){s+=r.pa.mod[yi(t)];s0+=base[k].pa.mod[yi(t)];}return (s/s0-1)*100;});
+      const c=med(cum), sg=c>0.05?"+":c<-0.05?"−":"";
+      rows.push(`<tr><td>${n}</td><td style="text-align:right">${fmt(med(R.map(r=>avg(r.pov,2027,2046))))} %</td><td style="text-align:right">${fmt(med(R.map(r=>Math.max(...r.pov.slice(yi(2027))))))} %</td><td style="text-align:right">${fmt(med(R.map(r=>Math.max(...r.unemp.slice(yi(2027))))))} %</td><td style="text-align:right">${sg}${fmt(Math.abs(c))} %</td><td style="text-align:right">${fmt(med(R.map(r=>r.debt[yi(2046)])),0)} %</td><td style="text-align:right">${fmt(med(R.map(r=>Math.max(...r.tension.slice(yi(2027))))),0)}</td><td style="text-align:right">${Math.round(100*R.filter(r=>r.crisis!==null&&r.crisis<=2032).length/R.length)} %</td></tr>`);}
+    if(typeof setSocialKey==="function") setSocialKey(0.2); mode=md0;
+    tb.innerHTML=rows.join("")+`<tr><td colspan="8" class="help">${{central:"Lecture centrale",keynes:"Lecture keynésienne",liberal:"Lecture libérale"}[defRd]}, ${draws.length} tirages, valeurs médianes.</td></tr>`;
+  },30);
+}
+document.addEventListener("click",e=>{ if(e.target&&e.target.id==="defCmpBtn") defCmpCalc(); if(e.target&&e.target.dataset&&e.target.dataset.dr&&defCmpOn) setTimeout(defCmpCalc,0); });

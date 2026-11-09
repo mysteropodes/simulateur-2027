@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 9 novembre 2026 : défaut rapide ou austérité étalée
+
+- Atlas, section 11 : tableau de six scénarios sur 200 tirages (`makeDraws`/`simDraw`), lecture au choix, calcul à la demande (`defCmpCalc` dans `src/atlas.js`) : pauvreté moyenne 2027-2046, pire année, pic de chômage, revenus cumulés des ménages modestes, dette 2046, tension maximale, crise ou défaut avant 2032.
+- `tests/defcmp.js` (nouveau) : reproduit le tableau pour les trois lectures.
+- Texte de la courbe : le candidat fictif a une crise en 2044 en lecture centrale.
+
 ## 8 novembre 2026 : audit complet du site
 
 - Trois relectures indépendantes : code, chiffres et sources, cohérence et affichage.
