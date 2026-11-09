@@ -56,6 +56,8 @@ const QZ_T=[
   lab:p=>qzLab(p,["capital"],m=>/hérit/i.test(m[0])),
   lever:{p:{},m:[["Taxe sur les très gros héritages (hypothèse du quiz)",-15,"capital","","quiz"]],net:-15},ctx:"Recettes prévues sur les héritages par chaque programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici."}
 ];
+const QZ_COL=["#ff6f61","#5b8fe0","#e9a400","#f08fbd","#22b573"], QZ_GL={ret:"⏳",serv:"🏥",clim:"🌱",mig:"🧳",def:"🛡️",dette:"⚖️",top:"💎",mod:"👛",soc:"🤝",cho:"📄",ent:"🏭",her:"🏛️"};
+const qzCol=i=>QZ_COL[i%QZ_COL.length];
 const QZ_ANS=[[1,"D'accord"],[0,"Neutre"],[-1,"Pas d'accord"]];
 const QZ_NOCOMPLETE={glucksmann:"programme pas encore publié, reconstitué à partir de ses déclarations",lepen:"programme 2027 pas encore publié : positions d'après les 22 mesures annoncées"};
 let QZ={i:-1,ans:{},dbl:{}};
@@ -125,22 +127,24 @@ function qzRender(){
         <li><strong>Mêmes règles pour tous.</strong> La position d'un programme est un chiffre tiré de ses mesures, jamais un jugement. Un sujet absent d'un programme n'est pas compté pour ce programme.</li>
         <li><strong>Rien n'est enregistré ni envoyé.</strong> Vos réponses restent dans cette page.</li>
         <li><strong>Ce n'est pas une consigne de vote.</strong> Le quiz ne couvre que ces ${n} sujets chiffrés : ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions.</li>
-      </ul><button class="btn-primary" id="qzStart" type="button">Commencer</button></div>`;
+      </ul><div class="qz-tiles" aria-hidden="true">${QZ_T.map((t,i)=>`<span style="--tc:${qzCol(i)}"><b>${QZ_GL[t.id]}</b>${qzEsc(t.theme)}</span>`).join("")}</div><button class="btn-primary qz-go" id="qzStart" type="button">Commencer</button></div>`;
     document.getElementById("qzStart").onclick=()=>{QZ={i:0,ans:{},dbl:{}};QZ_FX={};qzRender();window.scrollTo({top:0});};
     return;
   }
   if(QZ.i>=n) return qzResult(box);
   const t=QZ_T[QZ.i], pos=qzPositions(), cur=QZ.ans[t.id], has=Object.prototype.hasOwnProperty.call(QZ.ans,t.id);
-  box.innerHTML=`<div class="qz-q"><div class="qz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="${n}" aria-valuenow="${QZ.i+1}" aria-label="Affirmation ${QZ.i+1} sur ${n}"><i style="width:${Math.round((QZ.i+1)/n*100)}%"></i></div>
-    <p class="qz-step">Affirmation ${QZ.i+1} sur ${n} · ${qzEsc(t.theme)}</p>
-    <fieldset class="qz-fs"><legend>${qzEsc(t.text)}</legend><p class="help">${qzEsc(t.ctx)} ${qzRange(t,pos)}</p>
-    <div class="qz-answers">${QZ_ANS.map(([v,l])=>`<label class="qz-opt" for="qz-${t.id}-${v}"><input type="radio" name="qz-${t.id}" id="qz-${t.id}-${v}" value="${v}"${cur===v?" checked":""}><span>${qzIc(v)}<strong>${l}</strong></span></label>`).join("")}</div>
-    <label class="qz-dbl"><input type="checkbox" id="qzDbl"${QZ.dbl[t.id]?" checked":""}> Cette affirmation compte double pour moi</label></fieldset>
-    <div id="qzFx">${has&&cur!=null?qzFxHtml(t):""}</div>
-    <div class="qz-nav"><button type="button" class="btn-ghost" id="qzBack">${QZ.i?"Précédent":"Retour"}</button><span><button type="button" class="btn-ghost" id="qzSkip">Passer</button> <button type="button" class="btn-primary" id="qzNext"${has?"":" disabled"}>${QZ.i===n-1?"Voir mon résultat":"Suivant"}</button></span></div></div>`;
+  const col=qzCol(QZ.i), pct=Math.round((QZ.i+1)/n*100);
+  box.innerHTML=`<div class="qz-q" style="--tc:${col}"><div class="qz-top"><button type="button" class="qz-x" id="qzBack" aria-label="${QZ.i?"Question précédente":"Retour à l'accueil"}">${QZ.i?"‹":"×"}</button><div class="qz-ring" role="progressbar" aria-valuemin="1" aria-valuemax="${n}" aria-valuenow="${QZ.i+1}" aria-label="Affirmation ${QZ.i+1} sur ${n}" style="--p:${pct}"><span>${String(QZ.i+1).padStart(2,"0")}</span></div><span class="qz-of">/ ${n}</span></div>
+    <div class="qz-bubble" aria-hidden="true">${QZ_GL[t.id]}</div><p class="qz-step">${qzEsc(t.theme)}</p>
+    <fieldset class="qz-fs"><legend>${qzEsc(t.text)}</legend>
+    <div class="qz-answers">${QZ_ANS.map(([v,l])=>`<label class="qz-opt qz-pill" for="qz-${t.id}-${v}"><input type="radio" name="qz-${t.id}" id="qz-${t.id}-${v}" value="${v}"${cur===v?" checked":""}><span>${qzIc(v)}<strong>${l}</strong></span></label>`).join("")}</div>
+    <label class="qz-dbl"><input type="checkbox" id="qzDbl"${QZ.dbl[t.id]?" checked":""}> Cette affirmation compte double pour moi</label>
+    <details class="qz-ctx"><summary>Contexte</summary><p class="help">${qzEsc(t.ctx)} ${qzRange(t,pos)}</p></details></fieldset>
+    <div class="qz-nav"><button type="button" class="btn-ghost" id="qzSkip">Passer</button><button type="button" class="btn-primary" id="qzNext"${has?"":" disabled"}>${QZ.i===n-1?"Voir mon résultat":"Suivant"}</button></div>
+    <div id="qzFx">${has&&cur!=null?qzFxHtml(t):""}</div></div>`;
   box.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{QZ.ans[t.id]=parseInt(r.value,10); document.getElementById("qzNext").disabled=false; document.getElementById("qzFx").innerHTML=qzFxHtml(t);});
   document.getElementById("qzDbl").onchange=e=>{QZ.dbl[t.id]=e.target.checked;};
-  document.getElementById("qzBack").onclick=()=>{QZ.i--; qzRender();};
+  document.getElementById("qzBack").onclick=()=>{if(QZ.i) QZ.i--; else QZ.i=-1; qzRender();};
   document.getElementById("qzSkip").onclick=()=>{QZ.ans[t.id]=null; delete QZ.dbl[t.id]; QZ.i++; qzRender(); window.scrollTo({top:0});};
   document.getElementById("qzNext").onclick=()=>{QZ.i++; qzRender(); window.scrollTo({top:0});};
 }

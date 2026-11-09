@@ -229,6 +229,7 @@ h2{font-size:1.12rem;font-weight:650}
 .qz-fx{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:var(--bg)}
 .qz-fx h4{margin:0 0 8px;font-size:.95rem}
 .qz-fx ul,.qz-mlist{list-style:none;margin:0 0 8px;padding:0;display:grid;gap:6px}
+.qz-fx li span,.qz-mlist li span{flex:1 1 55%}
 .qz-fx li,.qz-mlist li{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;font-size:.9rem}
 .qz-fx li strong,.qz-mlist li strong{text-align:right;font-family:var(--f-data);font-weight:600}
 .qz-ranking{list-style:none;margin:0;padding:0;display:grid;gap:12px}
@@ -249,6 +250,32 @@ h2{font-size:1.12rem;font-weight:650}
 .qz-plist li{display:flex;gap:8px;align-items:flex-start}
 .qz-mine{display:grid;gap:10px;min-width:0}
 .qz-caveat{min-width:0}
+.qz-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:8px}
+.qz-tiles span{background:var(--tc);color:#161616;border-radius:16px;padding:12px 8px;font:700 .8rem var(--f-display);font-stretch:85%;text-transform:uppercase;text-align:center;display:grid;gap:4px}
+.qz-tiles b{font-size:1.5rem;font-weight:400}
+.qz-go{min-height:52px;border-radius:999px;font-size:1rem}
+.qz-top{display:grid;grid-template-columns:44px 1fr 44px;align-items:center}
+.qz-x{width:44px;height:44px;border-radius:50%;border:0;background:transparent;color:var(--muted);font-size:1.8rem;line-height:1;cursor:pointer}
+.qz-ring{justify-self:center;width:56px;height:56px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--tc) calc(var(--p)*1%),var(--surface2) 0)}
+.qz-ring span{width:44px;height:44px;border-radius:50%;background:var(--bg);display:grid;place-items:center;font:700 1rem var(--f-data)}
+.qz-of{color:var(--muted);font-size:.8rem;text-align:right}
+.qz-bubble{justify-self:center;width:132px;height:132px;border-radius:50%;background:var(--tc);display:grid;place-items:center;font-size:3.6rem}
+.qz-step{text-align:center;text-transform:uppercase;letter-spacing:.06em;font-weight:700;color:var(--tc)}
+.qz-q .qz-fs legend{text-align:center;font:700 1.35rem/1.25 var(--f-display);font-stretch:90%;width:100%;margin-bottom:10px}
+.qz-pill{justify-content:center;align-items:center;padding:0 14px;min-height:54px;border-radius:999px;background:var(--surface2);border:2px solid transparent;text-align:center}
+.qz-pill input{position:absolute;opacity:0;width:1px;height:1px}
+.qz-pill span{justify-content:center;margin:0;padding:0}.qz-pill strong{display:inline}
+.qz-pill:has(input:checked){background:var(--tc);border-color:var(--tc);color:#161616}
+.qz-pill:has(input:checked) .qz-ic{background:#161616;color:#fff}
+.qz-pill:has(input:focus-visible){outline:3px solid var(--ink);outline-offset:2px}
+.qz-dbl{justify-content:center}
+.qz-ctx{font-size:.88rem;color:var(--muted)}.qz-ctx summary{cursor:pointer;text-align:center}
+.qz-q .qz-nav{padding:4px 0}
+.qz-q .qz-nav .btn-primary,.qz-q .qz-nav .btn-ghost{min-height:48px;border-radius:999px;padding:0 22px}
+.qz-q .qz-nav .btn-primary{flex:1}
+.qz-rowc{background:color-mix(in srgb,var(--c) 16%,var(--surface2));border-radius:18px;padding:12px 14px}
+.qz-rowc:first-child{background:var(--c);color:#161616}.qz-rowc:first-child .qz-cov,.qz-rowc:first-child .qz-nm small{color:#161616}.qz-rowc:first-child .qz-barw{background:rgba(0,0,0,.2)}.qz-rowc:first-child .qz-barw i{background:#161616}
+.qz-res h2,.qz-intro h2{font-size:1.9rem;text-transform:uppercase;letter-spacing:.01em}
 .qz-banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--line);border-radius:8px;background:var(--accent-soft);margin-bottom:12px}
 @media (max-width:600px){.qz-proj{grid-template-columns:1fr}.qz-proj dd{text-align:left}}
 .btn-primary{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:9px 16px;font:650 13.5px var(--f-body);cursor:pointer}
@@ -3630,6 +3657,8 @@ const QZ_T=[
   lab:p=>qzLab(p,["capital"],m=>/hérit/i.test(m[0])),
   lever:{p:{},m:[["Taxe sur les très gros héritages (hypothèse du quiz)",-15,"capital","","quiz"]],net:-15},ctx:"Recettes prévues sur les héritages par chaque programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici."}
 ];
+const QZ_COL=["#ff6f61","#5b8fe0","#e9a400","#f08fbd","#22b573"], QZ_GL={ret:"⏳",serv:"🏥",clim:"🌱",mig:"🧳",def:"🛡️",dette:"⚖️",top:"💎",mod:"👛",soc:"🤝",cho:"📄",ent:"🏭",her:"🏛️"};
+const qzCol=i=>QZ_COL[i%QZ_COL.length];
 const QZ_ANS=[[1,"D'accord"],[0,"Neutre"],[-1,"Pas d'accord"]];
 const QZ_NOCOMPLETE={glucksmann:"programme pas encore publié, reconstitué à partir de ses déclarations",lepen:"programme 2027 pas encore publié : positions d'après les 22 mesures annoncées"};
 let QZ={i:-1,ans:{},dbl:{}};
@@ -3699,22 +3728,24 @@ function qzRender(){
         <li><strong>Mêmes règles pour tous.</strong> La position d'un programme est un chiffre tiré de ses mesures, jamais un jugement. Un sujet absent d'un programme n'est pas compté pour ce programme.</li>
         <li><strong>Rien n'est enregistré ni envoyé.</strong> Vos réponses restent dans cette page.</li>
         <li><strong>Ce n'est pas une consigne de vote.</strong> Le quiz ne couvre que ces ${n} sujets chiffrés : ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions.</li>
-      </ul><button class="btn-primary" id="qzStart" type="button">Commencer</button></div>`;
+      </ul><div class="qz-tiles" aria-hidden="true">${QZ_T.map((t,i)=>`<span style="--tc:${qzCol(i)}"><b>${QZ_GL[t.id]}</b>${qzEsc(t.theme)}</span>`).join("")}</div><button class="btn-primary qz-go" id="qzStart" type="button">Commencer</button></div>`;
     document.getElementById("qzStart").onclick=()=>{QZ={i:0,ans:{},dbl:{}};QZ_FX={};qzRender();window.scrollTo({top:0});};
     return;
   }
   if(QZ.i>=n) return qzResult(box);
   const t=QZ_T[QZ.i], pos=qzPositions(), cur=QZ.ans[t.id], has=Object.prototype.hasOwnProperty.call(QZ.ans,t.id);
-  box.innerHTML=`<div class="qz-q"><div class="qz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="${n}" aria-valuenow="${QZ.i+1}" aria-label="Affirmation ${QZ.i+1} sur ${n}"><i style="width:${Math.round((QZ.i+1)/n*100)}%"></i></div>
-    <p class="qz-step">Affirmation ${QZ.i+1} sur ${n} · ${qzEsc(t.theme)}</p>
-    <fieldset class="qz-fs"><legend>${qzEsc(t.text)}</legend><p class="help">${qzEsc(t.ctx)} ${qzRange(t,pos)}</p>
-    <div class="qz-answers">${QZ_ANS.map(([v,l])=>`<label class="qz-opt" for="qz-${t.id}-${v}"><input type="radio" name="qz-${t.id}" id="qz-${t.id}-${v}" value="${v}"${cur===v?" checked":""}><span>${qzIc(v)}<strong>${l}</strong></span></label>`).join("")}</div>
-    <label class="qz-dbl"><input type="checkbox" id="qzDbl"${QZ.dbl[t.id]?" checked":""}> Cette affirmation compte double pour moi</label></fieldset>
-    <div id="qzFx">${has&&cur!=null?qzFxHtml(t):""}</div>
-    <div class="qz-nav"><button type="button" class="btn-ghost" id="qzBack">${QZ.i?"Précédent":"Retour"}</button><span><button type="button" class="btn-ghost" id="qzSkip">Passer</button> <button type="button" class="btn-primary" id="qzNext"${has?"":" disabled"}>${QZ.i===n-1?"Voir mon résultat":"Suivant"}</button></span></div></div>`;
+  const col=qzCol(QZ.i), pct=Math.round((QZ.i+1)/n*100);
+  box.innerHTML=`<div class="qz-q" style="--tc:${col}"><div class="qz-top"><button type="button" class="qz-x" id="qzBack" aria-label="${QZ.i?"Question précédente":"Retour à l'accueil"}">${QZ.i?"‹":"×"}</button><div class="qz-ring" role="progressbar" aria-valuemin="1" aria-valuemax="${n}" aria-valuenow="${QZ.i+1}" aria-label="Affirmation ${QZ.i+1} sur ${n}" style="--p:${pct}"><span>${String(QZ.i+1).padStart(2,"0")}</span></div><span class="qz-of">/ ${n}</span></div>
+    <div class="qz-bubble" aria-hidden="true">${QZ_GL[t.id]}</div><p class="qz-step">${qzEsc(t.theme)}</p>
+    <fieldset class="qz-fs"><legend>${qzEsc(t.text)}</legend>
+    <div class="qz-answers">${QZ_ANS.map(([v,l])=>`<label class="qz-opt qz-pill" for="qz-${t.id}-${v}"><input type="radio" name="qz-${t.id}" id="qz-${t.id}-${v}" value="${v}"${cur===v?" checked":""}><span>${qzIc(v)}<strong>${l}</strong></span></label>`).join("")}</div>
+    <label class="qz-dbl"><input type="checkbox" id="qzDbl"${QZ.dbl[t.id]?" checked":""}> Cette affirmation compte double pour moi</label>
+    <details class="qz-ctx"><summary>Contexte</summary><p class="help">${qzEsc(t.ctx)} ${qzRange(t,pos)}</p></details></fieldset>
+    <div class="qz-nav"><button type="button" class="btn-ghost" id="qzSkip">Passer</button><button type="button" class="btn-primary" id="qzNext"${has?"":" disabled"}>${QZ.i===n-1?"Voir mon résultat":"Suivant"}</button></div>
+    <div id="qzFx">${has&&cur!=null?qzFxHtml(t):""}</div></div>`;
   box.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{QZ.ans[t.id]=parseInt(r.value,10); document.getElementById("qzNext").disabled=false; document.getElementById("qzFx").innerHTML=qzFxHtml(t);});
   document.getElementById("qzDbl").onchange=e=>{QZ.dbl[t.id]=e.target.checked;};
-  document.getElementById("qzBack").onclick=()=>{QZ.i--; qzRender();};
+  document.getElementById("qzBack").onclick=()=>{if(QZ.i) QZ.i--; else QZ.i=-1; qzRender();};
   document.getElementById("qzSkip").onclick=()=>{QZ.ans[t.id]=null; delete QZ.dbl[t.id]; QZ.i++; qzRender(); window.scrollTo({top:0});};
   document.getElementById("qzNext").onclick=()=>{QZ.i++; qzRender(); window.scrollTo({top:0});};
 }
