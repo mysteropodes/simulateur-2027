@@ -170,6 +170,34 @@ function qzMine(box){
      <tr><td>Chômage en 2032</td><td>${fmt(m(R,x=>x.unemp[7]),1)} %</td><td>${fmt(m(Q,x=>x.unemp[7]),1)} %</td></tr></tbody></table>
     ${cands.length?`<p class="help">Pour comparaison, le risque de crise va de ${Math.min(...cands)} % à ${Math.max(...cands)} % selon les six programmes. Valeurs médianes sur les tirages ; ce n'est pas une prévision.</p>`:""}</div>`;
 }
+// « Points chauds » d'un programme : mêmes règles pour tous (3 plus grosses mesures, risque, paris, gagnants et perdants, accords et désaccords avec vos réponses).
+const QZ_GRP={mod:"ménages modestes",moy:"classes moyennes",ais:"ménages aisés",top:"10 % les plus riches",ret:"retraités",jeu:"jeunes"};
+function qzHot(id,pos,rk){
+  const L=LASTRES.find(o=>o.p.id===id), sq=LASTRES.find(o=>o.p.id==="statu").r, p=L.p, r=L.r;
+  const nm=p.name.replace(/ \(.*/,"");
+  const ms=(p.paMeasures||[]).filter(m=>m[3]!=="calc").slice().sort((a,b)=>Math.abs(b[1])-Math.abs(a[1])).slice(0,3);
+  const big=ms.length?`<ul class="qz-hl">${ms.map(m=>`<li><strong>${m[1]>0?"Coûte":"Rapporte"} ${Math.round(Math.abs(m[1]))} Md€</strong> <span>${qzEsc(m[0].replace(/\s*\(.*$/,""))}</span></li>`).join("")}</ul>`:'<p class="help">Pas de mesure chiffrée dans la fiche.</p>';
+  const rows=MC.rows.filter(x=>!x.p.fictif&&!x.p.gov&&x.p.id!=="statu").sort((a,b)=>a.cr-b.cr), me=rows.findIndex(x=>x.p.id===id), cr=me>=0?Math.round(rows[me].cr*100):null;
+  const flags=[]; if(cr!=null) flags.push(`Risque de crise de la dette d'ici 2046 : <strong>${cr} %</strong> (${me+1}ᵉ sur ${rows.length}, du plus faible au plus élevé).`);
+  if((p.bce||0)>0) flags.push(`Suppose un geste de la BCE : probabilité d'acceptation retenue <strong>${Math.round((p.bceOk||0)*100)} %</strong>.`);
+  if(p.c<0.5) flags.push(`Seulement <strong>${Math.round(p.c*100)} %</strong> des montants annoncés sont jugés crédibles (règle commune).`);
+  if((p.legal||1)<0.7) flags.push(`Risque juridique : faisabilité retenue <strong>${Math.round(p.legal*100)} %</strong> (traités, Conseil constitutionnel).`);
+  if((p.parl||1)<0.5) flags.push(`Majorité parlementaire incertaine : faisabilité retenue <strong>${Math.round(p.parl*100)} %</strong>.`);
+  const dv=g=>sq.pa[g]?(r.pa[g][7]/sq.pa[g][7]-1)*100:0, gs=Object.keys(QZ_GRP).map(g=>({g,v:dv(g)})).sort((a,b)=>b.v-a.v);
+  const win=gs[0], lose=gs[gs.length-1];
+  const gl=`<p>Pouvoir d'achat en 2032, par rapport à une France sans mesure nouvelle : le plus favorisé est le groupe des <strong>${QZ_GRP[win.g]}</strong> (${qzSig(win.v,1)} %), le plus touché celui des <strong>${QZ_GRP[lose.g]}</strong> (${qzSig(lose.v,1)} %).</p>`;
+  const row=rk.find(x=>x.id===id), agree=[], clash=[];
+  for(const t of QZ_T){const a=QZ.ans[t.id]; if(a==null||a===0) continue; const s=pos[id][t.id].s; if(s==null) continue; if(s===a) agree.push(t); else if(s===-a) clash.push(t);}
+  const li=(ic)=>t=>`<li>${qzIc(ic)}<span><strong>${qzEsc(t.theme)}</strong> (vous : ${QZ.ans[t.id]===1?"d'accord":"pas d'accord"}) · programme : ${qzEsc(pos[id][t.id].txt)}</span></li>`;
+  const pers=`<div class="qz-two"><div><h5>Là où vous êtes sur la même ligne</h5>${agree.length?`<ul class="qz-plist">${agree.map(li(1)).join("")}</ul>`:'<p class="help">Aucun sujet où vous prenez la même position tranchée.</p>'}</div><div><h5>Là où ça coince</h5>${clash.length?`<ul class="qz-plist">${clash.map(li(-1)).join("")}</ul>`:'<p class="help">Aucune opposition frontale sur vos réponses.</p>'}</div></div>`;
+  return `<h4>${qzEsc(nm)} : les points chauds</h4><h5>Les trois plus grosses mesures</h5>${big}<h5>Ce que le simulateur surveille</h5><ul class="qz-flags">${flags.map(f=>`<li>${f}</li>`).join("")}</ul>${gl}<h5>Par rapport à vos réponses</h5>${pers}<p class="help">Mêmes critères et mêmes seuils pour tous les programmes ; ce sont des points d'attention chiffrés, pas un jugement.</p>`;
+}
+function qzHotRender(id,pos,rk){
+  const el=document.getElementById("qzHot"); if(!el) return;
+  const names=Object.fromEntries(qzCands().map(({p})=>[p.id,p]));
+  el.innerHTML=`<h3>Zoom sur un programme</h3><div class="qz-htabs" role="tablist">${rk.map(x=>`<button type="button" role="tab" aria-selected="${x.id===id}" data-id="${x.id}" style="--c:var(${names[x.id].color})">${qzEsc(names[x.id].name.replace(/ \(.*/,""))}</button>`).join("")}</div><div class="qz-hotbody" style="--c:var(${names[id].color})">${qzHot(id,pos,rk)}</div>`;
+  el.querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>qzHotRender(b.dataset.id,pos,rk));
+}
 function qzResult(box){
   const pos=qzPositions(), rk=qzRank(pos,QZ.ans,QZ.dbl), answered=QZ_T.filter(t=>QZ.ans[t.id]!=null);
   const again=()=>{QZ={i:-1,ans:{},dbl:{}};QZ_FX={};qzRender();window.scrollTo({top:0});};
@@ -185,6 +213,7 @@ function qzResult(box){
   box.innerHTML=`<div class="qz-res"><h2>Vos résultats</h2>
     <p class="help">Sur ${answered.length} affirmation${answered.length>1?"s":""} traitée${answered.length>1?"s":""} sur ${QZ_T.length}. Points : 2 si même position, 1 si l'un est neutre, 0 si opposées ; une affirmation comptée double pèse deux fois plus.</p>
     <ol class="qz-ranking">${rk.map((x,k)=>bar(x,k)).join("")}</ol>
+    <div id="qzHot" class="qz-hot"></div>
     <h3>Affirmation par affirmation</h3>
     <p class="help">✓ d'accord · ~ neutre · ✗ pas d'accord · – pas de position publiée. Ouvrez une ligne ci-dessous pour voir la position chiffrée de chaque programme et les conséquences.</p>
     ${matrix}<div class="qz-dets">${details}</div>
@@ -192,6 +221,7 @@ function qzResult(box){
     <div class="panel info qz-caveat"><p><strong>À garder en tête.</strong> Ce quiz compare vos réponses à des chiffres, sur ${QZ_T.length} sujets seulement. Il ne couvre ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions, ni les valeurs, ni la personnalité des candidats. Un programme peut vous convenir sur ces sujets et pas sur les autres. Les conséquences sont des simulations avec leur incertitude, pas des prévisions ; ce n'est pas un conseil de vote.</p>
     <details><summary>Comment c'est calculé</summary><p class="help">Pour chaque affirmation, la position d'un programme (d'accord, neutre, pas d'accord) vient d'une valeur chiffrée tirée de ses mesures ou de leurs effets (âge de départ, dépenses supplémentaires, effet sur les revenus, mesures sur le chômage ou les aides…), avec les mêmes seuils pour tous. Un programme sans mesure sur un sujet n'a pas de position publiée : ce sujet est retiré de son calcul au lieu de lui donner des points. Les conséquences d'une affirmation sont calculées par le simulateur en l'appliquant seule à une France sans mesure nouvelle, avec le coût indiqué ; les coûts viennent des chiffrages des programmes quand ils existent, sinon ce sont des ordres de grandeur du quiz, signalés comme tels. Les effets suivent vos réglages actuels (par défaut : chiffrage crédible, lecture centrale).</p></details></div>
     <div class="qz-nav"><button type="button" class="btn-ghost" id="qzAgain">Recommencer</button><button type="button" class="btn-ghost" id="qzEdit">Modifier mes réponses</button></div></div>`;
+  qzHotRender(rk[0].id,pos,rk);
   document.getElementById("qzAgain").onclick=again;
   document.getElementById("qzEdit").onclick=()=>{QZ.i=0;qzRender();window.scrollTo({top:0});};
 }
