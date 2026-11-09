@@ -614,6 +614,7 @@ function runMC(){
       tb.appendChild(tr);}}
   if(LASTRES&&typeof buildOverview==="function") buildOverview(LASTRES,LASTNC);
   if(typeof buildPolit==="function") buildPolit();
+  if(typeof qzRefresh==="function") qzRefresh();
   if(bandCand!=="none") render(true);
 }
 function addBand(ds){

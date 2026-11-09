@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 9 novembre 2026 : quiz « quel programme vous ressemble ? »
+
+- Nouvelle vue `quiz` (`src/quiz.js`, branchée dans `build.py`) : huit thèmes, importance par thème, trois programmes les plus proches avec accord par sujet et projection (`MC.rows`, `LASTRES`). Positions tirées des paramètres des programmes (`ageShift`, `spServ`, `climInv`, `migDelta`, `A`, `defense`) et des effets calculés sur les revenus (`pa.mod`, `pa.top`). Ordre des réponses aléatoire, sans enregistrement ni envoi.
+- `tests/quiz.js` : parcours complet, scores dans [0 ; 1], cohérence des profils types, absence de défilement horizontal sur mobile.
+
 ## 9 novembre 2026 (soir) : candidat fictif, économies sans effet sur les ménages
 
 - À la demande d'un lecteur (rogner un peu certaines mesures, sans être trop impopulaire) : test de variantes sur le programme déjà construit, calculées sur les mêmes 200 tirages que le site. Rogner de 10 à 20 % les grosses dépenses économise 5 à 11 Md€ mais n'abaisse le risque de crise que de 2 à 3 points, en remontant la pauvreté de 0,2 à 0,4 point et les émissions de 7 à 14 Mt : refusé.

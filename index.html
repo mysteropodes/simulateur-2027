@@ -176,6 +176,53 @@ h2{font-size:1.12rem;font-weight:650}
 .chip{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 12px;color:var(--ink);font:600 13px var(--f-body);cursor:pointer}
 .chip span{color:var(--muted);font-weight:500;margin-right:6px}
 .chip:hover{border-color:#3a4358}
+.qz{max-width:760px;margin:0 auto;box-sizing:border-box;width:100%}
+#quizBox{min-width:0}
+.qz h2{font-size:1.35rem;margin:0 0 6px}
+.qz-intro{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.qz-list{margin:0;padding-left:20px;display:grid;gap:8px}
+.qz-prog{height:6px;background:var(--surface2);border-radius:3px;overflow:hidden}
+.qz-prog i{display:block;height:100%;background:var(--accent)}
+.qz-q{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.qz-step{margin:0;color:var(--muted);font-size:.85rem}
+.qz-fs{border:0;padding:0;margin:0;display:grid;gap:10px;min-width:0}
+.qz-fs legend{font-size:1.15rem;font-weight:650;line-height:1.35;padding:0;margin-bottom:4px}
+.qz-opt{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;border:1px solid var(--line);border-radius:8px;background:var(--bg);cursor:pointer}
+.qz-opt:hover{border-color:var(--accent)}
+.qz-opt:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.qz-opt:has(input:focus-visible){outline:2px solid var(--accent);outline-offset:2px}
+.qz-opt input{margin-top:4px;accent-color:var(--accent);flex:none}
+.qz-opt strong{display:block;font-weight:600}
+.qz-opt small{display:block;color:var(--muted);font-family:var(--f-data);font-size:.78rem;margin-top:2px}
+.qz-skip{border-style:dashed}
+.qz-imp{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.qz-imp[hidden]{display:none}
+.qz-nav{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:9px 16px;font:600 13.5px var(--f-body);cursor:pointer}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn-primary:disabled{opacity:.45;cursor:not-allowed}
+.qz-res{display:grid;gap:16px;grid-template-columns:minmax(0,1fr)}
+.qz-cards{display:grid;gap:14px;grid-template-columns:minmax(0,1fr)}
+.qz-card{grid-template-columns:minmax(0,1fr);border:1px solid var(--line);border-left:4px solid var(--c,var(--accent));border-radius:8px;padding:16px;display:grid;gap:12px;background:var(--bg);min-width:0}
+.qz-card header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.qz-card h3{margin:0;font-size:1.1rem;flex:1;min-width:0}
+.qz-card h3 small{color:var(--muted);font-weight:400}
+.qz-card h4{margin:4px 0 0;font-size:.9rem;color:var(--muted);font-weight:600}
+.qz-rk{width:28px;height:28px;border-radius:50%;background:var(--surface2);display:grid;place-items:center;font-weight:700;flex:none}
+.qz-pct{font:700 1.4rem var(--f-data);text-align:right}
+.qz-pct small{display:block;font:400 .72rem var(--f-body);color:var(--muted)}
+.qz-warn{color:var(--warn)}
+.qz-tab{min-width:0;font-size:.85rem;width:100%}
+.qz-tab th,.qz-tab td{text-align:left;white-space:normal;padding:6px 8px}
+.qz-tab em{font-style:normal;color:var(--accent);font-size:.72rem;border:1px solid var(--line);border-radius:3px;padding:0 4px}
+.qz-dots{letter-spacing:2px;color:var(--accent);white-space:nowrap}
+.qz-proj{display:grid;grid-template-columns:1fr auto;gap:6px 14px;margin:0;font-size:.88rem}
+.qz-proj dt{color:var(--muted)}
+.qz-proj dd{white-space:nowrap;margin:0;text-align:right;font-family:var(--f-data);font-variant-numeric:tabular-nums}
+.qz-more summary{cursor:pointer;margin-bottom:10px}
+.qz-fiche{justify-self:start}
+.qz-banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--line);border-radius:8px;background:var(--accent-soft);margin-bottom:12px}
+@media (max-width:600px){.qz-proj{grid-template-columns:1fr}.qz-proj dd{text-align:left}}
 .btn-primary{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:9px 16px;font:650 13.5px var(--f-body);cursor:pointer}
 .mnav{display:none}
 .view{display:grid;gap:18px;min-width:0}.view[hidden]{display:none}
@@ -311,7 +358,7 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 <div class="app">
 <aside class="side" aria-label="Navigation">
   <div class="brand"><span class="logo" aria-hidden="true">27</span><span>Simulateur 2027<small>Programmes présidentiels, jusqu'en 2046</small></span></div>
-  <nav class="sidenav"><div class="navgrp"><span>Comparer</span><button class="navbtn" data-go="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v4h-7zM14 10h7v11h-7zM3 13h7v8H3z"/></svg>Vue d'ensemble</button><button class="navbtn" data-go="tables"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 10h18M3 15h18M9 4v16"/></svg>Indicateurs détaillés</button><button class="navbtn" data-go="menages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Ménages et revenus</button><button class="navbtn" data-go="incert"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 5-7 4 4M3 21h18"/></svg>Incertitude</button></div><div class="navgrp"><span>Programmes</span><button class="navbtn" data-go="cands"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></svg>Fiches candidats</button><button class="navbtn" data-go="droits"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Droits et libertés</button></div><div class="navgrp"><span>Explorer</span><button class="navbtn" data-go="atlas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Changer les règles du jeu</button></div><div class="navgrp"><span>Vérifier</span><button class="navbtn" data-go="retro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5M12 7v5l3 2"/></svg>Test sur le passé</button><button class="navbtn" data-go="dette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h8"/></svg>Comprendre la dette</button><button class="navbtn" data-go="methode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 8h6M9 12h6M9 16h4"/></svg>Méthode et sources</button><button class="navbtn" data-go="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Journal des corrections</button></div></nav>
+  <nav class="sidenav"><div class="navgrp"><span>Comparer</span><button class="navbtn" data-go="quiz"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 .9-1 1.7M12 17v.01"/></svg>Quiz : mon programme</button><button class="navbtn" data-go="overview"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3h7v7H3zM14 3h7v4h-7zM14 10h7v11h-7zM3 13h7v8H3z"/></svg>Vue d'ensemble</button><button class="navbtn" data-go="tables"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18v16H3zM3 10h18M3 15h18M9 4v16"/></svg>Indicateurs détaillés</button><button class="navbtn" data-go="menages"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Ménages et revenus</button><button class="navbtn" data-go="incert"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 17l5-6 4 3 5-7 4 4M3 21h18"/></svg>Incertitude</button></div><div class="navgrp"><span>Programmes</span><button class="navbtn" data-go="cands"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 3h9l4 4v14H6zM9 12h7M9 16h7"/></svg>Fiches candidats</button><button class="navbtn" data-go="droits"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></svg>Droits et libertés</button></div><div class="navgrp"><span>Explorer</span><button class="navbtn" data-go="atlas"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18zM3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>Changer les règles du jeu</button></div><div class="navgrp"><span>Vérifier</span><button class="navbtn" data-go="retro"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5M12 7v5l3 2"/></svg>Test sur le passé</button><button class="navbtn" data-go="dette"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 7h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h8"/></svg>Comprendre la dette</button><button class="navbtn" data-go="methode"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5zM9 8h6M9 12h6M9 16h4"/></svg>Méthode et sources</button><button class="navbtn" data-go="journal"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Journal des corrections</button></div></nav>
   <div class="sidefoot"><p>Simulation pédagogique, pas une prévision. Les notes de crédibilité, de faisabilité et de redistribution sont des jugements argumentés, modifiables.</p><p><a href="https://github.com/mysteropodes/simulateur-2027" target="_blank" rel="noopener">Code source et remarques sur GitHub</a></p></div>
 </aside>
 <main class="main">
@@ -320,8 +367,12 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
     <div class="chips" id="scenChips"></div>
     <button class="btn-primary" id="openHyp" type="button" aria-controls="drawer" aria-expanded="false">Hypothèses</button>
   </div>
-  <nav class="mnav" aria-label="Sections"><button class="navbtn" data-go="overview">Vue d'ensemble</button><button class="navbtn" data-go="tables">Indicateurs détaillés</button><button class="navbtn" data-go="menages">Ménages et revenus</button><button class="navbtn" data-go="incert">Incertitude</button><button class="navbtn" data-go="cands">Fiches candidats</button><button class="navbtn" data-go="droits">Droits et libertés</button><button class="navbtn" data-go="atlas">Changer les règles du jeu</button><button class="navbtn" data-go="retro">Test sur le passé</button><button class="navbtn" data-go="dette">Comprendre la dette</button><button class="navbtn" data-go="methode">Méthode et sources</button><button class="navbtn" data-go="journal">Journal des corrections</button></nav>
+  <nav class="mnav" aria-label="Sections"><button class="navbtn" data-go="quiz">Quiz</button><button class="navbtn" data-go="overview">Vue d'ensemble</button><button class="navbtn" data-go="tables">Indicateurs détaillés</button><button class="navbtn" data-go="menages">Ménages et revenus</button><button class="navbtn" data-go="incert">Incertitude</button><button class="navbtn" data-go="cands">Fiches candidats</button><button class="navbtn" data-go="droits">Droits et libertés</button><button class="navbtn" data-go="atlas">Changer les règles du jeu</button><button class="navbtn" data-go="retro">Test sur le passé</button><button class="navbtn" data-go="dette">Comprendre la dette</button><button class="navbtn" data-go="methode">Méthode et sources</button><button class="navbtn" data-go="journal">Journal des corrections</button></nav>
+  <div class="view" data-view="quiz" data-title="Quiz : quel programme vous ressemble ?" data-sub="Huit questions, trois programmes les plus proches, et ce que le simulateur projette pour eux" hidden>
+  <section class="panel qz" aria-label="Quiz"><div id="quizBox"></div></section>
+  </div>
   <div class="view" data-view="overview" data-title="Vue d'ensemble" data-sub="Que deviendrait la France avec chaque programme, jusqu'en 2046" hidden>
+  <div class="qz-banner"><span><strong>Nouveau :</strong> un quiz de 3 minutes pour voir quel programme vous ressemble le plus.</span><button class="btn-primary" type="button" data-go="quiz">Faire le quiz</button></div>
   <div class="ovcards" id="ovCards" aria-label="Résumé par programme"></div>
   <p class="help ovnote">Grand chiffre : risque d'une crise de la dette d'ici 2046, sur 200 tirages des hypothèses. Autres valeurs en 2032 selon vos réglages. « Dette* » : dette en 2046 si aucune crise ne survenait, pour comparer à règles égales. Cliquez sur une carte pour voir le programme.</p>
   <div class="ovgrid">
@@ -1134,6 +1185,7 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>9 novembre 2026 : quiz « quel programme vous ressemble ? ».</strong> Nouvelle page, huit questions en langage simple (retraites, revenus des plus modestes, impôts des plus riches, services publics, climat, immigration, dette, défense) et l'importance donnée à chaque sujet. Résultat : les trois programmes les plus proches, avec l'accord sujet par sujet et la projection du simulateur (risque de crise, pauvreté, dette, pouvoir d'achat), puis les autres programmes. Mêmes règles pour tous : la position d'un programme est une valeur chiffrée tirée de ses mesures ou de ses effets calculés, jamais un jugement ; l'ordre des réponses est tiré au hasard ; proximité = 1 − écart / étendue de l'échelle, pondérée par l'importance. Le quiz dit ce qu'il ne couvre pas (sécurité, justice, Europe, laïcité, institutions, valeurs) et rien n'est enregistré ni envoyé. Le candidat fictif et le scénario du gouvernement n'y figurent pas ; les programmes incomplets (Glucksmann, Le Pen) sont signalés.</li>
       <li><strong>9 novembre 2026 (soir) : candidat fictif, économies sans effet sur les ménages.</strong> Un lecteur propose de rogner un peu certaines mesures, sans être trop impopulaire. Test sur les mêmes 200 tirages : rogner de 10 à 20 % les grosses dépenses (minima, allocation jeunes, allocations familiales, crèches, logement, climat, services) économise 5 à 11 Md€ mais n'abaisse le risque de crise que de 2 à 3 points, en remontant la pauvreté de 0,2 à 0,4 point et les émissions de 7 à 14 Mt : refusé. Trois économies qui ne touchent aucun ménage sont retenues (≈ 4,8 Md€) : aides aux grandes entreprises de 10 à 13 Md€ (6 % des 211 Md€ recensés par le Sénat), médicaments de 2 à 3 Md€ et actes inutiles de 1 à 1,8 Md€ (Cour des comptes). Résultat : risque de crise d'ici 2046 de 61 à 59 %, crise centrale de 2044 à 2045, dette 2036 de 139 à 138 %, pauvreté (13,0 %) et émissions (293 Mt) inchangées. Ordre de grandeur du modèle : environ 1 point de risque pour 2,5 Md€ d'économies ; passer sous 50 % demanderait ≈ 30 Md€. Une recherche d'économies inédites ajoute ensuite les hospitalisations inadéquates (1,3 Md€ : coût net de 4,2 Md€ par an, réduit de 30 % en quatre ans, Cour des comptes, Sécurité sociale 2026, 27 mai 2026), sans effet mesurable sur les indicateurs. Dividendes des dirigeants soumis aux cotisations : aucun chiffrage fiable, effet nul testé à 1 et 2 Md€, non retenus. Non retenus aussi, par prudence sur les doubles comptes : la surtaxe sur les bénéfices des grandes entreprises (80 % de soutien, Elabe, novembre 2025) et les niches LMNP et apport-cession, car le budget 2027, déjà dans la référence de tous les programmes, les compte peut-être déjà.</li>
       <li><strong>9 novembre 2026 : candidat fictif revu avec le modèle recalé.</strong> Recherche relancée autour de son programme (96 000 programmes, 33 mesures et leviers plus onze pistes nouvelles, mêmes règles). Constat : toutes ses recettes étaient déjà au plafond des chiffrages indépendants ; sans recette nouvelle, baisser la dette coûtait des services ou des aides pour un risque de crise ramené de 66 à 57 % au mieux. Huit recettes ajoutées, ≈ 12 Md€ par an : impôt plancher dès 5 M€ de patrimoine (Conseil des prélèvements obligatoires), emprunt obligatoire sur 10 % des assurances-vie au-delà de 100 000 € (idée d'un lecteur, adaptée : un emprunt baisse les intérêts, il n'efface pas la dette), successions majorées dès 5 M€ par héritier (idée d'un lecteur), assurance-vie transmise au barème (Cour des comptes), plus-values immobilières après trente ans, travail dissimulé, fraude aux prestations, fiscalité des boissons sucrées et du vin, rente des autoroutes à l'échéance des concessions. Moitié affectée au climat (19 Md€ au lieu de 16), au logement (50 000 au lieu de 33 000) et aux crèches (300 000 places), moitié à la dette (solde annoncé 1,35 point au lieu de 1,17). Résultat : émissions 2032 293 Mt au lieu de 296, dette 2036 139 % (140), crise toujours en 2044, risque d'ici 2046 61 % (66). Règle de tension reformulée : jamais au-dessus du statu quo avant la crise (62 contre 64), le recalage du 2 novembre ayant relevé toutes les trajectoires. Refusé : un prélèvement unique sur les assurances-vie, qui toucherait des millions d'épargnants modestes et retraités.</li>
       <li><strong>9 novembre 2026 : défaut rapide ou austérité étalée.</strong> Nouveau tableau dans la section 11 de l'atlas : six scénarios (statu quo, austérité étalée du gouvernement, statu quo avec défaut en 2028, Mélenchon sans défaut, avec défaut en 2028 ou en 2030) rejoués sur les 200 tirages du site, sur vingt ans, crises comprises. En lecture centrale, le défaut rapide coûte plus aux ménages modestes que l'austérité étalée (−3,9 % de revenus cumulés contre −0,8 %) mais laisse une dette bien plus basse en 2046 (116 % contre 146 %). Calcul à la demande, dans la lecture choisie ; script <code>tests/defcmp.js</code>. Correction : le candidat fictif connaît une crise en 2044 en lecture centrale (le texte disait « pas de crise »).</li>
@@ -2667,6 +2719,7 @@ function runMC(){
       tb.appendChild(tr);}}
   if(LASTRES&&typeof buildOverview==="function") buildOverview(LASTRES,LASTNC);
   if(typeof buildPolit==="function") buildPolit();
+  if(typeof qzRefresh==="function") qzRefresh();
   if(bandCand!=="none") render(true);
 }
 function addBand(ds){
@@ -3491,6 +3544,125 @@ function pCands(){
   rows.push(`<tr><td>Candidat IA (fictif)</td><td colspan="5" style="white-space:normal;text-align:left">Pas de parti ni de voix en 2024 : comme Emmanuel Macron en 2017, il devrait créer un mouvement. Sans sondage, impossible de le chiffrer.</td></tr>`);
   document.getElementById("pCandTab").innerHTML=rows.join("");
 }
+// Quiz « Quel programme me ressemble ? » : 8 thèmes, mêmes règles pour tous les candidats.
+// Les positions des programmes viennent des données du simulateur (paramètres des programmes et effets calculés
+// sur les revenus). Aucune réponse n'est enregistrée ni envoyée : tout se passe dans la page.
+const QZ_PT=36; // 1 point de PIB ≈ 36 Md€ (même conversion que les fiches)
+const qzSig=(v,d=0)=>(v>0.0001?"+":v<-0.0001?"−":"")+Math.abs(v).toFixed(d).replace(".",",");
+const qzMd=v=>qzSig(Math.round(v),0)+" Md€";
+// Chaque thème : valeur d'un programme (fonction), réponses possibles (libellé, valeur visée), étendue pour la distance.
+const QZ_AX=[
+ {id:"ret",name:"Retraites",q:"Retraites : à quel âge faut-il pouvoir partir ?",hint:"Âge légal de départ.",
+  val:(p)=>64+p.ageShift, fmt:v=>(Math.round(v*2)/2).toString().replace(".",",")+" ans", R:5,
+  opts:[["À 60 ans",60],["À 62 ans",62],["À 64 ans",64],["À 65 ans ou plus",65]]},
+ {id:"mod",name:"Revenus des plus modestes",q:"Revenus des ménages les plus modestes : que doit-il se passer d'ici 2032 ?",hint:"Comparé à une France sans nouvelle mesure (pouvoir d'achat, effet direct des mesures et de l'économie).",
+  val:(p,r,sq)=>(r.pa.mod[7]/sq.pa.mod[7]-1)*100, fmt:v=>qzSig(v,1)+" %", R:12,
+  opts:[["Ils doivent nettement augmenter",7],["Ils doivent augmenter un peu",3],["Aucun changement particulier",0],["Ils peuvent baisser un peu si c'est le prix pour redresser les comptes",-5]]},
+ {id:"top",name:"Impôts des plus riches",q:"Les 10 % de ménages les plus riches : que doit-il se passer pour leurs revenus ?",hint:"Comparé à une France sans nouvelle mesure, après impôts et prestations.",
+  val:(p,r,sq)=>(r.pa.top[7]/sq.pa.top[7]-1)*100, fmt:v=>qzSig(v,1)+" %", R:9,
+  opts:[["Ils doivent contribuer beaucoup plus",-6],["Ils doivent contribuer un peu plus",-2],["Aucun changement particulier",0],["Ils doivent payer moins d'impôts",3]]},
+ {id:"serv",name:"Services publics",q:"Hôpital, école, justice : combien de moyens en plus ou en moins ?",hint:"Dépenses supplémentaires pour les services publics, par an.",
+  val:(p)=>p.spServ*QZ_PT, fmt:v=>qzMd(v)+" par an", R:36,
+  opts:[["Beaucoup plus de moyens",22],["Un peu plus de moyens",7],["Autant qu'aujourd'hui",0],["Moins de moyens, pour un État plus léger",-15]]},
+ {id:"clim",name:"Climat",q:"Climat : combien investir de plus pour la transition ?",hint:"Investissements climat supplémentaires par rapport à la tendance actuelle, par an.",
+  val:(p)=>(p.climInv-0.2)*QZ_PT, fmt:v=>qzMd(v)+" par an", R:24,
+  opts:[["Beaucoup plus",20],["Plus",11],["Un peu plus",4],["Moins qu'aujourd'hui",-4]]},
+ {id:"mig",name:"Immigration",q:"Immigration : quelle orientation ?",hint:"Variation du nombre d'actifs étrangers qui s'installent chaque année (hypothèse du simulateur pour chaque programme).",
+  val:(p)=>p.migDelta, fmt:v=>qzSig(v,0)+" 000 par an", R:120,
+  opts:[["Accueillir davantage, régulariser",20],["Comme aujourd'hui",0],["Réduire nettement",-40],["Réduire très fortement",-100]]},
+ {id:"dette",name:"Dette et déficit",q:"Dette : à quelle vitesse faut-il réduire le déficit ?",hint:"Effort annoncé par le programme sur le déficit, en milliards d'euros par an à terme (un programme qui dépense plus qu'il ne finance l'augmente).",
+  val:(p)=>p.A*QZ_PT, fmt:v=>v>=0?Math.round(v)+" Md€ de déficit en moins":Math.round(-v)+" Md€ de déficit en plus", R:110,
+  opts:[["Le plus vite possible, quitte à de lourdes économies",110],["Progressivement",55],["Ce n'est pas la priorité : on protège d'abord les dépenses",0]]},
+ {id:"def",name:"Défense",q:"Défense : quel budget ?",hint:"Dépenses supplémentaires pour l'armée, par an.",
+  val:(p)=>p.defense*QZ_PT, fmt:v=>qzMd(v)+" par an", R:29,
+  opts:[["Fortement augmenter",22],["Augmenter un peu",11],["Le laisser stable",0],["Le réduire un peu",-7]]}
+];
+const QZ_IMP=[["Un peu",1],["Beaucoup",2],["C'est décisif",3]];
+const QZ_NOCOMPLETE={glucksmann:"programme pas encore publié, reconstitué à partir de ses déclarations",lepen:"programme 2027 pas encore publié : positions d'après les 22 mesures annoncées"};
+let QZ={i:-1,ans:{},imp:{},order:null};
+function qzCands(){return LASTRES?LASTRES.filter(({p})=>!p.fictif&&!p.gov&&p.id!=="statu"):[];}
+function qzValues(){
+  const sq=LASTRES.find(x=>x.p.id==="statu").r, out={};
+  for(const {p,r} of qzCands()){out[p.id]={};for(const a of QZ_AX) out[p.id][a.id]=a.val(p,r,sq);}
+  return out;
+}
+// Score d'un programme : moyenne, pondérée par l'importance, de la proximité (1 = même position, 0 = opposé) sur les thèmes répondus.
+function qzScore(vals,ans,imp){
+  let s=0,w=0; const rows=[];
+  for(const a of QZ_AX){const o=ans[a.id]; if(o==null) continue; const wi=imp[a.id]||2; const v=vals[a.id];
+    const prox=Math.max(0,1-Math.abs(v-o)/a.R); s+=wi*prox; w+=wi; rows.push({a,v,o,prox,wi});}
+  return {score:w?s/w:null,rows,w};
+}
+function qzRank(vals,ans,imp){
+  return Object.keys(vals).map(id=>Object.assign({id},qzScore(vals[id],ans,imp))).filter(x=>x.score!=null).sort((x,y)=>y.score-x.score);
+}
+function qzShuffle(n){const a=[...Array(n).keys()]; if(window.__qzNoShuffle) return a; for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} return a;}
+function qzEsc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function qzRender(){
+  const box=document.getElementById("quizBox"); if(!box) return;
+  if(!LASTRES){box.innerHTML='<p class="help">Chargement du simulateur…</p>'; return;}
+  const n=QZ_AX.length;
+  if(QZ.i<0){
+    box.innerHTML=`<div class="qz-intro"><h2>Quel programme vous ressemble ?</h2>
+      <p>${n} questions, environ 3 minutes. Pour chaque sujet, vous choisissez ce qui vous paraît juste et l'importance que vous lui donnez. Le quiz vous montre ensuite les trois programmes les plus proches de vos réponses, avec ce que le simulateur projette pour eux.</p>
+      <ul class="qz-list">
+        <li><strong>Mêmes règles pour tous.</strong> Les positions viennent des mêmes données pour chaque candidat, pas d'un jugement.</li>
+        <li><strong>Rien n'est enregistré ni envoyé.</strong> Vos réponses restent dans cette page.</li>
+        <li><strong>Ce n'est pas une consigne de vote.</strong> Le quiz ne couvre que ces ${n} sujets chiffrés : ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions.</li>
+      </ul><button class="btn-primary" id="qzStart" type="button">Commencer</button></div>`;
+    document.getElementById("qzStart").onclick=()=>{QZ={i:0,ans:{},imp:{},order:QZ_AX.map(a=>qzShuffle(a.opts.length))};qzRender();window.scrollTo({top:0});};
+    return;
+  }
+  if(QZ.i>=n) return qzResult(box);
+  const a=QZ_AX[QZ.i], vals=qzValues(), cur=QZ.ans[a.id], imp=QZ.imp[a.id]||2, ord=QZ.order[QZ.i];
+  const opts=ord.map(k=>a.opts[k]);
+  box.innerHTML=`<div class="qz-q"><div class="qz-prog" role="progressbar" aria-valuemin="1" aria-valuemax="${n}" aria-valuenow="${QZ.i+1}" aria-label="Question ${QZ.i+1} sur ${n}"><i style="width:${Math.round((QZ.i+1)/n*100)}%"></i></div>
+    <p class="qz-step">Question ${QZ.i+1} sur ${n} · ${qzEsc(a.name)}</p>
+    <fieldset class="qz-fs"><legend>${qzEsc(a.q)}</legend><p class="help">${qzEsc(a.hint)}</p>
+    ${opts.map(([lab,v],k)=>{const id=`qz-${a.id}-${k}`; const num=a.id==="ret"?"":"≈ "+a.fmt(v); return `<label class="qz-opt" for="${id}"><input type="radio" name="qz-${a.id}" id="${id}" value="${v}"${cur===v?" checked":""}><span><strong>${qzEsc(lab)}</strong>${num?`<small>${qzEsc(num)}</small>`:""}</span></label>`;}).join("")}
+    <label class="qz-opt qz-skip" for="qz-${a.id}-none"><input type="radio" name="qz-${a.id}" id="qz-${a.id}-none" value="none"${QZ.ans[a.id]===null?" checked":""}><span><strong>Sans avis sur ce sujet</strong><small>Il ne comptera pas dans le résultat</small></span></label></fieldset>
+    <div class="qz-imp" id="qzImp"><span>Ce sujet compte pour moi :</span><div class="seg" role="group" aria-label="Importance du sujet">${QZ_IMP.map(([l,w])=>`<button type="button" data-w="${w}" aria-pressed="${imp===w}">${l}</button>`).join("")}</div></div>
+    <div class="qz-nav"><button type="button" class="btn-ghost" id="qzBack">${QZ.i?"Précédent":"Retour"}</button><button type="button" class="btn-primary" id="qzNext"${cur===undefined?" disabled":""}>${QZ.i===n-1?"Voir mon résultat":"Suivant"}</button></div></div>`;
+  box.querySelectorAll('input[type=radio]').forEach(r=>r.onchange=()=>{QZ.ans[a.id]=r.value==="none"?null:parseFloat(r.value); document.getElementById("qzNext").disabled=false; document.getElementById("qzImp").hidden=r.value==="none";});
+  document.getElementById("qzImp").hidden=QZ.ans[a.id]===null;
+  box.querySelectorAll("#qzImp button").forEach(b=>b.onclick=()=>{QZ.imp[a.id]=+b.dataset.w; box.querySelectorAll("#qzImp button").forEach(x=>x.setAttribute("aria-pressed",x===b?"true":"false"));});
+  document.getElementById("qzBack").onclick=()=>{QZ.i--; qzRender();};
+  document.getElementById("qzNext").onclick=()=>{QZ.i++; qzRender(); window.scrollTo({top:0});};
+}
+function qzProj(id){
+  const m=MC&&MC.rows&&MC.rows.find(x=>x.p.id===id); if(!m) return '<p class="help">Projection en cours de calcul…</p>';
+  const f=(a,d=0,u="")=>`${fmt(a[1],d)}${u} <span class="rng">${fmt(a[0],d)} – ${fmt(a[2],d)}</span>`;
+  const sq=LASTRES.find(x=>x.p.id==="statu").r, r=LASTRES.find(x=>x.p.id===id).r, g=k=>qzSig((r.pa[k][7]/sq.pa[k][7]-1)*100,1)+" %";
+  return `<dl class="qz-proj"><dt>Risque de crise de la dette d'ici 2046</dt><dd>${Math.round(m.cr*100)} %</dd><dt>Pauvreté en 2032</dt><dd>${f(m.pov,1," %")}</dd><dt>Dette publique en 2036</dt><dd>${f(m.debt,0," % du PIB")}</dd><dt>Pouvoir d'achat 2032 : modestes · classes moyennes · aisés</dt><dd>${g("mod")} · ${g("moy")} · ${g("ais")}</dd></dl>`;
+}
+function qzResult(box){
+  const vals=qzValues(), rk=qzRank(vals,QZ.ans,QZ.imp);
+  if(!rk.length){box.innerHTML='<p>Vous n\'avez répondu à aucune question : le quiz n\'a rien à comparer.</p><button class="btn-primary" id="qzAgain" type="button">Recommencer</button>'; document.getElementById("qzAgain").onclick=()=>{QZ={i:-1,ans:{},imp:{},order:null};qzRender();}; return;}
+  const names=Object.fromEntries(qzCands().map(({p})=>[p.id,p]));
+  const card=(x,k)=>{const p=names[x.id]; const nm=p.name.replace(/ \(.*/,""), party=(p.name.match(/\((.*)\)/)||[])[1]||""; const tie=rk[k+1]&&rk[k].score-rk[k+1].score<0.02?"quasi à égalité avec le suivant":"";
+    const dots=pr=>"●".repeat(Math.round(pr*4))+"○".repeat(4-Math.round(pr*4));
+    return `<article class="qz-card" style="--c:var(${p.color})"><header><span class="qz-rk">${k+1}</span><h3>${qzEsc(nm)} <small>${qzEsc(party)}</small></h3><span class="qz-pct">${Math.round(x.score*100)} %<small>de proximité</small></span></header>
+      ${tie?`<p class="help">${tie}</p>`:""}${QZ_NOCOMPLETE[x.id]?`<p class="help qz-warn">Attention : ${QZ_NOCOMPLETE[x.id]}.</p>`:""}
+      <table class="qz-tab"><thead><tr><th>Sujet</th><th>Votre choix</th><th>Le programme</th><th>Accord</th></tr></thead><tbody>${x.rows.map(r=>`<tr><td>${qzEsc(r.a.name)}${r.wi===3?" <em>décisif</em>":""}</td><td>${qzEsc(r.a.fmt(r.o))}</td><td>${qzEsc(r.a.fmt(r.v))}</td><td aria-label="${Math.round(r.prox*100)} %"><span class="qz-dots">${dots(r.prox)}</span></td></tr>`).join("")}</tbody></table>
+      <h4>Ce que le simulateur projette pour ce programme</h4>${qzProj(x.id)}
+      <button type="button" class="btn-ghost qz-fiche" data-id="${x.id}">Voir la fiche détaillée</button></article>`;};
+  box.innerHTML=`<div class="qz-res"><h2>Les programmes les plus proches de vos réponses</h2>
+    <p class="help">Sur ${rk[0].rows.length} sujet${rk[0].rows.length>1?"s":""} sur ${QZ_AX.length}. Proximité = accord moyen avec votre choix, pondéré par l'importance que vous avez donnée à chaque sujet.</p>
+    <div class="qz-cards">${rk.slice(0,3).map((x,k)=>card(x,k)).join("")}</div>
+    ${rk.length>3?`<details class="qz-more"><summary>Voir les autres programmes (${rk.length-3})</summary><div class="qz-cards">${rk.slice(3).map((x,k)=>card(x,k+3)).join("")}</div></details>`:""}
+    <div class="panel info qz-caveat"><p><strong>À garder en tête.</strong> Ce quiz compare vos choix à des chiffres, sur ${QZ_AX.length} sujets seulement. Il ne couvre ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions, ni les valeurs, ni la personnalité des candidats. Un programme peut vous convenir sur ces sujets et pas sur les autres. Les projections sont des simulations avec leur incertitude, pas des prévisions, et ce n'est pas un conseil de vote.</p>
+    <details><summary>Comment c'est calculé</summary><p class="help">Pour chaque sujet, la position d'un programme est une valeur chiffrée tirée de ses mesures (âge de départ, dépenses supplémentaires, effet sur les revenus, etc.). Votre réponse correspond à une valeur sur la même échelle. La proximité vaut 1 moins l'écart entre les deux, divisé par l'étendue de l'échelle. Le score d'un programme est la moyenne de ces proximités, pondérée par l'importance (un peu = 1, beaucoup = 2, décisif = 3). L'ordre des réponses change à chaque passage pour qu'il n'influence pas vos choix. Les effets sur les revenus suivent vos réglages actuels du simulateur (par défaut : chiffrage crédible, lecture centrale).</p></details></div>
+    <div class="qz-nav"><button type="button" class="btn-ghost" id="qzAgain">Recommencer</button><button type="button" class="btn-ghost" id="qzEdit">Modifier mes réponses</button></div></div>`;
+  document.getElementById("qzAgain").onclick=()=>{QZ={i:-1,ans:{},imp:{},order:null};qzRender();window.scrollTo({top:0});};
+  document.getElementById("qzEdit").onclick=()=>{QZ.i=0;qzRender();window.scrollTo({top:0});};
+  box.querySelectorAll(".qz-fiche").forEach(b=>b.onclick=()=>{showView("cands"); const d=document.getElementById("fiche-"+b.dataset.id); if(d){d.open=true;setTimeout(()=>d.scrollIntoView({block:"start"}),50);}});
+}
+document.addEventListener("click",e=>{const g=e.target.closest&&e.target.closest("[data-go=quiz]"); if(g) setTimeout(qzRender,0);});
+if(typeof window!=="undefined"){window.addEventListener("hashchange",()=>{});}
+// Rendu initial et à chaque recalcul (les valeurs suivent les réglages) ; on ne touche pas aux questions en cours.
+function qzRefresh(){const b=document.getElementById("quizBox"); if(b&&(QZ.i<0||QZ.i>=QZ_AX.length)) qzRender();}
+document.addEventListener("DOMContentLoaded",qzRender);
+setTimeout(qzRender,0);
 </script>
 </body>
 </html>
