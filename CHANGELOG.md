@@ -6,6 +6,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 
 - À la demande d'un lecteur (rogner un peu certaines mesures, sans être trop impopulaire) : test de variantes sur le programme déjà construit, calculées sur les mêmes 200 tirages que le site. Rogner de 10 à 20 % les grosses dépenses économise 5 à 11 Md€ mais n'abaisse le risque de crise que de 2 à 3 points, en remontant la pauvreté de 0,2 à 0,4 point et les émissions de 7 à 14 Mt : refusé.
 - Retenues : aides aux grandes entreprises 10 → 13 Md€ (`PA_MEASURES.ia`), médicaments 2 → 3 Md€ et actes inutiles 1 → 1,8 Md€ (`compItems`), soit ≈ 4,8 Md€. `taxMd` 106, `A` 1,487. Risque de crise d'ici 2046 : 61 → 59 % ; crise centrale 2044 → 2045 ; dette 2036 139 → 138 % ; pauvreté 13,0 % et émissions 293 Mt inchangées.
+- Recherche d'économies inédites : hospitalisations inadéquates réduites de 30 % en quatre ans (−1,3 Md€ en `compItems`, Cour des comptes, 27 mai 2026), `A` 1,523 ; aucun indicateur ne bouge. Dividendes des dirigeants soumis aux cotisations : aucun chiffrage fiable, effet nul à 1 et 2 Md€, non retenus.
 - Non retenu : la surtaxe sur les bénéfices des grandes entreprises (80 % de soutien, Elabe, novembre 2025) et les niches LMNP / apport-cession : le budget 2027, déjà dans la référence de tous les programmes, les compte peut-être déjà.
 
 ## 9 novembre 2026 : candidat fictif revu
