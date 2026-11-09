@@ -37,7 +37,7 @@ ok(/Votre programme, chiffré/.test(txt)&&/Risque de crise/.test(txt),'« votre 
 ok(/pas un conseil de vote/.test(txt),'avertissement');
 ok((await pg.$$('.qz-det')).length===12,'12 détails');
 ok(/points chauds/i.test(await pg.innerText('#qzHot'))&&/plus grosses mesures/i.test(await pg.innerText('#qzHot')),'points chauds du premier');
-for(const id of ['melenchon','lepen','philippe','glucksmann','retailleau','attal']){await pg.click('#qzHot [data-id="'+id+'"]'); const x=await pg.innerText('.qz-hotbody'); ok(!/undefined|NaN|Infinity/.test(x)&&/Risque de crise/.test(x),'points chauds '+id);}
+for(const id of ['melenchon','lepen','philippe','glucksmann','retailleau','attal']){await pg.click('#qzHot [data-id="'+id+'"]'); const x=await pg.innerText('.qz-hotbody'); ok(!/undefined|NaN|Infinity/.test(x)&&/Risque de crise/.test(x)&&/Tension sociale/.test(x),'points chauds '+id);}
 // passer une question : exclue du calcul
 await pg.click('#qzEdit'); await pg.waitForSelector('.qz-fs'); await pg.click('#qzSkip'); await pg.click('#qzSkip');
 for(let i=2;i<12;i++){ await pg.waitForSelector('.qz-fs'); await pg.click('#qzNext'); }

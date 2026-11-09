@@ -3790,6 +3790,10 @@ function qzHot(id,pos,rk){
   const big=ms.length?`<ul class="qz-hl">${ms.map(m=>`<li><strong>${m[1]>0?"Coûte":"Rapporte"} ${Math.round(Math.abs(m[1]))} Md€</strong> <span>${qzEsc(m[0].replace(/\s*\(.*$/,""))}</span></li>`).join("")}</ul>`:'<p class="help">Pas de mesure chiffrée dans la fiche.</p>';
   const rows=MC.rows.filter(x=>!x.p.fictif&&!x.p.gov&&x.p.id!=="statu").sort((a,b)=>a.cr-b.cr), me=rows.findIndex(x=>x.p.id===id), cr=me>=0?Math.round(rows[me].cr*100):null;
   const flags=[]; if(cr!=null) flags.push(`Risque de crise de la dette d'ici 2046 : <strong>${cr} %</strong> (${me+1}ᵉ sur ${rows.length}, du plus faible au plus élevé).`);
+  const PR=MC.pol&&MC.pol.rows&&MC.pol.rows[id];
+  if(PR){const pr=MC.pol.rows, ids=rows.map(x=>x.p.id).filter(i=>pr[i]), mr=ids.slice().sort((x,y)=>pr[x].mob-pr[y].mob).indexOf(id)+1;
+    flags.push(`Tension sociale : risque d'une grande mobilisation (gilets jaunes ou plus) d'ici 2032 <strong>${Math.round(PR.mob*100)} %</strong> (${(()=>{const v=ids.map(i=>pr[i].mob*100),lo=Math.min(...v),hi=Math.max(...v);return hi-lo<3?`peu d'écart entre programmes : de ${Math.round(lo)} à ${Math.round(hi)} %`:`${mr}ᵉ sur ${ids.length}, du plus faible au plus élevé`;})()}), contre ${Math.round(MC.pol.mob0*100)} % sans changement de politique${PR.cutPts>=1?` ; dont <strong>${qzSig(PR.cutPts,0)} points</strong> dus aux années de coupes dans les dépenses`:""}.`);
+    flags.push(`Violence politique forte d'ici 2032 : <strong>${Math.round(PR.viol*100)} %</strong> (${Math.round(MC.pol.viol0*100)} % sans changement de politique).`);}
   if((p.bce||0)>0) flags.push(`Suppose un geste de la BCE : probabilité d'acceptation retenue <strong>${Math.round((p.bceOk||0)*100)} %</strong>.`);
   if(p.c<0.5) flags.push(`Seulement <strong>${Math.round(p.c*100)} %</strong> des montants annoncés sont jugés crédibles (règle commune).`);
   if((p.legal||1)<0.7) flags.push(`Risque juridique : faisabilité retenue <strong>${Math.round(p.legal*100)} %</strong> (traités, Conseil constitutionnel).`);
