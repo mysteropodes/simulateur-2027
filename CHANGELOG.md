@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 9 novembre 2026 : candidat fictif revu
+
+- `src/microsim.js` : huit mesures de recettes ajoutées à `PA_MEASURES.ia` (≈ 12 Md€) ; `src/ui.part` : `taxMd` 103, `A` 1,354, `climInv` 0,72, `housing` 50, crèches 4,5 Md€, fraude aux prestations −1 Md€ en fonctionnement, textes `why`, `why2`, `why3`, `compNote`, `climNote`, `co2Rate` 5,14, `IA_PLAN` (nouveau groupe de mesures, totaux, négociation BCE, refusés, « qui gagne, qui perd »).
+- Recherche : optimiseur évolutionnaire autour du programme actuel (32 000 évaluations par variante, trois lectures), résumé dans le journal.
+
 ## 9 novembre 2026 : défaut rapide ou austérité étalée
 
 - Atlas, section 11 : tableau de six scénarios sur 200 tirages (`makeDraws`/`simDraw`), lecture au choix, calcul à la demande (`defCmpCalc` dans `src/atlas.js`) : pauvreté moyenne 2027-2046, pire année, pic de chômage, revenus cumulés des ménages modestes, dette 2046, tension maximale, crise ou défaut avant 2032.
