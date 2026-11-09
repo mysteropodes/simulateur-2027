@@ -1,0 +1,37 @@
+// « Quelles solutions pour la dette ? » : calcul complet, cohérence des résultats, mobile. Usage : node tests/solutions.js [capture.png]
+const {chromium}=require('playwright'); const path=require('path'); const S=process.argv[2];
+(async()=>{const br=await chromium.launch();const errs=[];let bad=0;const ok=(c,m)=>{if(!c){bad++;console.log('ÉCHEC',m);}else console.log('ok   ',m);};
+const open=async(vp)=>{const pg=await br.newPage({viewport:vp});pg.on('pageerror',e=>errs.push(e.message));
+ await pg.route('**/*',r=>r.request().url().startsWith('file:')?r.continue():r.abort());
+ await pg.goto('file://'+path.resolve(__dirname,'..','index.html'));
+ await pg.waitForFunction(()=>typeof MC!=='undefined'&&MC&&MC.rows&&MC.rows.length&&MC.pol,{timeout:120000});
+ await pg.evaluate(()=>showView('dette')); await pg.click('#solGo'); await pg.waitForSelector('#tblsol',{timeout:180000}); return pg;};
+const pg=await open({width:1280,height:900});
+const r=await pg.evaluate(()=>({res:SOL_RES,n:SOL.length,mc:MC.rows.find(x=>x.p.id==='statu').cr,html:document.getElementById('solBox').innerHTML}));
+const by=Object.fromEntries(r.res.map(o=>[o.id,o]));
+ok(r.res.length===r.n&&r.n===13,'13 solutions calculées');
+ok(!/NaN|undefined|null/.test(r.html),'aucune valeur manquante affichée');
+ok(Math.abs(by.rien.cr-r.mc)<0.011,'« ne rien changer » = statu quo du site ('+Math.round(by.rien.cr*100)+' % / '+Math.round(r.mc*100)+' %)');
+ok(r.res.every(o=>o.crLo<=o.cr+1e-9&&o.cr<=o.crHi+1e-9),'fourchette : bas ≤ central ≤ haut');
+ok(r.res.filter(o=>o.crHi-o.crLo>0.05).length>=6,'la fourchette change le risque pour la plupart des solutions');
+ok(by.mixte2.cr<by.mixte.cr&&by.mixte.cr<by.rien.cr,'plus d\'effort, moins de risque (mixte doublé < mixte < rien)');
+ok(by.mixte2.debt<by.mixte.debt&&by.mixte.debt<by.rien.debt,'plus d\'effort, moins de dette en 2036');
+ok(by.riches.pa.top<by.rien.pa.top&&Math.abs(by.riches.pa.mod/by.rien.pa.mod-1)<0.01,'impôts sur les plus aisés : eux paient, pas les modestes');
+ok(by.eco.pa.mod<by.riches.pa.mod,'économies seules : les modestes perdent plus qu\'avec l\'impôt sur les plus aisés');
+ok(by.repr2.pa.ret<by.repr1.pa.ret&&by.repr1.pa.ret<by.rien.pa.ret&&by.repr2.debt<by.rien.debt,'taux sous l\'inflation : dette plus basse, retraités perdants');
+ok(by.infl.infl>by.rien.infl+1.5,'inflation : +2 points en 2032');
+ok(by.relance.debt>by.rien.debt,'relance : dette plus haute en 2036');
+ok(by.bce.cr<=0.05&&/par hypothèse/.test(r.html),'achats directs de la BCE : risque quasi nul, signalé « par hypothèse »');
+ok(by.epargne.burden<by.rien.burden,'épargne nationale : charge d\'intérêts plus basse');
+const eur=await pg.evaluate(()=>({m:solEur(SOL_RES[1],SOL_RES[0],'mod'),lv:[solLevel('mod'),solLevel('moy'),solLevel('top')]}));
+ok(Math.abs(eur.lv[0]-15083)<1&&Math.abs(eur.lv[2]-76970)<1,'niveaux de vie des groupes (Insee 2024)');
+ok(Math.abs(eur.m-(by.eco.pa.mod/by.rien.pa.mod-1)*eur.lv[0]/12)<0.01,'conversion en euros par mois');
+if(S) await (await pg.$('section[aria-labelledby="h-sol"]')).screenshot({path:S});
+// hypothèses changées : le tableau est remis à zéro
+ok(await pg.evaluate(()=>{BASE.infl+=0.5; solRender(); const z=!!document.getElementById('solGo'); BASE.infl-=0.5; return z;}),'hypothèses changées : recalcul demandé');
+const mb=await open({width:390,height:844});
+ok(await mb.evaluate(()=>document.documentElement.scrollWidth<=window.innerWidth+1),'mobile : pas de débordement de page');
+if(S) await (await mb.$('section[aria-labelledby="h-sol"]')).screenshot({path:S.replace(/\.png$/,'_mob.png')});
+ok(!errs.length,'aucune erreur JavaScript '+errs.join(' | '));
+console.log(r.res.map(o=>o.id.padEnd(8)+' effort '+String(Math.round(o.net)).padStart(5)+' | crise '+Math.round(o.cr*100)+' % ('+Math.round(o.crLo*100)+'-'+Math.round(o.crHi*100)+') | dette '+Math.round(o.debt)+' | intérêts '+o.burden.toFixed(1)+' | modestes '+o.pa.mod.toFixed(1)+' | retraités '+o.pa.ret.toFixed(1)+' | pauvreté '+o.pov.toFixed(1)).join('\n'));
+console.log(bad?bad+' échec(s)':'solutions : tout est bon'); await br.close(); process.exit(bad?1:0);})();

@@ -79,6 +79,8 @@ td.sep,th.sep{border-left:1px solid var(--line)}
 .chip.mid{color:var(--warn);border-color:var(--warn)}
 .chip.bad{color:var(--c1);border-color:var(--c1)}
 .better{color:var(--good)} .worse{color:var(--c1)}
+#tblsol{font-size:.84rem} #tblsol td,#tblsol th{padding:8px 7px} #tblsol td.name{min-width:180px;max-width:230px} @media (max-width:820px){#tblsol td.name{min-width:138px;max-width:150px}} #tblsol .solwho,#tblsol .solrng{display:block;font-family:var(--f-body);font-size:.78rem;font-weight:400;color:var(--muted);white-space:normal}
+#tblsol td b{font-weight:600} button.lnk{background:none;border:0;padding:0;color:var(--accent,inherit);text-decoration:underline;font:inherit;cursor:pointer}
 details.cand{background:var(--surface);border:1px solid var(--line);border-radius:6px}
 details.cand summary{cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:10px;font-weight:600;list-style:none}
 details.cand summary::-webkit-details-marker{display:none}
@@ -982,7 +984,7 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
     <div id="retroBody"><p class="help">Calcul en cours…</p></div>
   </section>
   </div>
-  <div class="view" data-view="dette" data-title="Comprendre la dette" data-sub="Crise de la dette, ce que le modèle mesure, la France vue de l'étranger" hidden>
+  <div class="view" data-view="dette" data-title="Comprendre la dette" data-sub="Crise de la dette, les solutions comparées, ce que le modèle mesure, la France vue de l'étranger" hidden>
   <section class="panel info" aria-labelledby="h-crisis">
     <h2 id="h-crisis">Une crise de la dette est-elle inévitable ?</h2>
     <p><strong>Non.</strong> Dans le simulateur, elle dépend surtout de la lecture économique retenue et des efforts budgétaires de chaque programme. Le tableau ci-dessous est recalculé pour chacune des trois lectures avec votre mode d'application et votre choc ; le scénario de base reprend aussi votre climat et votre IA, qui sont tirés au hasard dans les 200 tirages.</p>
@@ -1008,6 +1010,11 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
 
     <h3>Ce qu'il faut en retenir</h3>
     <p>Le modèle ne dit pas qu'une crise est certaine. Il dit que sans baisse du déficit, ou sans croissance plus forte que prévu, la dette française devient vulnérable d'ici dix à quinze ans. Les économistes s'accordent assez largement sur ce point. Ils divergent sur le moyen de l'éviter : économies sur les dépenses, recettes nouvelles sur les plus aisés, ou relance de l'activité.</p>
+  </section>
+  <section class="panel info" aria-labelledby="h-sol">
+    <h2 id="h-sol">Quelles solutions pour la dette ?</h2>
+    <p>Treize façons de traiter la dette, chacune appliquée seule à la situation actuelle, avec les mêmes règles que pour les candidats : faire des économies, lever des impôts, laisser filer l'inflation, relancer, ou moins dépendre des marchés. Ce ne sont pas des programmes de candidats. Le tableau dit ce que chaque solution change, et qui paie.</p>
+    <div id="solBox"></div>
   </section>
   <section class="panel info" aria-labelledby="h-ind">
     <h2 id="h-ind">Ce que le simulateur mesure, et ce qu'il ne mesure pas</h2>
@@ -1251,6 +1258,7 @@ tr.me td{background:color-mix(in srgb,var(--accent) 12%,transparent)}
     <h2 id="h-log">Corrections et modifications</h2>
     <p>Chaque changement du modèle ou d'un chiffrage est daté ici. L'historique complet, ligne par ligne, est public sur <a href="https://github.com/mysteropodes/simulateur-2027/commits/main" target="_blank" rel="noopener">GitHub</a>. Équipes de campagne et lecteurs peuvent <a href="https://github.com/mysteropodes/simulateur-2027/issues/new/choose" target="_blank" rel="noopener">contester ou compléter un chiffrage</a> ; les réponses sont publiées.</p>
     <ul>
+      <li><strong>9 novembre 2026 : « Quelles solutions pour la dette ? ».</strong> Nouvelle section de la page « Comprendre la dette » : treize stratégies appliquées seules au statu quo (économies, impôts, mixtes, inflation, relance, taux maintenus sous l'inflation, épargne nationale, achats directs par la BCE), avec le risque de crise, la dette, la charge d'intérêts et le pouvoir d'achat traduit en euros par mois. Le risque de crise est donné avec une fourchette (marchés indulgents ou sévères), parce qu'il dépend beaucoup de deux réglages. Vérification du même jour : tous les contrôles passent, les chiffres de départ correspondent aux publications de l'Insee (comptes 2025, niveau de vie 2024), aucune erreur de calcul trouvée.</li>
       <li><strong>9 novembre 2026 : le quiz passe au format Wahl-O-Mat.</strong> Douze affirmations (d'accord, neutre, pas d'accord, compter double), les programmes comparés thèse par thèse, les conséquences de chaque affirmation calculées par le simulateur, et le chiffrage de votre propre programme. Ancienne version : <strong>quiz « quel programme vous ressemble ? ».</strong> Nouvelle page, huit questions en langage simple (retraites, revenus des plus modestes, impôts des plus riches, services publics, climat, immigration, dette, défense) et l'importance donnée à chaque sujet. Résultat : les trois programmes les plus proches, avec l'accord sujet par sujet et la projection du simulateur (risque de crise, pauvreté, dette, pouvoir d'achat), puis les autres programmes. Mêmes règles pour tous : la position d'un programme est une valeur chiffrée tirée de ses mesures ou de ses effets calculés, jamais un jugement ; l'ordre des réponses est tiré au hasard ; proximité = 1 − écart / étendue de l'échelle, pondérée par l'importance. Le quiz dit ce qu'il ne couvre pas (sécurité, justice, Europe, laïcité, institutions, valeurs) et rien n'est enregistré ni envoyé. Le candidat fictif et le scénario du gouvernement n'y figurent pas ; les programmes incomplets (Glucksmann, Le Pen) sont signalés.</li>
       <li><strong>9 novembre 2026 (soir) : candidat fictif, économies sans effet sur les ménages.</strong> Un lecteur propose de rogner un peu certaines mesures, sans être trop impopulaire. Test sur les mêmes 200 tirages : rogner de 10 à 20 % les grosses dépenses (minima, allocation jeunes, allocations familiales, crèches, logement, climat, services) économise 5 à 11 Md€ mais n'abaisse le risque de crise que de 2 à 3 points, en remontant la pauvreté de 0,2 à 0,4 point et les émissions de 7 à 14 Mt : refusé. Trois économies qui ne touchent aucun ménage sont retenues (≈ 4,8 Md€) : aides aux grandes entreprises de 10 à 13 Md€ (6 % des 211 Md€ recensés par le Sénat), médicaments de 2 à 3 Md€ et actes inutiles de 1 à 1,8 Md€ (Cour des comptes). Résultat : risque de crise d'ici 2046 de 61 à 59 %, crise centrale de 2044 à 2045, dette 2036 de 139 à 138 %, pauvreté (13,0 %) et émissions (293 Mt) inchangées. Ordre de grandeur du modèle : environ 1 point de risque pour 2,5 Md€ d'économies ; passer sous 50 % demanderait ≈ 30 Md€. Une recherche d'économies inédites ajoute ensuite les hospitalisations inadéquates (1,3 Md€ : coût net de 4,2 Md€ par an, réduit de 30 % en quatre ans, Cour des comptes, Sécurité sociale 2026, 27 mai 2026), sans effet mesurable sur les indicateurs. Dividendes des dirigeants soumis aux cotisations : aucun chiffrage fiable, effet nul testé à 1 et 2 Md€, non retenus. Non retenus aussi, par prudence sur les doubles comptes : la surtaxe sur les bénéfices des grandes entreprises (80 % de soutien, Elabe, novembre 2025) et les niches LMNP et apport-cession, car le budget 2027, déjà dans la référence de tous les programmes, les compte peut-être déjà.</li>
       <li><strong>9 novembre 2026 : candidat fictif revu avec le modèle recalé.</strong> Recherche relancée autour de son programme (96 000 programmes, 33 mesures et leviers plus onze pistes nouvelles, mêmes règles). Constat : toutes ses recettes étaient déjà au plafond des chiffrages indépendants ; sans recette nouvelle, baisser la dette coûtait des services ou des aides pour un risque de crise ramené de 66 à 57 % au mieux. Huit recettes ajoutées, ≈ 12 Md€ par an : impôt plancher dès 5 M€ de patrimoine (Conseil des prélèvements obligatoires), emprunt obligatoire sur 10 % des assurances-vie au-delà de 100 000 € (idée d'un lecteur, adaptée : un emprunt baisse les intérêts, il n'efface pas la dette), successions majorées dès 5 M€ par héritier (idée d'un lecteur), assurance-vie transmise au barème (Cour des comptes), plus-values immobilières après trente ans, travail dissimulé, fraude aux prestations, fiscalité des boissons sucrées et du vin, rente des autoroutes à l'échéance des concessions. Moitié affectée au climat (19 Md€ au lieu de 16), au logement (50 000 au lieu de 33 000) et aux crèches (300 000 places), moitié à la dette (solde annoncé 1,35 point au lieu de 1,17). Résultat : émissions 2032 293 Mt au lieu de 296, dette 2036 139 % (140), crise toujours en 2044, risque d'ici 2046 61 % (66). Règle de tension reformulée : jamais au-dessus du statu quo avant la crise (62 contre 64), le recalage du 2 novembre ayant relevé toutes les trajectoires. Refusé : un prélèvement unique sur les assurances-vie, qui toucherait des millions d'épargnants modestes et retraités.</li>
@@ -2786,6 +2794,7 @@ function runMC(){
   if(LASTRES&&typeof buildOverview==="function") buildOverview(LASTRES,LASTNC);
   if(typeof buildPolit==="function") buildPolit();
   if(typeof qzRefresh==="function") qzRefresh();
+  if(typeof solRender==="function"&&!SOL_BUSY) solRender();
   if(bandCand!=="none") render(true);
 }
 function addBand(ds){
@@ -2902,7 +2911,7 @@ function showView(id,noScroll){
   for(const v of views) v.hidden=v.dataset.view!==id;
   document.querySelectorAll("[data-go]").forEach(b=>b.setAttribute("aria-current",b.dataset.go===id?"page":"false"));
   const v=views.find(x=>x.dataset.view===id); document.getElementById("viewTitle").textContent=v.dataset.title; document.getElementById("viewSub").textContent=v.dataset.sub;
-  if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);}
+  if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40); if(typeof solRender==="function") solRender();}
   else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);}
   else if(id==="atlas"){setTimeout(()=>{if(typeof buildAtlas==="function") buildAtlas();},30);}
   else if(id==="cands"){setTimeout(()=>{if(typeof buildAuditChart==="function") buildAuditChart();},30);}
@@ -3852,6 +3861,93 @@ document.addEventListener("click",e=>{const g=e.target.closest&&e.target.closest
 function qzRefresh(){QZ_FX={}; const b=document.getElementById("quizBox"); if(b&&(QZ.i<0||QZ.i>=QZ_T.length)) qzRender();}
 document.addEventListener("DOMContentLoaded",qzRender);
 setTimeout(qzRender,0);
+// « Quelles solutions pour la dette ? » : chaque stratégie est appliquée seule au statu quo, avec les mêmes règles et les
+// mêmes tirages que le reste du site. Mesures supposées appliquées en entier (crédibilité 1) : on compare des stratégies,
+// pas des programmes. Le risque de crise est donné avec une fourchette (marchés indulgents / sévères), parce que ce chiffre
+// dépend beaucoup de deux réglages : la sensibilité des taux à la dette et le seuil de crise.
+const SOL_Q="solutions";
+const solL=(m,net,p)=>({p:p||{},m:m.map(x=>[x[0],x[1],x[2],"",SOL_Q]),net});
+const SOL_LV={
+  top:solL([["Impôt sur les hauts revenus et le patrimoine",-20,"capital"]],-20),
+  her:solL([["Héritages et revenus du capital",-15,"capital"]],-15),
+  ent:solL([["Aides aux entreprises réduites",-13,"entreprises"]],-13),
+  soc:solL([["Aides sociales réduites",-10,"social"]],-10),
+  cho:solL([["Assurance chômage durcie",-5,"chomage"]],-5),
+  fon:solL([["Gel de la fonction publique",-8,"fonction"]],-8),
+  srv:solL([],-28.8,{spServ:-0.8}),
+  cm:solL([["Impôt sur le revenu et TVA pour tous",-17,"conso"]],-17),
+  hosp:solL([["Dépenses de santé évitables",-4,"social"]],-4),
+  rel:solL([],30,{spServ:0.83})
+};
+// b : hypothèses communes changées (inflation, financement) ; pf : réglages de scénario du programme
+const SOL=[
+  {id:"rien",n:"Ne rien changer",who:"Personne tout de suite ; tout le monde si la crise arrive",ls:[]},
+  {id:"eco",n:"Économies seules",who:"Usagers des services publics, allocataires, fonctionnaires",ls:["srv","soc","cho","fon"]},
+  {id:"imp",n:"Impôts sur tous",who:"Tous les ménages, par l'impôt et la TVA",ls:["top","her","cm"]},
+  {id:"riches",n:"Impôts sur les plus aisés et le capital",who:"Les 10 % les plus aisés (une partie de la recette s'évade)",ls:["top","her"]},
+  {id:"mixte",n:"Mixte ciblé",who:"Entreprises aidées et ménages les plus aisés",ls:["ent","top","her","hosp"]},
+  {id:"mixte2",n:"Mixte ciblé doublé",who:"Tout le monde, les plus aisés davantage",ls:["ent","top","her","hosp","srv","cm","fon"]},
+  {id:"infl",n:"Laisser filer l'inflation (+2 points)",who:"Épargnants, et salariés si les salaires ne suivent pas",ls:[],b:B=>({infl:B.infl+2})},
+  {id:"relance",n:"Relance par la dépense (+30 Md€ par an)",who:"Personne au départ ; pari sur la croissance",ls:["rel"]},
+  {id:"repr1",n:"Taux maintenus sous l'inflation (léger)",who:"Épargnants et retraités",ls:[],b:()=>({repr:1})},
+  {id:"repr2",n:"Taux maintenus sous l'inflation (fort)",who:"Épargnants et retraités, nettement",ls:[],b:()=>({repr:2})},
+  {id:"epargne",n:"Emprunter davantage à l'épargne nationale",who:"Personne directement ; dette plus exposée aux taux courts",ls:[],b:()=>({stShare:0.3})},
+  {id:"bce",n:"La BCE achète la dette directement",who:"Suppose de réécrire les traités européens",ls:[],pf:{ecbDirect:1},hyp:1},
+  {id:"combo",n:"Mixte ciblé + épargne nationale + BCE",who:"Entreprises aidées, plus aisés ; suppose l'accord européen",ls:["ent","top","her","hosp"],b:()=>({stShare:0.3}),pf:{ecbDirect:1},hyp:1}
+];
+const SOL_GR={mod:[0,2],moy:[3,6],top:[9,9]}; // déciles de chaque groupe, pour traduire les points en euros
+const solLevel=g=>{const [a,b]=SOL_GR[g]; let s=0; for(let i=a;i<=b;i++) s+=LEVELS[i]; return s/(b-a+1);};
+const solMed=a=>{const s=a.filter(x=>x!=null&&!isNaN(x)).sort((x,y)=>x-y); return s.length?s[s.length>>1]:null;};
+let SOL_RES=null, SOL_KEY="", SOL_BUSY=false;
+function solKey(){return JSON.stringify([mode,BASE]);}
+function solOne(s){
+  const B=Object.assign({},BASE,{noCrisis:0},s.b?s.b(BASE):{});
+  const L=s.ls.length?s.ls.map(k=>SOL_LV[k]):[{p:{},m:[],net:0}], Q=qzBuild(L); Q.p.c=1; Object.assign(Q.p,s.pf||{});
+  const risk=(over,n)=>{const d=makeDraws(Object.assign({},B,over)).slice(0,n), R=d.map(x=>simDraw(Q.p,x)); return {R,cr:R.filter(x=>x.crisis!==null).length/R.length};};
+  const c=risk({},NMC), lo=risk({kDebt:B.kDebt*0.65,crisisPrem:B.crisisPrem+1},100), hi=risk({kDebt:B.kDebt*1.3,crisisPrem:B.crisisPrem-1},100), R=c.R, yi=y=>y-START;
+  const o={id:s.id,net:Q.net,cr:c.cr,crLo:Math.min(lo.cr,c.cr,hi.cr),crHi:Math.max(lo.cr,c.cr,hi.cr),cr32:R.filter(x=>x.crisis!==null&&x.crisis<=2032).length/R.length,
+    debt:solMed(R.map(x=>x.debt[yi(2036)])),burden:solMed(R.map(x=>x.burden[yi(2036)])),pov:solMed(R.map(x=>x.pov[yi(2032)])),infl:solMed(R.map(x=>x.infl[yi(2032)])),pa:{}};
+  for(const g of ["mod","moy","top","ret"]) o.pa[g]=solMed(R.map(x=>x.pa[g][yi(2032)]));
+  return o;
+}
+function solRun(){
+  if(SOL_BUSY) return; const box=document.getElementById("solBox"); if(!box) return;
+  SOL_BUSY=true; const key=solKey(), res=[]; let i=0;
+  const step=()=>{
+    if(i<SOL.length){ box.innerHTML=`<p class="help" role="status">Calcul en cours : ${i+1} sur ${SOL.length} (${SOL[i].n})…</p>`;
+      setTimeout(()=>{res.push(solOne(SOL[i])); i++; step();},15); return; }
+    if(typeof setSocialKey==="function") setSocialKey(0.2);
+    SOL_RES=res; SOL_KEY=key; SOL_BUSY=false; solRender();
+  };
+  step();
+}
+function solEur(o,ref,g){const d=o.pa[g]/ref.pa[g]-1; return d*solLevel(g)/12;}
+function solRender(){
+  const box=document.getElementById("solBox"); if(!box) return;
+  if(!SOL_RES||SOL_KEY!==solKey()){ SOL_RES=null;
+    box.innerHTML=`<p><button class="btn-primary" type="button" id="solGo">Comparer les ${SOL.length} solutions</button></p><p class="help">Le calcul prend quelques secondes : chaque solution est rejouée dans 200 tirages, puis dans deux séries de 100 tirages où les marchés sont plus indulgents ou plus sévères. Il reprend vos hypothèses et votre mode d'application.</p>`;
+    document.getElementById("solGo").onclick=solRun; return; }
+  const ref=SOL_RES[0], pc=v=>fmt(v*100,0)+" %", sg=(v,d=0)=>(v>0.5*Math.pow(10,-d)?"+":v<-0.5*Math.pow(10,-d)?"−":"")+fmt(Math.abs(v),d);
+  const eur=(o,g)=>{if(o===ref) return "référence"; const e=solEur(o,ref,g); return `<span class="${e<-2?"worse":e>2?"better":""}">${sg(e)} €</span>`;};
+  const rows=SOL_RES.map((o,k)=>{const s=SOL[k], cls=o.crHi<0.5?"better":o.crLo>=0.5?"worse":"";
+    const ret=o===ref?"référence":`<span class="${o.pa.ret/ref.pa.ret-1<-0.002?"worse":o.pa.ret/ref.pa.ret-1>0.002?"better":""}">${sg((o.pa.ret/ref.pa.ret-1)*100,1)} %</span>`;
+    return `<tr><td class="txt name"><b>${s.n}</b><span class="solwho">${s.who}</span></td>
+      <td class="sep">${o.net?(o.net<0?"−":"+")+fmt(Math.abs(o.net),0)+" Md€":"0"}</td>
+      <td class="sep ${cls}"><b>${pc(o.cr)}</b><span class="solrng">${pc(o.crLo)} à ${pc(o.crHi)}${s.hyp?" (par hypothèse)":""}</span></td>
+      <td>${fmt(o.debt,0)} %</td><td>${fmt(o.burden,1)} %</td>
+      <td class="sep">${eur(o,"mod")}</td><td>${eur(o,"moy")}</td><td>${eur(o,"top")}</td><td>${ret}</td>
+      <td class="sep">${fmt(o.pov,1)} %</td><td>${fmt(o.infl,1)} %</td></tr>`;}).join("");
+  const solid=SOL_RES.filter((o,k)=>k&&o.crHi<0.5).map(o=>SOL.find(s=>s.id===o.id)), fail=SOL_RES.filter(o=>o.crLo>=0.5).map(o=>SOL.find(s=>s.id===o.id)), list=a=>a.map(s=>"« "+s.n+" »").join(", ");
+  const real=solid.filter(s=>!s.hyp), hyp=solid.filter(s=>s.hyp);
+  box.innerHTML=`<div class="tablewrap"><table id="tblsol">
+    <thead><tr><th rowspan="2">Solution, et qui paie</th><th rowspan="2" class="sep" title="Effet annuel sur le déficit : − = déficit réduit, + = dépense en plus">Effort<br>par an</th><th rowspan="2" class="sep" title="Part des tirages avec une crise de financement d'ici 2046. Dessous : la fourchette quand les marchés sont plus indulgents ou plus sévères.">Risque de crise<br>d'ici 2046</th><th rowspan="2">Dette<br>2036</th><th rowspan="2" title="Intérêts de la dette en 2036, en part des recettes publiques">Intérêts<br>2036</th><th colspan="4" class="sep" title="Écart avec « ne rien changer », en 2032, par personne">Pouvoir d'achat en 2032, par mois et par personne</th><th rowspan="2" class="sep">Pauvreté<br>2032</th><th rowspan="2">Inflation<br>2032</th></tr>
+    <tr><th class="sep">Modestes</th><th>Classes moyennes</th><th>10 % les plus aisés</th><th>Retraités</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>
+    <p class="help"><b>Lecture.</b> Valeurs médianes sur 200 tirages. Le pouvoir d'achat est l'écart avec « ne rien changer » en 2032 : en euros par mois pour une personne du groupe (niveau de vie moyen Insee 2024 : ${fmt(solLevel("mod"),0)} € par an pour les trois premiers dixièmes de la population, ${fmt(solLevel("moy"),0)} € pour les quatre suivants, ${fmt(solLevel("top"),0)} € pour le dernier), en pourcentage pour les retraités. Fourchette du risque : la même solution rejouée avec des marchés plus indulgents (taux moins sensibles à la dette, seuil de crise plus haut) et plus sévères.</p>
+    <div class="notice"><strong>Ce qui résiste au changement d'hypothèses.</strong> ${real.length?`Le risque de crise reste sous 50 % même avec des marchés sévères pour : ${list(real)}.`:"Aucune solution budgétaire ou monétaire testée seule ne garde le risque de crise sous 50 % quand les marchés sont sévères."}${hyp.length?` ${list(hyp)} y ${hyp.length>1?"arrivent":"arrive"} aussi, mais par hypothèse : le simulateur plafonne alors les taux, ce qui suppose un accord européen que personne ne garantit.`:""} ${fail.length?`Le risque dépasse 50 % même avec des marchés indulgents pour : ${list(fail)}.`:""} Aucune solution n'est gratuite : chacune déplace la facture vers un groupe différent, indiqué sous son nom.</div>
+    <p class="help">Limites. Les mesures sont supposées appliquées en entier, sans recul ni blocage. « Laisser filer l'inflation » suppose que la BCE laisse faire et que les salaires suivent en partie : c'est une hypothèse favorable. L'épargne nationale est représentée par des titres courts au taux des dépôts. Le défaut sur la dette n'est pas dans ce tableau (voir <a href="https://github.com/mysteropodes/simulateur-2027/blob/main/tests/defcmp.js" target="_blank" rel="noopener">tests/defcmp.js</a>). Comparez la dette de 2036 avec le risque de crise : une crise impose des économies qui font baisser la dette ensuite. <button class="lnk" type="button" id="solAgain">Recalculer</button></p>`;
+  document.getElementById("solAgain").onclick=()=>{SOL_RES=null;solRun();};
+}
 </script>
 </body>
 </html>

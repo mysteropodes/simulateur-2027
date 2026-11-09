@@ -615,6 +615,7 @@ function runMC(){
   if(LASTRES&&typeof buildOverview==="function") buildOverview(LASTRES,LASTNC);
   if(typeof buildPolit==="function") buildPolit();
   if(typeof qzRefresh==="function") qzRefresh();
+  if(typeof solRender==="function"&&!SOL_BUSY) solRender();
   if(bandCand!=="none") render(true);
 }
 function addBand(ds){
@@ -731,7 +732,7 @@ function showView(id,noScroll){
   for(const v of views) v.hidden=v.dataset.view!==id;
   document.querySelectorAll("[data-go]").forEach(b=>b.setAttribute("aria-current",b.dataset.go===id?"page":"false"));
   const v=views.find(x=>x.dataset.view===id); document.getElementById("viewTitle").textContent=v.dataset.title; document.getElementById("viewSub").textContent=v.dataset.sub;
-  if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40);}
+  if(id==="dette"){const tb=document.querySelector("#tblcrisis tbody");tb.innerHTML=`<tr><td colspan="4" class="help">Calcul en cours…</td></tr>`;setTimeout(crisisTable,40); if(typeof solRender==="function") solRender();}
   else if(id==="retro"){setTimeout(()=>{if(typeof buildRetro==="function") buildRetro();},30);}
   else if(id==="atlas"){setTimeout(()=>{if(typeof buildAtlas==="function") buildAtlas();},30);}
   else if(id==="cands"){setTimeout(()=>{if(typeof buildAuditChart==="function") buildAuditChart();},30);}

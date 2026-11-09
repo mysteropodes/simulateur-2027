@@ -74,6 +74,8 @@ td.sep,th.sep{border-left:1px solid var(--line)}
 .chip.mid{color:var(--warn);border-color:var(--warn)}
 .chip.bad{color:var(--c1);border-color:var(--c1)}
 .better{color:var(--good)} .worse{color:var(--c1)}
+#tblsol{font-size:.84rem} #tblsol td,#tblsol th{padding:8px 7px} #tblsol td.name{min-width:180px;max-width:230px} @media (max-width:820px){#tblsol td.name{min-width:138px;max-width:150px}} #tblsol .solwho,#tblsol .solrng{display:block;font-family:var(--f-body);font-size:.78rem;font-weight:400;color:var(--muted);white-space:normal}
+#tblsol td b{font-weight:600} button.lnk{background:none;border:0;padding:0;color:var(--accent,inherit);text-decoration:underline;font:inherit;cursor:pointer}
 details.cand{background:var(--surface);border:1px solid var(--line);border-radius:6px}
 details.cand summary{cursor:pointer;padding:14px 18px;display:flex;align-items:center;gap:10px;font-weight:600;list-style:none}
 details.cand summary::-webkit-details-marker{display:none}

@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 9 novembre 2026 : solutions pour la dette, vérification des calculs
+
+- Nouvelle section « Quelles solutions pour la dette ? » (page « Comprendre la dette », `src/solutions.js`) : treize stratégies appliquées seules au statu quo (économies, impôts sur tous, impôts sur les plus aisés, mixte ciblé, mixte doublé, inflation, relance, taux maintenus sous l'inflation léger et fort, épargne nationale, achats directs par la BCE, combinaison). Pour chacune : effort annuel, risque de crise d'ici 2046, dette et charge d'intérêts 2036, pouvoir d'achat 2032 en euros par mois (modestes, classes moyennes, 10 % les plus aisés) et en % (retraités), pauvreté, inflation.
+- Robustesse : le risque de crise est affiché avec une fourchette (marchés indulgents ou sévères), et le texte de synthèse est généré à partir des résultats (solutions qui tiennent même avec des marchés sévères, solutions qui échouent même avec des marchés indulgents). Les solutions qui reposent sur une hypothèse (plafonnement des taux par la BCE) sont signalées.
+- Vérification des calculs : toutes les séries de tests passent ; identité de la dette recalculée (écart nul) ; conservation des montants dans la répartition par décile ; chiffres de départ confrontés aux publications de l'Insee (comptes 2025 : dette 115,7 %, déficit 5,1 %, dépenses 57,3 %, recettes 52,2 % ; niveau de vie 2024 : pauvreté 15,4 %, Gini 0,302). Aucune erreur trouvée. Le risque de crise du statu quo va de 66 à 90 % selon la sensibilité des marchés : d'où la fourchette.
+- Nouveau test : `tests/solutions.js` (19 contrôles).
+
 ## 9 novembre 2026 : points chauds du quiz
 
 - Après le classement, un zoom par programme (onglets) : trois plus grosses mesures, risque de crise, pari BCE, risque juridique, majorité parlementaire, tension sociale (pic, année du pic, années au-dessus de 60, courbe 2027-2046), violence politique, gagnants et perdants, accords et désaccords avec les réponses. Mêmes seuils pour tous.
