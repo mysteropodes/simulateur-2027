@@ -284,6 +284,7 @@ h2{font-size:1.12rem;font-weight:650}
 .qz-hotbody h4{margin:0;font-size:1.15rem}.qz-hotbody h5{margin:8px 0 0;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .qz-hl,.qz-flags{margin:0;padding:0;list-style:none;display:grid;gap:6px}
 .qz-hl li{display:grid;gap:2px}.qz-flags li{padding-left:14px;position:relative}.qz-flags li:before{content:"!";position:absolute;left:0;color:var(--warn);font-weight:700}
+.qz-spark{width:100%;max-width:420px;height:auto;color:var(--muted)}
 .qz-two{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
 @media (min-width:700px){.qz-two{grid-template-columns:1fr 1fr}}
 .qz-banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--line);border-radius:8px;background:var(--accent-soft);margin-bottom:12px}
@@ -3783,6 +3784,8 @@ function qzMine(box){
 }
 // « Points chauds » d'un programme : mêmes règles pour tous (3 plus grosses mesures, risque, paris, gagnants et perdants, accords et désaccords avec vos réponses).
 const QZ_GRP={mod:"ménages modestes",moy:"classes moyennes",ais:"ménages aisés",top:"10 % les plus riches",ret:"retraités",jeu:"jeunes"};
+function qzSpark(v,y0){const W=300,H=70,mx=Math.max(100,...v), x=i=>6+i*(W-12)/(v.length-1), y=a=>H-6-a/mx*(H-12), d=v.map((a,i)=>(i?"L":"M")+x(i).toFixed(1)+","+y(a).toFixed(1)).join(" ");
+  return `<svg class="qz-spark" viewBox="0 0 ${W} ${H+14}" role="img" aria-label="Indice de tension sociale de ${y0} à ${y0+v.length-1}, seuil de 60"><line x1="0" x2="${W}" y1="${y(60)}" y2="${y(60)}" stroke="currentColor" stroke-dasharray="3 3" opacity=".45"/><text x="${W}" y="${y(60)-3}" text-anchor="end" font-size="9" fill="currentColor" opacity=".7">seuil 60</text><path d="${d}" fill="none" stroke="var(--c)" stroke-width="2.5" stroke-linejoin="round"/><text x="6" y="${H+11}" font-size="9" fill="currentColor" opacity=".7">${y0}</text><text x="${W-6}" y="${H+11}" text-anchor="end" font-size="9" fill="currentColor" opacity=".7">${y0+v.length-1}</text></svg>`;}
 function qzHot(id,pos,rk){
   const L=LASTRES.find(o=>o.p.id===id), sq=LASTRES.find(o=>o.p.id==="statu").r, p=L.p, r=L.r;
   const nm=p.name.replace(/ \(.*/,"");
@@ -3798,6 +3801,10 @@ function qzHot(id,pos,rk){
   if(p.c<0.5) flags.push(`Seulement <strong>${Math.round(p.c*100)} %</strong> des montants annoncés sont jugés crédibles (règle commune).`);
   if((p.legal||1)<0.7) flags.push(`Risque juridique : faisabilité retenue <strong>${Math.round(p.legal*100)} %</strong> (traités, Conseil constitutionnel).`);
   if((p.parl||1)<0.5) flags.push(`Majorité parlementaire incertaine : faisabilité retenue <strong>${Math.round(p.parl*100)} %</strong>.`);
+  const T=r.tension, Y0=2025, ty=[]; T.forEach((v,i)=>{if(i>=2&&v>60) ty.push(Y0+i);});
+  const pk=Math.max(...T.slice(2)), py=Y0+2+T.slice(2).indexOf(pk);
+  let runs=[],s=null; ty.forEach((y,k)=>{if(s===null)s=y; if(ty[k+1]!==y+1){runs.push([s,y]);s=null;}});
+  const tens=`<p>Indice de tension sociale (0 à 100, lecture centrale) : pic de <strong>${Math.round(pk)}</strong> en <strong>${py}</strong>. ${ty.length?`Au-dessus de 60 pendant <strong>${ty.length} an${ty.length>1?"s":""}</strong> (${runs.map(([a,b])=>a===b?a:a+" à "+b).join(", ")}).`:"Jamais au-dessus de 60."}</p>${qzSpark(T.slice(2,2+20),Y0+2)}`;
   const dv=g=>sq.pa[g]?(r.pa[g][7]/sq.pa[g][7]-1)*100:0, gs=Object.keys(QZ_GRP).map(g=>({g,v:dv(g)})).sort((a,b)=>b.v-a.v);
   const win=gs[0], lose=gs[gs.length-1];
   const gl=`<p>Pouvoir d'achat en 2032, par rapport à une France sans mesure nouvelle : le plus favorisé est le groupe des <strong>${QZ_GRP[win.g]}</strong> (${qzSig(win.v,1)} %), le plus touché celui des <strong>${QZ_GRP[lose.g]}</strong> (${qzSig(lose.v,1)} %).</p>`;
@@ -3805,7 +3812,7 @@ function qzHot(id,pos,rk){
   for(const t of QZ_T){const a=QZ.ans[t.id]; if(a==null||a===0) continue; const s=pos[id][t.id].s; if(s==null) continue; if(s===a) agree.push(t); else if(s===-a) clash.push(t);}
   const li=(ic)=>t=>`<li>${qzIc(ic)}<span><strong>${qzEsc(t.theme)}</strong> (vous : ${QZ.ans[t.id]===1?"d'accord":"pas d'accord"}) · programme : ${qzEsc(pos[id][t.id].txt)}</span></li>`;
   const pers=`<div class="qz-two"><div><h5>Là où vous êtes sur la même ligne</h5>${agree.length?`<ul class="qz-plist">${agree.map(li(1)).join("")}</ul>`:'<p class="help">Aucun sujet où vous prenez la même position tranchée.</p>'}</div><div><h5>Là où ça coince</h5>${clash.length?`<ul class="qz-plist">${clash.map(li(-1)).join("")}</ul>`:'<p class="help">Aucune opposition frontale sur vos réponses.</p>'}</div></div>`;
-  return `<h4>${qzEsc(nm)} : les points chauds</h4><h5>Les trois plus grosses mesures</h5>${big}<h5>Ce que le simulateur surveille</h5><ul class="qz-flags">${flags.map(f=>`<li>${f}</li>`).join("")}</ul>${gl}<h5>Par rapport à vos réponses</h5>${pers}<p class="help">Mêmes critères et mêmes seuils pour tous les programmes ; ce sont des points d'attention chiffrés, pas un jugement.</p>`;
+  return `<h4>${qzEsc(nm)} : les points chauds</h4><h5>Les trois plus grosses mesures</h5>${big}<h5>Ce que le simulateur surveille</h5><ul class="qz-flags">${flags.map(f=>`<li>${f}</li>`).join("")}</ul><h5>Tension sociale dans le temps</h5>${tens}${gl}<h5>Par rapport à vos réponses</h5>${pers}<p class="help">Mêmes critères et mêmes seuils pour tous les programmes ; ce sont des points d'attention chiffrés, pas un jugement.</p>`;
 }
 function qzHotRender(id,pos,rk){
   const el=document.getElementById("qzHot"); if(!el) return;

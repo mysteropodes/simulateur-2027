@@ -279,6 +279,7 @@ h2{font-size:1.12rem;font-weight:650}
 .qz-hotbody h4{margin:0;font-size:1.15rem}.qz-hotbody h5{margin:8px 0 0;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
 .qz-hl,.qz-flags{margin:0;padding:0;list-style:none;display:grid;gap:6px}
 .qz-hl li{display:grid;gap:2px}.qz-flags li{padding-left:14px;position:relative}.qz-flags li:before{content:"!";position:absolute;left:0;color:var(--warn);font-weight:700}
+.qz-spark{width:100%;max-width:420px;height:auto;color:var(--muted)}
 .qz-two{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
 @media (min-width:700px){.qz-two{grid-template-columns:1fr 1fr}}
 .qz-banner{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--line);border-radius:8px;background:var(--accent-soft);margin-bottom:12px}

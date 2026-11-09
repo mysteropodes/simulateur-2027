@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 9 novembre 2026 : points chauds du quiz
+
+- Après le classement, un zoom par programme (onglets) : trois plus grosses mesures, risque de crise, pari BCE, risque juridique, majorité parlementaire, tension sociale (pic, année du pic, années au-dessus de 60, courbe 2027-2046), violence politique, gagnants et perdants, accords et désaccords avec les réponses. Mêmes seuils pour tous.
+
 ## 9 novembre 2026 : quiz refondu sur le modèle du Wahl-O-Mat
 
 - `src/quiz.js` réécrit : douze affirmations, trois réponses plus « passer » et « compte double », score façon Wahl-O-Mat, matrice candidats × affirmations, position chiffrée de chaque programme avec son libellé de mesure.
