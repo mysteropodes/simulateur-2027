@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 10 novembre 2026 : négociation européenne annoncée par LFI sur la dette détenue par la BCE
+
+- Fiche Mélenchon et aide du curseur « Alliés de la France face à la BCE » : ajout de la position publiée par LFI le 20 octobre 2026 (« dans le cadre d'une négociation avec les partenaires européens », linsoumission.fr). Aucun allié nommé : réglage par défaut inchangé (probabilité d'accord 20 %, jusqu'à 70 % avec une majorité de la zone euro). Aucun changement de calcul.
+
 ## 9 novembre 2026 : solutions pour la dette, vérification des calculs
 
 - Nouvelle section « Quelles solutions pour la dette ? » (page « Comprendre la dette », `src/solutions.js`) : treize stratégies appliquées seules au statu quo (économies, impôts sur tous, impôts sur les plus aisés, mixte ciblé, mixte doublé, inflation, relance, taux maintenus sous l'inflation léger et fort, épargne nationale, achats directs par la BCE, combinaison). Pour chacune : effort annuel, risque de crise d'ici 2046, dette et charge d'intérêts 2036, pouvoir d'achat 2032 en euros par mois (modestes, classes moyennes, 10 % les plus aisés) et en % (retraités), pauvreté, inflation.
