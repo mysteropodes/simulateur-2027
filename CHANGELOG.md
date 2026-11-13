@@ -2,6 +2,16 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 13 novembre 2026 (2) : David Lisnard ajouté
+
+- Nouveau candidat `lisnard` (Nouvelle Énergie) : `src/ui.part` (fiche, paramètres étendus, grille des droits, textes âge et logement), `src/microsim.js` (cinq mesures ménages), `src/audit_data.js` (cinq mesures non comptées), `src/parl.js` (bloc LR et divers droite), `src/analog_data.js` et `src/polit_data.js` (érosion des droits, recalculée avec le script d'analogues V-Dem), `src/atlas.js`, `src/head.part` (couleur `--c9`).
+- Règles communes : effort annoncé = solde publié (200 Md€ d'économies − 160 Md€ rendus = 40 Md€, 1,11 pt de PIB) ; crédibilité 0,3 (aucun chiffrage indépendant) ; baisses de prélèvements en entier, économies à 30 %.
+- Lecture centrale : effort retenu −2,8 pts ; dette 2032 143,8 % (136,2 % tel qu'annoncé), dette 2036 177,2 % ; déficit 2032 10,3 % ; chômage 7,9 % ; pauvreté 17,5 % ; 18 points de tension.
+- Hypothèses du simulateur : 65 ans ≈ 12 Md€, gel des pensions ≈ 10 Md€, solde migratoire −100 000, +10 % de détenus, +30 % de magistrats, 20 000 places de prison.
+- Correction : chez Philippe, l'interdiction de la syndicalisation des magistrats passe des contre-pouvoirs aux libertés publiques (libertés « mixte », contre-pouvoirs « neutre ») ; 6 points de tension inchangés, recul de l'indice de démocratie libérale 0,023.
+- Graphique de l'indice de tension structurelle : chaque courbe prend la couleur du candidat.
+- Tests : effort retenu de Lisnard ajouté à `tests/regression.js`, fiche ajoutée à `tests/quiz.js`.
+
 ## 13 novembre 2026 : fiche Philippe mise à jour, autres candidats recensés
 
 - `src/ui.part`, Philippe : `migDelta` −10 → −70 (immigration légale divisée par deux, annonce du 8 octobre 2026 ; hypothèse du simulateur, comme Retailleau) ; `sec.pen` 0,04 (peines planchers, grand oral de Radio France du 12 novembre) ; grille des droits, contre-pouvoirs « neutre » → « mixte » (interdiction de la syndicalisation des magistrats), soit 6 points de tension au lieu de 3 ; deux lignes de mesures et deux sources ajoutées ; fiche vérifiée le 13 novembre.

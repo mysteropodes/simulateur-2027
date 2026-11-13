@@ -29,6 +29,8 @@ const AUDIT_SRC={
  gl_prog:["Programme de R. Glucksmann, économie (recensé par votons-2027.fr)","https://votons-2027.fr/candidats/glucksmann/programme/economie"],
  at_prog:["Programme de G. Attal, économie (recensé par votons-2027.fr)","https://votons-2027.fr/candidats/attal/programme/economie"],
  at_prog2:["Programme de G. Attal (recensé par votons-2027.fr)","https://votons-2027.fr/candidats/attal/programme"],
+ li_ifrap:["iFRAP – comparateur des programmes 2027 (propositions de D. Lisnard)","https://www.ifrap.org/comparateurs/presidentielles-2027"],
+ li_iso:["Isoloir 2027 – programme de D. Lisnard en 49 mesures","https://isoloir2027.fr/programme/david-lisnard"],
  ph_prog:["Programme d'É. Philippe, économie (recensé par votons-2027.fr)","https://votons-2027.fr/candidats/philippe/programme/economie"],
  ph_prog2:["Programme d'É. Philippe (recensé par votons-2027.fr)","https://votons-2027.fr/candidats/philippe/programme"],
  ph_lcp:["LCP – allocations familiales : Philippe propose 350 € dès le premier enfant (9 octobre 2026)","https://lcp.fr/actualites/allocations-familiales-edouard-philippe-propose-350-euros-des-le-premier-enfant-443576"],
@@ -84,6 +86,12 @@ const AUDIT={
   ["Une part fiscale entière dès le deuxième enfant",2.5,1.5,4,"tete","taxLarge",["ph_prog2"],"Une demi-part de plus pour ≈ 3,5 millions de foyers avec deux enfants, avantage plafonné (≈ 1 800 € par demi-part) : ≈ 2 à 4 Md€ (hypothèse du simulateur)."],
   ["Réservistes (de 45 000 à 250 000) et service militaire volontaire (de 3 000 à 50 000 places par an)",2,1,3,null,"fonct",["ph_prog2"],"Hypothèse du simulateur."],
   ["Soutien scolaire universel, prêt à taux zéro à chaque naissance, temps partiel parental (80 % du temps payé 100 %) pendant deux mois",2,1,4,"tete",null,["ph_prog","ph_prog2","ph_euronews"],"Montants non annoncés ; hypothèse du simulateur."]]},
+ lisnard:{items:[
+  ["Revalorisation des enseignants : +20 % en cinq ans, conditionnée à une réorganisation",8,6,11,"fonction",null,["li_iso","profs"],"Même calcul que pour Philippe : ≈ 870 000 enseignants, ≈ 40 Md€ de rémunérations hors pensions."],
+  ["Impôt sur les sociétés à 20 % (25 % aujourd'hui), si s'ajoutant aux 40 Md€ d'impôts de production",0,0,14,null,"entr",["li_ifrap"],"≈ 2,8 Md€ par point d'impôt sur les sociétés (ordre de grandeur) : jusqu'à 14 Md€ si la baisse s'ajoute aux 160 Md€ annoncés. Lecture centrale : comprise dans son total."],
+  ["Suppression de l'IFI, quotient familial déplafonné, CSG déductible, abattements sur les donations",0,0,12,null,"taxLarge",["li_ifrap"],"IFI ≈ 2 Md€, plafonnement du quotient familial ≈ 4 Md€ ; reste non chiffré. Lecture centrale : compris dans son total."],
+  ["20 000 places de prison, budget de la justice vers la moyenne européenne, doublement des procureurs",2,1,4,null,"fonct",["li_iso","li_ifrap"],"Hypothèse du simulateur."],
+  ["Doublement du nombre d'étudiants en médecine d'ici 2030, revalorisation des soignants",2,1,4,null,"fonct",["li_ifrap"],"Montants non annoncés ; hypothèse du simulateur."]]},
  retailleau:{items:[
   ["Congé de naissance de six mois payé à 70 %",2,1,5,"tete",null,["re_prog","conge"],"Le congé supplémentaire de un à deux mois par parent voté en 2025 coûte ≈ 0,6 Md€ en régime de croisière ; six mois au total en ajoutent trois à quatre (hypothèse du simulateur)."],
   ["Déduction des intérêts d'emprunt immobilier pour les familles (50 à 100 % selon le nombre d'enfants)",3,1.5,6,"tete","taxLarge",["re_prog"],"Hypothèse du simulateur."],

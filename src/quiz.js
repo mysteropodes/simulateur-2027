@@ -168,7 +168,7 @@ function qzMine(box){
      <tr><td>Dette publique en 2036 (% du PIB)</td><td>${fmt(m(R,x=>x.debt[11]),0)}</td><td>${fmt(m(Q,x=>x.debt[11]),0)}</td></tr>
      <tr><td>Pauvreté en 2032</td><td>${fmt(m(R,x=>x.pov[7]),1)} %</td><td>${fmt(m(Q,x=>x.pov[7]),1)} %</td></tr>
      <tr><td>Chômage en 2032</td><td>${fmt(m(R,x=>x.unemp[7]),1)} %</td><td>${fmt(m(Q,x=>x.unemp[7]),1)} %</td></tr></tbody></table>
-    ${cands.length?`<p class="help">Pour comparaison, le risque de crise va de ${Math.min(...cands)} % à ${Math.max(...cands)} % selon les six programmes. Valeurs médianes sur les tirages ; ce n'est pas une prévision.</p>`:""}</div>`;
+    ${cands.length?`<p class="help">Pour comparaison, le risque de crise va de ${Math.min(...cands)} % à ${Math.max(...cands)} % selon les sept programmes. Valeurs médianes sur les tirages ; ce n'est pas une prévision.</p>`:""}</div>`;
 }
 // « Points chauds » d'un programme : mêmes règles pour tous (3 plus grosses mesures, risque, paris, gagnants et perdants, accords et désaccords avec vos réponses).
 const QZ_GRP={mod:"ménages modestes",moy:"classes moyennes",ais:"ménages aisés",top:"10 % les plus riches",ret:"retraités",jeu:"jeunes"};

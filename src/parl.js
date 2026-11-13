@@ -4,7 +4,7 @@
 const PB=["L","G","C","D","R","A"];
 const PBN={L:"LFI",G:"PS, écologistes, PCF",C:"Centre (Ensemble)",D:"LR et divers droite",R:"RN et alliés",A:"Autres (régionalistes, divers)"};
 const PBC={L:"--c1",G:"--c4",C:"--c3",D:"--c5",R:"--c2",A:"--c0"};
-const PCAND=[["melenchon","Mélenchon","L"],["glucksmann","Glucksmann","G"],["attal","Attal","C"],["philippe","Philippe","C"],["retailleau","Retailleau","D"],["lepen","Le Pen","R"]];
+const PCAND=[["melenchon","Mélenchon","L"],["glucksmann","Glucksmann","G"],["attal","Attal","C"],["philippe","Philippe","C"],["retailleau","Retailleau","D"],["lisnard","Lisnard","D"],["lepen","Le Pen","R"]];
 const PSD1=[0.1,0.1,0.12,0.15,0.08,0.15]; // écart local au glissement uniforme (log) : la moitié ou moins de l'écart mesuré entre 2022 et 2024 (0,17 à 0,50), qui inclut les changements de candidats
 const P_MAJ=289;
 function pRng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -20,7 +20,7 @@ function pW(b,top,fr){
 function pAff(fr){const A=[];for(let i=0;i<6;i++){A.push([]);for(let j=0;j<6;j++)A[i].push((1-fr)*PARL.A22[i][j]+fr*PARL.A24[i][j]);}return A;}
 function pTarget(st){
   const u=st.gauche!=="divisee";
-  return {melenchon:u?[0,1]:[0],glucksmann:u?[0,1]:[1],attal:[2],philippe:[2],retailleau:[3],lepen:[4]}[st.pres]||null;
+  return {melenchon:u?[0,1]:[0],glucksmann:u?[0,1]:[1],attal:[2],philippe:[2],retailleau:[3],lisnard:[3],lepen:[4]}[st.pres]||null;
 }
 function pMax(cs,b){let m=-1;cs.forEach((c,i)=>{if(c.b===b&&(m<0||c.v>cs[m].v))m=i;});return m;}
 // premier tour du scénario : 2024 réel, puis gauche divisée, bonus du camp présidentiel, alliances
