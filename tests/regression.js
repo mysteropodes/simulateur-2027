@@ -31,6 +31,11 @@ const path=require('path');
     const cr=ids.filter(i=>i!=="statu").map(i=>[i,rs[i].crisis||2047]).sort((a,b)=>b[1]-a[1]);
     ok("Crise la plus tardive, crises affichées : Philippe ou Retailleau",["philippe","retailleau"].includes(cr[0][0]));
     // audit du 3 novembre 2026 : calage sur les sources officielles
+    // risque d'érosion démocratique (13 novembre 2026)
+    near("Risque d'érosion démocratique 2036, statu quo (modèle V-Dem 1990-2020)",sq.demRisk[y(2036)],15,25);
+    ok("Risque d'érosion : cumulé, donc jamais en baisse",ids.every(i=>r[i].demRisk.every((v,k,a)=>k===0||v>=a[k-1]-1e-9)));
+    ok("Risque d'érosion 2036 : Le Pen, Retailleau et Lisnard au-dessus du statu quo, Glucksmann en dessous",["lepen","retailleau","lisnard"].every(i=>r[i].demRisk[y(2036)]>sq.demRisk[y(2036)])&&r.glucksmann.demRisk[y(2036)]<sq.demRisk[y(2036)]);
+    ok("Tel qu'annoncé, les mesures notées restreint sur les trois critères franchissent le seuil",sim("lepen",null,"annonce").demRisk[y(2032)]===100);
     near("Déficit 2026 statu quo (PLF 2027 : 5,4 ; OFCE 5,5)",sq.def[y(2026)],5.3,5.6);
     near("Dette 2026 statu quo (PLF 2027 : 119,3)",sq.debt[y(2026)],118.9,119.9);
     near("Intérêts 2027 statu quo, % du PIB (PLF 2027 : 2,9 aux taux de septembre)",sq.def[y(2027)]-sq.prim[y(2027)],2.8,3.2);

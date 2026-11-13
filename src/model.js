@@ -6,6 +6,19 @@ const START=2025, END=2046;
 const CLIM={aucun:{dmg:0,heat:0},moderee:{dmg:0.03,heat:0.02},forte:{dmg:0.07,heat:0.04},tresforte:{dmg:0.12,heat:0.06}};
 const AI={aucune:{prod:0,disp:0,gini:0,tax:0},lente:{prod:0.1,disp:0.5,gini:0.005,tax:0.1},moyenne:{prod:0.3,disp:1.2,gini:0.012,tax:0.2},rapide:{prod:0.6,disp:2.5,gini:0.025,tax:0.4}};
 const feas=p=>0.5*p.parl+0.25*p.adh+0.25*p.legal;
+// Risque d'érosion démocratique (13 novembre 2026) : modèle estimé sur les démocraties du panel V-Dem (v15), une ligne par pays et par année.
+// Événement : dans les cinq ans, l'indice de démocratie libérale perd au moins 0,10 ou le pays cesse d'être classé démocratie.
+// Régression logistique, erreurs groupées par pays ; facteurs dans l'ordre de X : niveau de l'indice, sa variation sur cinq ans,
+// polarisation politique (v2cacamps), mobilisations de masse (maximum sur trois ans), PIB par habitant (log), croissance du PIB par habitant sur cinq ans (log).
+// Trois périodes d'estimation : la centrale (1990-2020) sert au graphique, les deux autres donnent la fourchette. AUC et calage mesurés sur des pays laissés hors de l'estimation.
+const DEMO={X:["v2x_libdem", "ld5", "v2cacamps", "mob3", "lgdp", "gdp5"],fr:{"v2x_libdem": 0.8, "ld5": 0.011, "v2cacamps": 1.43, "mob3": 1.924, "lgdp": 4.5178, "gdp5": 0.0375},pop:0.25,drop:0.10,crisisOR:2.1, // pop : croissance de la population, % par an ; drop : seuil d'érosion forte ; crisisOR : chances multipliées pendant les cinq ans qui suivent une crise de la dette (même estimation que la section « Changer les règles du jeu » : une chute du PIB de 5 % double le risque)
+
+ central:{"b": [1.8877, -5.2217, -1.7494, 0.3615, 0.3128, -0.2203, -1.2778], "y0": 1990, "y1": 2020, "n": 2647, "nc": 115, "rate": 0.1334, "auc": 0.808, "brier": 0.1011, "fr5": 0.0968, "cal": [["(0.0, 0.05]", 1153, 0.023, 0.018], ["(0.05, 0.15]", 583, 0.091, 0.113], ["(0.15, 0.3]", 512, 0.22, 0.25], ["(0.3, 1.0]", 399, 0.431, 0.346]], "p": [0.0, 0.001, 0.041, 0.018, 0.002, 0.271, 0.172]},
+ long:{"b": [2.3818, -6.5597, -2.2229, 0.3759, 0.2894, -0.17, -1.8337], "y0": 1950, "y1": 2020, "n": 3972, "nc": 115, "rate": 0.1073, "auc": 0.843, "brier": 0.0792, "fr5": 0.067, "cal": [["(0.0, 0.05]", 2138, 0.018, 0.019], ["(0.05, 0.15]", 823, 0.091, 0.096], ["(0.15, 0.3]", 562, 0.217, 0.231], ["(0.3, 1.0]", 449, 0.446, 0.394]], "p": [0.0, 0.0, 0.015, 0.006, 0.001, 0.338, 0.048]},
+ recent:{"b": [1.7565, -4.773, -1.0545, 0.3835, 0.4154, -0.2338, -1.1644], "y0": 2000, "y1": 2020, "n": 1921, "nc": 114, "rate": 0.1562, "auc": 0.799, "brier": 0.114, "fr5": 0.1387, "cal": [["(0.0, 0.05]", 767, 0.024, 0.014], ["(0.05, 0.15]", 414, 0.093, 0.15], ["(0.15, 0.3]", 355, 0.222, 0.245], ["(0.3, 1.0]", 385, 0.434, 0.364]], "p": [0.004, 0.005, 0.3, 0.029, 0.0, 0.257, 0.362]}};
+// Recul de l'indice de démocratie libérale associé à la grille des droits d'un programme (règle commune, voir la Méthode) : moitié de la somme des reculs des composantes
+const DEMO_R={cp:0.28,lib:0.06,egal:0.03}, DEMO_LV={restreint:1,mixte:0.5,neutre:0,renforce:-0.25};
+function demDelta(grid){ if(!grid) return 0; let s=0; for(const k in DEMO_R) if(grid[k]) s+=DEMO_R[k]*(DEMO_LV[grid[k][0]]||0); return -0.5*s; }
 const ramp=(t,a,b)=>t<=a?0:t>=b?1:(t-a)/(b-a);
 const GROUPS=[["mod","Ménages modestes (D1-D3)",1.5,2.0,0.6],["moy","Classes moyennes (D4-D7)",0.8,1.2,0.4],["ais","Aisés (D8-D9)",0.4,0.8,0.2],["top","10 % les plus riches",0.2,0.6,0.1],["ret","Retraités",0.1,1.5,0.3],["jeu","Jeunes 18-29 ans",2.0,1.0,0.5]];
 // [clé, nom, sensibilité au chômage, à l'ajustement imposé, aux chocs d'inflation] en % de revenu par point
@@ -150,8 +163,10 @@ function simulate(p,mode,b){
   const entrMd=(CD.cP.entr*realSp+CD.cN.entr*real)*(p.gdpRef||b.gdpProg||b.gdpMd)/100; // Md€ de baisse (+) ou de hausse (−) des prélèvements sur les entreprises, tous postes compris (mesures, impôts non détaillés, postes du simulateur)
   let compLevPrev=0;
   const xPrev={}, imp=[]; for(const k in comp) xPrev[k]=0; gap=b.gap0||0; let gapO=b.gap0||0, struct=0, sOtherPrev=b.pd0, migN=0, migW=0, migLevelPrev=0, oilLevPrev=0, pDevPrev=0, depPrev=1, subLevPrev=0; const billHist=[];
-  const o={ration:[0],sect:[Object.assign({inv:0},SECT0)],levy:[0],natDiv:[0],prisonD:[133],judgeLoad:[100],theftI:[100],secCost:[0],povA:[b.pov0],retreat:[0],tensGdp:[0],house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
+  const o={ration:[0],sect:[Object.assign({inv:0},SECT0)],levy:[0],natDiv:[0],prisonD:[133],judgeLoad:[100],theftI:[100],secCost:[0],demRisk:[0],libdem:[DEMO.fr.v2x_libdem],povA:[b.pov0],retreat:[0],tensGdp:[0],house:[100],rent:[100],ca:[-0.4],defEtat:[4.4],defSecu:[0.2],defLoc:[0.5],inh:[10],succ:[0.5],brent:[69],icf:[b.icf0],births:[b.births0],mig:[0],nw:[b.nw0],react:[0],spread:[0.75],rating:[0],defense:[b.def0],growth:[b.realg],infl:[b.infl],youth:[b.youth0],po:[b.po0],dep:[b.dep0],energy:[b.energy0],artif:[b.artif0],cons:[b.cons0],sp:[b.sp0],ratioEl:[(LEV[9]+IK[9])/(LEV[0]+IK[0])],ratioMon:[LEV[9]/LEV[0]],emp55:[emp55],w10:[w10],snow:[0],prim:[0],debt:[d],def:[null],unemp:[u],gini:[b.gini0],pov:[b.pov0],health:[0],heat:[b.heatBase],tension:[40],burden:[burden],co2:[co2],pm:[b.pm0],pens:[b.pensBal0],retliv:[b.retLiv0-0.42],pa:{}};
   for(const [g] of GROUPS) o.pa[g]=[100];
+  const dmS=DEMO[b.demSet||"central"], dmD=p.demD!=null?p.demD:demDelta(p.grid), dmLd=[], dmG=[]; let dmSurv=1, dmLg=DEMO.fr.lgdp; // risque d'érosion démocratique : indice et croissance par habitant des cinq dernières années
+  for(let k=5;k>=1;k--){dmLd.push(DEMO.fr.v2x_libdem-DEMO.fr.ld5*k/5); dmG.push(DEMO.fr.gdp5/5);} dmLd.push(DEMO.fr.v2x_libdem);
   for(let t=START+1;t<=END;t++){
     const SH=[[b.shock,b.shockYear],[b.shock2||"none",b.shockYear2||0]], hasS=(ty,k)=>SH.some(([x,Y])=>x===ty&&t-Y===k), z={real:0,infl:0,spread:0,euMult:1,pd:0,deaths:0,tension:0}; let deathsClim=0, deathsEpid=0;
     if(RP&&t>=2028) z.tension+=3*RP.pi; // inflation durable : mécontentement, comme un choc d'inflation modéré (3 points de tension par point d'inflation)
@@ -370,6 +385,13 @@ function simulate(p,mode,b){
     const po=b.po0+taxEff+0.3*forcedCum; const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
     const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*pol*retreat*phase:zBase;
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
+    { // érosion démocratique : mesures du programme (pondérées par la solidité juridique, comme les autres mesures touchant aux droits), puis risque annuel tiré du modèle V-Dem
+      const lf=mode==="annonce"?1:mode==="pondere"?f:(p.legal==null?1:p.legal), ld=DEMO.fr.v2x_libdem+dmD*lf*ramp(t,2026,2029)*retreat;
+      const gpc=Math.log(1+realg/100)-DEMO.pop/100; dmLg+=gpc; dmG.push(gpc); dmLd.push(ld);
+      const n=dmLd.length, ld5=ld-dmLd[n-6], g5=dmG.slice(-5).reduce((a,x)=>a+x,0), B=dmS.b;
+      const z=B[0]+B[1]*ld+B[2]*ld5+B[3]*(b.demPol??DEMO.fr.v2cacamps)+B[4]*(b.demMob??DEMO.fr.mob3)+B[5]*dmLg+B[6]*g5, od=Math.exp(z)*((crisis!==null&&t-crisis<5)?DEMO.crisisOR:1), p5=od/(1+od);
+      dmSurv*=Math.pow(1-p5,0.2); const own=DEMO.fr.v2x_libdem-ld>=DEMO.drop-1e-9;
+      o.demRisk.push(own?100:100*(1-dmSurv)); o.libdem.push(ld); }
     o.growth.push(realg);o.ration.push(fdep>0?100*ration/fdep:0);o.retreat.push((1-retreat)*100);o.tensGdp.push(tensLev);o.infl.push(pi);o.youth.push(b.youth0*u/b.u0);o.po.push(po);o.dep.push(dep);o.energy.push(bill);o.brent.push(pS);depPrev=co2/b.co2_0;o.artif.push(artif);o.sp.push(sp);o.ratioEl.push((inc[9]+ik[9])/(inc[0]+ik[0]));o.ratioMon.push(inc[9]/inc[0]);
     o.spread.push(premMkt);o.rating.push(notch+(crisis!==null?2:0)+(tpi!==null?1:0));o.defense.push(defSp+natoX);
     // solde extérieur courant (indicateur, sans rétroaction sur le PIB : les multiplicateurs comprennent déjà les importations) : −0,4 % du PIB en 2025 (Banque de France) ; importations = 30 % de la demande en plus ; facture énergétique ; compétitivité-coût (coût du travail : Smic, baisses de cotisations ; élasticité-prix des exportations 0,6, transmission 0,5)

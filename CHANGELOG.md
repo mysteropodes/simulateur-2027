@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 13 novembre 2026 (4) : risque démocratique en courbes
+
+- `src/model.js` : constante `DEMO` (trois régressions logistiques sur le panel V-Dem v15 : 1950-2020, 1990-2020 retenue, 2000-2020 ; coefficients, calage, AUC hors échantillon), `demDelta(grid)` (recul de l'indice d'après la grille des droits), deux séries par scénario : `demRisk` (risque cumulé d'érosion forte, %) et `libdem` (indice de démocratie libérale). Réglages : `demSet`, `demPol`, `demMob`.
+- `src/ui.part`, `src/body.part` : thème « Démocratie » dans le graphique, note de lecture sous le graphique, paragraphe de méthode (facteurs, validation, limites, comparaison avec la méthode par analogues), entrée du journal.
+- Statu quo : 13 % en 2032, 20 % en 2036, 35 % en 2046. Chiffrage crédible, 2036 : Mélenchon et Lisnard 28 %, Le Pen et Retailleau 27 %, Philippe et Attal 21 %, Glucksmann 19 %.
+- `tests/regression.js` : quatre contrôles (niveau du statu quo, courbe jamais en baisse, ordre des programmes, seuil franchi tel qu'annoncé).
+
 ## 13 novembre 2026 (3) : légende du graphique principal
 
 - `src/ui.part` : un clic sur un nom de la légende isole la courbe (au lieu de la masquer), les suivants en ajoutent ; recliquer retire, et tout revient quand la sélection est vide. Sélection conservée d'un indicateur à l'autre. Aucun changement de calcul.
