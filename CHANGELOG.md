@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 13 novembre 2026 : fiche Philippe mise à jour, autres candidats recensés
+
+- `src/ui.part`, Philippe : `migDelta` −10 → −70 (immigration légale divisée par deux, annonce du 8 octobre 2026 ; hypothèse du simulateur, comme Retailleau) ; `sec.pen` 0,04 (peines planchers, grand oral de Radio France du 12 novembre) ; grille des droits, contre-pouvoirs « neutre » → « mixte » (interdiction de la syndicalisation des magistrats), soit 6 points de tension au lieu de 3 ; deux lignes de mesures et deux sources ajoutées ; fiche vérifiée le 13 novembre.
+- Effet en lecture centrale (chiffrage crédible) : dette 2032 136,0 → 136,1 % du PIB, dette 2036 152,2 → 152,6 %, croissance 2032 1,17 → 1,12 %, densité carcérale 2032 141 → 146 ; chômage et pauvreté inchangés.
+- Méthode et journal (`src/body.part`) : valeurs du solde migratoire, peines et points de tension mises à jour ; point sur les candidats non simulés (aucun budget complet publié ; totaux d'économies annoncés par Lisnard, Dupont-Aignan et Zemmour).
+
 ## 10 novembre 2026 : négociation européenne annoncée par LFI sur la dette détenue par la BCE
 
 - Fiche Mélenchon et aide du curseur « Alliés de la France face à la BCE » : ajout de la position publiée par LFI le 20 octobre 2026 (« dans le cadre d'une négociation avec les partenaires européens », linsoumission.fr). Aucun allié nommé : réglage par défaut inchangé (probabilité d'accord 20 %, jusqu'à 70 % avec une majorité de la zone euro). Aucun changement de calcul.
