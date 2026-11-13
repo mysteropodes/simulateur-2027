@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 13 novembre 2026 (3) : légende du graphique principal
+
+- `src/ui.part` : un clic sur un nom de la légende isole la courbe (au lieu de la masquer), les suivants en ajoutent ; recliquer retire, et tout revient quand la sélection est vide. Sélection conservée d'un indicateur à l'autre. Aucun changement de calcul.
+
 ## 13 novembre 2026 (2) : David Lisnard ajouté
 
 - Nouveau candidat `lisnard` (Nouvelle Énergie) : `src/ui.part` (fiche, paramètres étendus, grille des droits, textes âge et logement), `src/microsim.js` (cinq mesures ménages), `src/audit_data.js` (cinq mesures non comptées), `src/parl.js` (bloc LR et divers droite), `src/analog_data.js` et `src/polit_data.js` (érosion des droits, recalculée avec le script d'analogues V-Dem), `src/atlas.js`, `src/head.part` (couleur `--c9`).

@@ -165,6 +165,10 @@ const shockLine={id:"shockLine",afterDatasetsDraw(c){
   if(BASE.shock==="none")return; const x=c.scales.x.getPixelForValue(yi(BASE.shockYear)), a=c.chartArea, g=c.ctx, right=x>a.right-80;
   g.save();g.strokeStyle=css("--shock");g.setLineDash([4,4]);g.beginPath();g.moveTo(x,a.top);g.lineTo(x,a.bottom);g.stroke();
   g.fillStyle=css("--shock");g.font="12px 'IBM Plex Mono', monospace";g.textAlign=right?"right":"left";g.fillText("choc",x+(right?-6:6),a.top+14);g.restore();}};
+// Légende du graphique principal : un clic isole une courbe, les clics suivants en ajoutent ; recliquer sur une courbe isolée la retire, et tout revient quand il n'en reste aucune
+const SOLO=new Set();
+function soloApply(c){ c.data.datasets.forEach((d,i)=>{ if(!d.isBand) c.setDatasetVisibility(i,!SOLO.size||SOLO.has(d.label)); }); }
+function soloClick(e,item,legend){ const c=legend.chart, lab=c.data.datasets[item.datasetIndex].label; SOLO.has(lab)?SOLO.delete(lab):SOLO.add(lab); soloApply(c); c.update(); }
 function render(skipMC){
   if(typeof updateShareURL==="function"&&encodeStateDefault) updateShareURL();
   for(const c of CANDS){const ms=microsim(c.paMeasures,mode==="annonce"?0:BASE.leak); c.pa=ms.pa; c.paDec=ms.deciles;}
@@ -181,11 +185,11 @@ function render(skipMC){
   if(typeof Chart!=="undefined"){ if(!chart){
     Chart.defaults.font.family=getComputedStyle(document.body).fontFamily;chart=new Chart(document.getElementById("chart"),{type:"line",data:{labels:YEARS,datasets:ds},plugins:[shockLine,fogZone],
       options:{responsive:true,maintainAspectRatio:false,animation:{duration:250},interaction:{mode:"index",intersect:false},
-        plugins:{legend:{position:"bottom",labels:{boxWidth:window.innerWidth<600?8:12,padding:window.innerWidth<600?6:10,font:{size:window.innerWidth<600?10:12},filter:(l,d)=>!d.datasets[l.datasetIndex].isBand}},
+        plugins:{legend:{position:"bottom",onClick:soloClick,labels:{boxWidth:window.innerWidth<600?8:12,padding:window.innerWidth<600?6:10,font:{size:window.innerWidth<600?10:12},filter:(l,d)=>!d.datasets[l.datasetIndex].isBand}},
           tooltip:{filter:it=>!it.dataset.isBand,callbacks:{label:c=>`${c.dataset.label} : ${fmt(c.parsed.y,METRICS[metric][2])}${METRICS[metric][3]}`,footer:items=>tipFooter(items)}}},
         scales:{x:{ticks:{maxTicksLimit:12}},y:{title:{display:true}}}}});
   }
-  chart.data.datasets=ds;
+  chart.data.datasets=ds; soloApply(chart);
   chart.options.plugins.legend.labels.color=ink;
   for(const a of ["x","y"]){chart.options.scales[a].ticks.color=ink;chart.options.scales[a].grid={color:line};}
   chart.options.scales.y.ticks.callback=(v,i,ticks)=>{const st=ticks.length>1?Math.abs(ticks[1].value-ticks[0].value):1;const d=st>=1?0:st>=0.1?1:st>=0.01?2:3;return fmt(v,d)+(suf==="%"?" %":"");};
