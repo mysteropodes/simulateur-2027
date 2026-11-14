@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 14 novembre 2026 (4) : fin de l'audit
+
+- `src/model.js` : contribution exceptionnelle (`levyRev`) réduite par l'évitement seulement (`realSp` au lieu de `real`), comme les autres impôts sur les plus aisés ; chômage d'équilibre de la courbe de Phillips aligné sur celui du chômage (seniors, temps de travail) ; solde des retraites symétrique par rapport au chômage.
+- Effet sur la dette 2036, lecture centrale : Glucksmann 166 → 165 %, Mélenchon 172 → 173 %, autres < 0,2 point.
+- `src/body.part` : « Ce qu'il faut retenir » recalculé, journal. `src/ui.part` : texte de la fiche Glucksmann.
+
 ## 14 novembre 2026 (3) : pouvoir d'achat par habitant, fiche Glucksmann
 
 - `src/model.js` : pouvoir d'achat (`o.pa`) et pauvreté à seuil figé rapportés à la population (`popI` : tendance `popG` plus l'écart de solde migratoire du programme, `pop0` = 68,6 millions) au lieu du PIB total. Indices en baisse d'environ 0,3 point par an pour tous ; biais contre les programmes réduisant l'immigration supprimé.
