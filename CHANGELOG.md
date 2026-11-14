@@ -5,7 +5,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 ## 14 novembre 2026 (4) : fin de l'audit
 
 - `src/model.js` : contribution exceptionnelle (`levyRev`) réduite par l'évitement seulement (`realSp` au lieu de `real`), comme les autres impôts sur les plus aisés ; chômage d'équilibre de la courbe de Phillips aligné sur celui du chômage (seniors, temps de travail) ; solde des retraites symétrique par rapport au chômage.
-- Effet sur la dette 2036, lecture centrale : Glucksmann 166 → 165 %, Mélenchon 172 → 173 %, autres < 0,2 point.
+- Effet sur la dette 2036, lecture centrale : Glucksmann 166 → 165 %, Mélenchon 172,5 → 173,5 %, autres < 0,2 point.
 - `src/body.part` : « Ce qu'il faut retenir » recalculé, journal. `src/ui.part` : texte de la fiche Glucksmann.
 
 ## 14 novembre 2026 (3) : pouvoir d'achat par habitant, fiche Glucksmann
