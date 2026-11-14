@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 14 novembre 2026 : plan écologique de Glucksmann
+
+- `src/ui.part` (fiche Glucksmann) : `climInv` 0,5 → 0,87 (200 Md€ sur cinq ans annoncés le 9 novembre, dont 120 Md€ nouveaux), `A` −1,23 → −1,65 (part nationale : 13 Md€ par an ; financements européens supposés obtenus), `levy:50` (contribution exceptionnelle sur les patrimoines de plus de 100 M€, règle commune : dix ans, 30 % perdus), textes, sources, date de vérification. Crédibilité inchangée (0,3) : pas de chiffrage d'ensemble.
+- Effet en chiffrage crédible : effort retenu −1,8 → −2,2 ; dette 2036 166 → 168 % ; émissions 2032 299 → 288 Mt.
+- `src/body.part` : « Ce qu'il faut retenir » recalculé, entrée du journal. `README.md`, `tests/regression.js` : effort retenu mis à jour.
+
 ## 13 novembre 2026 (4) : risque démocratique en courbes
 
 - `src/model.js` : constante `DEMO` (trois régressions logistiques sur le panel V-Dem v15 : 1950-2020, 1990-2020 retenue, 2000-2020 ; coefficients, calage, AUC hors échantillon), `demDelta(grid)` (recul de l'indice d'après la grille des droits), deux séries par scénario : `demRisk` (risque cumulé d'érosion forte, %) et `libdem` (indice de démocratie libérale). Réglages : `demSet`, `demPol`, `demMob`.

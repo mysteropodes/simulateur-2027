@@ -69,7 +69,7 @@ Chaque fiche candidat affiche ces trois niveaux. En lecture centrale, l'effort r
 | Le Pen | +0,1 |
 | Philippe | −0,2 |
 | Attal | −0,8 |
-| Glucksmann | −1,8 |
+| Glucksmann | −2,2 |
 | Mélenchon | −1,9 |
 | Lisnard | −2,8 |
 
@@ -163,7 +163,7 @@ Le signe − signifie un déficit en hausse.
 
 - **Modèle simplifié.** Ce n'est pas un modèle complet de l'économie : le commerce extérieur n'est qu'un indicateur, il n'y a ni taux de change ni secteurs, et la BCE ne réagit pas à la France seule. Les comparaisons entre programmes sont plus fiables que les niveaux.
 - **La crise de la dette est une règle du modèle, pas une prévision.** Elle dépend surtout de la lecture économique : personne ne sait à quel écart de taux les marchés cessent de prêter. Les courbes principales sont donc tracées sans crise imposée, et chaque programme reçoit un risque de crise d'ici 2046 en pourcentage (200 tirages, seuil de 3 à 6 points) : de 84 à 95 % pour les programmes des candidats, 83 % si rien ne change, 59 % pour le candidat fictif, 42 % pour le scénario du gouvernement. Avant 2032 : 11 % si rien ne change, de 13 à 39 % pour les candidats. Depuis le 7 novembre 2026, les tirages comptent l'humeur des marchés (écart de taux multiplié chaque année par un facteur aléatoire persistant de moyenne 1, réglé sur l'écart avec l'Allemagne de cinq pays de la zone euro, 2015-2025) : sans elle, le statu quo n'avait aucune crise avant 2032, quand les marchés payaient environ 8 % de risque de défaut sur cinq ans. Au seuil central (réglage « afficher les crises »), les candidats la franchissent entre 2035 et 2039 en lecture centrale (le candidat fictif en 2045), entre 2029 et 2034 en libérale, et seuls Le Pen et Glucksmann en keynésienne, en 2045. Depuis le 7 novembre 2026, la hausse de l'écart de taux avec la dette est calée sur huit pays de la zone euro hors années de crise (1999-2020, base Jordà-Schularick-Taylor) : 0,47 point par tranche de 10 points de dette, contre 0,3 auparavant. Le filet de la BCE ne se déclenche presque jamais, car les déficits dépassent 4 % quand la prime franchit le seuil.
-- **Programmes interprétés.** Ils sont traduits à partir de documents publics parfois incomplets, et Glucksmann n'a pas encore publié de programme chiffré. Chaque fiche dit d'où vient chaque chiffre.
+- **Programmes interprétés.** Ils sont traduits à partir de documents publics parfois incomplets, et Glucksmann n'a pas publié de chiffrage d'ensemble (seul son plan écologique est chiffré). Chaque fiche dit d'où vient chaque chiffre.
 - **Pas de relecture extérieure.** Aucun économiste extérieur n'a encore relu le simulateur.
 
 ## Contester un chiffrage
