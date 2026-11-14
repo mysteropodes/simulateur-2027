@@ -37,6 +37,7 @@ const path=require('path');
     ok("Risque d'érosion 2036 : Le Pen, Retailleau et Lisnard au-dessus du statu quo, Glucksmann en dessous",["lepen","retailleau","lisnard"].every(i=>r[i].demRisk[y(2036)]>sq.demRisk[y(2036)])&&r.glucksmann.demRisk[y(2036)]<sq.demRisk[y(2036)]);
     ok("Tel qu'annoncé, les mesures notées restreint sur les trois critères franchissent le seuil",sim("lepen",null,"annonce").demRisk[y(2032)]===100);
     near("Déficit 2026 statu quo (PLF 2027 : 5,4 ; OFCE 5,5)",sq.def[y(2026)],5.3,5.6);
+    near("Prélèvements obligatoires 2027, statu quo : budget 2027 compris (43,6 + ≈ 0,6)",sq.po[y(2027)],44.0,44.4);
     near("Dette 2026 statu quo (PLF 2027 : 119,3)",sq.debt[y(2026)],118.9,119.9);
     near("Intérêts 2027 statu quo, % du PIB (PLF 2027 : 2,9 aux taux de septembre)",sq.def[y(2027)]-sq.prim[y(2027)],2.8,3.2);
     ok("Vieillissement net de ses contreparties limité (Haut-commissariat : +0,2 pt de 2025 à 2050) : solde primaire 2036 − 2030 < 0,5 hors défense",(()=>{const b=B({fiscalReact:0,crisisPrem:1e9,natoGap:0});const r=simulate(CANDS0.find(p=>p.id==="statu"),"credible",b);return r.prim[y(2036)]-r.prim[y(2030)]<0.5;})());

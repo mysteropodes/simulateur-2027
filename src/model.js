@@ -252,7 +252,7 @@ function simulate(p,mode,b){
     const oilLev=-b.oilGdp*pDev*fdep-b.oilCoupling*ration*100*0.39; // niveau du PIB, en % (le pétrole pèse 39 % de l'énergie finale)
     const oilGrowth=oilLev-oilLevPrev; oilLevPrev=oilLev;
     const oilInfl=b.oilPi*(pDev-pDevPrev)*fdep; pDevPrev=pDev;
-    // indépendance énergétique : les importations fossiles évitées par rapport à la tendance (−1,5 %/an) deviennent en partie de la production en France
+    // indépendance énergétique : les importations fossiles évitées par rapport à la tendance (−1,8 %/an) deviennent en partie de la production en France
     const depTrend=Math.pow(1-b.co2Base/100,t-1-START), priceF=0.75*pS/69+0.25*Math.max(0.6,pS/69);
     const subLev=b.importSub*b.energy0*priceF*(depTrend-fdep)/b.gdpMd*100, subGrowth=subLev-subLevPrev; subLevPrev=subLev;
     // coût de la transition : des investissements qui remplacent les énergies fossiles sans accroître la capacité de production (Pisani-Ferry et Mahfouz, 2023)
@@ -382,7 +382,8 @@ function simulate(p,mode,b){
     o.cons.push(cons);o.nw.push(b.nw0-(d-b.d0)+KI);o.react.push(react);
     // croissance, inflation, chômage des jeunes (2,6 fois le taux global), prélèvements et dépense publique, facture énergétique, artificialisation
     const tmd=p.taxMd||0, topR=Math.min(Math.max(0,tmd),p.topRev||0), taxEff=(tmd<0?tmd*realSp:(tmd-topR)*real+topR*realSp-((p.topRev||0)-(p.topCut||0))*leakM*realSp)/GP*100*retreat*phase; // hausses × crédibilité (sauf sur les plus aisés : fuite), baisses en entier
-    const po=b.po0+taxEff+0.3*forcedCum; const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
+    const blTax=(BL&&t>=2027)?-((BL.comp.taxAis||0)+(BL.comp.taxLarge||0)+(BL.comp.taxMod||0)+(BL.comp.entr||0)):0; // hausses de prélèvements du budget 2027, hérité par tous (audit du 14 novembre 2026)
+    const po=b.po0+taxEff+blTax+levyRev+0.3*forcedCum; /* la contribution exceptionnelle est un prélèvement obligatoire */ const dep=po+(b.rev-b.po0)+lastDef; // dépense = prélèvements + autres recettes + déficit
     const zBase=t<=2031?0.04:0.03, zanRate=p.zan?zBase+(0.01-zBase)*pol*retreat*phase:zBase;
     artifS*=1-zanRate; const artif=artifS*Math.pow(cons/(b.cons0*Math.pow(1.01,t-START)),0.6);
     { // érosion démocratique : mesures du programme (pondérées par la solidité juridique, comme les autres mesures touchant aux droits), puis risque annuel tiré du modèle V-Dem

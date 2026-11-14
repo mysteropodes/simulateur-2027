@@ -2,6 +2,14 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 14 novembre 2026 (2) : audit du calcul et des textes
+
+- `src/model.js` : `po` (prélèvements obligatoires) et donc `dep` (dépense publique) comprennent désormais les hausses de prélèvements du budget 2027 hérité par tous (`blTax`, ≈ +0,57 point à partir de 2027) et la contribution exceptionnelle (`levyRev`). Déficit et dette inchangés. Commentaire corrigé (tendance des émissions −1,8 %/an).
+- `src/ui.part` : émissions 2030 et 2032 recalculées dans les fiches Mélenchon, Le Pen, Philippe, Retailleau, Attal (statu quo 2032 : 316 Mt).
+- `src/body.part` : efforts retenus de la Méthode mis à jour (14 novembre), entrée du journal.
+- `tests/regression.js` : contrôle des prélèvements obligatoires du statu quo en 2027.
+- Vérifié sans correction : 6 720 simulations sans valeur non finie ; identités comptables (somme des secteurs, composition du statu quo nulle).
+
 ## 14 novembre 2026 : plan écologique de Glucksmann
 
 - `src/ui.part` (fiche Glucksmann) : `climInv` 0,5 → 0,87 (200 Md€ sur cinq ans annoncés le 9 novembre, dont 120 Md€ nouveaux), `A` −1,23 → −1,65 (part nationale : 13 Md€ par an ; financements européens supposés obtenus), `levy:50` (contribution exceptionnelle sur les patrimoines de plus de 100 M€, règle commune : dix ans, 30 % perdus), textes, sources, date de vérification. Crédibilité inchangée (0,3) : pas de chiffrage d'ensemble.
