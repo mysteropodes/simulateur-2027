@@ -21,7 +21,7 @@ const path=require('path');
     near("OAT 10 ans 2027",BASE0.mktReal+sq.infl[y(2027)]+sq.spread[y(2027)],4.6,5.4);
     near("Croissance 2026-2028, budget 2027 compris (Banque de France 0,4/0,9/1,2 ; OFCE 2027 : 0,5)",(sq.growth[1]+sq.growth[2]+sq.growth[3])/3,0.6,1.0);
     // efforts retenus publiés (README et Méthode)
-    const eff={melenchon:-1.9,lepen:0.1,philippe:-0.2,glucksmann:-2.2,retailleau:0.3,attal:-0.8,lisnard:-2.8};
+    const eff={melenchon:-1.9,lepen:0.1,philippe:-0.2,glucksmann:-2.0,retailleau:0.3,attal:-0.8,lisnard:-2.8};
     for(const id in eff) near("Effort retenu "+id,r[id].progFull,eff[id]-0.1,eff[id]+0.1);
     // conclusions robustes (analyse de sensibilité)
     const pov=ids.filter(i=>i!=="statu").map(i=>[i,r[i].pov[y(2032)]]).sort((a,b)=>a[1]-b[1]);
@@ -38,6 +38,7 @@ const path=require('path');
     ok("Tel qu'annoncé, les mesures notées restreint sur les trois critères franchissent le seuil",sim("lepen",null,"annonce").demRisk[y(2032)]===100);
     near("Déficit 2026 statu quo (PLF 2027 : 5,4 ; OFCE 5,5)",sq.def[y(2026)],5.3,5.6);
     near("Prélèvements obligatoires 2027, statu quo : budget 2027 compris (43,6 + ≈ 0,6)",sq.po[y(2027)],44.0,44.4);
+    ok("Pouvoir d'achat par habitant : moins d'immigration ne le fait pas baisser à lui seul",(()=>{const P=CANDS0.find(p=>p.id==="statu");const a=simulate(Object.assign({},P,{migDelta:-100}),"credible",B()),b0=simulate(P,"credible",B());return a.pa.moy[y(2040)]>=b0.pa.moy[y(2040)]-0.3;})());
     near("Dette 2026 statu quo (PLF 2027 : 119,3)",sq.debt[y(2026)],118.9,119.9);
     near("Intérêts 2027 statu quo, % du PIB (PLF 2027 : 2,9 aux taux de septembre)",sq.def[y(2027)]-sq.prim[y(2027)],2.8,3.2);
     ok("Vieillissement net de ses contreparties limité (Haut-commissariat : +0,2 pt de 2025 à 2050) : solde primaire 2036 − 2030 < 0,5 hors défense",(()=>{const b=B({fiscalReact:0,crisisPrem:1e9,natoGap:0});const r=simulate(CANDS0.find(p=>p.id==="statu"),"credible",b);return r.prim[y(2036)]-r.prim[y(2030)]<0.5;})());

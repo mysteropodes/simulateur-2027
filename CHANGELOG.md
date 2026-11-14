@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 14 novembre 2026 (3) : pouvoir d'achat par habitant, fiche Glucksmann
+
+- `src/model.js` : pouvoir d'achat (`o.pa`) et pauvreté à seuil figé rapportés à la population (`popI` : tendance `popG` plus l'écart de solde migratoire du programme, `pop0` = 68,6 millions) au lieu du PIB total. Indices en baisse d'environ 0,3 point par an pour tous ; biais contre les programmes réduisant l'immigration supprimé.
+- `src/ui.part`, `src/microsim.js` (fiche Glucksmann) : `taxMd` 17 → −3,2 (solde net, comme les autres fiches ; supprime 20 Md€ d'impôts non annoncés), `compItems` + `["ext",-11]` (financements européens du plan écologique), revalorisation des fonctionnaires hors composition (déjà dans `spServ`), `climInv` 0,87 → 0,97 (24 Md€ rapportés au PIB de la fiche). Textes.
+- Effet en chiffrage crédible : effort retenu −2,2 → −2,0 ; dette 2036 168 → 166 % ; émissions 2032 288 → 284 Mt.
+- `src/body.part`, `README.md`, `tests/regression.js` : efforts, « Ce qu'il faut retenir », journal, contrôle du pouvoir d'achat par habitant.
+
 ## 14 novembre 2026 (2) : audit du calcul et des textes
 
 - `src/model.js` : `po` (prélèvements obligatoires) et donc `dep` (dépense publique) comprennent désormais les hausses de prélèvements du budget 2027 hérité par tous (`blTax`, ≈ +0,57 point à partir de 2027) et la contribution exceptionnelle (`levyRev`). Déficit et dette inchangés. Commentaire corrigé (tendance des émissions −1,8 %/an).

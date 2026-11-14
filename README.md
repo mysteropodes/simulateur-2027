@@ -69,7 +69,7 @@ Chaque fiche candidat affiche ces trois niveaux. En lecture centrale, l'effort r
 | Le Pen | +0,1 |
 | Philippe | −0,2 |
 | Attal | −0,8 |
-| Glucksmann | −2,2 |
+| Glucksmann | −2,0 |
 | Mélenchon | −1,9 |
 | Lisnard | −2,8 |
 
