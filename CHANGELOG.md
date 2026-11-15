@@ -2,6 +2,10 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 15 novembre 2026 (3) : bandeau d'accueil
+
+- `src/body.part` : le bandeau du quiz est remplacé par un résumé de la méthode (mêmes règles pour tous, sources officielles, comparaison à Mésange, test sur le passé, ordres de grandeur), avec deux boutons : méthode et test sur le passé. Le quiz reste dans le menu.
+
 ## 15 novembre 2026 (2) : robustesse de la sensibilité des taux à la dette
 
 - `docs/jstdebt.py` : estimation de `kDebt` reproduite (0,46 ± 0,08) et testée : pays retirés un à un (0,36 à 0,52), effets fixes (0,49), seuil (0,24 à 80 % ; 0,69 à 110 %), période (0,14 sur 1999-2007 ; 0,40 sur 2014-2020). Au-dessus de 100 %, l'estimation repose sur l'Italie, la Belgique et le Portugal.
