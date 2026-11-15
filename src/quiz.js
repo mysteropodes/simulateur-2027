@@ -56,11 +56,88 @@ const QZ_T=[
   lab:p=>qzLab(p,["capital"],m=>/hérit/i.test(m[0])),
   lever:{p:{},m:[["Taxe sur les très gros héritages (hypothèse du quiz)",-15,"capital","","quiz"]],net:-15},ctx:"Recettes prévues sur les héritages par chaque programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici."}
 ];
-const QZ_COL=["#ff6f61","#5b8fe0","#e9a400","#f08fbd","#22b573"], QZ_GL={ret:"⏳",serv:"🏥",clim:"🌱",mig:"🧳",def:"🛡️",dette:"⚖️",top:"💎",mod:"👛",soc:"🤝",cho:"📄",ent:"🏭",her:"🏛️"};
+// Affirmations ajoutées pour les niveaux « standard » et « complet » : mêmes règles (valeur chiffrée tirée du programme, seuils communs).
+// lever null : pas de conséquence chiffrée fiable pour ce sujet seul (rien n'est affiché, et le sujet n'entre pas dans « votre programme »).
+const qzCot=m=>!/smic/i.test(m[0])&&(m[2]==="cotsal"||/cotis|CSG/i.test(m[0]));
+QZ_T.push(
+ {id:"tax",theme:"Impôts",text:"Les impôts doivent baisser nettement dans l'ensemble (environ 30 Md€ par an).",
+  val:p=>p.taxMd, st:v=>v<=-25?1:v>=20?-1:0, fmt:v=>v<0?"baisses d'impôts ≈ "+Math.round(-v)+" Md€":v>0?"hausses d'impôts ≈ "+Math.round(v)+" Md€":"impôts inchangés", rng:v=>qzMd(-v),
+  lever:{p:{},m:[["Baisse générale de l'impôt des ménages (hypothèse du quiz)",30,"ir","","quiz"]],net:30},ctx:"Total des hausses et des baisses d'impôts annoncées par chaque programme, ménages et entreprises ensemble (positif : baisse d'impôts)."},
+ {id:"eu",theme:"Europe",text:"La France doit appliquer son programme même quand il contredit les règles européennes.",
+  val:p=>p.eu, st:v=>v>=0.4?1:v>=0.1?0:-1, fmt:v=>v>=0.4?"conflit assumé avec les règles européennes":v>=0.1?"quelques mesures contraires aux règles européennes":"dans le cadre des règles européennes", rng:v=>v>=0.4?"conflit assumé":v>=0.1?"conflit limité":"aucun conflit",
+  lever:{p:{eu:0.5},m:[],net:0},ctx:"Degré de conflit avec les règles européennes que le simulateur retient pour chaque programme, d'après ses mesures (budget, marché unique, traités).",
+  lim:"Le simulateur ne compte ici que la réaction des marchés (taux d'emprunt) : pas ce que la France gagnerait ou perdrait à s'affranchir d'une règle."},
+ {id:"smic",theme:"Smic",text:"Le Smic doit augmenter nettement (au moins 1 600 € net par mois).",
+  val:p=>qzSumM(p,["bassal"],m=>/smic/i.test(m[0])), st:v=>v>=5?1:0, fmt:v=>"gain pour les salariés ≈ "+Math.round(v)+" Md€", rng:v=>qzMd(v),
+  lab:p=>qzLab(p,["bassal"],m=>/smic/i.test(m[0])),
+  lever:{p:{smicCost:5},m:[["Smic à 1 600 € net (hypothèse du quiz, payé par les employeurs)",6.6,"bassal","","quiz","none"]],net:0},ctx:"Hausse du Smic prévue par chaque programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici.",
+  lim:"La hausse est payée par les employeurs : le simulateur compte son effet sur l'emploi peu qualifié."},
+ {id:"pens",theme:"Pensions",text:"Les retraités doivent participer à l'effort : pensions gelées ou moins revalorisées pendant quelques années (environ 10 Md€ d'économies).",
+  val:p=>p.retLiv, st:v=>v<=-0.5?1:v>=1?-1:0, fmt:v=>"niveau de vie des retraités : "+qzSig(v,1)+" point", rng:v=>qzSig(v,1)+" pt",
+  lever:{p:{},m:[["Pensions moins revalorisées (hypothèse du quiz)",-10,"retraites","","quiz"]],net:-10},ctx:"Effet du programme sur le niveau de vie des retraités comparé à celui de l'ensemble de la population (en points, hypothèse du simulateur d'après les mesures sur les pensions)."},
+ {id:"sante",theme:"Santé",text:"Les dépenses de santé doivent augmenter plus vite qu'aujourd'hui (environ 7 Md€ de plus par an).",
+  val:p=>p.healthSpend*QZ_GP, st:v=>v>=3?1:v<=-5?-1:0, fmt:v=>qzMd(v)+" par an", rng:v=>qzMd(v),
+  lever:{p:{healthSpend:0.2},m:[],net:7.2},ctx:"Dépenses de santé en plus ou en moins par rapport à la tendance, par an."},
+ {id:"secu",theme:"Justice et prisons",text:"Il faut plus de places de prison et des peines plus sévères.",
+  val:p=>!p.sec?null:p.sec.cap?-1:p.sec.pen!=null?p.sec.pen:p.sec.places?0.05:null, st:v=>v>=0.03?1:v<0?-1:0, fmt:v=>v>=0.03?"peines durcies":v<0?"moins de recours à la prison":"peu de changement", rng:v=>v>=0.03?"peines durcies":v<0?"moins de prison":"peu de changement",
+  lab:p=>p.sec&&p.sec.src?p.sec.src:"",
+  lever:null,ctx:"Mesures pénales publiées par chaque programme (places de prison, peines planchers, aménagements de peine). Un programme sans mesure publiée à ce sujet n'a pas de position ici."},
+ {id:"rtt",theme:"Temps de travail",text:"La durée du travail doit être réduite (vers les 32 heures), sans baisse de salaire.",
+  val:p=>p.rtt?1:null, st:v=>1, fmt:v=>"réduction du temps de travail prévue", rng:v=>"prévue",
+  lever:{p:{rtt:1},m:[],net:0},ctx:"Réduction du temps de travail inscrite dans le programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici."},
+ {id:"fonc",theme:"Agents publics",text:"Les salaires des fonctionnaires doivent être nettement revalorisés (environ 15 Md€ par an).",
+  val:p=>qzSumM(p,["fonction"]), st:v=>v>=10?1:0, fmt:v=>"revalorisation ≈ "+Math.round(v)+" Md€", rng:v=>qzMd(v),
+  lab:p=>qzLab(p,["fonction"]),
+  lever:{p:{},m:[["Revalorisation des fonctionnaires (hypothèse du quiz)",15,"fonction","","quiz"]],net:15},ctx:"Somme des mesures de rémunération des agents publics de chaque programme."},
+ {id:"nrj",theme:"Prix de l'énergie",text:"Les taxes sur l'énergie et les carburants doivent baisser (environ 10 Md€ par an).",
+  val:p=>qzSumM(p,["conso"]), st:v=>v>=8?1:0, fmt:v=>"baisse de taxes ou de prix ≈ "+Math.round(v)+" Md€", rng:v=>qzMd(v),
+  lab:p=>qzLab(p,["conso"]),
+  lever:{p:{},m:[["Baisse des taxes sur l'énergie (hypothèse du quiz)",10,"conso","","quiz"]],net:10},ctx:"Somme des baisses de taxes sur la consommation (énergie, carburants) et des baisses de prix de l'électricité de chaque programme."},
+ {id:"cot",theme:"Salaire net",text:"Les cotisations sur les salaires doivent baisser pour augmenter le salaire net (environ 40 Md€ par an).",
+  val:p=>qzSumM(p,["cotsal","bassal"],qzCot), st:v=>v>=30?1:0, fmt:v=>"baisse de cotisations ≈ "+Math.round(v)+" Md€", rng:v=>qzMd(v),
+  lab:p=>qzLab(p,["cotsal","bassal"],qzCot),
+  lever:{p:{},m:[["Baisse des cotisations salariales (hypothèse du quiz)",40,"cotsal","","quiz"]],net:40},ctx:"Somme des baisses de cotisations salariales et de CSG sur les salaires de chaque programme."},
+ {id:"hsup",theme:"Heures sup.",text:"Les heures supplémentaires doivent être exonérées d'impôts et de cotisations.",
+  val:p=>qzSumM(p,["heuressup"]), st:v=>v>0?1:0, fmt:v=>"exonération ≈ "+Math.round(v)+" Md€", rng:v=>qzMd(v),
+  lab:p=>qzLab(p,["heuressup"]),
+  lever:{p:{},m:[["Heures supplémentaires exonérées (hypothèse du quiz)",5,"heuressup","","quiz"]],net:5},ctx:"Exonérations sur les heures supplémentaires prévues par chaque programme."},
+ {id:"logt",theme:"Logement",text:"Il faut construire nettement plus de logements publics (au moins 50 000 de plus par an).",
+  val:p=>p.housing?p.housing:null, st:v=>v>=50?1:0, fmt:v=>"≈ "+Math.round(v)+" 000 logements de plus par an", rng:v=>Math.round(v)+" 000",
+  lever:null,ctx:"Logements supplémentaires par an prévus par chaque programme. Un programme sans objectif chiffré n'a pas de position publiée ici."},
+ {id:"loyer",theme:"Loyers",text:"Les loyers doivent être encadrés dans les villes où le logement est cher.",
+  val:p=>p.rentCtrl?1:null, st:v=>1, fmt:v=>"encadrement des loyers prévu", rng:v=>"prévu",
+  lever:{p:{rentCtrl:1},m:[],net:0},ctx:"Encadrement des loyers inscrit dans le programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici."},
+ {id:"co2",theme:"Émissions de CO₂",text:"La France doit réduire ses émissions de CO₂ beaucoup plus vite, même au prix de nouvelles contraintes.",
+  val:p=>p.co2Rate, st:v=>v>=4?1:v<1.5?-1:0, fmt:v=>"baisse des émissions ≈ "+String(v).replace(".",",")+" % par an", rng:v=>String(v).replace(".",",")+" % par an",
+  lever:{p:{co2Rate:4.5},m:[],net:0},ctx:"Rythme de baisse des émissions que le simulateur retient pour chaque programme, d'après ses règles et ses investissements (tendance actuelle : 1,5 % par an).",
+  lim:"Le coût des investissements nécessaires n'est pas compté dans ce sujet seul."},
+ {id:"fam",theme:"Famille",text:"Les allocations familiales doivent être remplacées par une allocation unique versée dès le premier enfant.",
+  val:p=>qzSumM(p,["tete"],m=>/famil/i.test(m[0])&&m[1]>0)?1:null, st:v=>1, fmt:v=>"allocation unique prévue", rng:v=>"prévue",
+  lab:p=>qzLab(p,["tete"],m=>/famil/i.test(m[0])&&m[1]>0),
+  lever:null,ctx:"Allocation ou versement familial unique inscrit dans le programme. Un programme sans mesure à ce sujet n'a pas de position publiée ici."},
+ {id:"jeun",theme:"Jeunes",text:"Les jeunes doivent recevoir une aide financière nettement plus forte (environ 10 Md€ par an).",
+  val:p=>qzSumM(p,["jeunes"]), st:v=>v>=5?1:0, fmt:v=>"aides aux jeunes ≈ "+Math.round(v)+" Md€", rng:v=>qzMd(v),
+  lab:p=>qzLab(p,["jeunes"]),
+  lever:{p:{},m:[["Aide aux jeunes (hypothèse du quiz)",10,"jeunes","","quiz"]],net:10},ctx:"Somme des aides aux jeunes de chaque programme."}
+);
+// Trois niveaux : rapide (grandes lignes, formulations courtes), standard, complet. [niveau, ordre, formulation courte]
+const QZ_LV={ret:[1,1,"L'âge de départ à la retraite doit revenir à 62 ans."],tax:[1,2,"Les impôts doivent baisser nettement."],top:[1,3,"Les plus riches doivent payer nettement plus d'impôts."],
+ serv:[1,4,"L'hôpital, l'école et la justice doivent recevoir nettement plus de moyens."],dette:[1,5,"Le déficit doit être fortement réduit, même au prix de lourdes économies."],
+ soc:[1,6,"Les aides sociales doivent être réduites pour faire des économies."],mig:[1,7,"L'immigration de travail doit être nettement réduite."],clim:[1,8,"L'État doit investir beaucoup plus dans la transition écologique."],
+ def:[1,9,"Le budget de la défense doit nettement augmenter."],eu:[1,10],
+ mod:[2,11],smic:[2,12],cho:[2,13],ent:[2,14],her:[2,15],pens:[2,16],sante:[2,17],secu:[2,18],
+ rtt:[3,19],fonc:[3,20],cot:[3,21],hsup:[3,22],nrj:[3,23],logt:[3,24],loyer:[3,25],co2:[3,26],fam:[3,27],jeun:[3,28]};
+for(const t of QZ_T){const x=QZ_LV[t.id]; t.lv=x[0]; t.ord=x[1]; t.short=x[2]||t.text;}
+QZ_T.sort((a,b)=>a.ord-b.ord);
+const QZ_LEVELS=[null,{name:"Rapide",sub:"les grandes lignes",min:"3 minutes"},{name:"Standard",sub:"les grands sujets, chiffrés",min:"6 à 8 minutes"},{name:"Complet",sub:"tous les sujets chiffrés du simulateur",min:"10 à 15 minutes"}];
+const qzList=()=>QZ_T.filter(t=>t.lv<=(QZ.lv||1));
+const qzTxt=t=>(QZ.lv||1)===1?t.short:t.text;
+const qzOut=()=>{const l=qzList().map(t=>t.id), has=k=>l.includes(k); return [has("secu")?null:"la sécurité et la justice","la laïcité","les institutions","la politique étrangère"].filter(Boolean);};
+const QZ_COL=["#ff6f61","#5b8fe0","#e9a400","#f08fbd","#22b573"], QZ_GL={tax:"🧾",eu:"🇪🇺",smic:"💶",pens:"👵",sante:"🩺",secu:"⚖️",rtt:"🕒",fonc:"🏫",nrj:"⛽",cot:"💼",hsup:"➕",logt:"🏗️",loyer:"🔑",co2:"🌍",fam:"👶",jeun:"🎓",ret:"⏳",serv:"🏥",clim:"🌱",mig:"🧳",def:"🛡️",dette:"📉",top:"💎",mod:"👛",soc:"🤝",cho:"📄",ent:"🏭",her:"🏛️"};
 const qzCol=i=>QZ_COL[i%QZ_COL.length];
 const QZ_ANS=[[1,"D'accord"],[0,"Neutre"],[-1,"Pas d'accord"]];
 const QZ_NOCOMPLETE={glucksmann:"programme pas encore publié, reconstitué à partir de ses déclarations",lepen:"programme 2027 pas encore publié : positions d'après les 22 mesures annoncées"};
-let QZ={i:-1,ans:{},dbl:{}};
+let QZ={i:-1,ans:{},dbl:{},lv:1};
 let QZ_FX={};
 function qzCands(){return LASTRES?LASTRES.filter(({p})=>!p.fictif&&!p.gov&&p.id!=="statu"):[];}
 // Position de chaque programme sur chaque affirmation.
@@ -74,7 +151,7 @@ function qzPositions(){
 // Score façon Wahl-O-Mat : 2 points si même position, 1 si l'un est neutre, 0 si opposées ; réponse comptée double = poids 2.
 // Un sujet sans position publiée pour un programme est exclu de son calcul (on ne récompense pas le silence).
 function qzRank(pos,ans,dbl){
-  const answered=QZ_T.filter(t=>ans[t.id]!=null);
+  const answered=qzList().filter(t=>ans[t.id]!=null);
   return Object.keys(pos).map(id=>{let pts=0,max=0,n=0; const rows=[];
     for(const t of answered){const s=pos[id][t.id].s, a=ans[t.id]; if(s==null){rows.push({t,a,s:null});continue;} const w=dbl[t.id]?2:1; pts+=w*(2-Math.abs(a-s)); max+=w*2; n++; rows.push({t,a,s});}
     return {id,score:max?pts/max:null,n,of:answered.length,rows};}).filter(x=>x.score!=null).sort((x,y)=>y.score-x.score);
@@ -99,6 +176,7 @@ function qzEffects(t){
 }
 function qzEsc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function qzFxHtml(t){
+  if(!t.lever) return '<p class="help qz-nofx">Pas de conséquence chiffrée pour ce sujet seul : le simulateur ne sait pas l\'isoler de façon fiable.</p>';
   let f; try{f=qzEffects(t);}catch(e){return "";}
   const line=(k,v)=>`<li><span>${k}</span><strong>${v}</strong></li>`, big=(v,th)=>Math.abs(v)>=th;
   const cost=f.net>0.05?`Coûte environ ${qzMd(f.net,false)} par an`:f.net<-0.05?`Rapporte ou économise environ ${qzMd(f.net,false)} par an`:"Pas de coût budgétaire direct";
@@ -119,24 +197,26 @@ const qzIc=(s,cls="")=>{const k=s==null?"n":String(s); return `<span class="qz-i
 function qzRender(){
   const box=document.getElementById("quizBox"); if(!box) return;
   if(!LASTRES){box.innerHTML='<p class="help">Chargement du simulateur…</p>'; return;}
-  const n=QZ_T.length;
+  const n=qzList().length;
   if(QZ.i<0){
+    const cnt=l=>QZ_T.filter(t=>t.lv<=l).length;
     box.innerHTML=`<div class="qz-intro"><h2>Quel programme vous ressemble ?</h2>
-      <p>${n} affirmations, environ 5 minutes. Pour chacune, répondez « d'accord », « neutre » ou « pas d'accord », comptez-la double si elle est essentielle pour vous, ou passez-la. Le simulateur vous montre ce que chaque affirmation changerait. À la fin : les programmes comparés thèse par thèse, et ce que donnerait <em>votre</em> programme.</p>
+      <p>Choisissez la longueur du quiz. Pour chaque affirmation, répondez « d'accord », « neutre » ou « pas d'accord », comptez-la double si elle est essentielle pour vous, ou passez-la. À la fin : les programmes comparés thèse par thèse, et ce que donnerait <em>votre</em> programme.</p>
+      <div class="qz-levels">${[1,2,3].map(l=>`<button type="button" class="qz-level" data-lv="${l}"><strong>${QZ_LEVELS[l].name}</strong><span>${cnt(l)} affirmations · ${QZ_LEVELS[l].min}</span><small>${QZ_LEVELS[l].sub}</small></button>`).join("")}</div>
       <ul class="qz-list">
         <li><strong>Mêmes règles pour tous.</strong> La position d'un programme est un chiffre tiré de ses mesures, jamais un jugement. Un sujet absent d'un programme n'est pas compté pour ce programme.</li>
         <li><strong>Rien n'est enregistré ni envoyé.</strong> Vos réponses restent dans cette page.</li>
-        <li><strong>Ce n'est pas une consigne de vote.</strong> Le quiz ne couvre que ces ${n} sujets chiffrés : ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions.</li>
-      </ul><div class="qz-tiles" aria-hidden="true">${QZ_T.map((t,i)=>`<span style="--tc:${qzCol(i)}"><b>${QZ_GL[t.id]}</b>${qzEsc(t.theme)}</span>`).join("")}</div><button class="btn-primary qz-go" id="qzStart" type="button">Commencer</button></div>`;
-    document.getElementById("qzStart").onclick=()=>{QZ={i:0,ans:{},dbl:{}};QZ_FX={};qzRender();window.scrollTo({top:0});};
+        <li><strong>Ce n'est pas une consigne de vote.</strong> Le quiz ne couvre que des sujets chiffrés : ni la laïcité, ni les institutions, ni la politique étrangère, ni la personnalité des candidats.</li>
+      </ul><div class="qz-tiles" aria-hidden="true">${QZ_T.map((t,i)=>`<span style="--tc:${qzCol(i)}"><b>${QZ_GL[t.id]}</b>${qzEsc(t.theme)}</span>`).join("")}</div></div>`;
+    box.querySelectorAll(".qz-level").forEach(b=>b.onclick=()=>{QZ={i:0,ans:{},dbl:{},lv:+b.dataset.lv};QZ_FX={};qzRender();window.scrollTo({top:0});});
     return;
   }
   if(QZ.i>=n) return qzResult(box);
-  const t=QZ_T[QZ.i], pos=qzPositions(), cur=QZ.ans[t.id], has=Object.prototype.hasOwnProperty.call(QZ.ans,t.id);
+  const t=qzList()[QZ.i], pos=qzPositions(), cur=QZ.ans[t.id], has=Object.prototype.hasOwnProperty.call(QZ.ans,t.id);
   const col=qzCol(QZ.i), pct=Math.round((QZ.i+1)/n*100);
   box.innerHTML=`<div class="qz-q" style="--tc:${col}"><div class="qz-top"><button type="button" class="qz-x" id="qzBack" aria-label="${QZ.i?"Question précédente":"Retour à l'accueil"}">${QZ.i?"‹":"×"}</button><div class="qz-ring" role="progressbar" aria-valuemin="1" aria-valuemax="${n}" aria-valuenow="${QZ.i+1}" aria-label="Affirmation ${QZ.i+1} sur ${n}" style="--p:${pct}"><span>${String(QZ.i+1).padStart(2,"0")}</span></div><span class="qz-of">/ ${n}</span></div>
     <div class="qz-bubble" aria-hidden="true">${QZ_GL[t.id]}</div><p class="qz-step">${qzEsc(t.theme)}</p>
-    <fieldset class="qz-fs"><legend>${qzEsc(t.text)}</legend>
+    <fieldset class="qz-fs"><legend>${qzEsc(qzTxt(t))}</legend>
     <div class="qz-answers">${QZ_ANS.map(([v,l])=>`<label class="qz-opt qz-pill" for="qz-${t.id}-${v}"><input type="radio" name="qz-${t.id}" id="qz-${t.id}-${v}" value="${v}"${cur===v?" checked":""}><span>${qzIc(v)}<strong>${l}</strong></span></label>`).join("")}</div>
     <label class="qz-dbl"><input type="checkbox" id="qzDbl"${QZ.dbl[t.id]?" checked":""}> Cette affirmation compte double pour moi</label>
     <details class="qz-ctx"><summary>Contexte</summary><p class="help">${qzEsc(t.ctx)} ${qzRange(t,pos)}</p></details></fieldset>
@@ -150,7 +230,7 @@ function qzRender(){
 }
 // « Votre programme » : les affirmations auxquelles vous avez répondu « d'accord », appliquées ensemble au simulateur.
 function qzMine(box){
-  const agreed=QZ_T.filter(t=>QZ.ans[t.id]===1);
+  const agreed=qzList().filter(t=>QZ.ans[t.id]===1&&t.lever), noLev=qzList().filter(t=>QZ.ans[t.id]===1&&!t.lever);
   if(!agreed.length) return '<p class="help">Vous n\'avez répondu « d\'accord » à aucune affirmation : il n\'y a pas de programme à chiffrer.</p>';
   const B=qzBuild(agreed.map(t=>t.lever)), ref=qzBuild([{p:{},m:[],net:0}]);
   const draws=makeDraws(BASE).slice(0,100), run=p=>draws.map(d=>simDraw(p,d));
@@ -160,7 +240,7 @@ function qzMine(box){
   const cands=MC&&MC.rows?MC.rows.filter(x=>!x.p.fictif&&!x.p.gov&&x.p.id!=="statu").map(x=>Math.round(x.cr*100)):[];
   if(typeof setSocialKey==="function") setSocialKey(0.2);
   return `<div class="qz-mine"><h3>Votre programme, chiffré</h3>
-    <p class="help">Le simulateur applique ensemble les ${agreed.length} affirmation${agreed.length>1?"s":""} auxquelles vous avez répondu « d'accord » (100 tirages des hypothèses, crédibilité des programmes à leur moyenne : ${fmt(B.cm,2)}).</p>
+    <p class="help">Le simulateur applique ensemble les ${agreed.length} affirmation${agreed.length>1?"s":""} auxquelles vous avez répondu « d'accord » (100 tirages des hypothèses, crédibilité des programmes à leur moyenne : ${fmt(B.cm,2)}).${noLev.length?" Non comptés, faute de chiffrage fiable : "+noLev.map(t=>qzEsc(t.theme.toLowerCase())).join(", ")+".":""}</p>
     <ul class="qz-mlist">${agreed.map(t=>`<li><span>${qzEsc(t.theme)}</span><strong>${t.lever.net>0.05?"coûte "+qzMd(t.lever.net,false):t.lever.net<-0.05?"rapporte "+qzMd(t.lever.net,false):"sans coût direct"}</strong></li>`).join("")}</ul>
     <p>Dépenses en plus : <strong>${qzMd(spend,false)}</strong> par an. Économies et recettes : <strong>${qzMd(save,false)}</strong> par an. Solde : <strong>${B.net>0.05?qzMd(B.net,false)+" de déficit en plus":B.net<-0.05?qzMd(B.net,false)+" de déficit en moins":"équilibré"}</strong>${B.net>0.05?". Il faudrait trouver ce financement ailleurs, ou accepter plus de dette.":"."}</p>
     <table class="qz-tab"><thead><tr><th></th><th>Votre programme</th><th>Sans mesure nouvelle</th></tr></thead><tbody>
@@ -197,7 +277,7 @@ function qzHot(id,pos,rk){
   const win=gs[0], lose=gs[gs.length-1];
   const gl=`<p>Pouvoir d'achat en 2032, par rapport à une France sans mesure nouvelle : le plus favorisé est le groupe des <strong>${QZ_GRP[win.g]}</strong> (${qzSig(win.v,1)} %), le plus touché celui des <strong>${QZ_GRP[lose.g]}</strong> (${qzSig(lose.v,1)} %).</p>`;
   const row=rk.find(x=>x.id===id), agree=[], clash=[];
-  for(const t of QZ_T){const a=QZ.ans[t.id]; if(a==null||a===0) continue; const s=pos[id][t.id].s; if(s==null) continue; if(s===a) agree.push(t); else if(s===-a) clash.push(t);}
+  for(const t of qzList()){const a=QZ.ans[t.id]; if(a==null||a===0) continue; const s=pos[id][t.id].s; if(s==null) continue; if(s===a) agree.push(t); else if(s===-a) clash.push(t);}
   const li=(ic)=>t=>`<li>${qzIc(ic)}<span><strong>${qzEsc(t.theme)}</strong> (vous : ${QZ.ans[t.id]===1?"d'accord":"pas d'accord"}) · programme : ${qzEsc(pos[id][t.id].txt)}</span></li>`;
   const pers=`<div class="qz-two"><div><h5>Là où vous êtes sur la même ligne</h5>${agree.length?`<ul class="qz-plist">${agree.map(li(1)).join("")}</ul>`:'<p class="help">Aucun sujet où vous prenez la même position tranchée.</p>'}</div><div><h5>Là où ça coince</h5>${clash.length?`<ul class="qz-plist">${clash.map(li(-1)).join("")}</ul>`:'<p class="help">Aucune opposition frontale sur vos réponses.</p>'}</div></div>`;
   return `<h4>${qzEsc(nm)} : les points chauds</h4><h5>Les trois plus grosses mesures</h5>${big}<h5>Ce que le simulateur surveille</h5><ul class="qz-flags">${flags.map(f=>`<li>${f}</li>`).join("")}</ul><h5>Tension sociale dans le temps</h5>${tens}${gl}<h5>Par rapport à vos réponses</h5>${pers}<p class="help">Mêmes critères et mêmes seuils pour tous les programmes ; ce sont des points d'attention chiffrés, pas un jugement.</p>`;
@@ -209,26 +289,26 @@ function qzHotRender(id,pos,rk){
   el.querySelectorAll("[data-id]").forEach(b=>b.onclick=()=>qzHotRender(b.dataset.id,pos,rk));
 }
 function qzResult(box){
-  const pos=qzPositions(), rk=qzRank(pos,QZ.ans,QZ.dbl), answered=QZ_T.filter(t=>QZ.ans[t.id]!=null);
-  const again=()=>{QZ={i:-1,ans:{},dbl:{}};QZ_FX={};qzRender();window.scrollTo({top:0});};
+  const pos=qzPositions(), rk=qzRank(pos,QZ.ans,QZ.dbl), answered=qzList().filter(t=>QZ.ans[t.id]!=null);
+  const again=()=>{QZ={i:-1,ans:{},dbl:{},lv:QZ.lv};QZ_FX={};qzRender();window.scrollTo({top:0});};
   if(!rk.length){box.innerHTML='<p>Aucune comparaison possible : vous avez passé toutes les affirmations, ou aucun programme n\'a de position sur celles que vous avez traitées.</p><button class="btn-primary" id="qzAgain" type="button">Recommencer</button>'; document.getElementById("qzAgain").onclick=again; return;}
   const names=Object.fromEntries(qzCands().map(({p})=>[p.id,p])), nm=id=>names[id].name.replace(/ \(.*/,""), party=id=>(names[id].name.match(/\((.*)\)/)||[])[1]||"";
   const tie=(k)=>rk[k+1]&&rk[k].score-rk[k+1].score<0.02;
   const bar=(x,k)=>`<li class="qz-rowc" style="--c:var(${names[x.id].color})"><span class="qz-rk">${k+1}</span><span class="qz-nm">${qzEsc(nm(x.id))} <small>${qzEsc(party(x.id))}</small></span><span class="qz-barw"><i style="width:${Math.round(x.score*100)}%"></i></span><strong class="qz-pct">${Math.round(x.score*100)} %</strong>
     <small class="qz-cov">positions publiées sur ${x.n} des ${x.of} sujets traités${x.n<x.of*0.6?" : score à prendre avec précaution":""}${tie(k)?" · quasi à égalité avec le suivant":""}${QZ_NOCOMPLETE[x.id]?" · "+QZ_NOCOMPLETE[x.id]:""}</small></li>`;
   const ids=rk.map(x=>x.id);
-  const matrix=`<div class="qz-mwrap"><table class="qz-mx"><thead><tr><th>Affirmation</th><th>Vous</th>${ids.map(id=>`<th title="${qzEsc(nm(id))}">${qzEsc(nm(id).split(" ")[0])}</th>`).join("")}</tr></thead><tbody>${answered.map(t=>`<tr><td>${qzEsc(t.text)}</td><td>${qzIc(QZ.ans[t.id])}${QZ.dbl[t.id]?'<sup>×2</sup>':""}</td>${ids.map(id=>`<td>${qzIc(pos[id][t.id].s)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
-  const details=answered.map(t=>`<details class="qz-det"><summary>${qzIc(QZ.ans[t.id])} ${qzEsc(t.text)}</summary>
+  const matrix=`<div class="qz-mwrap"><table class="qz-mx"><thead><tr><th>Affirmation</th><th>Vous</th>${ids.map(id=>`<th title="${qzEsc(nm(id))}">${qzEsc(nm(id).split(" ")[0])}</th>`).join("")}</tr></thead><tbody>${answered.map(t=>`<tr><td>${qzEsc(qzTxt(t))}</td><td>${qzIc(QZ.ans[t.id])}${QZ.dbl[t.id]?'<sup>×2</sup>':""}</td>${ids.map(id=>`<td>${qzIc(pos[id][t.id].s)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+  const details=answered.map(t=>`<details class="qz-det"><summary>${qzIc(QZ.ans[t.id])} ${qzEsc(qzTxt(t))}</summary>
      <ul class="qz-plist">${ids.map(id=>`<li>${qzIc(pos[id][t.id].s)}<span><strong>${qzEsc(nm(id))}</strong> : ${qzEsc(pos[id][t.id].txt)}</span></li>`).join("")}</ul>${qzFxHtml(t)}</details>`).join("");
   box.innerHTML=`<div class="qz-res"><h2>Vos résultats</h2>
-    <p class="help">Sur ${answered.length} affirmation${answered.length>1?"s":""} traitée${answered.length>1?"s":""} sur ${QZ_T.length}. Points : 2 si même position, 1 si l'un est neutre, 0 si opposées ; une affirmation comptée double pèse deux fois plus.</p>
+    <p class="help">Sur ${answered.length} affirmation${answered.length>1?"s":""} traitée${answered.length>1?"s":""} sur ${qzList().length} (quiz ${QZ_LEVELS[QZ.lv||1].name.toLowerCase()}). Points : 2 si même position, 1 si l'un est neutre, 0 si opposées ; une affirmation comptée double pèse deux fois plus.</p>
     <ol class="qz-ranking">${rk.map((x,k)=>bar(x,k)).join("")}</ol>
     <div id="qzHot" class="qz-hot"></div>
     <h3>Affirmation par affirmation</h3>
     <p class="help">✓ d'accord · ~ neutre · ✗ pas d'accord · – pas de position publiée. Ouvrez une ligne ci-dessous pour voir la position chiffrée de chaque programme et les conséquences.</p>
     ${matrix}<div class="qz-dets">${details}</div>
     ${qzMine(box)}
-    <div class="panel info qz-caveat"><p><strong>À garder en tête.</strong> Ce quiz compare vos réponses à des chiffres, sur ${QZ_T.length} sujets seulement. Il ne couvre ni la sécurité, ni la justice, ni l'Europe, ni la laïcité, ni les institutions, ni les valeurs, ni la personnalité des candidats. Un programme peut vous convenir sur ces sujets et pas sur les autres. Les conséquences sont des simulations avec leur incertitude, pas des prévisions ; ce n'est pas un conseil de vote.</p>
+    <div class="panel info qz-caveat"><p><strong>À garder en tête.</strong> Ce quiz compare vos réponses à des chiffres, sur ${qzList().length} sujets seulement. Il ne couvre ni ${qzOut().join(", ni ")}, ni les valeurs, ni la personnalité des candidats. Un programme peut vous convenir sur ces sujets et pas sur les autres. Les conséquences sont des simulations avec leur incertitude, pas des prévisions ; ce n'est pas un conseil de vote.</p>
     <details><summary>Comment c'est calculé</summary><p class="help">Pour chaque affirmation, la position d'un programme (d'accord, neutre, pas d'accord) vient d'une valeur chiffrée tirée de ses mesures ou de leurs effets (âge de départ, dépenses supplémentaires, effet sur les revenus, mesures sur le chômage ou les aides…), avec les mêmes seuils pour tous. Un programme sans mesure sur un sujet n'a pas de position publiée : ce sujet est retiré de son calcul au lieu de lui donner des points. Les conséquences d'une affirmation sont calculées par le simulateur en l'appliquant seule à une France sans mesure nouvelle, avec le coût indiqué ; les coûts viennent des chiffrages des programmes quand ils existent, sinon ce sont des ordres de grandeur du quiz, signalés comme tels. Les effets suivent vos réglages actuels (par défaut : chiffrage crédible, lecture centrale).</p></details></div>
     <div class="qz-nav"><button type="button" class="btn-ghost" id="qzAgain">Recommencer</button><button type="button" class="btn-ghost" id="qzEdit">Modifier mes réponses</button></div></div>`;
   qzHotRender(rk[0].id,pos,rk);
@@ -237,6 +317,6 @@ function qzResult(box){
 }
 document.addEventListener("click",e=>{const g=e.target.closest&&e.target.closest("[data-go=quiz]"); if(g) setTimeout(qzRender,0);});
 // Rendu initial et à chaque recalcul ; on ne touche pas aux questions en cours.
-function qzRefresh(){QZ_FX={}; const b=document.getElementById("quizBox"); if(b&&(QZ.i<0||QZ.i>=QZ_T.length)) qzRender();}
+function qzRefresh(){QZ_FX={}; const b=document.getElementById("quizBox"); if(b&&(QZ.i<0||QZ.i>=qzList().length)) qzRender();}
 document.addEventListener("DOMContentLoaded",qzRender);
 setTimeout(qzRender,0);

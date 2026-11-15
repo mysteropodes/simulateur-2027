@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 15 novembre 2026 (4) : quiz en trois longueurs
+
+- `src/quiz.js` : niveaux rapide (10 affirmations, formulations courtes), standard (18) et complet (28) ; `QZ_LV`, `qzList()`, `qzTxt()` ; écran d'accueil avec trois boutons.
+- 16 affirmations ajoutées (`tax`, `eu`, `smic`, `pens`, `sante`, `secu`, `rtt`, `fonc`, `cot`, `hsup`, `nrj`, `logt`, `loyer`, `co2`, `fam`, `jeun`), positions tirées des champs et des mesures des fiches, seuils communs. `lever:null` pour `secu`, `logt`, `fam` : pas de conséquence chiffrée, sujet exclu de « votre programme ».
+- Couverture sur le quiz complet : de 17 (Lisnard) à 24 (Mélenchon) positions sur 28.
+- `tests/quiz.js` adapté (niveaux 10/18/28, parcours standard et complet, mobile). Aucun changement du modèle.
+
 ## 15 novembre 2026 (3) : bandeau d'accueil
 
 - `src/body.part` : le bandeau du quiz est remplacé par un résumé de la méthode (mêmes règles pour tous, sources officielles, comparaison à Mésange, test sur le passé, ordres de grandeur), avec deux boutons : méthode et test sur le passé. Le quiz reste dans le menu.
