@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 15 novembre 2026 (2) : robustesse de la sensibilité des taux à la dette
+
+- `docs/jstdebt.py` : estimation de `kDebt` reproduite (0,46 ± 0,08) et testée : pays retirés un à un (0,36 à 0,52), effets fixes (0,49), seuil (0,24 à 80 % ; 0,69 à 110 %), période (0,14 sur 1999-2007 ; 0,40 sur 2014-2020). Au-dessus de 100 %, l'estimation repose sur l'Italie, la Belgique et le Portugal.
+- Aucun changement du modèle : valeur centrale 0,47 gardée, intervalle des lectures 0,31 à 0,70. `docs/probabilites.md`.
+
 ## 15 novembre 2026 : comparaison aux variantes de Mésange
 
 - `tests/variantes.js` : effet sur le PIB d'une mesure permanente d'1 point de PIB (investissement public, dépense composite, TVA, cotisations employeurs) à 1, 2, 5 et 10 ans, comparé aux variantes publiées de Mésange (DG Trésor 2017 ; OFCE, document de travail 2026-9). Écart absolu moyen 0,12 point ; écart voulu à 10 ans sur les cotisations employeurs (0,7 contre 1,27).

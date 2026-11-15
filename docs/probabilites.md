@@ -210,6 +210,12 @@ La « crise de la dette » du simulateur est une crise de financement : prêts d
 - **Hors années de crise :** l'écart monte de 0,47 point par tranche de 10 points de dette au-delà de 100 % (p < 0,01) ; le déficit au-delà de 3 % ajoute 0,08 point par point, sans effet net.
 - **Sur toute la période :** 0,52 point pour la dette et 0,66 point pour le déficit, tirés par la crise de 2010-2013.
 - **Ce qui change dans le simulateur.** La sensibilité à la dette passe de 0,3 (Commission européenne, dette moyenne) à 0,47 en lecture centrale, 0,31 en keynésienne et 0,70 en libérale. Le seuil de départ passe de 100 à 107 %, pour que l'écart de 2027 reste celui de fin octobre 2026. La sensibilité au déficit reste à 0,11, entre les deux estimations.
+- **Robustesse (15 novembre 2026, `docs/jstdebt.py`, données non jointes : licence CC BY-NC-SA).** L'estimation est reproduite : 0,46 (± 0,08, écarts-types groupés par pays).
+  - Stable : en retirant un pays à la fois, de 0,36 (sans le Portugal) à 0,52 (sans l'Italie) ; avec des effets fixes par pays, 0,49.
+  - Sensible au seuil : 0,24 avec un seuil à 80 %, 0,33 à 90 %, 0,69 à 110 %. La pente et le seuil ne se lisent qu'ensemble.
+  - Sensible à la période : 0,14 sur 1999-2007, quand les marchés distinguaient peu les dettes de la zone euro ; 0,40 sur 2014-2020, avec un effet du déficit de 0,40.
+  - Extrapolation pour la France : au-dessus de 100 %, l'estimation repose sur l'Italie (16 années), la Belgique (11) et le Portugal (7). La France n'a jamais dépassé 98 % dans l'échantillon.
+  - Conséquence : valeur centrale gardée ; l'intervalle des lectures (0,31 à 0,70) couvre ces variantes. L'effet du déficit (0,11 retenu) va de 0,03 à 0,45 selon la variante : il reste mal mesuré.
 - **Le seuil de crise est cohérent avec l'histoire.** Le Portugal (7,6 points en 2011) et l'Irlande (7,0) ont perdu l'accès au marché. L'Espagne (4,3 en 2012) n'a reçu qu'une aide pour ses banques, et l'Italie (4,0) a tenu avec la BCE. Le simulateur place le seuil entre 3 et 6 points.
 - **Comment finissent les dettes élevées.** La dette a franchi 100 % du PIB 18 fois en temps de paix depuis 1870, dans les 18 pays de la base. Dans les dix ans qui ont suivi :
   - crise bancaire : 28 % des cas ;
