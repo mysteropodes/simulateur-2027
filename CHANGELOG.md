@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 16 novembre 2026 : candidat IA, recherche de pistes nouvelles sans résultat
+
+- Pistes examinées : 18 mesures de la Cour des comptes (9 novembre 2026), emploi des seniors (Sénat, mai 2025), niche Copé, modèles étrangers. Deux pistes admissibles testées (seniors 1,5 Md€ ; niche Copé 0,7 Md€) : dette 2036 de 138,3 à 138,2 %, risque de crise 56 à 57 % (200 tirages). Bornes hautes non retenues : 135,8 % et 49 %.
+- Programme inchangé. Entrée au journal (`src/body.part`).
+
 ## 15 novembre 2026 (4) : quiz en trois longueurs
 
 - `src/quiz.js` : niveaux rapide (10 affirmations, formulations courtes), standard (18) et complet (28) ; `QZ_LV`, `qzList()`, `qzTxt()` ; écran d'accueil avec trois boutons.
