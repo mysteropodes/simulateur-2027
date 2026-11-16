@@ -183,7 +183,7 @@ src/
   model.js                modèle macro-budgétaire (simulate, BASE0, chocs, énergie)
   microsim.js             microsimulation par décile, mesures et fuites
   ui.part                 paramètres des candidats, lectures, Monte-Carlo, graphiques, interface
-  retro.js                test sur le passé (Hollande 2012, Macron 2017 et 2022)
+  retro.js                test sur le passé (Hollande 2012, Macron 2017 et 2022) : programme, contexte réel, politique réellement menée
   atlas_data.js, analog_data.js  données de l'onglet « Changer les règles du jeu » (V-Dem, Global Carbon Project, analogues)
   polit_data.js           coefficients historiques du tableau des probabilités (voir docs/probabilites.md)
   atlas.js                calculs et affichage de l'onglet « Changer les règles du jeu »

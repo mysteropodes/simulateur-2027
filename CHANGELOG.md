@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 16 novembre 2026 (3) : test sur le passé, politique réellement menée
+
+- `src/retro.js` : champ `real` par mandat (mesures prises, montants sourcés : OFCE, gouvernement, F. Ecalle, Institut Montaigne, UFC-Que Choisir, Dares, iFRAP), `retroRun(E,ctx,mode,noProg,real)`, colonne, courbe et moyenne « politique menée, contexte réel ».
+- Écarts moyens en fin de mandat : dette 2,6 → 2,1 points, chômage 0,6 → 0,5, déficit 0,7 → 0,9. Aucun paramètre du modèle modifié.
+
 ## 16 novembre 2026 (2) : eurobonds dans « Quelles solutions pour la dette ? »
 
 - `src/solutions.js` : deux solutions ajoutées, `eurob` (25 % du PIB de dette en eurobonds, proposition Blanchard-Ubide ; représentée par `bce:0.22, bceOk:1, eu:0`) et `eurmix` (mixte ciblé + eurobonds). Risque de crise d'ici 2046 : 81 → 76 % seuls, 70 → 58 % avec le mixte ciblé.
