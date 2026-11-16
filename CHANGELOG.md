@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 16 novembre 2026 (2) : eurobonds dans « Quelles solutions pour la dette ? »
+
+- `src/solutions.js` : deux solutions ajoutées, `eurob` (25 % du PIB de dette en eurobonds, proposition Blanchard-Ubide ; représentée par `bce:0.22, bceOk:1, eu:0`) et `eurmix` (mixte ciblé + eurobonds). Risque de crise d'ici 2046 : 81 → 76 % seuls, 70 → 58 % avec le mixte ciblé.
+- `tests/solutions.js` : 15 solutions, deux contrôles ajoutés. Texte de la section, journal, README.
+
 ## 16 novembre 2026 : candidat IA, recherche de pistes nouvelles sans résultat
 
 - Pistes examinées : 18 mesures de la Cour des comptes (9 novembre 2026), emploi des seniors (Sénat, mai 2025), niche Copé, modèles étrangers. Deux pistes admissibles testées (seniors 1,5 Md€ ; niche Copé 0,7 Md€) : dette 2036 de 138,3 à 138,2 %, risque de crise 56 à 57 % (200 tirages). Bornes hautes non retenues : 135,8 % et 49 %.

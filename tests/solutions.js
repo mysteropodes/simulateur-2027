@@ -9,7 +9,7 @@ const open=async(vp)=>{const pg=await br.newPage({viewport:vp});pg.on('pageerror
 const pg=await open({width:1280,height:900});
 const r=await pg.evaluate(()=>({res:SOL_RES,n:SOL.length,mc:MC.rows.find(x=>x.p.id==='statu').cr,html:document.getElementById('solBox').innerHTML}));
 const by=Object.fromEntries(r.res.map(o=>[o.id,o]));
-ok(r.res.length===r.n&&r.n===13,'13 solutions calculées');
+ok(r.res.length===r.n&&r.n===15,'15 solutions calculées');
 ok(!/NaN|undefined|null/.test(r.html),'aucune valeur manquante affichée');
 ok(Math.abs(by.rien.cr-r.mc)<0.011,'« ne rien changer » = statu quo du site ('+Math.round(by.rien.cr*100)+' % / '+Math.round(r.mc*100)+' %)');
 ok(r.res.every(o=>o.crLo<=o.cr+1e-9&&o.cr<=o.crHi+1e-9),'fourchette : bas ≤ central ≤ haut');
@@ -22,6 +22,8 @@ ok(by.repr2.pa.ret<by.repr1.pa.ret&&by.repr1.pa.ret<by.rien.pa.ret&&by.repr2.deb
 ok(by.infl.infl>by.rien.infl+1.5,'inflation : +2 points en 2032');
 ok(by.relance.debt>by.rien.debt,'relance : dette plus haute en 2036');
 ok(by.bce.cr<=0.05&&/par hypothèse/.test(r.html),'achats directs de la BCE : risque quasi nul, signalé « par hypothèse »');
+ok(by.eurob.cr<by.rien.cr&&by.eurob.burden<by.rien.burden,'eurobonds : risque et charge d\'intérêts plus bas');
+ok(by.eurmix.cr<by.mixte.cr,'eurobonds ajoutés au mixte ciblé : risque plus bas');
 ok(by.epargne.burden<by.rien.burden,'épargne nationale : charge d\'intérêts plus basse');
 const eur=await pg.evaluate(()=>({m:solEur(SOL_RES[1],SOL_RES[0],'mod'),lv:[solLevel('mod'),solLevel('moy'),solLevel('top')]}));
 ok(Math.abs(eur.lv[0]-15083)<1&&Math.abs(eur.lv[2]-76970)<1,'niveaux de vie des groupes (Insee 2024)');
