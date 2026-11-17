@@ -2,6 +2,12 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 17 novembre 2026 : Le Pen, volet retraites
+
+- `src/ui.part` : fiche Le Pen vérifiée au 17 novembre ; deux mesures ajoutées (âge 60-62 ans et 40-42 ans de cotisation, trimestres de chômage, indexation, exonération de cotisations ; pilier de capitalisation obligatoire), source France Épargne.
+- `src/audit_data.js` : mesure non comptée « cotisations patronales réorientées » 15 Md€ (5 à 15), catégorie `fin` ; opération de dette autoroutes + mise de départ du fonds 55 Md€ (45 à 70) ; source `rn_cap`.
+- Chiffrage crédible inchangé. Programme complet : 36,5 → 51,5 Md€ ; crise avant 2032 35 → 40 %, d'ici 2046 95 → 96 % ; dette 2036 147 → 150 %, 2046 173 → 178 %.
+
 ## 16 novembre 2026 (3) : test sur le passé, politique réellement menée
 
 - `src/retro.js` : champ `real` par mandat (mesures prises, montants sourcés : OFCE, gouvernement, F. Ecalle, Institut Montaigne, UFC-Que Choisir, Dares, iFRAP), `retroRun(E,ctx,mode,noProg,real)`, colonne, courbe et moyenne « politique menée, contexte réel ».
