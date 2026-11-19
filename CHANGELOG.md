@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 19 novembre 2026 (5) : d'où vient la dette
+
+- `src/body.part` : section « D'où vient la dette depuis 2017 ? » en tête de l'onglet « Comprendre la dette » (barres en CSS, sources), entrée de journal.
+- `src/head.part` : styles `.dbars`.
+
 ## 19 novembre 2026 (4) : indice de qualité de vie
 
 - `src/model.js` : `QDV_W0`, `QDV_LAB` ; `o.qdv` et `o.qdvDim` (dix dimensions, dont `dur` : dette ±40 points et charge d'intérêts ±6 points, 0 à 10, 5 = 2025), poids `b.qdvW`.
