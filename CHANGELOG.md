@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 19 novembre 2026 (3) : IA et jeunes
+
+- `src/model.js` : `aiYouth` 0,4 (part des pertes d'emplois liées à l'IA portée par les 15-24 ans, ≈ 9,5 % des actifs) ; `youth` et pouvoir d'achat du groupe `jeu` relevés d'autant (`aiYouthX`). Scénario central, 2032 : chômage des jeunes +1,6 point (statu quo 21,3 → 22,9 %), pouvoir d'achat des jeunes −1,1 à −1,3 point selon les programmes ; chômage total inchangé.
+- `src/body.part` : Méthode, section IA (jeunes, premières mesures françaises de novembre 2026), encadrés « Ce que disent les évaluations » et « Comparaisons internationales » ; entrée de journal.
+
 ## 19 novembre 2026 (2) : accès à l'école et mixité
 
 - `src/ui.part` : critère `ecole` ajouté à `GRIDCRIT` (hors tension sociale, comme `prob`) et aux huit grilles ; sources ajoutées à `gsrc`.
