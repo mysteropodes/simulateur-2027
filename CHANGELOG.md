@@ -2,6 +2,11 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 19 novembre 2026 (2) : accès à l'école et mixité
+
+- `src/ui.part` : critère `ecole` ajouté à `GRIDCRIT` (hors tension sociale, comme `prob`) et aux huit grilles ; sources ajoutées à `gsrc`.
+- `src/body.part` : règle de classement dans l'aide de la grille, entrée de journal (y compris l'examen santé-emploi : ≈ 0,01 % d'emploi par point de pauvreté, non ajouté).
+
 ## 19 novembre 2026 : multiplicateurs selon le chômage
 
 - `src/model.js` : `slackK` (0 par défaut), facteur `1 + slackK × (u − uStar)` borné entre 0,7 et 1,5, appliqué aux multiplicateurs de toutes les mesures, avec le chômage de l'année précédente.
