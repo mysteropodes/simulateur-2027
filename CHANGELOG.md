@@ -4,7 +4,7 @@ Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'o
 
 ## 19 novembre 2026 (4) : indice de qualité de vie
 
-- `src/model.js` : `QDV_W0`, `QDV_LAB` ; `o.qdv` et `o.qdvDim` (neuf dimensions, 0 à 10, 5 = 2025), poids `b.qdvW`.
+- `src/model.js` : `QDV_W0`, `QDV_LAB` ; `o.qdv` et `o.qdvDim` (dix dimensions, dont `dur` : dette ±40 points et charge d'intérêts ±6 points, 0 à 10, 5 = 2025), poids `b.qdvW`.
 - `src/ui.part` : indicateur `qdv` (thème Société, note de lecture), `fillQdv` (tableau 2032 et 2040, curseurs de poids).
 - `src/body.part`, `src/head.part` : panneau « Qualité de vie » dans « Ménages et revenus », section de la Méthode, entrée de journal.
 - `tests/qdv.js` : bornes, 2025 = 5, poids nuls, réaction aux poids.

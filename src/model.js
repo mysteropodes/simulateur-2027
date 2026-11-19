@@ -20,8 +20,8 @@ const DEMO={X:["v2x_libdem", "ld5", "v2cacamps", "mob3", "lgdp", "gdp5"],fr:{"v2
 const DEMO_R={cp:0.28,lib:0.06,egal:0.03}, DEMO_LV={restreint:1,mixte:0.5,neutre:0,renforce:-0.25};
 function demDelta(grid){ if(!grid) return 0; let s=0; for(const k in DEMO_R) if(grid[k]) s+=DEMO_R[k]*(DEMO_LV[grid[k][0]]||0); return -0.5*s; }
 const ramp=(t,a,b)=>t<=a?0:t>=b?1:(t-a)/(b-a);
-const QDV_W0={rev:1,emp:1,pov:1,sante:1,logt:1,sp:1,env:1,coh:1,demo:1}; // poids par défaut de l'indice de qualité de vie
-const QDV_LAB={rev:"Revenus",emp:"Emploi",pov:"Pauvreté et inégalités",sante:"Santé",logt:"Logement",sp:"Services publics",env:"Environnement",coh:"Cohésion sociale",demo:"Démocratie"};
+const QDV_W0={rev:1,emp:1,pov:1,sante:1,logt:1,sp:1,env:1,coh:1,demo:1,dur:1}; // poids par défaut de l'indice de qualité de vie
+const QDV_LAB={rev:"Revenus",emp:"Emploi",pov:"Pauvreté et inégalités",sante:"Santé",logt:"Logement",sp:"Services publics",env:"Environnement",coh:"Cohésion sociale",demo:"Démocratie",dur:"Soutenabilité (bien-être futur)"};
 const GROUPS=[["mod","Ménages modestes (D1-D3)",1.5,2.0,0.6],["moy","Classes moyennes (D4-D7)",0.8,1.2,0.4],["ais","Aisés (D8-D9)",0.4,0.8,0.2],["top","10 % les plus riches",0.2,0.6,0.1],["ret","Retraités",0.1,1.5,0.3],["jeu","Jeunes 18-29 ans",2.0,1.0,0.5]];
 // [clé, nom, sensibilité au chômage, à l'ajustement imposé, aux chocs d'inflation] en % de revenu par point
 function shockAt(type,Y,t){
@@ -436,7 +436,8 @@ function simulate(p,mode,b){
         sp:sc(at(o.sp,i)-o.sp[0],2),
         env:(sc(-(at(o.pm,i)/pm0-1),0.3)+sc(-(at(o.heat,i)/ht0-1),1))/2,
         coh:sc(-(at(o.tension,i)-o.tension[0]),30),
-        demo:sc(at(o.libdem,i)-o.libdem[0],0.15)};
+        demo:sc(at(o.libdem,i)-o.libdem[0],0.15),
+        dur:(sc(-(at(o.debt,i)-o.debt[0]),40)+sc(-(at(o.burden,i)-o.burden[0]),6))/2}; // ressources pour le bien-être futur (OCDE, How's Life?) : dette publique et charge d'intérêts
       let t=0; for(const k in QDV_W0){o.qdvDim[k].push(D[k]); t+=(W[k]||0)*D[k];} o.qdv.push(wS>0?t/wS:5);
     } }
   o.real=real;o.realSp=realSp;o.compEff=compEff;o.progFull=progFull;o.f=f;o.crisis=crisisFirst;o.crisisLast=crisis;o.crisisN=crisisN+(crisisFirst!==null?1:0);o.progEnd=progEnd;o.progEnds=progEnds;o.tpi=tpiFirst;return o;

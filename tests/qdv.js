@@ -15,7 +15,7 @@ const r=await pg.evaluate(()=>{const msg=[]; let fail=0; const yi=y=>y-START;
   if(zero.qdv.some(v=>v!==5)){fail++;msg.push('ÉCHEC '+c.id+' : poids nuls');}}
  document.querySelector('[data-go="menages"]')?.click(); render(true);
  const rows=document.querySelectorAll('#tblqdv tbody tr').length, sl=document.querySelectorAll('#qdvW input').length;
- if(rows!==CANDS.length){fail++;msg.push('ÉCHEC tableau : '+rows+' lignes');} if(sl!==9){fail++;msg.push('ÉCHEC curseurs : '+sl);}
+ if(rows!==CANDS.length){fail++;msg.push('ÉCHEC tableau : '+rows+' lignes');} if(sl!==10){fail++;msg.push('ÉCHEC curseurs : '+sl);}
  const inp=document.querySelector('#qdvW input[data-qdv="demo"]'); const before=LASTRES.find(x=>x.p.id==='melenchon').r.qdv[yi(2032)]; inp.value=3; inp.oninput(); const after=LASTRES.find(x=>x.p.id==='melenchon').r.qdv[yi(2032)];
  if(!(after<before)){fail++;msg.push('ÉCHEC curseur démocratie sans effet');} document.getElementById('qdvReset').click();
  return {fail,msg};});
