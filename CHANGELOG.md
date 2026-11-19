@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 19 novembre 2026 (4) : indice de qualité de vie
+
+- `src/model.js` : `QDV_W0`, `QDV_LAB` ; `o.qdv` et `o.qdvDim` (neuf dimensions, 0 à 10, 5 = 2025), poids `b.qdvW`.
+- `src/ui.part` : indicateur `qdv` (thème Société, note de lecture), `fillQdv` (tableau 2032 et 2040, curseurs de poids).
+- `src/body.part`, `src/head.part` : panneau « Qualité de vie » dans « Ménages et revenus », section de la Méthode, entrée de journal.
+- `tests/qdv.js` : bornes, 2025 = 5, poids nuls, réaction aux poids.
+
 ## 19 novembre 2026 (3) : IA et jeunes
 
 - `src/model.js` : `aiYouth` 0,4 (part des pertes d'emplois liées à l'IA portée par les 15-24 ans, ≈ 9,5 % des actifs) ; `youth` et pouvoir d'achat du groupe `jeu` relevés d'autant (`aiYouthX`). Scénario central, 2032 : chômage des jeunes +1,6 point (statu quo 21,3 → 22,9 %), pouvoir d'achat des jeunes −1,1 à −1,3 point selon les programmes ; chômage total inchangé.
