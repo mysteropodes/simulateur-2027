@@ -2,6 +2,13 @@
 
 Chaque changement du modèle ou d'un chiffrage est daté ici et visible dans l'onglet « Journal des corrections » du simulateur. Le détail ligne par ligne est dans l'[historique des commits](https://github.com/mysteropodes/simulateur-2027/commits/main).
 
+## 19 novembre 2026 : multiplicateurs selon le chômage
+
+- `src/model.js` : `slackK` (0 par défaut), facteur `1 + slackK × (u − uStar)` borné entre 0,7 et 1,5, appliqué aux multiplicateurs de toutes les mesures, avec le chômage de l'année précédente.
+- `src/ui.part` : `slackK` 0,2 en lecture keynésienne, 0 en lectures centrale et libérale ; réglage affiché.
+- `src/body.part` : curseur « Effet des mesures selon le chômage », entrée de journal (vérification de la relance Mélenchon : âge de départ déjà étalé 2027-2033, pas de correction).
+- Croissance moyenne 2027-2032, lecture centrale avec `slackK` 0,2 : écarts de −0,03 à +0,02 point selon les programmes. Lecture keynésienne : Mélenchon 1,22 → 1,19 %, Glucksmann 1,30 → 1,31 %, Retailleau 0,89 → 0,84 %. Lecture centrale inchangée.
+
 ## 17 novembre 2026 : Le Pen, volet retraites
 
 - `src/ui.part` : fiche Le Pen vérifiée au 17 novembre ; deux mesures ajoutées (âge 60-62 ans et 40-42 ans de cotisation, trimestres de chômage, indexation, exonération de cotisations ; pilier de capitalisation obligatoire), source France Épargne.
